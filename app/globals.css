@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+@theme {
+  /* ---- Brand palette (C&T Consulting Engineers) ----
+   * navy   : deep base for header, dark sections, primary ink
+   * green  : primary accent / brand signal
+   * beige  : warm secondary, editorial highlights
+   * light-bg: cool near-white for alternating sections */
+  --color-navy: #09212c;
+  --color-green: #729d35;
+  --color-green-dark: #4f6f24;
+  --color-beige: #c5b06f;
+  --color-beige-light: #e6d9b6;
+  --color-white: #ffffff;
+  --color-light-bg: #f0f9fa;
+  /* Warm off-white — the editorial canvas for the hero + light sections. */
+  --color-paper: #f4f1e8;
+
+  /* Semantic aliases — components reference these, not raw colours. */
+  --color-ink: #09212c;
+  --color-ink-dim: #5c655f;
+  --color-line: rgba(9, 33, 44, 0.12);
+  --color-surface: #ffffff;
+  --color-surface-alt: #f0f9fa;
+
+  /* ---- Typography ----
+   * Spectral carries everything — display + body — for a premium editorial
+   * voice. Mono token retained but unused for now. */
+  --font-display: var(--font-spectral), ui-serif, Georgia, serif;
+  --font-sans: var(--font-spectral), ui-serif, Georgia, serif;
+  --font-mono: var(--font-redhat-mono), ui-monospace, monospace;
+
+  /* Fluid display scale */
+  --text-hero: clamp(2.75rem, 1rem + 5.2vw, 5.75rem);
+  --text-display: clamp(2.25rem, 1.4rem + 3.6vw, 4rem);
+}
+
+:root {
+  color-scheme: light;
+}
+
+* {
+  border-color: var(--color-line);
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-display);
+}
+
+/* Lenis smooth-scroll baseline */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Small editorial label (Spectral, tracked uppercase) */
+.label {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* Selection */
+::selection {
+  background: var(--color-green);
+  color: var(--color-white);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
