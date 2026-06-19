@@ -34,6 +34,16 @@ const NAV_SECONDARY: { label: string; target: string }[] = [
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  // Sticky header: once past the first viewport-ish, show a translucent bar so
+  // the logo + toggle stay legible over dark sections.
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 48);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   // Lock scroll while the overlay is open (stop Lenis + native overflow guard).
   useEffect(() => {
@@ -74,20 +84,33 @@ export function Navbar() {
 
   return (
     <>
-      {/* Top bar — non-sticky, sits over the hero. z above the overlay so the
-          toggle morphs to a visible X on the open white panel. */}
-      <header className="absolute inset-x-0 top-0 z-[70]">
-        <div className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-6 md:px-10 md:py-8">
+      {/* Sticky top bar. z above the overlay so the toggle morphs to a visible
+          X on the open white panel. A translucent bar fades in once scrolled so
+          the logo + toggle stay legible over dark sections. */}
+      <header
+        className={`fixed inset-x-0 top-0 z-[70] transition-colors duration-300 ${
+          scrolled && !open
+            ? "border-b border-line bg-paper/85 backdrop-blur-md"
+            : "border-b border-transparent"
+        }`}
+      >
+        <div
+          className={`mx-auto flex max-w-[1600px] items-center justify-between px-6 transition-[padding] duration-300 md:px-10 ${
+            scrolled ? "py-3.5 md:py-4" : "py-6 md:py-8"
+          }`}
+        >
           {/* Logo */}
           <button
             onClick={() => go("top")}
-            className="flex items-center"
+            className="flex shrink-0 items-center"
             aria-label="C&T Consulting Engineers — home"
           >
             <img
               src="/logo.webp"
               alt="C&T Consulting Engineers"
-              className="h-10 w-auto md:h-12"
+              width={462}
+              height={200}
+              className="h-9 w-auto shrink-0 object-contain md:h-11"
               draggable={false}
             />
           </button>
@@ -131,9 +154,11 @@ export function Navbar() {
           open ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="flex flex-1 flex-col justify-center px-8 py-28 md:px-16">
+        <div className="flex min-h-dvh flex-col px-8 pb-10 pt-28 md:px-16">
+          {/* Nav — centred in the available space */}
+          <div className="flex flex-1 flex-col justify-center gap-10">
           {/* Primary groups */}
-          <div className="space-y-12">
+          <div className="space-y-10">
             {NAV_GROUPS.map((group, gi) => (
               <div key={group.label}>
                 <p className="label mb-4 text-green-dark">{group.label}</p>
@@ -161,7 +186,7 @@ export function Navbar() {
           </div>
 
           {/* Divider */}
-          <div className="my-10 h-px w-16 bg-green" />
+          <div className="h-px w-16 bg-green" />
 
           {/* Secondary links */}
           <ul className="space-y-1">
@@ -182,13 +207,12 @@ export function Navbar() {
             ))}
           </ul>
 
-          {/* Footer meta inside the panel */}
-          <div className="mt-14 flex flex-wrap items-center gap-x-6 gap-y-2 font-display text-[0.78rem] uppercase tracking-[0.16em] text-ink-dim">
-            <span>Since 2013</span>
-            <span className="h-1 w-1 rounded-full bg-green" />
-            <span>ISO 9001:2015</span>
-            <span className="h-1 w-1 rounded-full bg-green" />
-            <span>India · UAE · Canada</span>
+          </div>
+
+          {/* Footer meta — pinned to the bottom, two clean lines */}
+          <div className="mt-10 space-y-1.5 border-t border-line pt-8 font-display text-[0.74rem] uppercase tracking-[0.16em] text-ink-dim">
+            <p>Since 2013 · ISO 9001:2015</p>
+            <p>India · UAE · Canada</p>
           </div>
         </div>
       </nav>

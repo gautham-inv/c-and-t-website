@@ -8,13 +8,13 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const PROJECTS = [
-  { name: "Trivandrum Airport T2", meta: "MEP Design & BIM · Kerala", ratio: "4 / 3", from: "#13313a", to: "#0a1c25" },
-  { name: "Calinova Data Centre", meta: "MEP & BIM · 2.4 MW · Calicut", ratio: "3 / 4", from: "#1b2420", to: "#0d1f16" },
-  { name: "Vega Tower, Dubai", meta: "MEP Design & BIM · LOD 400", ratio: "4 / 5", from: "#0d2a37", to: "#0a1c25" },
-  { name: "Expo 2020 Campus, Dubai", meta: "BIM Modelling · CINQ / Voltas", ratio: "1 / 1", from: "#243027", to: "#0d1f16" },
-  { name: "Duqm Refinery, Oman", meta: "Detailed Engineering · LOD 500", ratio: "3 / 4", from: "#102a2c", to: "#0a1c25" },
-  { name: "Yamal LNG, Russia", meta: "Detailed Engineering & 3D · Technip", ratio: "4 / 5", from: "#13313a", to: "#0d1f16" },
-  { name: "Compression 4-NFPS", meta: "Offshore · Qatar Energy", ratio: "4 / 3", from: "#1b2420", to: "#0a1c25" },
+  { name: "Trivandrum Airport T2", meta: "MEP Design & BIM · Kerala", ratio: "4 / 3", image: "/airport.jpg" },
+  { name: "Calinova Data Centre", meta: "MEP & BIM · 2.4 MW · Calicut", ratio: "3 / 4", image: "/datacenter.jpeg" },
+  { name: "Vega Tower, Dubai", meta: "MEP Design & BIM · LOD 400", ratio: "4 / 5", image: "/images.jpeg" },
+  { name: "Expo 2020 Campus, Dubai", meta: "BIM Modelling · CINQ / Voltas", ratio: "1 / 1", image: "/expocampus.jpg" },
+  { name: "Duqm Refinery, Oman", meta: "Detailed Engineering · LOD 500", ratio: "3 / 4", image: "/duqmrefinery.jpeg" },
+  { name: "Yamal LNG, Russia", meta: "Detailed Engineering & 3D · Technip", ratio: "4 / 5", image: "/yamallng.jpeg" },
+  { name: "Compression 4-NFPS", meta: "Offshore · Qatar Energy", ratio: "4 / 3", image: "/Compression-4-NFPS.jpeg" },
 ];
 
 export function Projects() {
@@ -106,28 +106,14 @@ export function Projects() {
                 className="w-[clamp(15rem,30vw,22rem)] shrink-0"
               >
                 <div
-                  className="relative w-full overflow-hidden rounded-2xl border border-line"
-                  style={{
-                    aspectRatio: p.ratio,
-                    background: `linear-gradient(155deg, ${p.from}, ${p.to})`,
-                  }}
+                  className="relative w-full overflow-hidden rounded-2xl border border-line bg-[#0a1c25]"
+                  style={{ aspectRatio: p.ratio }}
                 >
-                  <div
-                    aria-hidden
-                    className="absolute inset-0 opacity-[0.14]"
-                    style={{
-                      backgroundImage:
-                        "linear-gradient(to right, #729d35 1px, transparent 1px), linear-gradient(to bottom, #729d35 1px, transparent 1px)",
-                      backgroundSize: "44px 44px",
-                    }}
-                  />
-                  <div
-                    aria-hidden
-                    className="absolute inset-0"
-                    style={{
-                      background:
-                        "radial-gradient(70% 55% at 78% 16%, rgba(197,176,111,0.2), transparent 60%), radial-gradient(55% 50% at 16% 92%, rgba(114,157,53,0.24), transparent 65%)",
-                    }}
+                  <img
+                    src={p.image}
+                    alt={p.name}
+                    className="absolute inset-0 h-full w-full object-cover"
+                    loading="lazy"
                   />
                   <span className="absolute left-5 top-5 h-5 w-5 border-l border-t border-beige/40" />
                 </div>

@@ -33,6 +33,7 @@ export function Hero() {
   const frame = useRef<HTMLDivElement>(null);
   const video = useRef<HTMLVideoElement>(null);
   const punchline = useRef<HTMLDivElement>(null);
+  const vignette = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
@@ -63,9 +64,14 @@ export function Hero() {
           margin: "1.5rem auto 4rem",
           borderRadius: 12,
         });
-        gsap.set(punchline.current, { y: 0 });
+        gsap.set(punchline.current, { y: 0, opacity: 1 });
+        gsap.set(vignette.current, { opacity: 1 });
         return;
       }
+
+      // Hidden until the frame is almost full (set each tick in onUpdate).
+      gsap.set(punchline.current, { opacity: 0 });
+      gsap.set(vignette.current, { opacity: 0 });
 
       const ease = gsap.parseEase("power2.out");
 
@@ -92,18 +98,29 @@ export function Hero() {
             y: -window.innerHeight * 0.55 * e,
           });
 
-          // Centre punchline sits centred while the video fills the screen,
-          // then — after ~2–3 scroll notches — slides UP and off the top as
-          // the video continues scrubbing. Bound to progress so it tracks the
+          // Centre punchline fades in only once the frame is almost filling
+          // the screen, holds briefly centred, then slides UP and off the top
+          // (starting a touch early). Bound to progress so it tracks the
           // video-fill point on every viewport.
+          const appear = gsap.utils.clamp(
+            0,
+            1,
+            (p - (SCALE_PHASE - 0.16)) / 0.1,
+          );
           const exit = gsap.utils.clamp(
             0,
             1,
-            (p - (SCALE_PHASE + 0.06)) / 0.16,
+            (p - (SCALE_PHASE + 0.015)) / 0.16,
           );
           gsap.set(punchline.current, {
+            opacity: appear,
             y: -window.innerHeight * 1.05 * exit,
           });
+
+          // Vignette rides with the text: on while the punchline is present
+          // for legibility, then fades out as it slides up so the video plays
+          // at full clarity once the text is gone.
+          gsap.set(vignette.current, { opacity: appear * (1 - exit) });
 
           const v = video.current;
           if (v && Number.isFinite(v.duration) && v.duration > 0) {
@@ -170,11 +187,14 @@ export function Hero() {
               <source src="/hero.mp4" type="video/mp4" />
             </video>
 
-            {/* Subtle vignette for punchline legibility over the video */}
+            {/* Vignette for punchline legibility — fades out once the text
+                has slid up, leaving the video at full clarity. */}
             <div
+              ref={vignette}
               aria-hidden
               className="absolute inset-0"
               style={{
+                opacity: 0,
                 background:
                   "radial-gradient(120% 90% at 50% 50%, transparent 35%, rgba(9,33,44,0.4) 100%)",
               }}
@@ -184,12 +204,13 @@ export function Hero() {
             <div
               ref={punchline}
               className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-6 will-change-transform"
+              style={{ opacity: 0 }}
             >
               <p
                 className="text-center font-display text-[clamp(2.25rem,1rem+4vw,5rem)] font-light leading-[1.05] text-paper"
                 style={{ textShadow: "0 2px 50px rgba(9,33,44,0.6)" }}
               >
-                Performance by design.
+                Modeled. Coordinated. Delivered.
               </p>
             </div>
           </div>

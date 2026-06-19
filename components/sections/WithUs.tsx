@@ -136,7 +136,7 @@ export function WithUs() {
               src="/og.png"
               alt=""
               draggable={false}
-              className="w-[115vw] max-w-none"
+              className="w-[78vw] max-w-none"
             />
           </div>
         </div>

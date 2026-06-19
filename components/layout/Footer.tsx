@@ -43,7 +43,7 @@ export function Footer() {
             src="/s.png"
             alt=""
             draggable={false}
-            className="w-[115vw] max-w-none"
+            className="w-[78vw] max-w-none"
             style={{
               transformOrigin: "0 0",
               transform: "translate(2.17%, 2.34%) scale(1.0647, 1.1033)",
@@ -125,11 +125,13 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-          <div className="flex items-center">
+          <div className="flex shrink-0 items-center">
             <img
               src="/logo.webp"
               alt="C&T Consulting Engineers"
-              className="h-9 w-auto"
+              width={462}
+              height={200}
+              className="h-10 w-auto shrink-0 object-contain"
               draggable={false}
             />
           </div>

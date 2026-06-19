@@ -107,28 +107,14 @@ export function WhoWeAre() {
                 >
                   <div
                     ref={portraitInner}
-                    className="absolute inset-x-0 -top-[18%] h-[136%] bg-gradient-to-br from-[#0d2a37] to-[#0a1c25] will-change-transform"
+                    className="absolute inset-x-0 -top-[18%] h-[136%] bg-[#0a1c25] will-change-transform"
                   >
-                    <div
-                      aria-hidden
-                      className="absolute inset-0 opacity-[0.16]"
-                      style={{
-                        backgroundImage:
-                          "linear-gradient(to right, #729d35 1px, transparent 1px), linear-gradient(to bottom, #729d35 1px, transparent 1px)",
-                        backgroundSize: "40px 40px",
-                      }}
+                    <img
+                      src="/large-image-who-are-we.jpg"
+                      alt="C&T engineering project"
+                      className="h-full w-full object-cover"
+                      loading="lazy"
                     />
-                    <div
-                      aria-hidden
-                      className="absolute inset-0"
-                      style={{
-                        background:
-                          "radial-gradient(70% 55% at 75% 15%, rgba(197,176,111,0.22), transparent 60%)",
-                      }}
-                    />
-                    <p className="absolute bottom-[22%] left-5 right-5 font-mono text-[0.62rem] uppercase tracking-[0.16em] text-paper/45">
-                      Built environment · image placeholder
-                    </p>
                   </div>
                 </div>
 
@@ -139,18 +125,14 @@ export function WhoWeAre() {
                 >
                   <div
                     ref={squareInner}
-                    className="absolute inset-x-0 -top-[28%] h-[156%] bg-gradient-to-br from-[#243027] to-[#0d1f16] will-change-transform"
+                    className="absolute inset-x-0 -top-[28%] h-[156%] bg-[#0d1f16] will-change-transform"
                   >
-                    <div
-                      aria-hidden
-                      className="absolute inset-0 opacity-[0.18]"
-                      style={{
-                        backgroundImage:
-                          "linear-gradient(to right, #c5b06f 1px, transparent 1px), linear-gradient(to bottom, #c5b06f 1px, transparent 1px)",
-                        backgroundSize: "30px 30px",
-                      }}
+                    <img
+                      src="/small-image-who-we-are.jpeg"
+                      alt=""
+                      className="h-full w-full object-cover"
+                      loading="lazy"
                     />
-                    <span className="absolute left-4 top-[24%] h-4 w-4 border-l border-t border-beige/50" />
                   </div>
                 </div>
               </div>

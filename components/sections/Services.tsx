@@ -12,8 +12,7 @@ type Service = {
   title: string;
   body: string;
   caption: string;
-  from: string;
-  to: string;
+  image: string;
 };
 
 const SERVICES: Service[] = [
@@ -21,36 +20,31 @@ const SERVICES: Service[] = [
     title: "MEP engineering design",
     body: "HVAC, electrical, plumbing, fire protection and ELV design for residential, commercial, industrial and mission-critical buildings.",
     caption: "Multidiscipline MEP · all building types",
-    from: "#0d2a37",
-    to: "#0a1c25",
+    image: "/mep-engineering-design.jpg",
   },
   {
     title: "BIM & 3D modelling",
     body: "LOD 300–500 models, coordination and as-builts in Revit, Navisworks and AVEVA E3D — accurate, data-rich and buildable.",
     caption: "Revit · Navisworks · AVEVA E3D",
-    from: "#13313a",
-    to: "#0a1c25",
+    image: "/bim-and-3d-modelling.jpg",
   },
   {
     title: "Detailed engineering",
     body: "Concept and front-end design through detailed engineering, material selection, MTO and BOQ for turnkey delivery.",
     caption: "FEED · Detailed design · MTO / BOQ",
-    from: "#1b2420",
-    to: "#0d1f16",
+    image: "/detailed-engineering.jpg",
   },
   {
     title: "CFD & FEA analysis",
     body: "Computational fluid dynamics, thermal and stress analysis with Ansys Fluent — validating performance before construction.",
     caption: "Ansys Fluent · Thermal · Pipe stress",
-    from: "#243027",
-    to: "#0d1f16",
+    image: "/cfd-fea-analysis.webp",
   },
   {
     title: "Clash resolution & coordination",
     body: "Multidiscipline clash detection and resolution that turns coordinated models into conflict-free, build-ready designs.",
     caption: "Coordination · Clash-free delivery",
-    from: "#102a2c",
-    to: "#0a1c25",
+    image: "/clash-detection-and-coordination.jpg",
   },
 ];
 
@@ -149,30 +143,23 @@ export function Services() {
             <div className="sticky top-28">
               <div
                 key={active}
-                className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-line"
-                style={{
-                  background: `linear-gradient(155deg, ${current.from}, ${current.to})`,
-                }}
+                className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-line bg-[#0a1c25]"
               >
-                <div
-                  aria-hidden
-                  className="absolute inset-0 opacity-[0.14]"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(to right, #729d35 1px, transparent 1px), linear-gradient(to bottom, #729d35 1px, transparent 1px)",
-                    backgroundSize: "48px 48px",
-                  }}
+                <img
+                  src={current.image}
+                  alt={current.title}
+                  className="absolute inset-0 h-full w-full object-cover"
                 />
                 <div
                   aria-hidden
                   className="absolute inset-0"
                   style={{
                     background:
-                      "radial-gradient(70% 55% at 78% 16%, rgba(197,176,111,0.22), transparent 60%), radial-gradient(55% 50% at 16% 92%, rgba(114,157,53,0.26), transparent 65%)",
+                      "linear-gradient(to top, rgba(9,33,44,0.85) 0%, rgba(9,33,44,0.2) 45%, transparent 70%)",
                   }}
                 />
-                <span className="absolute left-5 top-5 h-5 w-5 border-l border-t border-beige/50" />
-                <span className="absolute bottom-5 right-5 h-5 w-5 border-b border-r border-beige/50" />
+                <span className="absolute left-5 top-5 h-5 w-5 border-l border-t border-beige/60" />
+                <span className="absolute bottom-5 right-5 h-5 w-5 border-b border-r border-beige/60" />
                 <div className="absolute bottom-6 left-6 right-6 text-paper">
                   <p className="label text-beige-light">
                     {String(active + 1).padStart(2, "0")} · {current.title}

@@ -7,20 +7,22 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const PILLARS = [
+const CASE_STUDIES = [
   {
-    caption: "Trivandrum Airport T2 — MEP Design & BIM | Kerala",
-    title: "Engineering depth",
-    body: "From HVAC and electrical to plumbing, fire and ELV, our multidisciplinary teams design and model every building system under one roof — coordinated, clash-free and built to perform.",
-    cta: "Our services",
-    href: "#services",
+    image: "/calinova-case-study.jpg",
+    caption: "Calinova Data Centre — MEP & BIM · 2.4 MW | Calicut",
+    title: "A 2.4 MW data centre, coordinated clash-free",
+    body: "A hyperscale-ready facility with no tolerance for downtime. We delivered full MEP design and a LOD 400 BIM model — coordinating HVAC, power and fire through tight plant rooms — and CFD-validated the cooling to hold rack temperatures under peak load. The result: a clash-free model and a faster, rework-free install on site.",
+    cta: "View project",
+    href: "#projects",
   },
   {
-    caption: "Duqm Refinery, Oman — Detailed Engineering | OSCO",
-    title: "Global delivery",
-    body: "With studios across India, the UAE and Canada, we deliver BIM, detailed engineering and CFD for clients on four continents — from hyperscale data centres to offshore platforms.",
-    cta: "Our sectors",
-    href: "#sectors",
+    image: "/trivandrum-airport-case-study.jpg",
+    caption: "Trivandrum Airport T2 — MEP Design & BIM | Kerala",
+    title: "A new terminal, engineered for millions",
+    body: "An international terminal needed resilient systems for millions of passengers a year. Our teams modelled every MEP discipline to LOD 400 and ran CFD across the concourse to balance passenger comfort against energy use — delivered fully coordinated, on programme and built to endure for decades.",
+    cta: "View project",
+    href: "#projects",
   },
 ];
 
@@ -73,47 +75,34 @@ export function Difference() {
   return (
     <section
       ref={root}
-      id="difference"
+      id="case-studies"
       className="scroll-mt-24 bg-paper text-navy"
     >
       <div className="mx-auto max-w-[1600px] px-6 py-24 md:px-10 md:py-36">
         {/* Section heading */}
         <h2
           ref={heading}
-          className="mb-16 max-w-4xl font-display text-[clamp(2rem,1rem+3vw,3.6rem)] font-light leading-[1.08] tracking-[-0.02em] md:mb-24"
+          className="mb-8 max-w-4xl font-display text-[clamp(2rem,1rem+3vw,3.6rem)] font-light leading-[1.08] tracking-[-0.02em] md:mb-10"
         >
-          The C&amp;T difference —{" "}
-          <span className="text-green-dark">
-            depth, precision, and global delivery
-          </span>
+          Proof in the work —{" "}
+          <span className="text-green-dark">featured case studies</span>
         </h2>
 
         {/* Two pillars */}
         <div className="grid gap-x-10 gap-y-14 md:grid-cols-2 md:gap-x-16">
-          {PILLARS.map((p) => (
+          {CASE_STUDIES.map((p) => (
             <article key={p.title} data-col className="will-change-transform">
               {/* Image + caption */}
               <figure>
-                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-gradient-to-br from-[#1b2420] to-[#0d1f16]">
-                  <div
-                    aria-hidden
-                    className="absolute inset-0 opacity-[0.14]"
-                    style={{
-                      backgroundImage:
-                        "linear-gradient(to right, #729d35 1px, transparent 1px), linear-gradient(to bottom, #729d35 1px, transparent 1px)",
-                      backgroundSize: "46px 46px",
-                    }}
+                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-[#0d1f16]">
+                  <img
+                    src={p.image}
+                    alt={p.caption}
+                    className="absolute inset-0 h-full w-full object-cover"
+                    loading="lazy"
                   />
-                  <div
-                    aria-hidden
-                    className="absolute inset-0"
-                    style={{
-                      background:
-                        "radial-gradient(70% 60% at 78% 18%, rgba(197,176,111,0.22), transparent 60%), radial-gradient(55% 50% at 16% 90%, rgba(114,157,53,0.26), transparent 65%)",
-                    }}
-                  />
-                  <span className="absolute left-5 top-5 h-5 w-5 border-l border-t border-beige/50" />
-                  <span className="absolute bottom-5 right-5 h-5 w-5 border-b border-r border-beige/50" />
+                  <span className="absolute left-5 top-5 h-5 w-5 border-l border-t border-beige/60" />
+                  <span className="absolute bottom-5 right-5 h-5 w-5 border-b border-r border-beige/60" />
                 </div>
                 <figcaption className="mt-4 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-ink-dim">
                   {p.caption}
