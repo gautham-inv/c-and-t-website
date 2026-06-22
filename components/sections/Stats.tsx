@@ -86,7 +86,7 @@ export function Stats() {
                   strokeWidth={1.25}
                   aria-hidden
                 />
-                <p className="font-display text-[clamp(2.75rem,1rem+5vw,5rem)] font-light leading-none tracking-[-0.02em]">
+                <p className="font-display text-[clamp(2.75rem,1rem+5vw,5rem)] font-semibold leading-none tracking-[-0.02em]">
                   <span
                     data-count
                     data-target={s.target}

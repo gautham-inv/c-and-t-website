@@ -39,7 +39,22 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     gsap.ticker.add(onTick);
     gsap.ticker.lagSmoothing(0);
 
+    // Pin jumps come from stale measurements: ScrollTrigger caches pin start/end
+    // positions on init, but the Satoshi webfont (display:swap) and images change
+    // element heights afterwards — shifting everything below them. Recompute once
+    // those settle so the pinned sections engage exactly where expected.
+    ScrollTrigger.config({ ignoreMobileResize: true });
+    const refresh = () => ScrollTrigger.refresh();
+    window.addEventListener("load", refresh);
+    if (document.fonts?.ready) document.fonts.ready.then(refresh);
+    // Belt-and-braces: late refreshes catch anything that loads after.
+    const t1 = window.setTimeout(refresh, 600);
+    const t2 = window.setTimeout(refresh, 1800);
+
     return () => {
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+      window.removeEventListener("load", refresh);
       gsap.ticker.remove(onTick);
       lenis.off("scroll", ScrollTrigger.update);
       lenis.destroy();

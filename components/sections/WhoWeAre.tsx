@@ -44,9 +44,9 @@ export function WhoWeAre() {
       // portrait (square is ~half the height, so it needs ~4x the percentage
       // to cover double the pixels) — exaggerated depth layering.
       gsap.to(portrait.current, { yPercent: -18, ease: "none", scrollTrigger: st });
-      gsap.to(square.current, { yPercent: -72, ease: "none", scrollTrigger: st });
+      gsap.to(square.current, { yPercent: -135, ease: "none", scrollTrigger: st });
       gsap.to(portraitInner.current, { yPercent: 12, ease: "none", scrollTrigger: st });
-      gsap.to(squareInner.current, { yPercent: 14, ease: "none", scrollTrigger: st });
+      gsap.to(squareInner.current, { yPercent: 16, ease: "none", scrollTrigger: st });
     },
     { scope: root },
   );
@@ -57,8 +57,8 @@ export function WhoWeAre() {
       id="about"
       className="relative scroll-mt-24 bg-navy text-paper"
     >
-      <div className="mx-auto max-w-[1600px] px-6 py-24 md:px-10 md:py-36">
-        <div className="grid grid-cols-12 gap-y-16 lg:gap-x-10">
+      <div className="mx-auto max-w-[1600px] px-6 py-16 md:px-10 md:py-20">
+        <div className="grid grid-cols-12 gap-y-12 lg:gap-x-10">
           {/* Sticky heading rail */}
           <div className="col-span-12 lg:col-span-2">
             <h2 className="label sticky top-28 text-beige">Who we are</h2>
@@ -70,7 +70,7 @@ export function WhoWeAre() {
           >
             {/* Text — hugs the left, slides in from the left */}
             <div data-up className="col-span-12 lg:col-span-5 lg:pr-8">
-              <div className="space-y-8 font-display text-[clamp(1.6rem,1rem+1.9vw,2.6rem)] font-light leading-[1.28] tracking-[-0.01em]">
+              <div className="space-y-5 font-display text-[clamp(1.35rem,0.9rem+1.5vw,2.05rem)] font-normal leading-[1.3] tracking-[-0.01em]">
                 <p>
                   C&amp;T Consulting Engineers unites smart{" "}
                   <span className="text-beige-light">MEP design</span>, BIM
@@ -86,7 +86,7 @@ export function WhoWeAre() {
 
               <a
                 href="/about"
-                className="group mt-12 inline-flex items-center gap-3 font-display text-lg text-paper"
+                className="group mt-8 inline-flex items-center gap-3 font-display text-lg text-paper"
               >
                 <span className="border-b border-green pb-1 transition-colors duration-300 group-hover:border-beige">
                   About C&amp;T
@@ -99,11 +99,11 @@ export function WhoWeAre() {
 
             {/* Images — large portrait + overlapping square, layered parallax */}
             <div className="col-span-12 lg:col-span-6 lg:col-start-7">
-              <div className="relative ml-auto w-full max-w-[34rem] pb-12 pl-10">
+              <div className="relative ml-auto w-full max-w-[36rem] pb-10 pl-10">
                 {/* Portrait (primary, background — slower) */}
                 <div
                   ref={portrait}
-                  className="relative ml-auto aspect-[3/4] w-[82%] overflow-hidden rounded-2xl border border-paper/10 will-change-transform"
+                  className="relative ml-auto aspect-[3/4] w-[82%] overflow-hidden rounded-2xl will-change-transform"
                 >
                   <div
                     ref={portraitInner}
@@ -121,7 +121,7 @@ export function WhoWeAre() {
                 {/* Square (secondary, foreground — faster) */}
                 <div
                   ref={square}
-                  className="absolute bottom-0 left-0 aspect-square w-[48%] overflow-hidden rounded-2xl border border-paper/15 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.6)] will-change-transform"
+                  className="absolute bottom-0 left-0 aspect-square w-[48%] overflow-hidden rounded-2xl shadow-[0_30px_80px_-30px_rgba(0,0,0,0.6)] will-change-transform"
                 >
                   <div
                     ref={squareInner}

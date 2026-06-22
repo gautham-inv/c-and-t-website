@@ -13,6 +13,7 @@ type Service = {
   body: string;
   caption: string;
   image: string;
+  href: string;
 };
 
 const SERVICES: Service[] = [
@@ -21,30 +22,35 @@ const SERVICES: Service[] = [
     body: "HVAC, electrical, plumbing, fire protection and ELV design for residential, commercial, industrial and mission-critical buildings.",
     caption: "Multidiscipline MEP · all building types",
     image: "/mep-engineering-design.jpg",
+    href: "/services/mep-engineering-design",
   },
   {
     title: "BIM & 3D modelling",
     body: "LOD 300–500 models, coordination and as-builts in Revit, Navisworks and AVEVA E3D — accurate, data-rich and buildable.",
     caption: "Revit · Navisworks · AVEVA E3D",
     image: "/bim-and-3d-modelling.jpg",
+    href: "/services/bim-and-3d-modelling",
   },
   {
     title: "Detailed engineering",
     body: "Concept and front-end design through detailed engineering, material selection, MTO and BOQ for turnkey delivery.",
     caption: "FEED · Detailed design · MTO / BOQ",
     image: "/detailed-engineering.jpg",
+    href: "/services/detailed-engineering",
   },
   {
     title: "CFD & FEA analysis",
     body: "Computational fluid dynamics, thermal and stress analysis with Ansys Fluent — validating performance before construction.",
     caption: "Ansys Fluent · Thermal · Pipe stress",
     image: "/cfd-fea-analysis.webp",
+    href: "/services/cfd-fea-analysis",
   },
   {
     title: "Clash resolution & coordination",
     body: "Multidiscipline clash detection and resolution that turns coordinated models into conflict-free, build-ready designs.",
     caption: "Coordination · Clash-free delivery",
     image: "/clash-detection-and-coordination.jpg",
+    href: "/services/clash-resolution",
   },
 ];
 
@@ -74,11 +80,11 @@ export function Services() {
       id="services"
       className="scroll-mt-24 bg-paper text-navy"
     >
-      <div className="mx-auto max-w-[1600px] px-6 py-24 md:px-10 md:py-36">
+      <div className="mx-auto max-w-[1600px] px-6 py-16 md:px-10 md:py-20">
         {/* Heading — same scale as other section headings */}
         <h2
           data-up
-          className="font-display text-[clamp(2rem,1rem+3vw,3.6rem)] font-light leading-[1.08] tracking-[-0.02em]"
+          className="font-display text-[clamp(2rem,1rem+3vw,3.6rem)] font-semibold leading-[1.08] tracking-[-0.02em]"
         >
           Our Services
         </h2>
@@ -91,7 +97,7 @@ export function Services() {
           today&apos;s challenges across every market we serve.
         </p>
 
-        <div className="mt-16 grid gap-12 lg:grid-cols-2 lg:gap-16 md:mt-20">
+        <div className="mt-10 grid gap-10 lg:grid-cols-2 lg:gap-16 md:mt-12">
           {/* Accordion */}
           <ul data-up className="border-t border-line">
             {SERVICES.map((s, i) => {
@@ -101,13 +107,13 @@ export function Services() {
                   <button
                     onClick={() => setActive(i)}
                     aria-expanded={open}
-                    className="group flex w-full items-center gap-6 py-6 text-left md:py-7"
+                    className="group flex w-full items-center gap-6 py-4 text-left md:py-5"
                   >
                     <span className="font-mono text-sm text-ink-dim">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <span
-                      className={`flex-1 font-display text-[clamp(1.5rem,1rem+1.6vw,2.4rem)] font-light leading-tight transition-colors duration-300 ${
+                      className={`flex-1 font-display text-[clamp(1.5rem,1rem+1.6vw,2.4rem)] font-medium leading-tight transition-colors duration-300 ${
                         open ? "text-green-dark" : "text-navy"
                       }`}
                     >
@@ -128,9 +134,20 @@ export function Services() {
                     }`}
                   >
                     <div className="overflow-hidden">
-                      <p className="max-w-md pb-7 pl-10 text-base leading-relaxed text-ink-dim">
-                        {s.body}
-                      </p>
+                      <div className="max-w-md pb-6 pl-10">
+                        <p className="text-base leading-relaxed text-ink-dim">
+                          {s.body}
+                        </p>
+                        <a
+                          href={s.href}
+                          className="group mt-4 inline-flex items-center gap-2 font-mono text-[0.66rem] uppercase tracking-[0.16em] text-green-dark transition-colors duration-300 hover:text-green"
+                        >
+                          View service
+                          <span className="transition-transform duration-300 group-hover:translate-x-0.5">
+                            →
+                          </span>
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </li>
@@ -138,12 +155,13 @@ export function Services() {
             })}
           </ul>
 
-          {/* Image — swaps with the active service */}
+          {/* Image — swaps with the active service; tall portrait that nearly
+              fills the section height while staying within the viewport. */}
           <div data-up className="lg:pl-6">
             <div className="sticky top-28">
               <div
                 key={active}
-                className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-line bg-[#0a1c25]"
+                className="relative h-[clamp(26rem,70vh,46rem)] w-full overflow-hidden rounded-2xl bg-[#0a1c25]"
               >
                 <img
                   src={current.image}

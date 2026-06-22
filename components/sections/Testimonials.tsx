@@ -50,12 +50,12 @@ export function Testimonials() {
     <section
       ref={root}
       id="testimonials"
-      className="scroll-mt-24 bg-paper text-navy"
+      className="scroll-mt-24 text-paper"
     >
       <div className="mx-auto max-w-[1600px] px-6 py-24 md:px-10 md:py-36">
         <h2
           data-up
-          className="mb-20 font-display text-[clamp(2rem,1rem+3vw,3.6rem)] font-light leading-[1.08] tracking-[-0.02em] md:mb-28"
+          className="mb-20 font-display text-[clamp(2rem,1rem+3vw,3.6rem)] font-semibold leading-[1.08] tracking-[-0.02em] md:mb-28"
         >
           What our clients say
         </h2>
@@ -63,13 +63,13 @@ export function Testimonials() {
         <div className="grid gap-12 md:grid-cols-3 md:gap-10">
           {QUOTES.map((q) => (
             <figure key={q.name} data-up>
-              <span className="block h-px w-full bg-line" />
-              <blockquote className="mt-12 text-lg leading-relaxed text-navy md:text-xl">
+              <span className="block h-px w-full bg-paper/25" />
+              <blockquote className="mt-12 text-lg leading-relaxed text-paper md:text-xl">
                 {q.quote}
               </blockquote>
               <figcaption className="mt-8">
                 <p className="font-display text-lg">{q.name}</p>
-                <p className="mt-1 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-ink-dim">
+                <p className="mt-1 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-paper/70">
                   {q.role}
                 </p>
               </figcaption>

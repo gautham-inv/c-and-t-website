@@ -1,30 +1,20 @@
 import type { Metadata } from "next";
-import { Spectral, Red_Hat_Display, Red_Hat_Mono } from "next/font/google";
+import localFont from "next/font/local";
+import { GeistMono } from "geist/font/mono";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import "./globals.css";
 
-/* Spectral — editorial serif, carries the whole site (no italics). */
-const spectral = Spectral({
-  subsets: ["latin"],
-  variable: "--font-spectral",
+/* Satoshi — self-hosted (Fontshare). Carries display + body. 600 requests
+ * resolve to the 700 cut, so semibold headings render bold. */
+const satoshi = localFont({
+  src: [
+    { path: "./fonts/Satoshi-Regular.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/Satoshi-Medium.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/Satoshi-Bold.woff2", weight: "700", style: "normal" },
+    { path: "./fonts/Satoshi-Black.woff2", weight: "900", style: "normal" },
+  ],
+  variable: "--font-satoshi",
   display: "swap",
-  weight: ["300", "400", "500", "600"],
-});
-
-/* Red Hat Display — sleek geometric sans for UI + body. */
-const redhat = Red_Hat_Display({
-  subsets: ["latin"],
-  variable: "--font-redhat",
-  display: "swap",
-  weight: ["400", "500", "600", "700"],
-});
-
-/* Red Hat Mono — technical labels, eyebrows, specs. */
-const redhatMono = Red_Hat_Mono({
-  subsets: ["latin"],
-  variable: "--font-redhat-mono",
-  display: "swap",
-  weight: ["400", "500"],
 });
 
 export const metadata: Metadata = {
@@ -41,7 +31,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${spectral.variable} ${redhat.variable} ${redhatMono.variable}`}
+      className={`${satoshi.variable} ${GeistMono.variable}`}
     >
       <body>
         <SmoothScroll>{children}</SmoothScroll>

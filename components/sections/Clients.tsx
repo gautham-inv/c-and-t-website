@@ -33,7 +33,7 @@ function TickerColumn({ items, duration }: { items: string[]; duration: string }
         {loop.map((name, i) => (
           <div
             key={`${name}-${i}`}
-            className="flex h-24 items-center justify-center px-4 text-center font-display text-base tracking-wide text-navy/40 transition-colors duration-300 hover:text-navy"
+            className="flex h-24 items-center justify-center px-4 text-center font-display text-base tracking-wide text-paper/55 transition-colors duration-300 hover:text-paper"
           >
             {name}
           </div>
@@ -62,7 +62,7 @@ export function Clients() {
   );
 
   return (
-    <section ref={root} id="trust" className="scroll-mt-24 bg-paper text-navy">
+    <section ref={root} id="trust" className="scroll-mt-24 text-paper">
       {/* Inline keyframes — Tailwind v4 purges unreferenced @keyframes from
           the stylesheet, so the vertical ticker animation lives here. */}
       <style>{`@keyframes ct-ticker-down{from{transform:translateY(-50%)}to{transform:translateY(0)}}`}</style>
@@ -71,13 +71,13 @@ export function Clients() {
         <div className="md:max-w-md">
           <h2
             data-up
-            className="font-display text-[clamp(2rem,1rem+3vw,3.6rem)] font-light leading-[1.08] tracking-[-0.02em]"
+            className="font-display text-[clamp(2rem,1rem+3vw,3.6rem)] font-semibold leading-[1.08] tracking-[-0.02em]"
           >
             Trusted across four continents
           </h2>
           <p
             data-up
-            className="mt-10 max-w-md text-base leading-relaxed text-ink-dim md:text-lg"
+            className="mt-10 max-w-md text-base leading-relaxed text-paper/80 md:text-lg"
           >
             Since 2013, C&amp;T has delivered engineering for developers, EPCs
             and energy majors worldwide — backed by an ISO&nbsp;9001:2015
@@ -85,7 +85,7 @@ export function Clients() {
           </p>
 
           <div data-up className="mt-8">
-            <span className="inline-flex h-12 items-center rounded-md border border-line px-4 font-mono text-xs uppercase tracking-[0.16em] text-green-dark">
+            <span className="inline-flex h-12 items-center rounded-md border border-paper/30 px-4 font-mono text-xs uppercase tracking-[0.16em] text-paper">
               ISO 9001:2015
             </span>
           </div>
@@ -93,10 +93,10 @@ export function Clients() {
           <a
             data-up
             href="#contact"
-            className="group mt-10 inline-flex items-center gap-3 rounded-full bg-navy py-3.5 pl-6 pr-2.5 text-sm font-medium text-paper transition-colors duration-300 hover:bg-green-dark"
+            className="group mt-10 inline-flex items-center gap-3 rounded-full bg-paper py-3.5 pl-6 pr-2.5 text-sm font-medium text-navy transition-colors duration-300 hover:bg-beige-light"
           >
             Start a project
-            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-paper/15 transition-transform duration-300 group-hover:translate-x-0.5">
+            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-navy/10 transition-transform duration-300 group-hover:translate-x-0.5">
               →
             </span>
           </a>

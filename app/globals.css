@@ -24,11 +24,11 @@
   --color-surface-alt: #f0f9fa;
 
   /* ---- Typography ----
-   * Spectral carries everything — display + body — for a premium editorial
-   * voice. Mono token retained but unused for now. */
-  --font-display: var(--font-spectral), ui-serif, Georgia, serif;
-  --font-sans: var(--font-spectral), ui-serif, Georgia, serif;
-  --font-mono: var(--font-redhat-mono), ui-monospace, monospace;
+   * Satoshi carries everything — display + body. Geist Mono for technical
+   * labels, eyebrows and specs. */
+  --font-display: var(--font-satoshi), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-satoshi), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 
   /* Fluid display scale */
   --text-hero: clamp(2.75rem, 1rem + 5.2vw, 5.75rem);

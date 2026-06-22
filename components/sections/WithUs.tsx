@@ -13,7 +13,13 @@ gsap.registerPlugin(ScrollTrigger);
 // is revealed further up the structure.
 export const WITHUS_OVERLAP_VH = 68;
 
-export function WithUs() {
+/**
+ * `rounded` (homepage only) runs the inset → full-bleed margin + border-radius
+ * collapse as you scroll in. Other pages pass rounded={false}: the card is
+ * full-bleed from the start, no radius, like before. The footer wipe runs in
+ * both cases.
+ */
+export function WithUs({ rounded = true }: { rounded?: boolean }) {
   const root = useRef<HTMLElement>(null);
   const card = useRef<HTMLDivElement>(null);
 
@@ -36,22 +42,25 @@ export function WithUs() {
       if (reduce || !card.current) return;
 
       // Margin + radius collapse: card → full-bleed as you scroll through.
-      gsap.fromTo(
-        card.current,
-        { marginLeft: "5vw", marginRight: "5vw", borderRadius: "2.25rem" },
-        {
-          marginLeft: "0vw",
-          marginRight: "0vw",
-          borderRadius: "0rem",
-          ease: "none",
-          scrollTrigger: {
-            trigger: root.current,
-            start: "top 88%",
-            end: "top 22%",
-            scrub: true,
+      // Homepage only — other pages render the card flush from the start.
+      if (rounded) {
+        gsap.fromTo(
+          card.current,
+          { marginLeft: "5vw", marginRight: "5vw", borderRadius: "2.25rem" },
+          {
+            marginLeft: "0vw",
+            marginRight: "0vw",
+            borderRadius: "0rem",
+            ease: "none",
+            scrollTrigger: {
+              trigger: root.current,
+              start: "top 88%",
+              end: "top 22%",
+              scrub: true,
+            },
           },
-        },
-      );
+        );
+      }
 
       // Wipe: clip the card's bottom edge upward faster than the page scrolls
       // (negative parallax), uncovering the footer's blueprint band behind it.
@@ -79,20 +88,28 @@ export function WithUs() {
     <section ref={root} id="contact" className="relative z-20 scroll-mt-24">
       <div
         ref={card}
-        className="relative overflow-hidden bg-green-dark text-paper will-change-transform"
-        style={{
-          marginLeft: "5vw",
-          marginRight: "5vw",
-          borderRadius: "2.25rem",
-        }}
+        className={`relative overflow-hidden bg-paper text-navy will-change-transform ${
+          rounded
+            ? "shadow-[0_40px_120px_-45px_rgba(9,33,44,0.5)] ring-1 ring-navy/10"
+            : ""
+        }`}
+        style={
+          rounded
+            ? {
+                marginLeft: "5vw",
+                marginRight: "5vw",
+                borderRadius: "2.25rem",
+              }
+            : undefined
+        }
       >
-        {/* Blueprint grid */}
+        {/* Blueprint mesh — green on the off-white fill */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-[0.16]"
+          className="pointer-events-none absolute inset-0 opacity-[0.22]"
           style={{
             backgroundImage:
-              "linear-gradient(to right, #fff 1px, transparent 1px), linear-gradient(to bottom, #fff 1px, transparent 1px)",
+              "linear-gradient(to right, #729d35 1px, transparent 1px), linear-gradient(to bottom, #729d35 1px, transparent 1px)",
             backgroundSize: "56px 56px",
           }}
         />
@@ -101,7 +118,7 @@ export function WithUs() {
         <div className="relative z-10 mx-auto max-w-[1600px] px-6 pt-24 text-center md:px-10 md:pt-32">
           <h2
             data-up
-            className="mx-auto max-w-3xl font-display text-[clamp(2rem,1rem+3.4vw,4rem)] font-light leading-[1.05] tracking-[-0.02em]"
+            className="mx-auto max-w-3xl font-display text-[clamp(2rem,1rem+3.4vw,4rem)] font-semibold leading-[1.05] tracking-[-0.02em]"
           >
             Let&apos;s build what&apos;s next together.
           </h2>
@@ -111,13 +128,13 @@ export function WithUs() {
           >
             <a
               href="#contact"
-              className="rounded-full bg-paper px-7 py-3.5 text-sm font-medium tracking-wide text-navy transition-colors duration-300 hover:bg-beige-light"
+              className="rounded-full bg-navy px-7 py-3.5 text-sm font-medium tracking-wide text-paper transition-colors duration-300 hover:bg-green-dark"
             >
               Request a proposal
             </a>
             <a
               href="mailto:mail@candtengineers.com"
-              className="rounded-full border border-paper/40 px-7 py-3.5 text-sm font-medium tracking-wide text-paper transition-colors duration-300 hover:border-paper"
+              className="rounded-full border border-navy/30 px-7 py-3.5 text-sm font-medium tracking-wide text-navy transition-colors duration-300 hover:border-navy"
             >
               Contact us
             </a>
