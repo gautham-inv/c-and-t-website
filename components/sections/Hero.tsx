@@ -7,21 +7,30 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// At rest the video is full-bleed (full width, no radius) with the headline +
+// At rest the frame is full-bleed (full width, no radius) with the headline +
 // a slight dark overlay on top. On scroll a margin + border-radius appear (it
-// settles into an inset panel) and the video scrubs/plays through. CSS sticky
-// does the pinning — no ScrollTrigger pin, so there is no jump.
+// settles into an inset panel) and the image sequence scrubs/plays through.
+// CSS sticky does the pinning — no ScrollTrigger pin, so there is no jump.
 const INSET_PHASE = 0.4; // fraction of scroll spent insetting the frame
-const END_W = 94; // vw when inset (~3vw side margins)
-const END_H = 90; // vh when inset (~5vh top/bottom margins)
+const END_W = 97.5; // vw when inset (~1.25vw side margins)
+const END_H = 95; // vh when inset (~2.5vh top/bottom margins)
 const END_RADIUS = 22; // px
 const START_OVERLAY = 0.45;
 const END_OVERLAY = 0.12;
 
+// Scroll-scrubbed JPEG sequence (exported video frames). The current frame is
+// chosen from scroll progress and painted to a canvas — no <video> seeking,
+// which is far smoother to scrub on iOS/Safari.
+const FRAME_COUNT = 111;
+const FRAME_W = 1920;
+const FRAME_H = 1080;
+const framePath = (i: number) =>
+  `/hero-frames/frame-${String(i).padStart(3, "0")}.jpg`;
+
 export function Hero() {
   const root = useRef<HTMLElement>(null);
   const frame = useRef<HTMLDivElement>(null);
-  const video = useRef<HTMLVideoElement>(null);
+  const canvas = useRef<HTMLCanvasElement>(null);
   const overlay = useRef<HTMLDivElement>(null);
   const headline = useRef<HTMLDivElement>(null);
 
@@ -40,6 +49,30 @@ export function Hero() {
       });
 
       if (!frame.current || !root.current) return;
+
+      // ── Frame sequence: preload every JPEG, paint by index ──
+      const ctx = canvas.current?.getContext("2d") ?? null;
+      const images: HTMLImageElement[] = [];
+      const loaded: boolean[] = new Array(FRAME_COUNT).fill(false);
+      let current = -1;
+
+      const draw = (i: number) => {
+        const idx = gsap.utils.clamp(0, FRAME_COUNT - 1, Math.round(i));
+        if (idx === current || !ctx || !loaded[idx]) return;
+        current = idx;
+        ctx.drawImage(images[idx], 0, 0, FRAME_W, FRAME_H);
+      };
+
+      for (let i = 0; i < FRAME_COUNT; i++) {
+        const img = new Image();
+        img.src = framePath(i + 1);
+        img.onload = () => {
+          loaded[i] = true;
+          // First frame ready → paint it so the hero isn't blank.
+          if (i === 0 && current === -1) draw(0);
+        };
+        images[i] = img;
+      }
 
       // Reduced motion: static inset panel, no scroll choreography.
       if (reduce) {
@@ -87,12 +120,8 @@ export function Hero() {
             y: -window.innerHeight * 0.6 * exit,
           });
 
-          // Video scrubs with scroll — "plays" as you move through the hero.
-          const v = video.current;
-          if (v && Number.isFinite(v.duration) && v.duration > 0) {
-            const t = p * v.duration;
-            if (Number.isFinite(t)) v.currentTime = t;
-          }
+          // Frame sequence scrubs with scroll — "plays" as you move through.
+          draw(p * (FRAME_COUNT - 1));
         },
       });
     },
@@ -118,17 +147,14 @@ export function Hero() {
             }}
           />
 
-          {/* Scroll-scrubbed video */}
-          <video
-            ref={video}
+          {/* Scroll-scrubbed frame sequence */}
+          <canvas
+            ref={canvas}
+            width={FRAME_W}
+            height={FRAME_H}
             className="absolute inset-0 h-full w-full object-cover"
-            muted
-            playsInline
-            preload="auto"
-            tabIndex={-1}
-          >
-            <source src="/hero.mp4" type="video/mp4" />
-          </video>
+            aria-hidden
+          />
 
           {/* Slight dark overlay — strongest at rest for headline legibility,
               clears as the frame insets. */}

@@ -7,19 +7,43 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const COLUMNS: string[][] = [
-  ["NEOM", "AECOM", "VOLTAS", "OSCO", "ARTELIA", "EIDC"],
-  ["PETROFAC", "TECHNIP", "QATAR ENERGY", "L&T", "KIIFB", "CINQ"],
-  ["ADNOC", "AHI CARRIER", "DRY DOCK WORLD", "ARIES MARINE", "MARINOR", "ACCEL"],
+type Client = { name: string; logo: string; h: number };
+
+// Client → logo asset in /public/clients. `h` is the rendered logo height (px),
+// tuned PER LOGO for equal optical weight: wide wordmarks stay short, compact /
+// square marks get more height so they don't read as tiny. (OSCO and ACCEL have
+// no logo file yet, so they are omitted until artwork is supplied.)
+const CLIENTS: Client[] = [
+  { name: "NEOM", logo: "/clients/neom.png", h: 46 },
+  { name: "AECOM", logo: "/clients/aecom.png", h: 28 },
+  { name: "Voltas", logo: "/clients/voltas.png", h: 28 },
+  { name: "Artelia", logo: "/clients/artelia.png", h: 36 },
+  { name: "EIDC", logo: "/clients/eidc.webp", h: 42 },
+  { name: "Petrofac", logo: "/clients/petrofaclogo.png", h: 34 },
+  { name: "Technip", logo: "/clients/technip.webp", h: 40 },
+  { name: "Qatar Energy", logo: "/clients/qatarenergy.webp", h: 46 },
+  { name: "L&T", logo: "/clients/l&t.png", h: 42 },
+  { name: "KIIFB", logo: "/clients/kiifb.webp", h: 38 },
+  { name: "CINQ", logo: "/clients/cinq.webp", h: 46 },
+  { name: "ADNOC", logo: "/clients/adnoc.png", h: 38 },
+  { name: "AHI Carrier", logo: "/clients/ahicarrier.png", h: 38 },
+  { name: "Dry Docks World", logo: "/clients/drydocksworld.webp", h: 30 },
+  { name: "Aries", logo: "/clients/ariesglobal.webp", h: 40 },
+  { name: "Marinor", logo: "/clients/marinor.webp", h: 26 },
 ];
+
+// Distribute round-robin into three columns (6 / 5 / 5).
+const COLUMNS: Client[][] = [[], [], []];
+CLIENTS.forEach((c, i) => COLUMNS[i % 3].push(c));
 
 const DURATIONS = ["26s", "32s", "29s"];
 
 const MASK =
   "linear-gradient(to bottom, transparent, #000 16%, #000 84%, transparent)";
 
-function TickerColumn({ items, duration }: { items: string[]; duration: string }) {
-  // Two stacked copies → seamless loop (content moves top → down).
+function TickerColumn({ items, duration }: { items: Client[]; duration: string }) {
+  // Two stacked copies → seamless loop (content moves top → down). Fixed-height
+  // rows keep the -50% loop exact (no flex gap to throw it off).
   const loop = [...items, ...items];
   return (
     <div
@@ -30,12 +54,18 @@ function TickerColumn({ items, duration }: { items: string[]; duration: string }
         className="flex flex-col"
         style={{ animation: `ct-ticker-down ${duration} linear infinite` }}
       >
-        {loop.map((name, i) => (
+        {loop.map((client, i) => (
           <div
-            key={`${name}-${i}`}
-            className="flex h-24 items-center justify-center px-4 text-center font-display text-base tracking-wide text-paper/55 transition-colors duration-300 hover:text-paper"
+            key={`${client.name}-${i}`}
+            className="flex h-24 items-center justify-center px-3 md:px-4"
           >
-            {name}
+            <img
+              src={client.logo}
+              alt={client.name}
+              loading="lazy"
+              style={{ height: client.h }}
+              className="w-auto max-w-full object-contain opacity-80 brightness-0 invert transition-opacity duration-300 hover:opacity-100"
+            />
           </div>
         ))}
       </div>
@@ -66,9 +96,9 @@ export function Clients() {
       {/* Inline keyframes — Tailwind v4 purges unreferenced @keyframes from
           the stylesheet, so the vertical ticker animation lives here. */}
       <style>{`@keyframes ct-ticker-down{from{transform:translateY(-50%)}to{transform:translateY(0)}}`}</style>
-      <div className="mx-auto grid max-w-[1600px] items-center gap-16 px-6 py-24 md:grid-cols-2 md:gap-20 md:px-10 md:py-36">
+      <div className="mx-auto grid max-w-[1600px] items-center gap-14 px-6 py-20 md:px-10 md:py-28 lg:grid-cols-2 lg:gap-20 lg:py-36">
         {/* Left — heading, intro, ISO, CTA */}
-        <div className="md:max-w-md">
+        <div className="lg:max-w-md">
           <h2
             data-up
             className="font-display text-[clamp(2rem,1rem+3vw,3.6rem)] font-semibold leading-[1.08] tracking-[-0.02em]"

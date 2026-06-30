@@ -125,13 +125,14 @@ export function SectorCapabilities({
       {simple ? (
         /* ── Fallback: simple stacked list ── */
         <div className="mx-auto max-w-[1600px] px-6 py-16 md:px-10">
-          <p className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-green-dark">
-            What we bring to {name.toLowerCase()}
-          </p>
+          <h2 className="font-display text-[clamp(1.9rem,1rem+3vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.02em] text-navy">
+            What we bring to{" "}
+            <span className="text-green-dark">{name.toLowerCase()}</span>
+          </h2>
           <div className="mt-10 space-y-12">
             {services.map((svc, i) => (
               <div key={svc.label} className="grid gap-6 md:grid-cols-2 md:gap-12">
-                <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-[#0a1c25]">
+                <div className="relative aspect-[4/3] overflow-hidden rounded-br-[3.5rem] bg-[#0a1c25] md:rounded-br-[5rem]">
                   <img
                     src={svc.image}
                     alt={svc.label}
@@ -148,8 +149,9 @@ export function SectorCapabilities({
         /* ── Pinned full-height stage ── */
         <div ref={pinEl} className="sticky top-0 h-screen overflow-hidden">
           <div className="grid h-full md:grid-cols-[1.05fr_1fr]">
-            {/* Image — full viewport height, full-bleed */}
-            <div className="relative h-full overflow-hidden bg-[#0a1c25]">
+            {/* Image — full viewport height; curved only on the bottom-right.
+                The container clips every image layer, so one radius covers all. */}
+            <div className="relative h-full overflow-hidden rounded-br-[5rem] bg-[#0a1c25] md:rounded-br-[8rem]">
               {services.map((svc, i) => (
                 <div
                   key={svc.label}
@@ -179,9 +181,10 @@ export function SectorCapabilities({
             {/* Text panel */}
             <div className="flex h-full items-center px-6 py-16 md:px-12 lg:px-20">
               <div className="w-full">
-                <p className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-green-dark">
-                  What we bring to {name.toLowerCase()}
-                </p>
+                <h2 className="font-display text-[clamp(1.6rem,1rem+2vw,2.75rem)] font-semibold leading-[1.1] tracking-[-0.02em] text-navy">
+                  What we bring to{" "}
+                  <span className="text-green-dark">{name.toLowerCase()}</span>
+                </h2>
 
                 {/* Swapping stage — text layers translate, clipped by overflow */}
                 <div className="relative mt-6 min-h-[24rem] overflow-hidden">

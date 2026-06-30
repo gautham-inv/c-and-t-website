@@ -4,6 +4,8 @@ import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ArrowUpRight } from "lucide-react";
+import { openEnquiry } from "@/lib/enquiry";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -126,18 +128,16 @@ export function WithUs({ rounded = true }: { rounded?: boolean }) {
             data-up
             className="mt-9 flex flex-wrap items-center justify-center gap-4"
           >
-            <a
-              href="#contact"
-              className="rounded-full bg-navy px-7 py-3.5 text-sm font-medium tracking-wide text-paper transition-colors duration-300 hover:bg-green-dark"
+            <button
+              onClick={openEnquiry}
+              className="group inline-flex items-center gap-2 rounded-full bg-navy px-7 py-3.5 text-sm font-medium tracking-wide text-paper transition-colors duration-300 hover:bg-green-dark"
             >
               Request a proposal
-            </a>
-            <a
-              href="mailto:mail@candtengineers.com"
-              className="rounded-full border border-navy/30 px-7 py-3.5 text-sm font-medium tracking-wide text-navy transition-colors duration-300 hover:border-navy"
-            >
-              Contact us
-            </a>
+              <ArrowUpRight
+                className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                strokeWidth={2}
+              />
+            </button>
           </div>
         </div>
 
@@ -148,12 +148,16 @@ export function WithUs({ rounded = true }: { rounded?: boolean }) {
           aria-hidden
           className="pointer-events-none relative z-[1] mt-14 h-[88vh] select-none"
         >
+          {/* Width steps up on small/medium so the structure render fills the
+              frame instead of stranding a tiny image. The footer's blueprint
+              band (s.png) MUST mirror these exact widths so the wipe stays
+              pixel-aligned. */}
           <div className="absolute inset-x-0 bottom-0 flex justify-center">
             <img
               src="/og.png"
               alt=""
               draggable={false}
-              className="w-[78vw] max-w-none"
+              className="w-[128vw] max-w-none sm:w-[98vw] md:w-[78vw]"
             />
           </div>
         </div>

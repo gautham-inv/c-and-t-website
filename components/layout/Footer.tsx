@@ -43,7 +43,7 @@ export function Footer() {
             src="/s.png"
             alt=""
             draggable={false}
-            className="w-[78vw] max-w-none"
+            className="w-[128vw] max-w-none sm:w-[98vw] md:w-[78vw]"
             style={{
               transformOrigin: "0 0",
               transform: "translate(2.17%, 2.34%) scale(1.0647, 1.1033)",

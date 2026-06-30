@@ -6,7 +6,7 @@
    * green  : primary accent / brand signal
    * beige  : warm secondary, editorial highlights
    * light-bg: cool near-white for alternating sections */
-  --color-navy: #09212c;
+  --color-navy: #0f2b23;
   --color-green: #729d35;
   --color-green-dark: #4f6f24;
   --color-beige: #c5b06f;
@@ -14,12 +14,16 @@
   --color-white: #ffffff;
   --color-light-bg: #f0f9fa;
   /* Warm off-white — the editorial canvas for the hero + light sections. */
-  --color-paper: #f4f1e8;
+  --color-paper: #f7f5f2;
+  /* Soft warm grey — neutral card / panel surface. */
+  --color-stone: #d8d8d4;
+  /* Cool light base — primary canvas for the all-light About page. */
+  --color-mist: #f5f7f2;
 
   /* Semantic aliases — components reference these, not raw colours. */
-  --color-ink: #09212c;
+  --color-ink: #0f2b23;
   --color-ink-dim: #5c655f;
-  --color-line: rgba(9, 33, 44, 0.12);
+  --color-line: rgba(15, 43, 35, 0.12);
   --color-surface: #ffffff;
   --color-surface-alt: #f0f9fa;
 

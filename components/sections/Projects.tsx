@@ -1,14 +1,16 @@
 "use client";
 
 import { useRef } from "react";
+import { ArrowUpRight } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { projectSlug } from "@/lib/projects";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const PROJECTS = [
-  { name: "Trivandrum Airport T2", meta: "MEP Design & BIM · Kerala", image: "/airport.jpg", size: "wide" },
+  { name: "Trivandrum Airport T2", meta: "MEP Design & BIM · Kerala", image: "/airport.webp", size: "wide" },
   { name: "Calinova Data Centre", meta: "MEP & BIM · 2.4 MW · Calicut", image: "/datacenter.jpeg", size: "tall" },
   { name: "Vega Tower, Dubai", meta: "MEP Design & BIM · LOD 400", image: "/images.jpeg", size: "standard" },
   { name: "Expo 2020 Campus, Dubai", meta: "BIM Modelling · CINQ / Voltas", image: "/expocampus.jpg", size: "wide" },
@@ -143,12 +145,10 @@ export function Projects() {
             {PROJECTS.map((p, i) => {
               const c = PALETTE[i % PALETTE.length];
               const sizeConfig = SIZES[p.size as keyof typeof SIZES] || SIZES.standard;
-              return (
-                <article
-                  key={p.name}
-                  data-card
-                  className={`relative flex shrink-0 flex-col justify-between overflow-hidden rounded-[1.75rem] p-8 md:p-10 ${c.bg} ${c.text} ${sizeConfig.card}`}
-                >
+              const slug = projectSlug(p.name);
+              const cardClass = `group relative flex shrink-0 flex-col justify-between overflow-hidden rounded-[1.75rem] p-8 md:p-10 ${c.bg} ${c.text} ${sizeConfig.card}`;
+              const inner = (
+                <>
                   <h3 className="max-w-[88%] font-display text-[clamp(1.6rem,1rem+1.5vw,2.6rem)] font-medium leading-[1.08] tracking-[-0.01em]">
                     {p.name}
                   </h3>
@@ -165,6 +165,20 @@ export function Projects() {
                       loading="lazy"
                     />
                   </div>
+                  {slug && (
+                    <span className="absolute right-8 top-8 inline-flex h-9 w-9 items-center justify-center rounded-full border border-current/30 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                      <ArrowUpRight className="h-4 w-4" strokeWidth={1.75} />
+                    </span>
+                  )}
+                </>
+              );
+              return slug ? (
+                <a key={p.name} data-card href={`/projects/${slug}`} className={cardClass}>
+                  {inner}
+                </a>
+              ) : (
+                <article key={p.name} data-card className={cardClass}>
+                  {inner}
                 </article>
               );
             })}

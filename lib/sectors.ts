@@ -2,10 +2,13 @@
  * Sector content — single source of truth for every /sectors/[slug] page.
  * One shared template renders these; adding a sector = one entry here.
  *
- * All copy, projects and stats are grounded in CT-Presentation.md. Service
- * cross-links point at the homepage Services section for now (#services);
- * once dedicated /services/[slug] pages exist they can be repointed here.
+ * All copy, projects and stats are grounded in CT-Presentation.md. Sectors
+ * live under a division (divisionSlug); the per-sector service body/points are
+ * the sector-specific application, while the division pages hold the canonical
+ * per-division service scope (see lib/services.ts → byDivision).
  */
+
+import type { DivisionSlug } from "./divisions";
 
 export type SectorStat = { value: string; label: string };
 export type SectorFAQ = { q: string; a: string };
@@ -29,11 +32,14 @@ export type SectorInsight = {
   tag: string;
   read: string;
   href: string;
+  image: string;
 };
 
 export type Sector = {
   slug: string;
   name: string;
+  /** Parent division (sectors live under a division in the IA). */
+  divisionSlug: DivisionSlug;
   /** Hero one-liner. */
   tagline: string;
   /** Hero image — same asset as the homepage card for visual continuity. */
@@ -59,27 +65,32 @@ const SVC_META = {
   mep: {
     label: "MEP Engineering Design",
     image: "/mep-engineering-design.jpg",
-    href: "/#services",
+    href: "/divisions/building#mep",
   },
   bim: {
     label: "BIM & 3D Modelling",
     image: "/bim-and-3d-modelling.jpg",
-    href: "/#services",
+    href: "/divisions/building#bim",
   },
   clash: {
     label: "Clash Detection & Coordination",
     image: "/clash-detection-and-coordination.jpg",
-    href: "/#services",
+    href: "/divisions/building#clash",
   },
   cfd: {
     label: "CFD & FEA Analysis",
     image: "/cfd-fea-analysis.webp",
-    href: "/#services",
+    href: "/divisions/building#cfd",
   },
-  detailed: {
-    label: "Detailed Engineering",
-    image: "/detailed-engineering.jpg",
-    href: "/#services",
+  mto: {
+    label: "MTO & BOQ",
+    image: "/bmt-moq.jpg",
+    href: "/divisions/building#mto",
+  },
+  walkthrough: {
+    label: "Walkthrough Videos",
+    image: "/oil-and-gas-walkthrough.jpg",
+    href: "/divisions/building#walkthrough",
   },
 } as const;
 
@@ -93,9 +104,10 @@ export const SECTORS: Sector[] = [
   {
     slug: "airports",
     name: "Airports",
+    divisionSlug: "building",
     tagline:
       "MEP design and BIM coordination for terminals where downtime is not an option.",
-    image: "/airport.jpg",
+    image: "/airport.webp",
     overview: [
       "Airport terminals are among the most systems-dense buildings we engineer — HVAC, smoke control, baggage power, life-safety and ELV all converging in landside and airside zones that must stay operational around the clock.",
       "C&T delivers fully coordinated MEP designs and federated BIM models for terminals and cargo facilities, resolving clashes before they reach site so construction stays on programme.",
@@ -158,7 +170,7 @@ export const SECTORS: Sector[] = [
       {
         name: "BIAL, Bangalore",
         meta: "MEP Design · BIM LOD 300 · AECOM · 2024",
-        image: "/airport.jpg",
+        image: "/airport.webp",
       },
       {
         name: "Muscat Cargo, Oman",
@@ -168,22 +180,18 @@ export const SECTORS: Sector[] = [
     ],
     insights: [
       {
-        title: "Designing terminal smoke control for peak passenger loads",
-        tag: "MEP Design",
-        read: "6 min read",
-        href: "/#blog",
-      },
-      {
         title: "How federated BIM keeps airport programmes on schedule",
         tag: "BIM",
         read: "5 min read",
         href: "/#blog",
+        image: "/bim-and-3d-modelling.jpg",
       },
       {
         title: "CFD in terminal ventilation: balancing comfort and safety",
         tag: "CFD",
         read: "7 min read",
         href: "/#blog",
+        image: "/cfd-fea-analysis.webp",
       },
     ],
     faqs: [
@@ -204,6 +212,7 @@ export const SECTORS: Sector[] = [
   {
     slug: "data-centres",
     name: "Data Centres",
+    divisionSlug: "building",
     tagline:
       "Mission-critical cooling and power design for hyperscale and edge facilities.",
     image: "/datacenter.jpeg",
@@ -233,9 +242,14 @@ export const SECTORS: Sector[] = [
         ["White-space modelling", "Plant-room coordination", "As-built handover"],
       ),
       svc(
-        "detailed",
-        "Construction-ready documentation and schedules generated directly from the model keep fast-track data-centre programmes on track.",
-        ["Construction drawings", "Equipment schedules", "Fast-track delivery"],
+        "mto",
+        "Material take-offs and BOQ generated directly from the model keep procurement on fast-track data-centre programmes accurate and on time.",
+        ["Model-based MTO", "BOQ", "Tender support"],
+      ),
+      svc(
+        "walkthrough",
+        "Walkthrough and flythrough videos from the model give stakeholders a clear read of white-space layout and serviceability before construction.",
+        ["Walkthrough videos", "Flythrough animations", "Stakeholder review"],
       ),
     ],
     expertise: [
@@ -269,90 +283,9 @@ export const SECTORS: Sector[] = [
     ],
   },
   {
-    slug: "oil-and-gas",
-    name: "Oil & Gas",
-    tagline:
-      "Detailed engineering and 3D modelling for refineries, LNG and offshore platforms.",
-    image: "/duqmrefinery.jpeg",
-    overview: [
-      "Energy projects demand engineering that holds up under scrutiny — process piping, HVAC, electrical and instrumentation designed to international code and modelled to fabrication detail.",
-      "C&T supports operators and EPC contractors across refineries, LNG plants and offshore platforms, delivering detailed engineering and high-LOD 3D models for some of the sector's most demanding clients.",
-    ],
-    stats: [
-      { value: "LOD 500", label: "Yamal LNG 3D modelling" },
-      { value: "2 GW", label: "Balwin 4 offshore platform" },
-      { value: "9+", label: "energy-sector clients" },
-    ],
-    services: [
-      svc(
-        "detailed",
-        "Detailed engineering to international code for refineries, LNG and offshore facilities — process piping, HVAC, electrical and instrumentation taken to fabrication detail.",
-        ["Process piping", "HVAC & E&I", "Code compliance"],
-      ),
-      svc(
-        "bim",
-        "High-LOD 3D models up to LOD 500 — fabrication- and construction-ready, as delivered on Yamal LNG and the Duqm Refinery.",
-        ["LOD 500 modelling", "Fabrication-ready", "Clash-free routing"],
-      ),
-      svc(
-        "mep",
-        "Building services for living quarters, control rooms and utility blocks across onshore and offshore facilities, designed for harsh-environment duty.",
-        ["LQ & control rooms", "Utility buildings", "Harsh-environment HVAC"],
-      ),
-      svc(
-        "cfd",
-        "Thermal, ventilation and dispersion analysis for enclosed plant and offshore modules where airflow and safety margins are tightly governed.",
-        ["Ventilation analysis", "Gas dispersion", "Thermal modelling"],
-      ),
-    ],
-    expertise: [
-      "Process piping design",
-      "HVAC for hazardous areas",
-      "Electrical & instrumentation",
-      "Living-quarters services",
-      "Firefighting & F&G",
-      "3D modelling to LOD 500",
-    ],
-    projects: [
-      {
-        name: "Yamal LNG, Russia",
-        meta: "Detailed Engineering · 3D Modelling · TECHNIP · 2018",
-        image: "/yamallng.jpeg",
-      },
-      {
-        name: "Compression 4-NFPS",
-        meta: "Process Piping & Plumbing · Offshore · L&T / Qatar Energy · 2025",
-        image: "/Compression-4-NFPS.jpeg",
-      },
-      {
-        name: "Balwin 4 (2 GW)",
-        meta: "HVAC & E&I Design · Offshore Platform · Dry Dock World · 2025",
-        image: "/duqmrefinery.jpeg",
-      },
-      {
-        name: "NER & WICR Site Utilities",
-        meta: "MEP Design & BIM · NEOM · Saudi Arabia · 2022",
-        image: "/engineering.jpg",
-      },
-    ],
-    faqs: [
-      {
-        q: "Do you work on offshore as well as onshore facilities?",
-        a: "Both. Recent offshore work includes living-quarters piping for Compression 4-NFPS (L&T / Qatar Energy) and HVAC/E&I for the Balwin 4 platform, alongside onshore LNG and refinery projects.",
-      },
-      {
-        q: "What 3D modelling detail do you deliver for energy projects?",
-        a: "Up to LOD 500 — fabrication- and construction-ready models, as delivered on Yamal LNG and the Duqm Refinery.",
-      },
-      {
-        q: "Which clients have you delivered for in this sector?",
-        a: "Operators and EPCs including ADNOC, Petrofac, TECHNIP, L&T / Qatar Energy, NEOM and Aries Marine.",
-      },
-    ],
-  },
-  {
     slug: "industrial",
     name: "Industrial Facilities",
+    divisionSlug: "building",
     tagline:
       "Detailed engineering for process plants, utilities and multi-building campuses.",
     image: "/engineering.jpg",
@@ -367,9 +300,14 @@ export const SECTORS: Sector[] = [
     ],
     services: [
       svc(
-        "detailed",
-        "Detailed engineering across multi-building industrial sites — every process, utility and support structure taken to construction-ready detail.",
-        ["Construction docs", "Multi-building scope", "Utility coordination"],
+        "mto",
+        "Model-based take-offs and BOQ across a multi-building industrial site keep procurement and sequencing on track.",
+        ["Model-based MTO", "BOQ", "Procurement support"],
+      ),
+      svc(
+        "walkthrough",
+        "Construction walkthrough videos across the campus communicate sequence, access and constructability to site and contractor teams.",
+        ["Construction walkthroughs", "Sequence animation", "3D flythroughs"],
       ),
       svc(
         "bim",
