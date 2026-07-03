@@ -112,41 +112,38 @@ export function Services() {
                 <div
                   key={s.slug}
                   onMouseEnter={() => setActive(i)}
-                  className={`group relative flex min-h-[9.5rem] flex-col justify-between overflow-hidden rounded-2xl p-5 transition-colors duration-300 ${
+                  className={`relative flex min-h-[9.5rem] flex-col justify-between overflow-hidden rounded-2xl p-5 transition-all duration-300 ${
                     open
-                      ? "bg-green text-white"
-                      : "bg-stone text-navy hover:bg-stone/70"
+                      ? "bg-white shadow-[0_12px_34px_-20px_rgba(9,33,44,0.45)] ring-1 ring-green-dark/45"
+                      : "bg-stone ring-1 ring-transparent"
                   }`}
                 >
                   <span
-                    className={`font-mono text-sm tracking-[0.1em] ${
-                      open ? "text-white/70" : "text-ink-dim"
+                    className={`font-mono text-sm tracking-[0.1em] transition-colors duration-300 ${
+                      open ? "text-green-dark" : "text-ink-dim"
                     }`}
                   >
                     {String(i + 1).padStart(2, "0")}
                   </span>
 
                   <div>
-                    <span className="font-display text-lg font-medium leading-tight md:text-xl">
+                    <span className="font-display text-lg font-medium leading-tight text-navy md:text-xl">
                       {s.name}
                     </span>
 
-                    {/* Per-division pointers */}
-                    <div
-                      className={`mt-3 flex flex-wrap gap-x-4 gap-y-1.5 border-t pt-3 ${
-                        open ? "border-white/25" : "border-navy/10"
-                      }`}
-                    >
+                    {/* Per-division pointers — explicit pill buttons so it's
+                        clear THESE are the links (the card itself only previews
+                        the image on the left). */}
+                    <div className="mt-3.5 flex flex-wrap items-center gap-2">
+                      <span className="font-mono text-[0.58rem] uppercase tracking-[0.14em] text-ink-dim">
+                        View in
+                      </span>
                       {serviceDivisions(s).map((d) => (
                         <a
                           key={d}
                           href={`/divisions/${d}#${s.slug}`}
                           onFocus={() => setActive(i)}
-                          className={`group/link inline-flex items-center gap-1 font-mono text-[0.62rem] uppercase tracking-[0.12em] transition-colors duration-300 ${
-                            open
-                              ? "text-white/85 hover:text-white"
-                              : "text-navy/70 hover:text-green-dark"
-                          }`}
+                          className="group/link inline-flex items-center gap-1.5 rounded-full border border-navy/15 bg-white/70 px-3 py-1.5 font-mono text-[0.62rem] uppercase tracking-[0.12em] text-navy/80 transition-colors duration-300 hover:border-green-dark hover:bg-green-dark hover:text-white"
                         >
                           {DIV_SHORT[d]}
                           <ArrowUpRight

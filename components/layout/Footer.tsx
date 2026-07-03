@@ -11,7 +11,7 @@ const NAV = [
   { label: "insights", href: "#blog" },
   { label: "contact", href: "#contact" },
   { label: "faq", href: "#faq" },
-  { label: "careers", href: "#contact" },
+  { label: "careers", href: "/careers" },
 ];
 
 const OFFICES = [

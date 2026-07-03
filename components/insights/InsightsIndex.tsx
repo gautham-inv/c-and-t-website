@@ -1,13 +1,13 @@
 import { ArrowUpRight } from "lucide-react";
-import { INSIGHTS } from "@/lib/insights";
+import type { Insight } from "@/lib/insights";
 
 // Full insights directory. Card layout mirrors the rest of the site's
 // editorial cards; centred heading matches the other index pages.
-export function InsightsIndex() {
+export function InsightsIndex({ items }: { items: Insight[] }) {
   return (
-    <div className="bg-paper text-navy">
+    <div className="bg-mist text-ink">
       {/* Heading */}
-      <section className="relative overflow-hidden bg-paper">
+      <section className="relative overflow-hidden bg-mist">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 opacity-[0.10]"
@@ -33,10 +33,10 @@ export function InsightsIndex() {
       </section>
 
       {/* Article grid */}
-      <section className="bg-paper">
+      <section className="bg-mist">
         <div className="mx-auto max-w-[1600px] px-6 py-14 md:px-10 md:py-20">
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-12">
-            {INSIGHTS.map((a) => (
+            {items.map((a) => (
               <a key={a.title} href={a.href} className="group flex flex-col">
                 <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-[#0a1c25]">
                   <img

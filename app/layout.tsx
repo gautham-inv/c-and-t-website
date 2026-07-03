@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import { GeistMono } from "geist/font/mono";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { EnquiryModal } from "@/components/forms/EnquiryModal";
+import { ApplyModal } from "@/components/forms/ApplyModal";
 import "./globals.css";
 
 /* Satoshi — self-hosted (Fontshare). Carries display + body. 600 requests
@@ -37,6 +38,7 @@ export default function RootLayout({
       <body>
         <SmoothScroll>{children}</SmoothScroll>
         <EnquiryModal />
+        <ApplyModal />
       </body>
     </html>
   );

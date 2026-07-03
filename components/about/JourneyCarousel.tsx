@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { COMPANY_MILESTONES, PROJECT_AWARDS } from "@/lib/company";
+import type { Milestone, Award } from "@/lib/company";
 
 /**
  * Horizontal journey carousel (GISI-style) in the light palette. Merges the
@@ -12,23 +12,29 @@ import { COMPANY_MILESTONES, PROJECT_AWARDS } from "@/lib/company";
  */
 type Card = { year: string; tag: string; title: string; detail: string };
 
-const CARDS: Card[] = [
-  ...COMPANY_MILESTONES.map((m) => ({
-    year: m.year,
-    tag: m.detail ? "Practice" : "Expansion",
-    title: m.title,
-    detail: [m.detail, m.place].filter(Boolean).join(" · "),
-  })),
-  ...PROJECT_AWARDS.map((a) => ({
-    year: a.year,
-    tag: "Project awarded",
-    title: a.name,
-    detail: a.meta,
-  })),
-].sort((a, b) => Number(a.year) - Number(b.year));
-
-export function JourneyCarousel() {
+export function JourneyCarousel({
+  milestones,
+  awards,
+}: {
+  milestones: Milestone[];
+  awards: Award[];
+}) {
   const track = useRef<HTMLDivElement>(null);
+
+  const CARDS: Card[] = [
+    ...milestones.map((m) => ({
+      year: m.year,
+      tag: m.detail ? "Practice" : "Expansion",
+      title: m.title,
+      detail: [m.detail, m.place].filter(Boolean).join(" · "),
+    })),
+    ...awards.map((a) => ({
+      year: a.year,
+      tag: "Project awarded",
+      title: a.name,
+      detail: a.meta,
+    })),
+  ].sort((a, b) => Number(a.year) - Number(b.year));
 
   const scrollBy = (dir: 1 | -1) => {
     const el = track.current;
@@ -49,7 +55,7 @@ export function JourneyCarousel() {
             type="button"
             onClick={() => scrollBy(-1)}
             aria-label="Previous"
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-line text-ink transition-colors duration-300 hover:border-ink hover:bg-ink hover:text-mist"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-line text-ink transition-colors duration-300 hover:bg-ink hover:text-mist"
           >
             <ArrowLeft className="h-4 w-4" strokeWidth={1.75} />
           </button>
@@ -57,7 +63,7 @@ export function JourneyCarousel() {
             type="button"
             onClick={() => scrollBy(1)}
             aria-label="Next"
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-line text-ink transition-colors duration-300 hover:border-ink hover:bg-ink hover:text-mist"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-line text-ink transition-colors duration-300 hover:bg-ink hover:text-mist"
           >
             <ArrowRight className="h-4 w-4" strokeWidth={1.75} />
           </button>
@@ -77,10 +83,10 @@ export function JourneyCarousel() {
             <span className="font-mono text-[0.62rem] uppercase tracking-[0.18em] text-green-dark">
               {c.tag}
             </span>
-            <p className="mt-4 font-display text-4xl font-semibold leading-none tracking-[-0.02em] md:text-5xl">
+            <p className="mt-4 font-display text-4xl font-semibold leading-none tracking-[-0.02em] text-ink md:text-5xl">
               {c.year}
             </p>
-            <p className="mt-6 font-display text-lg font-medium leading-snug">
+            <p className="mt-6 font-display text-lg font-medium leading-snug text-ink">
               {c.title}
             </p>
             {c.detail && (

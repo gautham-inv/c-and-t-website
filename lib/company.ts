@@ -125,6 +125,17 @@ export const LOCATIONS: Location[] = [
   },
 ];
 
+/** Leadership team. PLACEHOLDER content — names/roles/photos are stand-ins
+ * awaiting the real team data. `photo` left undefined renders a monogram card. */
+export type Leader = { name: string; role: string; photo?: string };
+
+export const LEADERSHIP: Leader[] = [
+  { name: "Name Surname", role: "Managing Director" },
+  { name: "Name Surname", role: "Director — Buildings & Infrastructure" },
+  { name: "Name Surname", role: "Director — Oil & Gas" },
+  { name: "Name Surname", role: "Head of BIM" },
+];
+
 /** What we engineer — links out to the page that owns each capability in depth. */
 export type Capability = { label: string; href?: string };
 

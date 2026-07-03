@@ -11,9 +11,9 @@ gsap.registerPlugin(ScrollTrigger);
 
 const PROJECTS = [
   { name: "Trivandrum Airport T2", meta: "MEP Design & BIM · Kerala", image: "/airport.webp", size: "wide" },
-  { name: "Calinova Data Centre", meta: "MEP & BIM · 2.4 MW · Calicut", image: "/datacenter.jpeg", size: "tall" },
+  { name: "Calinova 2.4 MW Data Centre", meta: "MEP & BIM · 2.4 MW · Calicut", image: "/datacenter.jpeg", size: "tall" },
   { name: "Vega Tower, Dubai", meta: "MEP Design & BIM · LOD 400", image: "/images.jpeg", size: "standard" },
-  { name: "Expo 2020 Campus, Dubai", meta: "BIM Modelling · CINQ / Voltas", image: "/expocampus.jpg", size: "wide" },
+  { name: "EXPO 2020 Campus, Dubai", meta: "BIM Modelling · CINQ / Voltas", image: "/expocampus.jpg", size: "wide" },
   { name: "Duqm Refinery, Oman", meta: "Detailed Engineering · LOD 500", image: "/duqmrefinery.jpeg", size: "tall" },
   { name: "Yamal LNG, Russia", meta: "Detailed Engineering & 3D · Technip", image: "/yamallng.jpeg", size: "wide" },
   { name: "Compression 4-NFPS", meta: "Offshore · Qatar Energy", image: "/Compression-4-NFPS.jpeg", size: "standard" },
@@ -22,15 +22,15 @@ const PROJECTS = [
 const SIZES = {
   wide: {
     card: "w-[clamp(24rem,52vw,46rem)] h-[clamp(17rem,46vh,30rem)]",
-    imgContainer: "h-[50%] w-[52%] md:bottom-8 md:right-8",
+    img: "w-[42%]",
   },
   tall: {
     card: "w-[clamp(18rem,30vw,26rem)] h-[clamp(21rem,60vh,38rem)]",
-    imgContainer: "h-[38%] w-[50%] md:bottom-8 md:right-8",
+    img: "w-[64%]",
   },
   standard: {
     card: "w-[clamp(21rem,40vw,34rem)] h-[clamp(19rem,53vh,34rem)]",
-    imgContainer: "h-[42%] w-[46%] md:bottom-8 md:right-8",
+    img: "w-[50%]",
   },
 };
 
@@ -146,30 +146,38 @@ export function Projects() {
               const c = PALETTE[i % PALETTE.length];
               const sizeConfig = SIZES[p.size as keyof typeof SIZES] || SIZES.standard;
               const slug = projectSlug(p.name);
-              const cardClass = `group relative flex shrink-0 flex-col justify-between overflow-hidden rounded-[1.75rem] p-8 md:p-10 ${c.bg} ${c.text} ${sizeConfig.card}`;
+              const cardClass = `group relative flex shrink-0 flex-col overflow-hidden rounded-[1.75rem] p-8 md:p-10 ${c.bg} ${c.text} ${sizeConfig.card}`;
               const inner = (
                 <>
-                  <h3 className="max-w-[88%] font-display text-[clamp(1.6rem,1rem+1.5vw,2.6rem)] font-medium leading-[1.08] tracking-[-0.01em]">
-                    {p.name}
-                  </h3>
-                  <p
-                    className={`max-w-[46%] font-mono text-[0.7rem] uppercase leading-relaxed tracking-[0.14em] ${c.sub}`}
-                  >
-                    {p.meta}
-                  </p>
-                  <div className={`absolute bottom-8 right-8 overflow-hidden rounded-2xl ${sizeConfig.imgContainer}`}>
-                    <img
-                      src={p.image}
-                      alt={p.name}
-                      className="h-full w-full object-cover"
-                      loading="lazy"
-                    />
-                  </div>
                   {slug && (
-                    <span className="absolute right-8 top-8 inline-flex h-9 w-9 items-center justify-center rounded-full border border-current/30 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                    <span className="absolute right-7 top-7 inline-flex h-9 w-9 items-center justify-center rounded-full border border-current/30 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
                       <ArrowUpRight className="h-4 w-4" strokeWidth={1.75} />
                     </span>
                   )}
+                  <h3 className="max-w-[74%] font-display text-[clamp(1.6rem,1rem+1.5vw,2.6rem)] font-medium leading-[1.08] tracking-[-0.01em]">
+                    {p.name}
+                  </h3>
+                  {/* Bottom row: meta and image are siblings, so text can never
+                      sit under the image regardless of card size. */}
+                  <div className="mt-auto flex items-end justify-between gap-4 pt-6">
+                    <p
+                      className={`font-mono text-[0.7rem] uppercase leading-relaxed tracking-[0.14em] ${c.sub}`}
+                    >
+                      {p.meta}
+                    </p>
+                    <div
+                      className={`${sizeConfig.img} shrink-0 overflow-hidden rounded-2xl`}
+                    >
+                      <div className="aspect-[4/3]">
+                        <img
+                          src={p.image}
+                          alt={p.name}
+                          className="h-full w-full object-cover"
+                          loading="lazy"
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </>
               );
               return slug ? (

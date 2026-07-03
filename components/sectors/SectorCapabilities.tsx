@@ -11,7 +11,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const DOT_BASE = "h-1.5 rounded-full transition-all duration-500 ";
 const DOT_ON = "w-8 bg-green";
-const DOT_OFF = "w-1.5 bg-navy/20";
+const DOT_OFF = "w-1.5 bg-ink/20";
 
 /**
  * "What we bring" — a pinned, full-viewport-height stage. Everything is driven
@@ -119,13 +119,13 @@ export function SectorCapabilities({
   return (
     <section
       ref={root}
-      className="bg-paper"
+      className="bg-mist"
       style={simple ? undefined : { height: `${services.length * 100}vh` }}
     >
       {simple ? (
         /* ── Fallback: simple stacked list ── */
         <div className="mx-auto max-w-[1600px] px-6 py-16 md:px-10">
-          <h2 className="font-display text-[clamp(1.9rem,1rem+3vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.02em] text-navy">
+          <h2 className="font-display text-[clamp(1.9rem,1rem+3vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.02em] text-ink">
             What we bring to{" "}
             <span className="text-green-dark">{name.toLowerCase()}</span>
           </h2>
@@ -181,7 +181,7 @@ export function SectorCapabilities({
             {/* Text panel */}
             <div className="flex h-full items-center px-6 py-16 md:px-12 lg:px-20">
               <div className="w-full">
-                <h2 className="font-display text-[clamp(1.6rem,1rem+2vw,2.75rem)] font-semibold leading-[1.1] tracking-[-0.02em] text-navy">
+                <h2 className="font-display text-[clamp(1.6rem,1rem+2vw,2.75rem)] font-semibold leading-[1.1] tracking-[-0.02em] text-ink">
                   What we bring to{" "}
                   <span className="text-green-dark">{name.toLowerCase()}</span>
                 </h2>
@@ -241,7 +241,7 @@ function CapabilityText({
         {svc.points.map((pt) => (
           <li
             key={pt}
-            className="rounded-full border border-line px-3 py-1 font-mono text-[0.62rem] uppercase tracking-[0.12em] text-navy/70"
+            className="rounded-full border border-line px-3 py-1 font-mono text-[0.62rem] uppercase tracking-[0.12em] text-ink/70"
           >
             {pt}
           </li>

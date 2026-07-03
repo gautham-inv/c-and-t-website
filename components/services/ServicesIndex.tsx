@@ -1,11 +1,17 @@
 import { ArrowUpRight } from "lucide-react";
-import { SERVICES, serviceDivisions } from "@/lib/services";
-import { getDivision } from "@/lib/divisions";
+import { serviceDivisions, type Service } from "@/lib/services";
+import type { Division } from "@/lib/divisions";
 
 // Lightweight services directory. Cards hold names, a sub-discipline preview
 // and pointers INTO the division pages — the canonical scope lives there, so
 // there are no per-service detail pages to duplicate.
-export function ServicesIndex() {
+export function ServicesIndex({
+  services,
+  divisions,
+}: {
+  services: Service[];
+  divisions: Division[];
+}) {
   return (
     <div className="bg-mist text-ink">
       {/* Heading */}
@@ -36,12 +42,12 @@ export function ServicesIndex() {
       <section className="bg-mist">
         <div className="mx-auto max-w-[1600px] px-6 py-14 md:px-10 md:py-20">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {SERVICES.map((svc) => {
-              const divisions = serviceDivisions(svc);
+            {services.map((svc) => {
+              const svcDivisions = serviceDivisions(svc);
               // Merge sub-disciplines across divisions for a preview line.
               const preview = Array.from(
                 new Set(
-                  divisions.flatMap(
+                  svcDivisions.flatMap(
                     (d) => svc.byDivision[d]?.subDisciplines ?? [],
                   ),
                 ),
@@ -84,8 +90,8 @@ export function ServicesIndex() {
 
                     {/* Pointers into the division pages */}
                     <div className="mt-auto flex flex-col gap-1 pt-6">
-                      {divisions.map((d) => {
-                        const div = getDivision(d);
+                      {svcDivisions.map((d) => {
+                        const div = divisions.find((x) => x.slug === d);
                         if (!div) return null;
                         return (
                           <a

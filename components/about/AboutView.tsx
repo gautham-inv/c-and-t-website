@@ -5,14 +5,16 @@ import { ArrowUpRight } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { VISION, MISSION, LOCATIONS, CAPABILITIES } from "@/lib/company";
+import type { AboutPageData } from "@/sanity/lib/data";
 import { Globe } from "@/components/about/Globe";
-import { ValuesList } from "@/components/about/ValuesList";
 import { JourneyCarousel } from "@/components/about/JourneyCarousel";
+import { MissionVisionStack } from "@/components/about/MissionVisionStack";
+import { ValuesSplit } from "@/components/about/ValuesSplit";
+import { Leadership } from "@/components/about/Leadership";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export function AboutView() {
+export function AboutView({ about }: { about: AboutPageData }) {
   const root = useRef<HTMLDivElement>(null);
   const hero = useRef<HTMLElement>(null);
   const globeWrap = useRef<HTMLDivElement>(null);
@@ -129,7 +131,7 @@ export function AboutView() {
             ref={globeWrap}
             className="absolute left-1/2 top-[28%] z-10 aspect-square w-[min(94vw,780px)] -translate-x-1/2 will-change-transform"
           >
-            <Globe className="h-full w-full" />
+            <Globe className="h-full w-full" markers={about.locations} />
           </div>
 
           <div
@@ -159,7 +161,7 @@ export function AboutView() {
               countries.
             </h2>
             <ul data-up className="divide-y divide-line border-t border-line">
-              {LOCATIONS.map((l) => (
+              {about.locations.map((l) => (
                 <li
                   key={l.name}
                   className="grid gap-2 py-6 md:grid-cols-[0.5fr_1fr] md:gap-8"
@@ -250,84 +252,70 @@ export function AboutView() {
       <section data-reveal className="bg-surface">
         <div className="mx-auto max-w-[1600px] px-6 py-20 md:px-10 md:py-28">
           <div data-up>
-            <JourneyCarousel />
+            <JourneyCarousel
+              milestones={about.companyMilestones}
+              awards={about.projectAwards}
+            />
           </div>
         </div>
       </section>
 
-      {/* ── 5. Values — interactive list ── */}
-      <section data-reveal className="bg-stone">
-        <div className="mx-auto max-w-[1600px] px-6 py-20 md:px-10 md:py-28">
-          <h2
-            data-up
-            className="max-w-3xl font-display text-[clamp(2rem,1rem+3.4vw,3.75rem)] font-semibold leading-[1.05] tracking-[-0.02em]"
-          >
-            Our values unite every{" "}
-            <span className="text-green-dark">C&amp;T project</span>
-          </h2>
+      {/* ── 5. Mission → Vision — sticky-pinned stack ── */}
+      <MissionVisionStack mission={about.mission} vision={about.vision} />
 
-          <div
-            data-up
-            className="mt-12 grid gap-8 border-t border-ink/10 pt-8 md:grid-cols-[0.4fr_1.6fr] md:gap-16"
-          >
-            <p className="font-mono text-[0.66rem] uppercase tracking-[0.18em] text-green-dark">
-              Why it matters
-            </p>
-            <div className="grid gap-8 md:grid-cols-2">
-              <p className="text-base leading-relaxed text-ink-dim">{VISION}</p>
-              <p className="text-base leading-relaxed text-ink-dim">{MISSION}</p>
-            </div>
-          </div>
+      {/* ── 6. Values — full-bleed split ── */}
+      <ValuesSplit values={about.values} />
 
-          <div data-up className="mt-14">
-            <ValuesList />
-          </div>
-        </div>
-      </section>
-
-      {/* ── 6. What we engineer ── */}
+      {/* ── 7. Leadership ── */}
       <section data-reveal className="bg-surface">
         <div className="mx-auto max-w-[1600px] px-6 py-20 md:px-10 md:py-28">
-          <h2
-            data-up
-            className="max-w-3xl font-display text-[clamp(1.9rem,1rem+3vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.02em]"
-          >
-            What we <span className="text-green-dark">engineer</span>
-          </h2>
-          <ul data-up className="mt-12 border-t border-line">
-            {CAPABILITIES.map((c) => {
-              const inner = (
-                <>
-                  <span className="font-display text-xl font-medium leading-tight md:text-2xl">
-                    {c.label}
-                  </span>
-                  {c.href && (
-                    <ArrowUpRight
-                      className="h-5 w-5 shrink-0 text-green-dark transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                      strokeWidth={1.75}
-                    />
-                  )}
-                </>
-              );
-              return c.href ? (
-                <li key={c.label} className="border-b border-line">
-                  <a
-                    href={c.href}
-                    className="group flex items-center justify-between gap-4 py-5 transition-colors duration-300 hover:text-green-dark"
-                  >
-                    {inner}
-                  </a>
-                </li>
-              ) : (
-                <li
-                  key={c.label}
-                  className="flex items-center justify-between gap-4 border-b border-line py-5 text-ink/85"
-                >
-                  {inner}
-                </li>
-              );
-            })}
-          </ul>
+          <Leadership />
+        </div>
+      </section>
+
+      {/* ── 8. What we engineer — capability chip cloud ── */}
+      <section data-reveal className="bg-surface">
+        <div className="mx-auto max-w-[1600px] px-6 py-20 md:px-10 md:py-28">
+          <div className="grid gap-8 md:grid-cols-[0.8fr_1.2fr] md:gap-16">
+            <h2
+              data-up
+              className="font-display text-[clamp(1.9rem,1rem+3vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.02em]"
+            >
+              What we <span className="text-green-dark">engineer</span>
+            </h2>
+            <div data-up>
+              <p className="max-w-xl text-lg leading-relaxed text-ink-dim">
+                Across both practices, from single systems to complete
+                developments — the sectors and disciplines we deliver.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-2.5">
+                {about.capabilities.map((c) => {
+                  const base =
+                    "inline-flex items-center gap-2 rounded-full border px-5 py-2.5 font-display text-base font-medium leading-none transition-colors duration-300 md:text-lg";
+                  return c.href ? (
+                    <a
+                      key={c.label}
+                      href={c.href}
+                      className={`group ${base} border-green-dark/25 bg-green-dark/[0.04] text-ink hover:border-green-dark hover:bg-green-dark hover:text-paper`}
+                    >
+                      {c.label}
+                      <ArrowUpRight
+                        className="h-4 w-4 shrink-0 text-green-dark transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-paper"
+                        strokeWidth={1.75}
+                      />
+                    </a>
+                  ) : (
+                    <span
+                      key={c.label}
+                      className={`${base} border-line bg-mist text-ink/80`}
+                    >
+                      {c.label}
+                    </span>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </div>

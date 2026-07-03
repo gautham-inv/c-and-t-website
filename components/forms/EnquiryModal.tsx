@@ -160,7 +160,7 @@ export function EnquiryModal() {
             role="dialog"
             aria-modal="true"
             aria-label="Get in touch"
-            className="relative w-full max-w-2xl rounded-3xl bg-paper text-navy shadow-[0_40px_120px_-40px_rgba(9,33,44,0.6)] transition-all duration-[450ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
+            className="relative flex max-h-[calc(100dvh-2rem)] w-full max-w-2xl flex-col overflow-hidden rounded-3xl bg-paper text-navy shadow-[0_40px_120px_-40px_rgba(9,33,44,0.6)] transition-all duration-[450ms] ease-[cubic-bezier(0.22,1,0.36,1)] md:max-h-[calc(100dvh-3rem)]"
             style={{
               transform: open ? "translateY(0) scale(1)" : "translateY(24px) scale(0.98)",
               opacity: open ? 1 : 0,
@@ -169,11 +169,13 @@ export function EnquiryModal() {
           <button
             onClick={close}
             aria-label="Close"
-            className="absolute right-5 top-5 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-line text-navy transition-colors duration-200 hover:bg-navy hover:text-paper"
+            className="absolute right-5 top-5 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-line bg-paper text-navy transition-colors duration-200 hover:bg-navy hover:text-paper"
           >
             <X className="h-4 w-4" strokeWidth={2} />
           </button>
 
+          {/* Inner scroll — keeps a tall form inside the viewport */}
+          <div data-lenis-prevent className="overflow-y-auto">
           {sent ? (
             <div className="flex flex-col items-center px-8 py-20 text-center md:px-12">
               <span className="flex h-14 w-14 items-center justify-center rounded-full bg-green/15 text-green-dark">
@@ -388,6 +390,7 @@ export function EnquiryModal() {
               </form>
             </div>
           )}
+          </div>
           </div>
         </div>
       </div>

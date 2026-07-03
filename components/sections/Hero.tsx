@@ -21,11 +21,11 @@ const END_OVERLAY = 0.12;
 // Scroll-scrubbed JPEG sequence (exported video frames). The current frame is
 // chosen from scroll progress and painted to a canvas — no <video> seeking,
 // which is far smoother to scrub on iOS/Safari.
-const FRAME_COUNT = 111;
+const FRAME_COUNT = 161;
 const FRAME_W = 1920;
 const FRAME_H = 1080;
 const framePath = (i: number) =>
-  `/hero-frames/frame-${String(i).padStart(3, "0")}.jpg`;
+  `/news-frames/frame-${String(i).padStart(3, "0")}.jpg`;
 
 export function Hero() {
   const root = useRef<HTMLElement>(null);

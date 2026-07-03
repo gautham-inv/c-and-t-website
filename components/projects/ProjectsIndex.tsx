@@ -1,12 +1,12 @@
 import { ArrowUpRight } from "lucide-react";
-import { PORTFOLIO, projectSlug } from "@/lib/projects";
+import type { PortfolioCard } from "@/sanity/lib/data";
 
 // Bento spans on a 3-col grid: a wide (2-col) tile rotates position row to row
 // so each row reads as "one wider tile" — deterministic, so it's stable for
 // static export but still varied.
 const SPANS = [2, 1, 1, 1, 2, 1, 1, 2, 1];
 
-export function ProjectsIndex() {
+export function ProjectsIndex({ items }: { items: PortfolioCard[] }) {
   return (
     <div className="bg-mist text-ink">
       {/* Heading */}
@@ -40,9 +40,9 @@ export function ProjectsIndex() {
       <section className="bg-mist">
         <div className="mx-auto max-w-[1600px] px-6 py-14 md:px-10 md:py-20">
           <div className="grid auto-rows-[clamp(19rem,30vw,27rem)] grid-flow-dense grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 md:gap-6">
-            {PORTFOLIO.map((p, i) => {
+            {items.map((p, i) => {
               const wide = SPANS[i % SPANS.length] === 2;
-              const slug = projectSlug(p.name);
+              const slug = p.slug;
               const cls = `group relative block overflow-hidden rounded-2xl bg-stone ${
                 wide ? "col-span-2" : "col-span-1"
               }`;

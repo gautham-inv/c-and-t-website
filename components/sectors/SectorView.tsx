@@ -2,14 +2,19 @@
 
 import { ArrowUpRight, ArrowLeft } from "lucide-react";
 import type { Sector } from "@/lib/sectors";
-import { getDivision } from "@/lib/divisions";
+import type { Division } from "@/lib/divisions";
 import { projectSlug } from "@/lib/projects";
 import { SectorCapabilities } from "@/components/sectors/SectorCapabilities";
 
-export function SectorView({ sector }: { sector: Sector }) {
-  const division = getDivision(sector.divisionSlug);
+export function SectorView({
+  sector,
+  division,
+}: {
+  sector: Sector;
+  division?: Division;
+}) {
   return (
-    <div className="bg-paper text-navy">
+    <div className="bg-mist text-ink">
       {/* ── Hero — full viewport, no overlay gradient ── */}
       <section className="relative flex min-h-screen items-end overflow-hidden">
         <img
@@ -47,7 +52,7 @@ export function SectorView({ sector }: { sector: Sector }) {
       </section>
 
       {/* ── Overview + stats ── */}
-      <section className="scroll-mt-24 bg-paper">
+      <section className="scroll-mt-24 bg-mist">
         <div className="mx-auto grid max-w-[1600px] gap-12 px-6 py-16 md:grid-cols-[1.4fr_1fr] md:gap-20 md:px-10 md:py-24">
           <div>
             <div className="space-y-5">
@@ -66,7 +71,7 @@ export function SectorView({ sector }: { sector: Sector }) {
           <div className="flex flex-col justify-center gap-8 border-t border-line pt-10 md:border-l md:border-t-0 md:pl-16 md:pt-0">
             {sector.stats.map((s) => (
               <div key={s.label} data-up>
-                <p className="font-display text-[clamp(2.25rem,1.5rem+2vw,3.5rem)] font-semibold leading-none tracking-[-0.02em] text-navy">
+                <p className="font-display text-[clamp(2.25rem,1.5rem+2vw,3.5rem)] font-semibold leading-none tracking-[-0.02em] text-ink">
                   {s.value}
                 </p>
                 <p className="mt-2 font-mono text-[0.72rem] uppercase tracking-[0.14em] text-ink-dim">
@@ -80,7 +85,7 @@ export function SectorView({ sector }: { sector: Sector }) {
 
       {/* ── How we approach the sector (optional) ── */}
       {sector.approach && sector.approach.length > 0 && (
-        <section className="bg-navy text-paper">
+        <section className="bg-green-dark text-paper">
           <div className="mx-auto max-w-[1600px] px-6 py-16 md:px-10 md:py-24">
             <h2
               data-up
@@ -110,7 +115,7 @@ export function SectorView({ sector }: { sector: Sector }) {
 
       {/* ── Our expertise — sub-disciplines grid (optional) ── */}
       {sector.expertise && sector.expertise.length > 0 && (
-        <section className="bg-navy text-paper">
+        <section className="bg-green-dark text-paper">
           <div className="mx-auto max-w-[1600px] px-6 py-16 md:px-10 md:py-24">
             <div className="grid gap-10 md:grid-cols-[0.9fr_1.1fr] md:gap-16">
               <h2 className="font-display text-[clamp(1.9rem,1rem+3vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.02em]">
@@ -136,7 +141,7 @@ export function SectorView({ sector }: { sector: Sector }) {
       )}
 
       {/* ── Featured projects ── */}
-      <section className="bg-paper">
+      <section className="bg-mist">
         <div className="mx-auto max-w-[1600px] px-6 py-16 md:px-10 md:py-24">
           <div className="flex flex-wrap items-end justify-between gap-6">
             <h2
@@ -197,7 +202,7 @@ export function SectorView({ sector }: { sector: Sector }) {
 
       {/* ── Related insights — editorial two-card layout (optional) ── */}
       {sector.insights && sector.insights.length > 0 && (
-        <section className="bg-paper">
+        <section className="bg-mist">
           <div className="mx-auto max-w-[1600px] px-6 pb-4 md:px-10 md:pb-8">
             <div className="flex flex-wrap items-center justify-between gap-6">
               <h2 className="font-display text-[clamp(1.9rem,1rem+3vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.02em]">
@@ -206,7 +211,7 @@ export function SectorView({ sector }: { sector: Sector }) {
               </h2>
               <a
                 href="/insights"
-                className="group inline-flex items-center gap-2.5 rounded-full border border-navy/20 px-5 py-2.5 font-mono text-[0.68rem] uppercase tracking-[0.16em] text-navy transition-colors duration-300 hover:border-navy hover:bg-navy hover:text-paper"
+                className="group inline-flex items-center gap-2.5 rounded-full border border-line px-5 py-2.5 font-mono text-[0.68rem] uppercase tracking-[0.16em] text-ink transition-colors duration-300 hover:border-ink hover:bg-ink hover:text-mist"
               >
                 View all insights
                 <span className="transition-transform duration-300 group-hover:translate-x-0.5">
@@ -227,7 +232,7 @@ export function SectorView({ sector }: { sector: Sector }) {
                     <span className="font-mono text-[0.66rem] uppercase tracking-[0.16em] text-ink-dim">
                       Article · {sector.insights[0].tag}
                     </span>
-                    <h3 className="mt-4 font-display text-[clamp(1.5rem,1rem+1.4vw,2.25rem)] font-medium leading-[1.12] tracking-[-0.01em] text-navy transition-colors duration-300 group-hover:text-green-dark">
+                    <h3 className="mt-4 font-display text-[clamp(1.5rem,1rem+1.4vw,2.25rem)] font-medium leading-[1.12] tracking-[-0.01em] text-ink transition-colors duration-300 group-hover:text-green-dark">
                       {sector.insights[0].title}
                     </h3>
                     <span className="mt-5 inline-flex items-center gap-1.5 font-mono text-[0.62rem] uppercase tracking-[0.16em] text-green-dark transition-colors duration-300 group-hover:text-green">
@@ -270,7 +275,7 @@ export function SectorView({ sector }: { sector: Sector }) {
                     <span className="font-mono text-[0.66rem] uppercase tracking-[0.16em] text-ink-dim">
                       Article · {sector.insights[1].tag}
                     </span>
-                    <h3 className="mt-3 font-display text-[clamp(1.5rem,1rem+1.4vw,2.25rem)] font-medium leading-[1.12] tracking-[-0.01em] text-navy transition-colors duration-300 group-hover:text-green-dark">
+                    <h3 className="mt-3 font-display text-[clamp(1.5rem,1rem+1.4vw,2.25rem)] font-medium leading-[1.12] tracking-[-0.01em] text-ink transition-colors duration-300 group-hover:text-green-dark">
                       {sector.insights[1].title}
                     </h3>
                   </div>
@@ -282,7 +287,7 @@ export function SectorView({ sector }: { sector: Sector }) {
       )}
 
       {/* ── FAQ ── */}
-      <section className="bg-paper">
+      <section className="bg-mist">
         <div className="mx-auto max-w-[1600px] px-6 pb-20 pt-16 md:px-10 md:pb-28 md:pt-24">
           <div className="grid gap-12 md:grid-cols-[0.8fr_1.2fr] md:gap-20">
             <h2

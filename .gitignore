@@ -4,7 +4,12 @@
 /build
 *.pem
 .env*
+!.env.example
 .DS_Store
+
+# Sanity
+.sanity/
+dist/
 *.tsbuildinfo
 next-env.d.ts
 *.mp4

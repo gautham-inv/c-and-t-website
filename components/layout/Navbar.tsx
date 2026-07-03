@@ -18,6 +18,7 @@ const NAV = [
   { label: "Expertise", href: "/#divisions" },
   { label: "Projects", href: "/projects" },
   { label: "Insights", href: "/insights" },
+  { label: "Careers", href: "/careers" },
 ];
 
 const SOCIAL = ["LinkedIn", "Instagram", "X", "YouTube"];

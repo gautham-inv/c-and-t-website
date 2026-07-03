@@ -1,29 +1,24 @@
 import { ArrowUpRight } from "lucide-react";
 import type { Division } from "@/lib/divisions";
-import { DIVISIONS } from "@/lib/divisions";
-import { getService } from "@/lib/services";
-import { getSector } from "@/lib/sectors";
-import { projectSlug, projectsByDivision } from "@/lib/projects";
+import type { Service } from "@/lib/services";
+import type { Sector } from "@/lib/sectors";
+import type { PortfolioCard } from "@/sanity/lib/data";
 
-export function DivisionView({ division }: { division: Division }) {
-  const other = DIVISIONS.find((d) => d.slug !== division.slug);
-  const projects = projectsByDivision(division.slug);
-  const sectors = division.sectorSlugs
-    .map((s) => getSector(s))
-    .filter(Boolean);
-  const services = division.serviceSlugs
-    .map((slug) => {
-      const svc = getService(slug);
-      const scope = svc?.byDivision[division.slug];
-      return svc && scope ? { svc, scope } : null;
-    })
-    .filter(Boolean) as {
-    svc: NonNullable<ReturnType<typeof getService>>;
-    scope: { subDisciplines: string[]; body: string };
-  }[];
-
+export function DivisionView({
+  division,
+  other,
+  sectors,
+  services,
+  projects,
+}: {
+  division: Division;
+  other?: Division;
+  sectors: Sector[];
+  services: { svc: Service; scope: { subDisciplines: string[]; body: string } }[];
+  projects: PortfolioCard[];
+}) {
   return (
-    <div className="bg-paper text-navy">
+    <div className="bg-mist text-ink">
       {/* ── Hero ── */}
       <section className="relative flex min-h-screen items-end overflow-hidden">
         <img
@@ -48,7 +43,7 @@ export function DivisionView({ division }: { division: Division }) {
       </section>
 
       {/* ── Overview + stats ── */}
-      <section className="bg-paper">
+      <section className="bg-mist">
         <div className="mx-auto grid max-w-[1600px] gap-12 px-6 py-16 md:grid-cols-[1.4fr_1fr] md:gap-20 md:px-10 md:py-24">
           <div className="space-y-5">
             {division.overview.map((p, i) => (
@@ -60,7 +55,7 @@ export function DivisionView({ division }: { division: Division }) {
           <div className="flex flex-col justify-center gap-8 border-t border-line pt-10 md:border-l md:border-t-0 md:pl-16 md:pt-0">
             {division.stats.map((s) => (
               <div key={s.label}>
-                <p className="font-display text-[clamp(2.25rem,1.5rem+2vw,3.5rem)] font-semibold leading-none tracking-[-0.02em] text-navy">
+                <p className="font-display text-[clamp(2.25rem,1.5rem+2vw,3.5rem)] font-semibold leading-none tracking-[-0.02em] text-ink">
                   {s.value}
                 </p>
                 <p className="mt-2 font-mono text-[0.72rem] uppercase tracking-[0.14em] text-ink-dim">
@@ -74,7 +69,7 @@ export function DivisionView({ division }: { division: Division }) {
 
       {/* ── Sectors (Building only) ── */}
       {sectors.length > 0 && (
-        <section className="bg-navy text-paper">
+        <section className="bg-green-dark text-paper">
           <div className="mx-auto max-w-[1600px] px-6 py-16 md:px-10 md:py-24">
             <h2 className="max-w-3xl font-display text-[clamp(1.9rem,1rem+3vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.02em]">
               Sectors we serve in{" "}
@@ -83,13 +78,13 @@ export function DivisionView({ division }: { division: Division }) {
             <div className="mt-12 grid grid-cols-2 gap-5 md:mt-14 lg:grid-cols-3">
               {sectors.map((s) => (
                 <a
-                  key={s!.slug}
-                  href={`/sectors/${s!.slug}`}
+                  key={s.slug}
+                  href={`/sectors/${s.slug}`}
                   className="group relative block aspect-[4/5] overflow-hidden rounded-2xl bg-[#0a1c25]"
                 >
                   <img
-                    src={s!.image}
-                    alt={s!.name}
+                    src={s.image}
+                    alt={s.name}
                     loading="lazy"
                     className="absolute inset-0 h-full w-full object-cover transition-transform duration-[800ms] ease-out group-hover:scale-105"
                   />
@@ -104,7 +99,7 @@ export function DivisionView({ division }: { division: Division }) {
                   <span className="absolute left-4 top-4 h-4 w-4 border-l border-t border-beige/60" />
                   <div className="absolute inset-x-5 bottom-5">
                     <p className="font-display text-xl font-medium leading-tight md:text-2xl">
-                      {s!.name}
+                      {s.name}
                     </p>
                     <span className="mt-2 inline-flex items-center gap-1.5 font-mono text-[0.62rem] uppercase tracking-[0.16em] text-beige-light transition-colors duration-300 group-hover:text-green">
                       Explore sector
@@ -122,7 +117,7 @@ export function DivisionView({ division }: { division: Division }) {
       )}
 
       {/* ── Services we deliver — anchored per service ── */}
-      <section className="bg-paper">
+      <section className="bg-mist">
         <div className="mx-auto max-w-[1600px] px-6 pt-16 md:px-10 md:pt-24">
           <h2 className="max-w-3xl font-display text-[clamp(1.9rem,1rem+3vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.02em]">
             What we deliver in{" "}
@@ -150,7 +145,7 @@ export function DivisionView({ division }: { division: Division }) {
                     {scope.subDisciplines.map((d) => (
                       <li
                         key={d}
-                        className="flex items-center gap-3 border-b border-line py-3 text-base text-navy/90 md:text-[1.05rem]"
+                        className="flex items-center gap-3 border-b border-line py-3 text-base text-ink/90 md:text-[1.05rem]"
                       >
                         <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-green" />
                         {d}
@@ -179,14 +174,14 @@ export function DivisionView({ division }: { division: Division }) {
 
       {/* ── Projects ── */}
       {projects.length > 0 && (
-        <section className="bg-paper">
+        <section className="bg-mist">
           <div className="mx-auto max-w-[1600px] px-6 py-16 md:px-10 md:py-24">
             <h2 className="font-display text-[clamp(1.9rem,1rem+3vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.02em]">
               {division.shortName} projects
             </h2>
             <div className="mt-12 grid gap-6 md:mt-14 md:grid-cols-2 lg:grid-cols-3">
               {projects.map((p) => {
-                const slug = projectSlug(p.name);
+                const slug = p.slug;
                 const inner = (
                   <>
                     <div className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl bg-[#0a1c25]">
@@ -237,7 +232,7 @@ export function DivisionView({ division }: { division: Division }) {
       )}
 
       {/* ── FAQ ── */}
-      <section className="bg-paper">
+      <section className="bg-mist">
         <div className="mx-auto max-w-[1600px] px-6 pb-16 pt-4 md:px-10 md:pb-24">
           <div className="grid gap-12 md:grid-cols-[0.8fr_1.2fr] md:gap-20">
             <h2 className="font-display text-[clamp(1.9rem,1rem+3vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.02em]">
@@ -261,11 +256,11 @@ export function DivisionView({ division }: { division: Division }) {
 
       {/* ── Cross-link to the other division ── */}
       {other && (
-        <section className="bg-paper">
+        <section className="bg-mist">
           <div className="mx-auto max-w-[1600px] px-6 pb-20 md:px-10 md:pb-28">
             <a
               href={`/divisions/${other.slug}`}
-              className="group flex flex-wrap items-center justify-between gap-6 rounded-2xl border border-line px-8 py-8 transition-colors duration-300 hover:border-navy md:px-12"
+              className="group flex flex-wrap items-center justify-between gap-6 rounded-2xl border border-line px-8 py-8 transition-colors duration-300 hover:border-ink md:px-12"
             >
               <span>
                 <span className="font-mono text-[0.66rem] uppercase tracking-[0.16em] text-green-dark">
@@ -275,7 +270,7 @@ export function DivisionView({ division }: { division: Division }) {
                   {other.name}
                 </span>
               </span>
-              <span className="inline-flex items-center gap-2 font-mono text-[0.68rem] uppercase tracking-[0.16em] text-navy">
+              <span className="inline-flex items-center gap-2 font-mono text-[0.68rem] uppercase tracking-[0.16em] text-ink">
                 Explore
                 <ArrowUpRight
                   className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
