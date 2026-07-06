@@ -52,7 +52,7 @@ export function CareersView({
   return (
     <div ref={root} className="bg-mist text-ink">
       {/* ── 1. Hero — full-bleed image + overlaid intro card ── */}
-      <section className="relative min-h-[92vh] overflow-hidden bg-navy">
+      <section className="relative h-screen overflow-hidden bg-navy">
         <img
           src="/careers1.avif"
           alt="The C&T team at work"
@@ -74,7 +74,7 @@ export function CareersView({
           }}
         />
 
-        <div className="relative mx-auto flex min-h-[92vh] max-w-[1600px] items-center px-6 pb-16 pt-32 md:px-10">
+        <div className="relative mx-auto flex h-full max-w-[1600px] items-center overflow-y-auto px-6 pb-16 pt-32 md:px-10">
           <div className="relative max-w-xl rounded-3xl bg-paper/95 p-8 shadow-[0_40px_120px_-45px_rgba(9,33,44,0.6)] ring-1 ring-navy/10 backdrop-blur-sm md:p-12">
             <span className="absolute left-6 top-6 h-5 w-5 border-l border-t border-beige md:left-8 md:top-8" />
             <p className="font-mono text-[0.7rem] uppercase tracking-[0.22em] text-green-dark">
