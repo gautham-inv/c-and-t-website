@@ -39,59 +39,75 @@ export function AboutView({ about }: { about: AboutPageData }) {
         });
       });
 
-      if (reduce) {
-        gsap.set(globeWrap.current, { scale: 1.05 });
-        gsap.set(heroTag.current, { opacity: 1 });
-        return;
-      }
+      const mm = gsap.matchMedia();
 
-      // Hero: the globe grows and rises as you scroll the tall section, the
-      // heading lifts away, and the "where we are" line resolves in.
-      gsap.fromTo(
-        globeWrap.current,
-        { scale: 0.68, yPercent: 12 },
-        {
-          scale: 1.22,
-          yPercent: -4,
-          ease: "none",
-          scrollTrigger: {
-            trigger: hero.current,
-            start: "top top",
-            end: "bottom bottom",
-            scrub: true,
-          },
+      // Desktop/tablet + motion: the globe grows and rises as you scroll the
+      // tall section, the heading lifts away, and the "where we are" line
+      // resolves in.
+      mm.add(
+        "(min-width: 768px) and (prefers-reduced-motion: no-preference)",
+        () => {
+          gsap.fromTo(
+            globeWrap.current,
+            { scale: 0.68, yPercent: 12 },
+            {
+              scale: 1.22,
+              yPercent: -4,
+              ease: "none",
+              scrollTrigger: {
+                trigger: hero.current,
+                start: "top top",
+                end: "bottom bottom",
+                scrub: true,
+              },
+            },
+          );
+          gsap.fromTo(
+            heroCopy.current,
+            { opacity: 1, yPercent: 0 },
+            {
+              opacity: 0,
+              yPercent: -36,
+              ease: "none",
+              scrollTrigger: {
+                trigger: hero.current,
+                start: "top top",
+                end: "48% top",
+                scrub: true,
+              },
+            },
+          );
+          gsap.fromTo(
+            heroTag.current,
+            { opacity: 0, y: 24 },
+            {
+              opacity: 1,
+              y: 0,
+              ease: "none",
+              scrollTrigger: {
+                trigger: hero.current,
+                start: "32% top",
+                end: "72% top",
+                scrub: true,
+              },
+            },
+          );
         },
       );
-      gsap.fromTo(
-        heroCopy.current,
-        { opacity: 1, yPercent: 0 },
-        {
-          opacity: 0,
-          yPercent: -36,
-          ease: "none",
-          scrollTrigger: {
-            trigger: hero.current,
-            start: "top top",
-            end: "48% top",
-            scrub: true,
-          },
+
+      // Mobile (any motion setting) or reduced motion at any width: no scroll
+      // scrubbing. Show the globe at full size, the copy, and the India · UAE ·
+      // Canada line statically so the hero reads immediately with no empty gap.
+      mm.add(
+        "(max-width: 767px), (prefers-reduced-motion: reduce)",
+        () => {
+          gsap.set(globeWrap.current, { scale: 1, yPercent: 0 });
+          gsap.set(heroCopy.current, { opacity: 1, yPercent: 0 });
+          gsap.set(heroTag.current, { opacity: 1, y: 0 });
         },
       );
-      gsap.fromTo(
-        heroTag.current,
-        { opacity: 0, y: 24 },
-        {
-          opacity: 1,
-          y: 0,
-          ease: "none",
-          scrollTrigger: {
-            trigger: hero.current,
-            start: "32% top",
-            end: "72% top",
-            scrub: true,
-          },
-        },
-      );
+
+      return () => mm.revert();
     },
     { scope: root },
   );
@@ -99,7 +115,7 @@ export function AboutView({ about }: { about: AboutPageData }) {
   return (
     <div ref={root} className="bg-mist text-ink">
       {/* ── 1. Globe hero — scroll-grow ── */}
-      <section ref={hero} className="relative h-[200vh] bg-mist">
+      <section ref={hero} className="relative h-screen bg-mist md:h-[200vh]">
         <div className="sticky top-0 flex h-screen items-start justify-center overflow-hidden">
           {/* Blueprint grid — matches the other index/hero pages */}
           <div
@@ -129,7 +145,7 @@ export function AboutView({ about }: { about: AboutPageData }) {
 
           <div
             ref={globeWrap}
-            className="absolute left-1/2 top-[28%] z-10 aspect-square w-[min(94vw,780px)] -translate-x-1/2 will-change-transform"
+            className="absolute left-1/2 top-[48%] z-10 aspect-square w-[72vw] -translate-x-1/2 will-change-transform md:top-[28%] md:w-[min(94vw,780px)]"
           >
             <Globe className="h-full w-full" markers={about.locations} />
           </div>

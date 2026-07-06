@@ -47,7 +47,7 @@ function TickerColumn({ items, duration }: { items: Client[]; duration: string }
   const loop = [...items, ...items];
   return (
     <div
-      className="h-[30rem] overflow-hidden"
+      className="h-[19rem] overflow-hidden md:h-[30rem]"
       style={{ WebkitMaskImage: MASK, maskImage: MASK }}
     >
       <div
@@ -96,7 +96,7 @@ export function Clients() {
       {/* Inline keyframes — Tailwind v4 purges unreferenced @keyframes from
           the stylesheet, so the vertical ticker animation lives here. */}
       <style>{`@keyframes ct-ticker-down{from{transform:translateY(-50%)}to{transform:translateY(0)}}`}</style>
-      <div className="mx-auto grid max-w-[1600px] items-center gap-14 px-6 py-20 md:px-10 md:py-28 lg:grid-cols-2 lg:gap-20 lg:py-36">
+      <div className="mx-auto grid max-w-[1600px] items-center gap-8 px-6 py-14 md:gap-14 md:px-10 md:py-28 lg:grid-cols-2 lg:gap-20 lg:py-36">
         {/* Left — heading, intro, ISO, CTA */}
         <div className="lg:max-w-md">
           <h2
@@ -107,14 +107,14 @@ export function Clients() {
           </h2>
           <p
             data-up
-            className="mt-10 max-w-md text-base leading-relaxed text-paper/80 md:text-lg"
+            className="mt-6 max-w-md text-base leading-relaxed text-paper/80 md:mt-10 md:text-lg"
           >
             Since 2013, C&amp;T has delivered engineering for developers, EPCs
             and energy majors worldwide — backed by an ISO&nbsp;9001:2015
             certified quality system.
           </p>
 
-          <div data-up className="mt-8">
+          <div data-up className="mt-6 md:mt-8">
             <span className="inline-flex h-12 items-center rounded-md border border-paper/30 px-4 font-mono text-xs uppercase tracking-[0.16em] text-paper">
               ISO 9001:2015
             </span>
@@ -123,7 +123,7 @@ export function Clients() {
           <a
             data-up
             href="#contact"
-            className="group mt-10 inline-flex items-center gap-3 rounded-full bg-paper py-3.5 pl-6 pr-2.5 text-sm font-medium text-navy transition-colors duration-300 hover:bg-beige-light"
+            className="group mt-7 inline-flex items-center gap-3 rounded-full bg-paper py-3.5 pl-6 pr-2.5 text-sm font-medium text-navy transition-colors duration-300 hover:bg-beige-light md:mt-10"
           >
             Start a project
             <span className="flex h-7 w-7 items-center justify-center rounded-full bg-navy/10 transition-transform duration-300 group-hover:translate-x-0.5">

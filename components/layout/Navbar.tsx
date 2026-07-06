@@ -131,13 +131,13 @@ export function Navbar() {
             </a>
 
             {/* Desktop nav — all options listed directly */}
-            <nav className="hidden items-center gap-7 lg:gap-9 md:flex">
+            <nav className="hidden items-center gap-7 lg:flex lg:gap-9">
               {NAV.map((n) => (
                 <a
                   key={n.label}
                   href={n.href}
                   onClick={(e) => onNav(e, n.href)}
-                  className="group relative text-sm font-medium text-navy/80 transition-colors duration-200 hover:text-navy"
+                  className="group relative whitespace-nowrap text-sm font-medium text-navy/80 transition-colors duration-200 hover:text-navy"
                 >
                   {n.label}
                   <span className="absolute -bottom-1 left-0 h-px w-0 bg-green transition-all duration-300 group-hover:w-full" />
@@ -149,7 +149,7 @@ export function Navbar() {
             <div className="flex shrink-0 items-center gap-3">
               <button
                 onClick={openEnquiry}
-                className="group hidden items-center gap-1.5 rounded-full bg-navy px-5 py-2.5 text-sm font-medium text-paper transition-colors duration-300 hover:bg-green-dark md:inline-flex"
+                className="group hidden items-center gap-1.5 rounded-full bg-navy px-5 py-2.5 text-sm font-medium text-paper transition-colors duration-300 hover:bg-green-dark lg:inline-flex"
               >
                 Contact
                 <ArrowUpRight
@@ -162,7 +162,7 @@ export function Navbar() {
                 onClick={() => setOpen(true)}
                 aria-label="Open menu"
                 aria-expanded={open}
-                className="flex h-9 w-9 items-center justify-center rounded-lg text-navy transition-colors duration-200 hover:bg-navy/[0.06] md:hidden"
+                className="flex h-9 w-9 items-center justify-center rounded-lg text-navy transition-colors duration-200 hover:bg-navy/[0.06] lg:hidden"
               >
                 <span className="flex flex-col gap-[5px]">
                   <span className="block h-[2px] w-6 rounded-full bg-navy" />
@@ -176,7 +176,7 @@ export function Navbar() {
 
       {/* ── Mobile overlay menu ── */}
       <div
-        className={`fixed inset-0 z-[80] md:hidden ${open ? "" : "pointer-events-none"}`}
+        className={`fixed inset-0 z-[80] lg:hidden ${open ? "" : "pointer-events-none"}`}
         aria-hidden={!open}
       >
         <div

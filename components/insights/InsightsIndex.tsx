@@ -19,10 +19,7 @@ export function InsightsIndex({ items }: { items: Insight[] }) {
         />
         <span className="absolute left-6 top-28 h-6 w-6 border-l border-t border-beige md:left-10" />
         <div className="relative mx-auto max-w-[1600px] px-6 pb-4 pt-36 text-center md:px-10 md:pt-44">
-          <p className="font-mono text-[0.72rem] uppercase tracking-[0.2em] text-green-dark">
-            Insights
-          </p>
-          <h1 className="mx-auto mt-6 max-w-4xl font-display text-[clamp(2.5rem,1rem+5vw,4.5rem)] font-semibold leading-[1.04] tracking-[-0.025em]">
+          <h1 className="mx-auto max-w-4xl font-display text-[clamp(2.5rem,1rem+5vw,4.5rem)] font-semibold leading-[1.04] tracking-[-0.025em]">
             Innovative thinking
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-ink-dim md:text-xl">

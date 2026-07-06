@@ -75,21 +75,25 @@ export function CareersView({
         />
 
         <div className="relative mx-auto flex h-full max-w-[1600px] items-center overflow-y-auto px-6 pb-16 pt-32 md:px-10">
-          <div className="relative max-w-xl rounded-3xl bg-paper/95 p-8 shadow-[0_40px_120px_-45px_rgba(9,33,44,0.6)] ring-1 ring-navy/10 backdrop-blur-sm md:p-12">
-            <span className="absolute left-6 top-6 h-5 w-5 border-l border-t border-beige md:left-8 md:top-8" />
-            <p className="font-mono text-[0.7rem] uppercase tracking-[0.22em] text-green-dark">
-              Careers at C&amp;T
-            </p>
-            <h1 className="mt-5 font-display text-[clamp(2.25rem,1rem+4vw,4rem)] font-semibold leading-[1.03] tracking-[-0.03em] text-ink">
-              A new standard of <span className="text-green-dark">engineering</span>.
+          {/* The boxed paper card is lg+ only — below that there's no room for
+              it, so the copy sits directly on the photo (navy wash already
+              gives it enough contrast). */}
+          <div className="relative max-w-xl lg:rounded-3xl lg:bg-paper/95 lg:p-12 lg:shadow-[0_40px_120px_-45px_rgba(9,33,44,0.6)] lg:ring-1 lg:ring-navy/10 lg:backdrop-blur-sm">
+            <span className="absolute left-8 top-8 hidden h-5 w-5 border-l border-t border-beige lg:block" />
+            <h1 className="font-display text-[clamp(2.25rem,1rem+4vw,4rem)] font-semibold leading-[1.03] tracking-[-0.03em] text-paper lg:text-ink">
+              A new standard of{" "}
+              <span className="text-beige-light lg:text-green-dark">
+                engineering
+              </span>
+              .
             </h1>
-            <p className="mt-6 text-base leading-relaxed text-ink-dim md:text-lg">
+            <p className="mt-6 text-base leading-relaxed text-paper/80 md:text-lg lg:text-ink-dim">
               {careers.intro}
             </p>
             <div className="mt-9 flex flex-wrap items-center gap-4">
               <button
                 onClick={() => scrollToId("openings")}
-                className="group inline-flex items-center gap-2 rounded-full bg-navy px-6 py-3 text-sm font-medium tracking-wide text-paper transition-colors duration-300 hover:bg-green-dark"
+                className="group inline-flex items-center gap-2 rounded-full bg-paper px-6 py-3 text-sm font-medium tracking-wide text-navy transition-colors duration-300 hover:bg-beige-light lg:bg-navy lg:text-paper lg:hover:bg-green-dark"
               >
                 View openings
                 <ArrowUpRight
@@ -99,7 +103,7 @@ export function CareersView({
               </button>
               <button
                 onClick={() => scrollToId("why")}
-                className="group inline-flex items-center gap-2 rounded-full border border-navy/20 px-6 py-3 text-sm font-medium tracking-wide text-navy transition-colors duration-300 hover:border-navy hover:bg-navy hover:text-paper"
+                className="group inline-flex items-center gap-2 rounded-full border border-paper/40 px-6 py-3 text-sm font-medium tracking-wide text-paper transition-colors duration-300 hover:border-paper hover:bg-paper hover:text-navy lg:border-navy/20 lg:text-navy lg:hover:border-navy lg:hover:bg-navy lg:hover:text-paper"
               >
                 Life at C&amp;T
                 <ArrowDown

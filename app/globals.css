@@ -28,11 +28,12 @@
   --color-surface-alt: #f0f9fa;
 
   /* ---- Typography ----
-   * Satoshi carries everything — display + body. Geist Mono for technical
-   * labels, eyebrows and specs. */
+   * Satoshi carries everything — display, body, and the mono-styled technical
+   * labels/eyebrows/specs (tracked-out uppercase Satoshi, not an actual
+   * monospace face). */
   --font-display: var(--font-satoshi), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-satoshi), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-mono: var(--font-satoshi), ui-sans-serif, system-ui, sans-serif;
 
   /* Fluid display scale */
   --text-hero: clamp(2.75rem, 1rem + 5.2vw, 5.75rem);

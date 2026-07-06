@@ -15,6 +15,11 @@ gsap.registerPlugin(ScrollTrigger);
 // is revealed further up the structure.
 export const WITHUS_OVERLAP_VH = 68;
 
+// Phones use a shorter overlap: the CTA image is only ~33vh tall there (og.png
+// is 16:9, so at 128vw it never fills 68vh), so the footer pulls up less and the
+// wipe reveals the blueprint over a proportionate zone — no dead space.
+export const WITHUS_OVERLAP_VH_MOBILE = 42;
+
 /**
  * `rounded` (homepage only) runs the inset → full-bleed margin + border-radius
  * collapse as you scroll in. Other pages pass rounded={false}: the card is
@@ -27,61 +32,72 @@ export function WithUs({ rounded = true }: { rounded?: boolean }) {
 
   useGSAP(
     () => {
-      const reduce = window.matchMedia(
-        "(prefers-reduced-motion: reduce)",
-      ).matches;
+      const mm = gsap.matchMedia();
 
-      if (!reduce) {
-        gsap.from("[data-up]", {
-          y: 40,
-          duration: 0.9,
-          ease: "power3.out",
-          stagger: 0.12,
-          scrollTrigger: { trigger: root.current, start: "top 78%" },
-        });
-      }
+      // Reveal + the margin/radius "flaps" collapse are desktop/tablet only —
+      // on phones the card is full-bleed from the start (no side flaps).
+      mm.add(
+        "(min-width: 768px) and (prefers-reduced-motion: no-preference)",
+        () => {
+          gsap.from("[data-up]", {
+            y: 40,
+            duration: 0.9,
+            ease: "power3.out",
+            stagger: 0.12,
+            scrollTrigger: { trigger: root.current, start: "top 78%" },
+          });
 
-      if (reduce || !card.current) return;
+          // Margin + radius collapse: card → full-bleed as you scroll through.
+          // Homepage only — other pages render the card flush from the start.
+          if (card.current && rounded) {
+            gsap.fromTo(
+              card.current,
+              { marginLeft: "5vw", marginRight: "5vw", borderRadius: "2.25rem" },
+              {
+                marginLeft: "0vw",
+                marginRight: "0vw",
+                borderRadius: "0rem",
+                ease: "none",
+                scrollTrigger: {
+                  trigger: root.current,
+                  start: "top 88%",
+                  end: "top 22%",
+                  scrub: true,
+                },
+              },
+            );
+          }
+        },
+      );
 
-      // Margin + radius collapse: card → full-bleed as you scroll through.
-      // Homepage only — other pages render the card flush from the start.
-      if (rounded) {
+      // Wipe runs on ALL widths (with motion): clip the card's bottom edge
+      // upward faster than the page scrolls, uncovering the footer's blueprint
+      // band. The overlap is smaller on phones so it stays proportionate.
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        if (!card.current) return;
+        const overlapVh = () =>
+          window.matchMedia("(min-width: 768px)").matches
+            ? WITHUS_OVERLAP_VH
+            : WITHUS_OVERLAP_VH_MOBILE;
+        const overlapPx = () => (window.innerHeight * overlapVh()) / 100;
         gsap.fromTo(
           card.current,
-          { marginLeft: "5vw", marginRight: "5vw", borderRadius: "2.25rem" },
+          { clipPath: "inset(0px 0px 0px 0px)" },
           {
-            marginLeft: "0vw",
-            marginRight: "0vw",
-            borderRadius: "0rem",
+            clipPath: () => `inset(0px 0px ${overlapPx()}px 0px)`,
             ease: "none",
             scrollTrigger: {
               trigger: root.current,
-              start: "top 88%",
-              end: "top 22%",
+              start: "bottom 96%",
+              end: () => "+=" + overlapPx() * 0.78,
               scrub: true,
+              invalidateOnRefresh: true,
             },
           },
         );
-      }
+      });
 
-      // Wipe: clip the card's bottom edge upward faster than the page scrolls
-      // (negative parallax), uncovering the footer's blueprint band behind it.
-      const overlapPx = () => (window.innerHeight * WITHUS_OVERLAP_VH) / 100;
-      gsap.fromTo(
-        card.current,
-        { clipPath: "inset(0px 0px 0px 0px)" },
-        {
-          clipPath: () => `inset(0px 0px ${overlapPx()}px 0px)`,
-          ease: "none",
-          scrollTrigger: {
-            trigger: root.current,
-            start: "bottom 96%",
-            end: () => "+=" + overlapPx() * 0.78,
-            scrub: true,
-            invalidateOnRefresh: true,
-          },
-        },
-      );
+      return () => mm.revert();
     },
     { scope: root },
   );
@@ -90,20 +106,11 @@ export function WithUs({ rounded = true }: { rounded?: boolean }) {
     <section ref={root} id="contact" className="relative z-20 scroll-mt-24">
       <div
         ref={card}
-        className={`relative overflow-hidden bg-paper text-navy will-change-transform ${
+        className={`relative overflow-hidden bg-paper text-navy md:will-change-transform ${
           rounded
-            ? "shadow-[0_40px_120px_-45px_rgba(9,33,44,0.5)] ring-1 ring-navy/10"
+            ? "md:mx-[5vw] md:rounded-[2.25rem] md:shadow-[0_40px_120px_-45px_rgba(9,33,44,0.5)] md:ring-1 md:ring-navy/10"
             : ""
         }`}
-        style={
-          rounded
-            ? {
-                marginLeft: "5vw",
-                marginRight: "5vw",
-                borderRadius: "2.25rem",
-              }
-            : undefined
-        }
       >
         {/* Blueprint mesh — green on the off-white fill */}
         <div
@@ -146,7 +153,7 @@ export function WithUs({ rounded = true }: { rounded?: boolean }) {
             begins — making the two layers pixel-aligned across the wipe. */}
         <div
           aria-hidden
-          className="pointer-events-none relative z-[1] mt-14 h-[88vh] select-none"
+          className="pointer-events-none relative z-[1] mt-8 h-[42vh] select-none md:mt-14 md:h-[88vh]"
         >
           {/* Width steps up on small/medium so the structure render fills the
               frame instead of stranding a tiny image. The footer's blueprint

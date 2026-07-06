@@ -39,10 +39,12 @@ export function Services() {
   return (
     <section ref={root} id="services" className="scroll-mt-24 bg-paper text-navy">
       <div className="mx-auto grid max-w-[1600px] items-stretch gap-8 px-6 py-16 md:px-10 md:py-20 lg:grid-cols-2 lg:gap-12">
-        {/* ── Left: image card — fast crossfade as you move across the grid ── */}
+        {/* ── Left: image card — fast crossfade as you move across the grid.
+            Hidden below lg: it's a hover-preview surface, which has no place on
+            touch screens where the single-column layout has no room for it. ── */}
         <div
           data-up
-          className="relative min-h-[24rem] overflow-hidden rounded-3xl bg-[#0c1f18] lg:min-h-[34rem]"
+          className="relative hidden min-h-[24rem] overflow-hidden rounded-3xl bg-[#0c1f18] lg:block lg:min-h-[34rem]"
         >
           {SERVICES.map((s, i) => (
             <img
@@ -85,8 +87,8 @@ export function Services() {
           </h2>
           <p className="mt-5 max-w-xl text-base leading-relaxed text-ink-dim">
             The same disciplines, delivered by both teams to different scopes —
-            from Buildings &amp; Infrastructure to Oil &amp; Gas. Hover a service
-            to preview it.
+            from Buildings &amp; Infrastructure to Oil &amp; Gas.
+            <span className="hidden lg:inline"> Hover a service to preview it.</span>
           </p>
 
           <a
@@ -107,22 +109,13 @@ export function Services() {
               separately into its Buildings and Oil & Gas scope. */}
           <div className="mt-8 grid gap-3 sm:grid-cols-2">
             {SERVICES.map((s, i) => {
-              const open = i === active;
               return (
                 <div
                   key={s.slug}
                   onMouseEnter={() => setActive(i)}
-                  className={`relative flex min-h-[9.5rem] flex-col justify-between overflow-hidden rounded-2xl p-5 transition-all duration-300 ${
-                    open
-                      ? "bg-white shadow-[0_12px_34px_-20px_rgba(9,33,44,0.45)] ring-1 ring-green-dark/45"
-                      : "bg-stone ring-1 ring-transparent"
-                  }`}
+                  className="relative flex min-h-[9.5rem] flex-col justify-between overflow-hidden rounded-2xl bg-stone p-5"
                 >
-                  <span
-                    className={`font-mono text-sm tracking-[0.1em] transition-colors duration-300 ${
-                      open ? "text-green-dark" : "text-ink-dim"
-                    }`}
-                  >
+                  <span className="font-mono text-sm tracking-[0.1em] text-ink-dim">
                     {String(i + 1).padStart(2, "0")}
                   </span>
 

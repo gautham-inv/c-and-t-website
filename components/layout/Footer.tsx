@@ -1,16 +1,24 @@
 "use client";
 
+import { useCallback } from "react";
 import { ArrowRight } from "lucide-react";
-import { WITHUS_OVERLAP_VH } from "@/components/sections/WithUs";
+import {
+  WITHUS_OVERLAP_VH,
+  WITHUS_OVERLAP_VH_MOBILE,
+} from "@/components/sections/WithUs";
+import { getLenis } from "@/lib/lenis";
 
+// Section links use the /#id form so they resolve from any page (navigate home,
+// then scroll). "sectors" points at the Expertise/divisions block, which is the
+// only sector-style section on the homepage.
 const NAV = [
-  { label: "services", href: "#services" },
-  { label: "sectors", href: "#sectors" },
-  { label: "projects", href: "#projects" },
+  { label: "services", href: "/#services" },
+  { label: "sectors", href: "/#divisions" },
+  { label: "projects", href: "/#projects" },
   { label: "about", href: "/about" },
-  { label: "insights", href: "#blog" },
-  { label: "contact", href: "#contact" },
-  { label: "faq", href: "#faq" },
+  { label: "insights", href: "/#blog" },
+  { label: "contact", href: "/#contact" },
+  { label: "faq", href: "/#faq" },
   { label: "careers", href: "/careers" },
 ];
 
@@ -23,17 +31,35 @@ const OFFICES = [
 const SOCIALS = ["LinkedIn", "Instagram", "X", "YouTube"];
 
 export function Footer() {
+  // Section links (/#id) smooth-scroll on the homepage via Lenis; on other
+  // pages they fall through to a normal navigation that lands on the anchor.
+  const onNav = useCallback((e: React.MouseEvent, href: string) => {
+    if (!href.startsWith("/#")) return;
+    if (window.location.pathname !== "/") return;
+    e.preventDefault();
+    const el = document.getElementById(href.slice(2));
+    if (!el) return;
+    const lenis = getLenis();
+    if (lenis) lenis.scrollTo(el, { offset: 0, duration: 1.2 });
+    else el.scrollIntoView({ behavior: "smooth" });
+  }, []);
+
   return (
     <footer
-      className="relative z-10 bg-navy text-paper"
-      style={{ marginTop: `-${WITHUS_OVERLAP_VH}vh` }}
+      className="relative z-10 mt-[calc(var(--overlap-m)*-1)] bg-navy text-paper md:mt-[calc(var(--overlap)*-1)]"
+      style={
+        {
+          "--overlap": `${WITHUS_OVERLAP_VH}vh`,
+          "--overlap-m": `${WITHUS_OVERLAP_VH_MOBILE}vh`,
+        } as React.CSSProperties
+      }
     >
-      {/* Static blueprint band — anchored to the footer top and revealed by
-          the WithUs wipe peeling upward. Does not scroll or animate. */}
+      {/* Static blueprint band — anchored to the footer top and revealed by the
+          WithUs wipe peeling upward. Shorter on phones (mobile overlap) so it
+          stays aligned with the smaller CTA image. */}
       <div
         aria-hidden
-        className="relative w-full overflow-hidden"
-        style={{ height: `${WITHUS_OVERLAP_VH}vh` }}
+        className="relative h-[var(--overlap-m)] w-full overflow-hidden md:h-[var(--overlap)]"
       >
         {/* Same width / centering / bottom-anchor as og.png in WithUs, plus a
             bbox-matching transform so the blueprint's structure superimposes
@@ -67,6 +93,7 @@ export function Footer() {
               <a
                 key={n.label}
                 href={n.href}
+                onClick={(e) => onNav(e, n.href)}
                 className="font-display text-2xl font-normal lowercase text-paper/85 transition-colors duration-200 hover:text-green md:text-3xl"
               >
                 {n.label}

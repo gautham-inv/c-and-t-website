@@ -22,10 +22,7 @@ export function ProjectsIndex({ items }: { items: PortfolioCard[] }) {
         />
         <span className="absolute left-6 top-28 h-6 w-6 border-l border-t border-beige md:left-10" />
         <div className="relative mx-auto max-w-[1600px] px-6 pb-4 pt-36 text-center md:px-10 md:pt-44">
-          <p className="font-mono text-[0.72rem] uppercase tracking-[0.2em] text-green-dark">
-            Our work
-          </p>
-          <h1 className="mx-auto mt-6 max-w-4xl font-display text-[clamp(2.5rem,1rem+5vw,4.5rem)] font-semibold leading-[1.04] tracking-[-0.025em]">
+          <h1 className="mx-auto max-w-4xl font-display text-[clamp(2.5rem,1rem+5vw,4.5rem)] font-semibold leading-[1.04] tracking-[-0.025em]">
             Selected <span className="text-green-dark">projects</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-ink-dim md:text-xl">
@@ -43,8 +40,11 @@ export function ProjectsIndex({ items }: { items: PortfolioCard[] }) {
             {items.map((p, i) => {
               const wide = SPANS[i % SPANS.length] === 2;
               const slug = p.slug;
-              const cls = `group relative block overflow-hidden rounded-2xl bg-stone ${
-                wide ? "col-span-2" : "col-span-1"
+              // col-span-2 is sm+ only — unscoped it would force an implicit
+              // extra column on the 1-col mobile grid, making "wide" cards
+              // overflow wider than the rest instead of matching their size.
+              const cls = `group relative block overflow-hidden rounded-2xl bg-stone col-span-1 ${
+                wide ? "sm:col-span-2" : ""
               }`;
               const inner = (
                 <>

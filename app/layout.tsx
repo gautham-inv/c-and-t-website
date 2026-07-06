@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { GeistMono } from "geist/font/mono";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { EnquiryModal } from "@/components/forms/EnquiryModal";
 import { ApplyModal } from "@/components/forms/ApplyModal";
@@ -31,10 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className={`${satoshi.variable} ${GeistMono.variable}`}
-    >
+    <html lang="en" className={satoshi.variable}>
       <body>
         <SmoothScroll>{children}</SmoothScroll>
         <EnquiryModal />
