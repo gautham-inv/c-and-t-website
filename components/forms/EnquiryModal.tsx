@@ -9,11 +9,11 @@ import { getLenis } from "@/lib/lenis";
  * "Get in touch" project-enquiry modal — global, mounted once in the root
  * layout. Opens on the ENQUIRY_EVENT dispatched by openEnquiry() from any CTA.
  *
- * Static export → no server. Set ENDPOINT to a forms endpoint (Web3Forms,
- * Formspree, etc.) to actually deliver submissions; until then the modal
- * validates, shows the success state and logs the payload to the console.
+ * Static export → no server, so delivery goes through the Cloudflare Pages
+ * Function at functions/api/enquiry.js, which emails the submission via
+ * Resend. See that file for the required environment variables.
  */
-const ENDPOINT = ""; // e.g. "https://api.web3forms.com/submit"
+const ENDPOINT = "/api/enquiry";
 
 const PROJECT_TYPES = [
   "MEP Design",
@@ -113,20 +113,8 @@ export function EnquiryModal() {
 
     setSubmitting(true);
     try {
-      if (ENDPOINT) {
-        const res = await fetch(ENDPOINT, { method: "POST", body: data });
-        if (!res.ok) throw new Error("Submission failed");
-      } else {
-        // No endpoint wired yet — log the payload so nothing is silently lost.
-        console.info("[Enquiry] (no ENDPOINT set)", {
-          company: get("company"),
-          email: get("email"),
-          phone: get("phone"),
-          projectType,
-          message: get("message"),
-          file: file?.name,
-        });
-      }
+      const res = await fetch(ENDPOINT, { method: "POST", body: data });
+      if (!res.ok) throw new Error("Submission failed");
       form.reset();
       setProjectType("");
       setFile(null);

@@ -30,6 +30,28 @@ before the first deploy:
   `CLOUDFLARE_API_TOKEN` in your shell):
   `wrangler pages project create c-and-t --production-branch=main`
 
+### Contact form email (Cloudflare Pages Function)
+
+`functions/api/enquiry.js` handles the "Get in touch" modal
+(`components/forms/EnquiryModal.tsx`) — the static export has no server, so
+this Pages Function sends the submission as an email via
+[Resend](https://resend.com). `wrangler pages deploy` bundles anything under
+`functions/` automatically (no `--no-bundle` flag is used, so this keeps
+working).
+
+Set these in the Cloudflare dashboard → Workers & Pages → `c-and-t` →
+Settings → Environment variables (do this for both Production and Preview):
+
+- `RESEND_API_KEY` — secret, from the Resend dashboard
+- `CONTACT_TO_EMAIL` — the inbox that should receive enquiries
+- `CONTACT_FROM_EMAIL` — optional, e.g. `"C&T Website <enquiries@yourdomain.com>"`.
+  Without a verified sending domain in Resend, mail sends from a shared
+  sandbox address and can only be delivered to the email on the Resend
+  account — verify a domain in Resend to send to `CONTACT_TO_EMAIL` for real.
+
+These are Pages project variables, not GitHub Actions secrets — the build
+step never touches them, only the deployed Function does at request time.
+
 ### GitHub
 
 Repo **Settings → Secrets and variables → Actions**:
