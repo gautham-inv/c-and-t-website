@@ -5,7 +5,8 @@ content is fetched at build time only — there's no server runtime for ISR or
 API routes, so publishing in Sanity does nothing until the site is rebuilt.
 `.github/workflows/deploy.yml` handles the rebuild + deploy: `next build`
 produces `out/`, then `wrangler pages deploy` pushes it to the Cloudflare
-Pages project `c-and-t` (see `wrangler.toml`).
+Pages project `c-and-t`. No `wrangler.toml` is needed — the project name and
+output directory are passed as CLI flags.
 
 ## Triggers
 
@@ -15,6 +16,19 @@ Pages project `c-and-t` (see `wrangler.toml`).
   on every publish, so content edits go live within a normal CI run.
 
 ## One-time setup
+
+### Cloudflare Pages project
+
+`wrangler pages deploy` does NOT auto-create the project in a non-interactive
+context (CI, or a local shell with no TTY to answer its prompt) — it just
+fails with "Project not found" (code 8000007). Create the project once,
+before the first deploy:
+
+- Dashboard: Workers & Pages → Create → Pages → Upload assets → name it
+  `c-and-t`, or
+- CLI (needs an authenticated `wrangler login` or a scoped
+  `CLOUDFLARE_API_TOKEN` in your shell):
+  `wrangler pages project create c-and-t --production-branch=main`
 
 ### GitHub
 
@@ -52,9 +66,9 @@ Sanity stores the header value encrypted; the PAT never touches this repo.
 ## Manual deploy
 
 ```
-npm run deploy   # next build && wrangler pages deploy out --project-name=c-and-t
+npm run deploy   # next build && wrangler pages deploy out --project-name=c-and-t --branch=main
 ```
 
 Requires `wrangler login` (or `CLOUDFLARE_API_TOKEN`/`CLOUDFLARE_ACCOUNT_ID`
-in the environment) locally. If the `c-and-t` Pages project doesn't exist yet,
-this command creates it on first deploy.
+in the environment) locally, and the `c-and-t` Pages project to already exist
+(see "Cloudflare Pages project" above).

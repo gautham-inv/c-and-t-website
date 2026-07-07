@@ -11,7 +11,7 @@
     "studio:deploy": "sanity deploy",
     "studio:build": "sanity build",
     "seed": "tsx scripts/seed.ts",
-    "deploy": "next build && wrangler pages deploy out --project-name=c-and-t"
+    "deploy": "next build && wrangler pages deploy out --project-name=c-and-t --branch=main"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
