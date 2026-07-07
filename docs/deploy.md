@@ -4,8 +4,8 @@ The site is a static export (`next.config.ts` → `output: "export"`). Sanity
 content is fetched at build time only — there's no server runtime for ISR or
 API routes, so publishing in Sanity does nothing until the site is rebuilt.
 `.github/workflows/deploy.yml` handles the rebuild + deploy: `next build`
-produces `out/`, then `wrangler deploy` pushes it to Cloudflare Workers as
-static assets (no Worker script needed — see `wrangler.toml`).
+produces `out/`, then `wrangler pages deploy` pushes it to the Cloudflare
+Pages project `c-and-t` (see `wrangler.toml`).
 
 ## Triggers
 
@@ -20,7 +20,7 @@ static assets (no Worker script needed — see `wrangler.toml`).
 
 Repo **Settings → Secrets and variables → Actions**:
 
-- Secrets: `CLOUDFLARE_API_TOKEN` (Cloudflare "Edit Cloudflare Workers"
+- Secrets: `CLOUDFLARE_API_TOKEN` (Cloudflare "Cloudflare Pages: Edit"
   permission), `CLOUDFLARE_ACCOUNT_ID`
 - Variables (optional, fall back to the defaults baked into `sanity/env.ts`):
   `NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET`,
@@ -52,8 +52,9 @@ Sanity stores the header value encrypted; the PAT never touches this repo.
 ## Manual deploy
 
 ```
-npm run deploy   # next build && wrangler deploy
+npm run deploy   # next build && wrangler pages deploy out --project-name=c-and-t
 ```
 
 Requires `wrangler login` (or `CLOUDFLARE_API_TOKEN`/`CLOUDFLARE_ACCOUNT_ID`
-in the environment) locally.
+in the environment) locally. If the `c-and-t` Pages project doesn't exist yet,
+this command creates it on first deploy.
