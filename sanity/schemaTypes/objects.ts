@@ -251,6 +251,25 @@ export const value = defineType({
   preview: { select: { title: "name", subtitle: "body" } },
 });
 
+export const leader = defineType({
+  name: "leader",
+  title: "Leader",
+  type: "object",
+  fields: [
+    defineField({ name: "name", type: "string", validation: (r) => r.required() }),
+    defineField({ name: "role", title: "Designation", type: "string", validation: (r) => r.required() }),
+    defineField({ name: "photo", type: "image", options: { hotspot: true } }),
+    defineField({
+      name: "bio",
+      title: "Short bio",
+      type: "text",
+      rows: 4,
+      description: "Shown in the hover wipe-reveal on the leadership card. Leave blank to skip the reveal.",
+    }),
+  ],
+  preview: { select: { title: "name", subtitle: "role", media: "photo" } },
+});
+
 export const capability = defineType({
   name: "capability",
   title: "Capability",

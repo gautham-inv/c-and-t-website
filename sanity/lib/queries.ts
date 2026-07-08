@@ -126,7 +126,13 @@ export const aboutPageQuery = groq`
     companyMilestones,
     projectAwards,
     locations,
-    capabilities
+    capabilities,
+    "leadership": leadership[]{
+      name,
+      role,
+      "photo": coalesce(photo.asset->url, photo),
+      bio
+    }
   }
 `;
 

@@ -62,9 +62,10 @@ Repo **Settings → Secrets and variables → Actions**:
   `NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET`,
   `NEXT_PUBLIC_SANITY_API_VERSION`
 
-Create a fine-grained GitHub PAT with **only** the "Contents: read" +
-"Actions: read and write" permission on this repo — this is what Sanity uses
-to fire `repository_dispatch`. Don't reuse a broad classic PAT.
+Create a fine-grained GitHub PAT with **only** the "Contents: read and
+write" permission on this repo — this is what Sanity uses to fire
+`repository_dispatch` (the `/dispatches` endpoint checks Contents, not
+Actions, permissions). Don't reuse a broad classic PAT.
 
 ### Sanity webhook
 

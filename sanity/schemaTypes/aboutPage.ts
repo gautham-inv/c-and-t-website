@@ -37,6 +37,12 @@ export const aboutPage = defineType({
       type: "array",
       of: [{ type: "capability" }],
     }),
+    defineField({
+      name: "leadership",
+      title: "Leadership",
+      type: "array",
+      of: [{ type: "leader" }],
+    }),
   ],
   preview: { prepare: () => ({ title: "About page" }) },
 });

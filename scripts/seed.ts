@@ -45,6 +45,7 @@ import {
   PROJECT_AWARDS,
   LOCATIONS,
   CAPABILITIES,
+  LEADERSHIP,
 } from "../lib/company";
 import { CAREERS_INTRO, REASONS, OPENINGS, TEAM_PHOTOS } from "../lib/careers";
 
@@ -638,6 +639,15 @@ async function seedHomePage(
 }
 
 async function seedAboutPage(): Promise<void> {
+  const leadership = [];
+  for (const l of LEADERSHIP) {
+    const photo = await uploadImage(l.photo, l.name);
+    const item: Record<string, unknown> = { _type: "leader", _key: key("ldr"), name: l.name, role: l.role };
+    if (photo) item.photo = photo;
+    if (l.bio) item.bio = l.bio;
+    leadership.push(item);
+  }
+
   const doc: Record<string, unknown> = {
     _id: "aboutPage",
     _type: "aboutPage",
@@ -676,6 +686,7 @@ async function seedAboutPage(): Promise<void> {
       if (c.href) item.href = c.href;
       return item;
     }),
+    leadership,
   };
   await client.createOrReplace(doc as never);
   console.log(`  ✓ aboutPage`);

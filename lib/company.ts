@@ -125,15 +125,40 @@ export const LOCATIONS: Location[] = [
   },
 ];
 
-/** Leadership team. PLACEHOLDER content — names/roles/photos are stand-ins
- * awaiting the real team data. `photo` left undefined renders a monogram card. */
-export type Leader = { name: string; role: string; photo?: string };
+/** Leadership team. `photo` left undefined renders a monogram card; `bio`
+ * left undefined skips the hover wipe-reveal (no content to show). */
+export type Leader = { name: string; role: string; photo?: string; bio?: string };
 
 export const LEADERSHIP: Leader[] = [
-  { name: "Name Surname", role: "Managing Director" },
-  { name: "Name Surname", role: "Director — Buildings & Infrastructure" },
-  { name: "Name Surname", role: "Director — Oil & Gas" },
-  { name: "Name Surname", role: "Head of BIM" },
+  {
+    name: "Jimmy Bentex",
+    role: "Founder & CEO",
+    photo: "/leadership/jimmy.png",
+    bio: "B Tech Mechanical Engineering (CET), M Tech (KU). IGBC Lead Associate & ISHRAE member. 25 years across Bilt Middle East, Voltas (TATA), Bluestar & Chalmers Engineering, Dubai.",
+  },
+  { name: "Vidyanand", role: "CFO", photo: "/leadership/vidyanand.jpeg" },
+  { name: "Laxman Babu", role: "Director" },
+  {
+    name: "V S Sriram",
+    role: "Technical Advisor",
+    photo: "/leadership/vs-sriram.png",
+    bio: "Mechanical Engineering graduate with 35+ years in MEP across India, the Middle East and SE Asia. Dynamic techno-commercial professional with strong analytical and problem-solving skills, and a passionate mentor and technical trainer.",
+  },
+  {
+    name: "Sherjin Raj S S",
+    role: "OM / HOD Plumbing & Fire",
+    photo: "/leadership/sherjin.png",
+    bio: "Mechanical Engineer with 20+ years in MEPF — engineering design, project management, construction supervision and operations across airport, hospitality, residential, industrial and commercial sectors.",
+  },
+  { name: "Saibu", role: "OM / HOD E&I" },
+  { name: "Arun Kumar", role: "HOD Electrical" },
+  { name: "Kumar", role: "HOD HVAC" },
+  {
+    name: "Sunil Kumar AK",
+    role: "HOD Instrumentation",
+    photo: "/leadership/sunilkumar.png",
+    bio: "B Tech Instrumentation & Control (4th rank, Calicut University), MBA (Bajaj Institute, Bombay), PMP-certified. 29+ years across HPCL, ADNOC, Reliance, Singapore Power, Yokogawa, Schneider Electric, AVEVA & Dangote Refinery.",
+  },
 ];
 
 /** What we engineer — links out to the page that owns each capability in depth. */

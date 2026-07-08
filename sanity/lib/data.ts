@@ -41,6 +41,7 @@ import {
   PROJECT_AWARDS,
   LOCATIONS,
   CAPABILITIES,
+  LEADERSHIP,
 } from "@/lib/company";
 import {
   CAREERS_INTRO,
@@ -228,6 +229,7 @@ export type AboutPageData = {
   projectAwards: typeof PROJECT_AWARDS;
   locations: typeof LOCATIONS;
   capabilities: typeof CAPABILITIES;
+  leadership: typeof LEADERSHIP;
 };
 
 const ABOUT_FALLBACK: AboutPageData = {
@@ -238,11 +240,21 @@ const ABOUT_FALLBACK: AboutPageData = {
   projectAwards: PROJECT_AWARDS,
   locations: LOCATIONS,
   capabilities: CAPABILITIES,
+  leadership: LEADERSHIP,
 };
 
 export function getAboutPage(): Promise<AboutPageData> {
   return withFallback(
-    () => client.fetch<AboutPageData | null>(aboutPageQuery).then((r) => r ?? ABOUT_FALLBACK),
+    () =>
+      client.fetch<AboutPageData | null>(aboutPageQuery).then((r) => {
+        if (!r) return ABOUT_FALLBACK;
+        // GROQ returns `null` (not omitted) for array fields the doc hasn't
+        // set yet — normalize back to the shapes AboutPageData guarantees.
+        return {
+          ...r,
+          leadership: r.leadership?.length ? r.leadership : LEADERSHIP,
+        };
+      }),
     ABOUT_FALLBACK,
     (v) => !!v && !!v.vision,
   );

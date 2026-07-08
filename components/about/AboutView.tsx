@@ -285,7 +285,7 @@ export function AboutView({ about }: { about: AboutPageData }) {
       {/* ── 7. Leadership ── */}
       <section data-reveal className="bg-surface">
         <div className="mx-auto max-w-[1600px] px-6 py-20 md:px-10 md:py-28">
-          <Leadership />
+          <Leadership leaders={about.leadership} />
         </div>
       </section>
 
