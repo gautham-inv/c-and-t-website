@@ -127,7 +127,6 @@ export function AboutView({ about }: { about: AboutPageData }) {
               backgroundSize: "56px 56px",
             }}
           />
-          <span className="absolute left-6 top-28 z-0 h-6 w-6 border-l border-t border-beige md:left-10" />
           <div
             ref={heroCopy}
             className="relative z-20 mx-auto max-w-4xl px-6 pt-[17vh] text-center will-change-transform"
@@ -137,7 +136,7 @@ export function AboutView({ about }: { about: AboutPageData }) {
               practice, built since 2011.
             </h1>
             <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-ink-dim">
-              A professionally managed team of qualified engineers — building
+              A professionally managed team of qualified engineers, building
               complete Infrastructure, Architectural &amp; MEP systems across
               three continents.
             </p>
@@ -215,7 +214,7 @@ export function AboutView({ about }: { about: AboutPageData }) {
             data-up
             className="max-w-3xl font-display text-[clamp(2rem,1rem+3.4vw,3.75rem)] font-semibold leading-[1.05] tracking-[-0.02em]"
           >
-            <span className="text-ink-dim">Our story —</span>
+            <span className="text-ink-dim">Our story</span>
             <br />
             from one engineer to a global practice
           </h2>
@@ -232,15 +231,15 @@ export function AboutView({ about }: { about: AboutPageData }) {
             <div data-up className="flex flex-col justify-center">
               <p className="font-display text-[clamp(1.3rem,0.9rem+1.3vw,1.85rem)] font-normal leading-[1.32] tracking-[-0.01em]">
                 C&amp;T began in 2011 as{" "}
-                <span className="text-green-dark">Climate Designers</span> — a
+                <span className="text-green-dark">Climate Designers</span>, a
                 single engineer specialising in HVAC. By 2013 it had grown into{" "}
                 <span className="text-green-dark">C&amp;T Consulting Engineers</span>
                 , a full multidiscipline MEP practice.
               </p>
               <p className="mt-6 text-lg leading-relaxed text-ink-dim">
-                A professionally managed team of qualified engineers across
-                design, estimation, execution, commissioning and testing —
-                delivering complete Infrastructure, Architectural &amp; MEP
+                A professionally managed team of qualified engineers spans
+                design, estimation, execution, commissioning and testing, and
+                delivers complete Infrastructure, Architectural &amp; MEP
                 systems for commercial and industrial projects.
               </p>
             </div>
@@ -251,14 +250,14 @@ export function AboutView({ about }: { about: AboutPageData }) {
             className="mt-12 grid gap-x-16 gap-y-6 border-t border-line pt-10 md:grid-cols-2"
           >
             <p className="text-base leading-relaxed text-ink-dim">
-              Our first clients — Aries Marine and EIDC — remain valued clients
-              today, reflecting the trust, quality and long-term relationships at
-              the foundation of our business.
+              Our first clients, Aries Marine and EIDC, are still clients today,
+              a relationship that goes back to the company&apos;s earliest
+              projects.
             </p>
             <p className="text-base leading-relaxed text-ink-dim">
-              Today the group spans India, the UAE and Canada, delivering
-              sustainable, ESG-aligned MEP and BIM services worldwide — engineered
-              for the lasting performance of every asset.
+              Today the group spans India, the UAE and Canada, and delivers
+              sustainable, ESG-aligned MEP and BIM services worldwide, built to
+              perform over the life of every asset.
             </p>
           </div>
         </div>
@@ -301,8 +300,8 @@ export function AboutView({ about }: { about: AboutPageData }) {
             </h2>
             <div data-up>
               <p className="max-w-xl text-lg leading-relaxed text-ink-dim">
-                Across both practices, from single systems to complete
-                developments — the sectors and disciplines we deliver.
+                The sectors and disciplines below span both practices, from
+                single systems to complete developments.
               </p>
               <div className="mt-8 flex flex-wrap gap-2.5">
                 {about.capabilities.map((c) => {

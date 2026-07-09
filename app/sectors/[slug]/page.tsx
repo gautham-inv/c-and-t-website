@@ -21,7 +21,7 @@ export async function generateMetadata({
   const sectors = await getSectors();
   const sector = sectors.find((s) => s.slug === slug);
   if (!sector) return {};
-  const title = `${sector.name} — C&T Consulting Engineers`;
+  const title = `${sector.name} | C&T Consulting Engineers`;
   return {
     title,
     description: sector.tagline,

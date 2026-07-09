@@ -1,25 +1,26 @@
 /**
- * Cloudflare Pages Function backing the "Get in touch" enquiry modal
- * (components/forms/EnquiryModal.tsx). The site is a static export with no
+ * Cloudflare Pages Function backing the job-application modal
+ * (components/forms/ApplyModal.tsx). The site is a static export with no
  * Next.js server, so form delivery has to happen here instead of an API route.
  *
- * Sends the submission as an email via Resend (https://resend.com).
+ * Sends the application as an email via Resend (https://resend.com), same
+ * approach as functions/api/enquiry.js but routed to HR instead of sales.
  * Required environment (Pages project → Settings → Environment variables):
- *   RESEND_API_KEY    — secret, from the Resend dashboard
- *   CONTACT_TO_EMAIL  — inbox that should receive enquiries
- *   CONTACT_FROM_EMAIL — optional, e.g. "C&T Website <enquiries@yourdomain.com>";
+ *   RESEND_API_KEY     — secret, shared with enquiry.js
+ *   HR_TO_EMAIL         — inbox that should receive applications
+ *   CONTACT_FROM_EMAIL — optional, shared sender identity with enquiry.js;
  *                         defaults to Resend's shared sandbox sender, which
  *                         only delivers to the address on the Resend account
  *                         until a sending domain is verified.
  */
 
-const MAX_ATTACHMENT_BYTES = 35 * 1024 * 1024;
+const MAX_ATTACHMENT_BYTES = 25 * 1024 * 1024;
 
 export async function onRequestPost(context) {
   const { request, env } = context;
 
-  if (!env.RESEND_API_KEY || !env.CONTACT_TO_EMAIL) {
-    console.error("[enquiry] missing RESEND_API_KEY or CONTACT_TO_EMAIL");
+  if (!env.RESEND_API_KEY || !env.HR_TO_EMAIL) {
+    console.error("[apply] missing RESEND_API_KEY or HR_TO_EMAIL");
     return json({ error: "Form isn't set up yet." }, 500);
   }
 
@@ -31,38 +32,38 @@ export async function onRequestPost(context) {
   }
 
   const get = (key) => String(form.get(key) ?? "").trim();
-  const company = get("company");
+  const role = get("role");
+  const name = get("name");
   const email = get("email");
   const phone = get("phone");
-  const projectType = get("projectType");
+  const linkedin = get("linkedin");
   const message = get("message");
-  const file = form.get("file");
+  const resume = form.get("resume");
 
-  if (!company || !email || !phone || !projectType || !message) {
+  if (!name || !email || !phone || !(resume instanceof File) || resume.size === 0) {
     return json({ error: "Missing required fields." }, 400);
   }
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
     return json({ error: "Invalid email address." }, 400);
   }
-
-  const attachments = [];
-  if (file instanceof File && file.size > 0) {
-    if (file.size > MAX_ATTACHMENT_BYTES) {
-      return json({ error: "Attachment too large." }, 400);
-    }
-    attachments.push({
-      filename: file.name,
-      content: arrayBufferToBase64(await file.arrayBuffer()),
-    });
+  if (resume.size > MAX_ATTACHMENT_BYTES) {
+    return json({ error: "Attachment too large." }, 400);
   }
 
+  const attachments = [
+    {
+      filename: resume.name,
+      content: arrayBufferToBase64(await resume.arrayBuffer()),
+    },
+  ];
+
   const html = `
-    <h2>New project enquiry</h2>
-    <p><strong>Company:</strong> ${escapeHtml(company)}</p>
+    <h2>New job application${role ? ` — ${escapeHtml(role)}` : ""}</h2>
+    <p><strong>Name:</strong> ${escapeHtml(name)}</p>
     <p><strong>Email:</strong> ${escapeHtml(email)}</p>
     <p><strong>Phone:</strong> ${escapeHtml(phone)}</p>
-    <p><strong>Project type:</strong> ${escapeHtml(projectType)}</p>
-    <p><strong>Message:</strong><br>${escapeHtml(message).replace(/\n/g, "<br>")}</p>
+    ${linkedin ? `<p><strong>LinkedIn / portfolio:</strong> ${escapeHtml(linkedin)}</p>` : ""}
+    ${message ? `<p><strong>Cover note:</strong><br>${escapeHtml(message).replace(/\n/g, "<br>")}</p>` : ""}
   `.trim();
 
   const res = await fetch("https://api.resend.com/emails", {
@@ -73,16 +74,16 @@ export async function onRequestPost(context) {
     },
     body: JSON.stringify({
       from: env.CONTACT_FROM_EMAIL || "C&T Website <onboarding@resend.dev>",
-      to: [env.CONTACT_TO_EMAIL],
+      to: [env.HR_TO_EMAIL],
       reply_to: email,
-      subject: `New enquiry from ${company}`,
+      subject: role ? `New application: ${role} — ${name}` : `New application from ${name}`,
       html,
-      attachments: attachments.length ? attachments : undefined,
+      attachments,
     }),
   });
 
   if (!res.ok) {
-    console.error("[enquiry] Resend error", res.status, await res.text());
+    console.error("[apply] Resend error", res.status, await res.text());
     return json({ error: "Couldn't send the email." }, 502);
   }
 

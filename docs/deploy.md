@@ -30,11 +30,42 @@ before the first deploy:
   `CLOUDFLARE_API_TOKEN` in your shell):
   `wrangler pages project create c-and-t --production-branch=main`
 
-### Contact form email (Cloudflare Pages Function)
+### Hosting under the client's Cloudflare account
+
+Everything above works the same regardless of *whose* Cloudflare account
+holds the project — nothing in this repo is account-specific, since the
+project name and output directory are passed as CLI flags rather than baked
+into a `wrangler.toml`. Moving hosting to the client's account is a
+credentials swap, not a code change:
+
+1. **In the client's Cloudflare account** (they'll need to do this, or grant
+   temporary access to whoever is running this) — Workers & Pages → Create →
+   Pages → create a project named `c-and-t` (or whatever name they prefer;
+   update the `--project-name` flag in `.github/workflows/deploy.yml` and
+   `package.json`'s `deploy` script to match if so).
+2. Generate a scoped API token: Cloudflare dashboard → **My Profile → API
+   Tokens → Create Token** → "Edit Cloudflare Workers" template (covers
+   Pages) restricted to their account. Note their **Account ID** too (right
+   sidebar of the dashboard overview, or `wrangler whoami` once logged in as
+   them).
+3. In **this repo's** GitHub Settings → Secrets and variables → Actions,
+   replace `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` with the new
+   values from step 2. Paste secrets directly into GitHub's UI — never share
+   API tokens in chat/email.
+4. Re-enter the Pages Function environment variables (see below) on the
+   **new** project — they don't carry over from the old account's project.
+5. If the client wants a custom domain, add it under the new Pages project →
+   Custom domains (requires the domain's DNS on Cloudflare, or a CNAME at
+   their registrar pointing to the `pages.dev` subdomain).
+6. Push to `main` (or re-run the workflow manually) — the next deploy lands
+   on the client's account.
+
+### Contact + application form email (Cloudflare Pages Functions)
 
 `functions/api/enquiry.js` handles the "Get in touch" modal
-(`components/forms/EnquiryModal.tsx`) — the static export has no server, so
-this Pages Function sends the submission as an email via
+(`components/forms/EnquiryModal.tsx`) and `functions/api/apply.js` handles the
+job-application modal (`components/forms/ApplyModal.tsx`) — the static export
+has no server, so both Pages Functions send their submission as an email via
 [Resend](https://resend.com). `wrangler pages deploy` bundles anything under
 `functions/` automatically (no `--no-bundle` flag is used, so this keeps
 working).
@@ -42,15 +73,34 @@ working).
 Set these in the Cloudflare dashboard → Workers & Pages → `c-and-t` →
 Settings → Environment variables (do this for both Production and Preview):
 
-- `RESEND_API_KEY` — secret, from the Resend dashboard
+- `RESEND_API_KEY` — secret, from the Resend dashboard, shared by both forms
 - `CONTACT_TO_EMAIL` — the inbox that should receive enquiries
-- `CONTACT_FROM_EMAIL` — optional, e.g. `"C&T Website <enquiries@yourdomain.com>"`.
-  Without a verified sending domain in Resend, mail sends from a shared
-  sandbox address and can only be delivered to the email on the Resend
-  account — verify a domain in Resend to send to `CONTACT_TO_EMAIL` for real.
+- `HR_TO_EMAIL` — the inbox that should receive job applications
+- `CONTACT_FROM_EMAIL` — optional, e.g. `"C&T Website <enquiries@yourdomain.com>"`,
+  shared by both forms. Without a verified sending domain in Resend, mail
+  sends from a shared sandbox address and can only be delivered to the email
+  on the Resend account — verify a domain in Resend to send to
+  `CONTACT_TO_EMAIL`/`HR_TO_EMAIL` for real.
 
 These are Pages project variables, not GitHub Actions secrets — the build
-step never touches them, only the deployed Function does at request time.
+step never touches them, only the deployed Functions do at request time.
+
+### Google Analytics
+
+`components/analytics/GoogleAnalytics.tsx` renders the GA4 `gtag.js` snippet,
+mounted once in `app/layout.tsx`. It reads `NEXT_PUBLIC_GA_ID` and renders
+nothing if that's unset, so it's safe to leave empty until the client's
+Measurement ID is available.
+
+Like the Sanity `NEXT_PUBLIC_*` values, this is baked in at **build time**, so
+it's a GitHub Actions **Variable**, not a secret (a GA4 Measurement ID is
+public by design — it's visible in every page's own script tag):
+
+- `NEXT_PUBLIC_GA_ID` — the client's GA4 Measurement ID, e.g. `G-XXXXXXXXXX`,
+  from their Google Analytics account → Admin → Data Streams → Web stream.
+
+For local dev, add the same key to `.env.local` if you want analytics to fire
+while running `npm run dev` (usually not needed).
 
 ### GitHub
 
@@ -58,9 +108,10 @@ Repo **Settings → Secrets and variables → Actions**:
 
 - Secrets: `CLOUDFLARE_API_TOKEN` (Cloudflare "Cloudflare Pages: Edit"
   permission), `CLOUDFLARE_ACCOUNT_ID`
-- Variables (optional, fall back to the defaults baked into `sanity/env.ts`):
+- Variables (optional, fall back to the defaults baked into `sanity/env.ts`,
+  except `NEXT_PUBLIC_GA_ID` which just no-ops if unset):
   `NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET`,
-  `NEXT_PUBLIC_SANITY_API_VERSION`
+  `NEXT_PUBLIC_SANITY_API_VERSION`, `NEXT_PUBLIC_GA_ID`
 
 Create a fine-grained GitHub PAT with **only** the "Contents: read and
 write" permission on this repo — this is what Sanity uses to fire

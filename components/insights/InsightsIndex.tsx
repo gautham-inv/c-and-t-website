@@ -17,7 +17,6 @@ export function InsightsIndex({ items }: { items: Insight[] }) {
             backgroundSize: "56px 56px",
           }}
         />
-        <span className="absolute left-6 top-28 h-6 w-6 border-l border-t border-beige md:left-10" />
         <div className="relative mx-auto max-w-[1600px] px-6 pb-4 pt-36 text-center md:px-10 md:pt-44">
           <h1 className="mx-auto max-w-4xl font-display text-[clamp(2.5rem,1rem+5vw,4.5rem)] font-semibold leading-[1.04] tracking-[-0.025em]">
             Innovative thinking

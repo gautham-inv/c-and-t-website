@@ -42,7 +42,7 @@ export function Insights() {
               data-up
               className="font-display text-[clamp(2rem,1rem+3vw,3.6rem)] font-semibold leading-[1.06] tracking-[-0.02em]"
             >
-              Innovative <span className="text-green-dark">thinking</span>
+              Recent <span className="text-green-dark">thinking</span>
             </h2>
           </div>
           <a
@@ -60,7 +60,7 @@ export function Insights() {
 
         <div
           data-up
-          className="mt-12 grid items-stretch gap-10 md:mt-14 md:grid-cols-2 md:gap-16"
+          className="mt-12 grid items-stretch gap-6 md:mt-14 md:grid-cols-2 md:gap-8"
         >
           {/* Card 1 — title beside a tall portrait image. */}
           {featured[0] && (

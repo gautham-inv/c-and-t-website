@@ -24,8 +24,6 @@ export function JobDescription({ opening }: { opening: Opening }) {
             backgroundSize: "56px 56px",
           }}
         />
-        <span className="absolute left-6 top-28 h-6 w-6 border-l border-t border-beige md:left-10" />
-
         <div className="relative mx-auto max-w-[900px] px-6 pb-6 pt-36 md:px-10 md:pt-44">
           <a
             href="/careers"
@@ -93,8 +91,8 @@ export function JobDescription({ opening }: { opening: Opening }) {
                 Ready to apply?
               </h2>
               <p className="mt-2 max-w-md text-sm leading-relaxed text-paper/80">
-                Send us your résumé and a note on why this role fits — we review
-                every application.
+                Send us your résumé and a note on why this role fits. We
+                review every application.
               </p>
             </div>
             <button

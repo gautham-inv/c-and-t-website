@@ -6,9 +6,9 @@ import { InsightsIndex } from "@/components/insights/InsightsIndex";
 import { getInsights } from "@/sanity/lib/data";
 
 export const metadata: Metadata = {
-  title: "Insights — C&T Consulting Engineers",
+  title: "Insights | C&T Consulting Engineers",
   description:
-    "Innovative thinking from C&T's engineers — notes on BIM, CFD, MEP and the methods behind the buildings and energy projects we deliver.",
+    "Articles from C&T's engineers on BIM, CFD and MEP, and the methods behind our building and energy projects.",
 };
 
 export default async function InsightsPage() {

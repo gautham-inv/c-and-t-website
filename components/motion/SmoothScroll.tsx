@@ -51,10 +51,25 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     const t1 = window.setTimeout(refresh, 600);
     const t2 = window.setTimeout(refresh, 1800);
 
+    // `loading="lazy"` images (e.g. Leadership photos further down the page)
+    // can finish decoding well after the timers above, especially on a slow
+    // connection — each one still shifts document height and staling every
+    // ScrollTrigger's cached start/end. `load` doesn't bubble, so listen on
+    // the capture phase and debounce, since many images can settle in a burst.
+    let imgRefreshTimer = 0;
+    const onImageLoad = (e: Event) => {
+      if (!(e.target instanceof HTMLImageElement)) return;
+      window.clearTimeout(imgRefreshTimer);
+      imgRefreshTimer = window.setTimeout(refresh, 120);
+    };
+    document.addEventListener("load", onImageLoad, true);
+
     return () => {
       window.clearTimeout(t1);
       window.clearTimeout(t2);
+      window.clearTimeout(imgRefreshTimer);
       window.removeEventListener("load", refresh);
+      document.removeEventListener("load", onImageLoad, true);
       gsap.ticker.remove(onTick);
       lenis.off("scroll", ScrollTrigger.update);
       lenis.destroy();

@@ -72,15 +72,15 @@ export function WhoWeAre() {
             <div data-up className="col-span-12 lg:col-span-5 lg:pr-8">
               <div className="space-y-5 font-display text-[clamp(1.35rem,0.9rem+1.5vw,2.05rem)] font-normal leading-[1.3] tracking-[-0.01em]">
                 <p>
-                  C&amp;T Consulting Engineers unites smart{" "}
+                  C&amp;T Consulting Engineers combines{" "}
                   <span className="text-beige-light">MEP design</span>, BIM
-                  modelling and CFD analysis to deliver engineering that
-                  performs — worldwide, since 2013.
+                  modelling and CFD analysis under one roof, delivering
+                  engineering that performs worldwide, since 2013.
                 </p>
                 <p className="text-paper/70">
-                  From data centres and airports to industrial plants and
-                  offshore platforms, our teams across India, the UAE and
-                  Canada build sustainable, ESG-aligned systems that endure.
+                  Our teams in India, the UAE and Canada design systems for
+                  data centres, airports, industrial plants and offshore
+                  platforms, built to ESG standards and made to last.
                 </p>
               </div>
 

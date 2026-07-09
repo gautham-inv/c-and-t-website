@@ -101,10 +101,10 @@ export function EnquiryModal() {
     const get = (k: string) => String(data.get(k) ?? "").trim();
 
     const next: Errors = {};
-    if (!get("company")) next.company = "Please add your company name.";
+    if (!get("company")) next.company = "Add your company name.";
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(get("email")))
       next.email = "Enter a valid email address.";
-    if (!get("phone")) next.phone = "Please add a contact number.";
+    if (!get("phone")) next.phone = "Add a contact number.";
     if (!projectType) next.projectType = "Pick a project type.";
     if (!get("message")) next.message = "Tell us a little about the project.";
 
@@ -120,7 +120,7 @@ export function EnquiryModal() {
       setFile(null);
       setSent(true);
     } catch {
-      setErrors({ form: "Something went wrong — please email us directly." });
+      setErrors({ form: "Something went wrong. Email us directly instead." });
     } finally {
       setSubmitting(false);
     }
@@ -173,8 +173,8 @@ export function EnquiryModal() {
                 Enquiry received
               </h2>
               <p className="mt-3 max-w-sm text-[0.95rem] leading-relaxed text-ink-dim">
-                Thanks — our team will review your project and get back to you
-                shortly.
+                We&apos;ve got your details. Someone from our team will review
+                your project and get back to you shortly.
               </p>
               <button
                 onClick={close}
@@ -189,8 +189,8 @@ export function EnquiryModal() {
                 Get in touch
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-ink-dim">
-                When you submit this form, the owner will see your name and email
-                address.
+                We&apos;ll only use these details to get back to you about
+                your project.
               </p>
 
               <form

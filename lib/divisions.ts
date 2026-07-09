@@ -38,8 +38,8 @@ export const DIVISIONS: Division[] = [
       "MEP design and BIM coordination for the buildings and infrastructure the world depends on.",
     image: "/building-division.jpg",
     overview: [
-      "From hyperscale data centres and international airport terminals to towers, malls and industrial campuses, our Buildings & Infrastructure team engineers the mechanical, electrical and public-health systems that keep complex, systems-dense facilities running.",
-      "A dedicated team delivers fully coordinated MEP designs and federated BIM models across data centres, airports and industrial facilities — resolving clashes in the model before they ever reach site, so construction stays on programme.",
+      "Our Buildings & Infrastructure team designs the mechanical, electrical and public-health systems for hyperscale data centres, international airport terminals, towers, malls and industrial campuses, keeping complex, systems-dense facilities running.",
+      "A dedicated team delivers fully coordinated MEP designs and federated BIM models across data centres, airports and industrial facilities. Clashes are resolved in the model before they reach site, so construction stays on programme.",
     ],
     stats: [
       { value: "163,000 m²", label: "Trivandrum T2 terminal" },
@@ -59,7 +59,7 @@ export const DIVISIONS: Division[] = [
       },
       {
         q: "Which building types have you delivered?",
-        a: "Airport terminals and cargo, hyperscale and edge data centres, and multi-building industrial campuses — with commercial and healthcare capability available on request.",
+        a: "Airport terminals and cargo, hyperscale and edge data centres, and multi-building industrial campuses. Commercial and healthcare capability is available on request.",
       },
     ],
   },
@@ -71,7 +71,7 @@ export const DIVISIONS: Division[] = [
       "Detailed engineering and 3D modelling for refineries, LNG and offshore platforms.",
     image: "/oil-and-gas-division.jpg",
     overview: [
-      "Energy projects demand engineering that holds up under scrutiny — process-adjacent buildings, electrical and instrumentation, piping and fire & gas systems designed to international code and modelled to fabrication detail.",
+      "Energy projects demand engineering that holds up under scrutiny. Process-adjacent buildings, electrical and instrumentation, piping and fire & gas systems are designed to international code and modelled to fabrication detail.",
       "Our Oil & Gas team supports operators and EPC contractors across refineries, LNG plants and offshore platforms, delivering detailed engineering and high-LOD 3D models for some of the sector's most demanding clients.",
     ],
     stats: [
@@ -83,12 +83,12 @@ export const DIVISIONS: Division[] = [
     sectorSlugs: [],
     faqs: [
       {
-        q: "You're newer to oil & gas — what's your track record?",
+        q: "You're newer to oil & gas, so what's your track record?",
         a: "We've delivered detailed engineering and high-LOD modelling on Yamal LNG, the Duqm Refinery and offshore work for L&T / Qatar Energy and Dry Dock World, for clients including ADNOC, Petrofac and TECHNIP.",
       },
       {
         q: "What 3D modelling detail do you deliver for energy projects?",
-        a: "Up to LOD 500 — fabrication- and construction-ready models, as delivered on Yamal LNG and the Duqm Refinery.",
+        a: "Up to LOD 500, fabrication- and construction-ready models, as delivered on Yamal LNG and the Duqm Refinery.",
       },
       {
         q: "Do you work on offshore as well as onshore facilities?",

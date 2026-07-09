@@ -19,7 +19,7 @@ export function ProjectGallery({ items }: { items: GalleryItem[] }) {
           Project <span className="text-green-dark">gallery</span>
         </h2>
 
-        <div className="mt-12 grid auto-rows-[clamp(8rem,13vw,11rem)] grid-cols-2 gap-4 md:mt-14 md:grid-cols-4 md:gap-5">
+        <div className="mt-12 grid auto-rows-[clamp(8rem,13vw,11rem)] grid-cols-2 gap-6 md:mt-14 md:grid-cols-4 md:gap-8">
           {items.map((item, i) => (
             <figure
               key={`${item.image}-${i}`}

@@ -10,11 +10,11 @@ import { getLenis } from "@/lib/lenis";
  * APPLY_EVENT dispatched by openApply(role) from any "Apply now" CTA. Adapts
  * the EnquiryModal: same field/validation/upload idiom, plus a prefilled role.
  *
- * Static export → no server. Set ENDPOINT to a forms endpoint (Web3Forms,
- * Formspree, etc.) to actually deliver applications; until then it validates,
- * shows the success state and logs the payload to the console.
+ * Static export → no server, so delivery goes through the Cloudflare Pages
+ * Function at functions/api/apply.js, which emails the application to HR via
+ * Resend. See that file for the required environment variables.
  */
-const ENDPOINT = ""; // e.g. "https://api.web3forms.com/submit"
+const ENDPOINT = "/api/apply";
 
 // PDF · Word — the usual résumé formats.
 const ACCEPT = ".pdf,.doc,.docx";
@@ -95,37 +95,24 @@ export function ApplyModal() {
     const get = (k: string) => String(data.get(k) ?? "").trim();
 
     const next: Errors = {};
-    if (!get("name")) next.name = "Please add your full name.";
+    if (!get("name")) next.name = "Add your full name.";
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(get("email")))
       next.email = "Enter a valid email address.";
-    if (!get("phone")) next.phone = "Please add a contact number.";
-    if (!file) next.file = "Please attach your résumé.";
+    if (!get("phone")) next.phone = "Add a contact number.";
+    if (!file) next.file = "Attach your résumé.";
 
     setErrors(next);
     if (Object.keys(next).length) return;
 
     setSubmitting(true);
     try {
-      if (ENDPOINT) {
-        const res = await fetch(ENDPOINT, { method: "POST", body: data });
-        if (!res.ok) throw new Error("Submission failed");
-      } else {
-        // No endpoint wired yet — log the payload so nothing is silently lost.
-        console.info("[Application] (no ENDPOINT set)", {
-          role,
-          name: get("name"),
-          email: get("email"),
-          phone: get("phone"),
-          linkedin: get("linkedin"),
-          message: get("message"),
-          resume: file?.name,
-        });
-      }
+      const res = await fetch(ENDPOINT, { method: "POST", body: data });
+      if (!res.ok) throw new Error("Submission failed");
       form.reset();
       setFile(null);
       setSent(true);
     } catch {
-      setErrors({ form: "Something went wrong — please email us directly." });
+      setErrors({ form: "Something went wrong. Email us directly instead." });
     } finally {
       setSubmitting(false);
     }
@@ -179,8 +166,8 @@ export function ApplyModal() {
                   Application received
                 </h2>
                 <p className="mt-3 max-w-sm text-[0.95rem] leading-relaxed text-ink-dim">
-                  Thanks for applying{role ? ` for ${role}` : ""} — our team will
-                  review your résumé and be in touch if there&apos;s a fit.
+                  Thanks for applying{role ? ` for ${role}` : ""}. We&apos;ll
+                  look over your résumé and follow up if it&apos;s a fit.
                 </p>
                 <button
                   onClick={close}
@@ -200,8 +187,7 @@ export function ApplyModal() {
                   {role || "Apply to C&T"}
                 </h2>
                 <p className="mt-3 text-sm leading-relaxed text-ink-dim">
-                  Tell us a little about yourself and attach your résumé. When you
-                  submit, our team will see your details.
+                  Tell us a little about yourself and attach your résumé.
                 </p>
 
                 <form

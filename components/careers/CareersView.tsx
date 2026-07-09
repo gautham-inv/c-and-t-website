@@ -79,7 +79,6 @@ export function CareersView({
               it, so the copy sits directly on the photo (navy wash already
               gives it enough contrast). */}
           <div className="relative max-w-xl lg:rounded-3xl lg:bg-paper/95 lg:p-12 lg:shadow-[0_40px_120px_-45px_rgba(9,33,44,0.6)] lg:ring-1 lg:ring-navy/10 lg:backdrop-blur-sm">
-            <span className="absolute left-8 top-8 hidden h-5 w-5 border-l border-t border-beige lg:block" />
             <h1 className="font-display text-[clamp(2.25rem,1rem+4vw,4rem)] font-semibold leading-[1.03] tracking-[-0.03em] text-paper lg:text-ink">
               A new standard of{" "}
               <span className="text-beige-light lg:text-green-dark">

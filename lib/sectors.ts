@@ -109,7 +109,7 @@ export const SECTORS: Sector[] = [
       "MEP design and BIM coordination for terminals where downtime is not an option.",
     image: "/airport.webp",
     overview: [
-      "Airport terminals are among the most systems-dense buildings we engineer — HVAC, smoke control, baggage power, life-safety and ELV all converging in landside and airside zones that must stay operational around the clock.",
+      "Airport terminals are among the most systems-dense buildings we engineer. HVAC, smoke control, baggage power, life safety and ELV all converge in landside and airside zones that must stay operational around the clock.",
       "C&T delivers fully coordinated MEP designs and federated BIM models for terminals and cargo facilities, resolving clashes before they reach site so construction stays on programme.",
     ],
     stats: [
@@ -124,17 +124,17 @@ export const SECTORS: Sector[] = [
       },
       {
         title: "Integrated multi-discipline MEP",
-        body: "HVAC, electrical, plumbing, fire and ELV are designed as a single coordinated system across airside and landside — not stitched together from separate silos.",
+        body: "HVAC, electrical, plumbing, fire and ELV are designed as a single coordinated system across airside and landside, not stitched together from separate silos.",
       },
       {
         title: "We fit your delivery model",
-        body: "We work direct-to-authority, as on Trivandrum T2, or as the MEP and BIM partner to the lead consultant, as we did with AECOM on BIAL — slotting into whatever structure the project runs on.",
+        body: "We work direct-to-authority, as on Trivandrum T2, or as the MEP and BIM partner to the lead consultant, as we did with AECOM on BIAL. We adapt to whatever structure the project runs on.",
       },
     ],
     services: [
       svc(
         "mep",
-        "Terminal MEP designed as one system — HVAC and smoke control sized for peak passenger loads, baggage-handling power and life-safety integrated from airside to landside.",
+        "Terminal MEP is designed as one system: HVAC and smoke control sized for peak passenger loads, baggage-handling power and life safety integrated from airside to landside.",
         ["HVAC & smoke control", "Baggage & FIDS power", "Plumbing & firefighting"],
       ),
       svc(
@@ -149,7 +149,7 @@ export const SECTORS: Sector[] = [
       ),
       svc(
         "cfd",
-        "Airflow and smoke-movement simulation for large terminal volumes — validating ventilation comfort and evacuation safety before construction begins.",
+        "Airflow and smoke-movement simulation for large terminal volumes validates ventilation comfort and evacuation safety before construction begins.",
         ["Terminal airflow", "Smoke movement", "Thermal comfort"],
       ),
     ],
@@ -218,7 +218,7 @@ export const SECTORS: Sector[] = [
     image: "/datacenter.jpeg",
     overview: [
       "Data centres live and die by thermal performance and power resilience. Every watt of IT load is a watt of heat to reject, and redundancy has to be designed in, not bolted on.",
-      "C&T delivers MEP design and BIM for critical facilities — pairing detailed mechanical and electrical design with CFD analysis to validate airflow and hotspot risk before commissioning.",
+      "C&T delivers MEP design and BIM for critical facilities, pairing detailed mechanical and electrical design with CFD analysis to validate airflow and hotspot risk before commissioning.",
     ],
     stats: [
       { value: "2.4 MW", label: "Calinova critical IT load" },
@@ -228,7 +228,7 @@ export const SECTORS: Sector[] = [
     services: [
       svc(
         "mep",
-        "Mechanical and electrical design built around the critical IT load — cooling topology, power distribution and redundancy engineered to the facility's uptime target.",
+        "Mechanical and electrical design built around the critical IT load: cooling topology, power distribution and redundancy engineered to the facility's uptime target.",
         ["Cooling topology", "Power distribution", "Redundancy design"],
       ),
       svc(
@@ -270,7 +270,7 @@ export const SECTORS: Sector[] = [
     faqs: [
       {
         q: "Do you use CFD to validate data-centre cooling?",
-        a: "Yes. CFD airflow modelling is core to our data-centre work — we simulate cold/hot aisle behaviour and identify hotspots so the cooling design is proven before it is built.",
+        a: "Yes. CFD airflow modelling is core to our data-centre work. We simulate cold/hot aisle behaviour and identify hotspots so the cooling design is proven before it is built.",
       },
       {
         q: "What redundancy levels can you design to?",
@@ -290,8 +290,8 @@ export const SECTORS: Sector[] = [
       "Detailed engineering for process plants, utilities and multi-building campuses.",
     image: "/engineering.jpg",
     overview: [
-      "Industrial campuses combine process, utility and support buildings — each with its own MEP, ELV and structural coordination demands across a single site.",
-      "C&T delivers detailed engineering and high-LOD 3D modelling across multi-building industrial developments, keeping every discipline coordinated from utilities to plant rooms.",
+      "Industrial campuses combine process, utility and support buildings, each with its own MEP, ELV and structural coordination demands across a single site.",
+      "C&T delivers detailed engineering and high-LOD 3D modelling across multi-building industrial developments, and every discipline stays coordinated from utilities to plant rooms.",
     ],
     stats: [
       { value: "30,000 m²", label: "Duqm Refinery footprint" },
@@ -316,7 +316,7 @@ export const SECTORS: Sector[] = [
       ),
       svc(
         "mep",
-        "Integrated MEP for process and utility buildings — HVAC, power, plumbing and ELV designed to operate as one site-wide system.",
+        "Integrated MEP for process and utility buildings: HVAC, power, plumbing and ELV designed to operate as one site-wide system.",
         ["HVAC & power", "Plumbing & ELV", "Site-wide systems"],
       ),
       svc(
@@ -348,7 +348,7 @@ export const SECTORS: Sector[] = [
     faqs: [
       {
         q: "Can you coordinate across a multi-building industrial site?",
-        a: "Yes — the Duqm Refinery comprised 12 buildings modelled to LOD 500, federated so utilities, process and support structures stayed coordinated across the whole site.",
+        a: "Yes. The Duqm Refinery comprised 12 buildings modelled to LOD 500, federated so utilities, process and support structures stayed coordinated across the whole site.",
       },
       {
         q: "Do you deliver construction-ready documentation?",

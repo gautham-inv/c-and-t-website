@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { EnquiryModal } from "@/components/forms/EnquiryModal";
 import { ApplyModal } from "@/components/forms/ApplyModal";
+import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import "./globals.css";
 
 /* Satoshi — self-hosted (Fontshare). Carries display + body. 600 requests
@@ -19,9 +20,12 @@ const satoshi = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "C&T Consulting Engineers — Smart Engineering | MEP · BIM · CFD",
+  title: "C&T Consulting Engineers | MEP, BIM & CFD | Smart Engineering",
   description:
     "Precision Engineered. Globally Delivered. C&T delivers MEP design, BIM modelling and CFD analysis for buildings, airports, industrial and oil & gas projects worldwide since 2013.",
+  icons: {
+    icon: "/favicon.webp",
+  },
 };
 
 export default function RootLayout({
@@ -32,6 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={satoshi.variable}>
       <body>
+        <GoogleAnalytics />
         <SmoothScroll>{children}</SmoothScroll>
         <EnquiryModal />
         <ApplyModal />

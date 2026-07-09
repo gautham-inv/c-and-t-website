@@ -28,7 +28,7 @@ export async function generateMetadata({
   const divisions = await getDivisions();
   const division = divisions.find((d) => d.slug === slug);
   if (!division) return {};
-  const title = `${division.name} — C&T Consulting Engineers`;
+  const title = `${division.name} | C&T Consulting Engineers`;
   return {
     title,
     description: division.tagline,

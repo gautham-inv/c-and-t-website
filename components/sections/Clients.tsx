@@ -7,29 +7,29 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-type Client = { name: string; logo: string; h: number };
+type Client = { name: string; logo: string; h: number; url: string };
 
 // Client → logo asset in /public/clients. `h` is the rendered logo height (px),
 // tuned PER LOGO for equal optical weight: wide wordmarks stay short, compact /
 // square marks get more height so they don't read as tiny. (OSCO and ACCEL have
 // no logo file yet, so they are omitted until artwork is supplied.)
 const CLIENTS: Client[] = [
-  { name: "NEOM", logo: "/clients/neom.png", h: 46 },
-  { name: "AECOM", logo: "/clients/aecom.png", h: 28 },
-  { name: "Voltas", logo: "/clients/voltas.png", h: 28 },
-  { name: "Artelia", logo: "/clients/artelia.png", h: 36 },
-  { name: "EIDC", logo: "/clients/eidc.webp", h: 42 },
-  { name: "Petrofac", logo: "/clients/petrofaclogo.png", h: 34 },
-  { name: "Technip", logo: "/clients/technip.webp", h: 40 },
-  { name: "Qatar Energy", logo: "/clients/qatarenergy.webp", h: 46 },
-  { name: "L&T", logo: "/clients/l&t.png", h: 42 },
-  { name: "KIIFB", logo: "/clients/kiifb.webp", h: 38 },
-  { name: "CINQ", logo: "/clients/cinq.webp", h: 46 },
-  { name: "ADNOC", logo: "/clients/adnoc.png", h: 38 },
-  { name: "AHI Carrier", logo: "/clients/ahicarrier.png", h: 38 },
-  { name: "Dry Docks World", logo: "/clients/drydocksworld.webp", h: 30 },
-  { name: "Aries", logo: "/clients/ariesglobal.webp", h: 40 },
-  { name: "Marinor", logo: "/clients/marinor.webp", h: 26 },
+  { name: "NEOM", logo: "/clients/neom.png", h: 52, url: "https://www.neom.com" },
+  { name: "AECOM", logo: "/clients/aecom.png", h: 32, url: "https://aecom.com" },
+  { name: "Voltas", logo: "/clients/voltas.png", h: 32, url: "https://www.voltas.in" },
+  { name: "Artelia", logo: "/clients/artelia.png", h: 42, url: "https://www.arteliagroup.com" },
+  { name: "EIDC", logo: "/clients/eidc.webp", h: 58, url: "https://www.eidcoman.com" },
+  { name: "Petrofac", logo: "/clients/petrofaclogo.png", h: 46, url: "https://www.petrofac.com" },
+  { name: "Technip", logo: "/clients/technip.webp", h: 50, url: "https://www.ten.com/en" },
+  { name: "Qatar Energy", logo: "/clients/qatarenergy.webp", h: 56, url: "https://www.qatarenergy.qa" },
+  { name: "L&T", logo: "/clients/l&t.png", h: 54, url: "https://www.larsentoubro.com" },
+  { name: "KIIFB", logo: "/clients/kiifb.webp", h: 44, url: "https://www.kiifb.org" },
+  { name: "CINQ", logo: "/clients/cinq.webp", h: 52, url: "https://www.cinq.ae" },
+  { name: "ADNOC", logo: "/clients/adnoc.png", h: 42, url: "https://www.adnoc.ae" },
+  { name: "AHI Carrier", logo: "/clients/ahicarrier.png", h: 50, url: "https://www.ahi-carrier.com" },
+  { name: "Dry Docks World", logo: "/clients/drydocksworld.webp", h: 44, url: "https://www.drydocks.gov.ae" },
+  { name: "Aries", logo: "/clients/ariesglobal.webp", h: 44, url: "https://www.ariesmar.com" },
+  { name: "Marinor", logo: "/clients/marinor.webp", h: 38, url: "https://www.marinor.co.in" },
 ];
 
 // Distribute round-robin into three columns (6 / 5 / 5).
@@ -40,6 +40,29 @@ const DURATIONS = ["26s", "32s", "29s"];
 
 const MASK =
   "linear-gradient(to bottom, transparent, #000 16%, #000 84%, transparent)";
+
+// Static, non-animated logo wall for small screens — three scrolling columns
+// read as cluttered/cramped on narrow widths, so mobile gets one still grid
+// instead (each logo shown once, properly focusable, no duplication).
+function LogoGridItem({ client }: { client: Client }) {
+  return (
+    <a
+      href={client.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={client.name}
+      className="flex h-16 items-center justify-center px-2"
+    >
+      <img
+        src={client.logo}
+        alt={client.name}
+        loading="lazy"
+        style={{ height: Math.round(client.h * 0.7) }}
+        className="w-auto max-w-full object-contain opacity-80 brightness-0 invert"
+      />
+    </a>
+  );
+}
 
 function TickerColumn({ items, duration }: { items: Client[]; duration: string }) {
   // Two stacked copies → seamless loop (content moves top → down). Fixed-height
@@ -59,13 +82,21 @@ function TickerColumn({ items, duration }: { items: Client[]; duration: string }
             key={`${client.name}-${i}`}
             className="flex h-24 items-center justify-center px-3 md:px-4"
           >
-            <img
-              src={client.logo}
-              alt={client.name}
-              loading="lazy"
-              style={{ height: client.h }}
-              className="w-auto max-w-full object-contain opacity-80 brightness-0 invert transition-opacity duration-300 hover:opacity-100"
-            />
+            <a
+              href={client.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={client.name}
+              tabIndex={-1}
+            >
+              <img
+                src={client.logo}
+                alt={client.name}
+                loading="lazy"
+                style={{ height: client.h }}
+                className="w-auto max-w-full object-contain opacity-80 brightness-0 invert transition-opacity duration-300 hover:opacity-100"
+              />
+            </a>
           </div>
         ))}
       </div>
@@ -96,7 +127,7 @@ export function Clients() {
       {/* Inline keyframes — Tailwind v4 purges unreferenced @keyframes from
           the stylesheet, so the vertical ticker animation lives here. */}
       <style>{`@keyframes ct-ticker-down{from{transform:translateY(-50%)}to{transform:translateY(0)}}`}</style>
-      <div className="mx-auto grid max-w-[1600px] items-center gap-8 px-6 py-14 md:gap-14 md:px-10 md:py-28 lg:grid-cols-2 lg:gap-20 lg:py-36">
+      <div className="mx-auto grid max-w-[1600px] items-center gap-6 px-6 pt-14 pb-20 md:gap-10 md:px-10 md:pt-28 md:pb-36 lg:grid-cols-2 lg:gap-14 lg:pt-36 lg:pb-44">
         {/* Left — heading, intro, ISO, CTA */}
         <div className="lg:max-w-md">
           <h2
@@ -110,8 +141,8 @@ export function Clients() {
             className="mt-6 max-w-md text-base leading-relaxed text-paper/80 md:mt-10 md:text-lg"
           >
             Since 2013, C&amp;T has delivered engineering for developers, EPCs
-            and energy majors worldwide — backed by an ISO&nbsp;9001:2015
-            certified quality system.
+            and energy majors worldwide. The work is backed by an
+            ISO&nbsp;9001:2015 certified quality system.
           </p>
 
           <div data-up className="mt-6 md:mt-8">
@@ -132,11 +163,20 @@ export function Clients() {
           </a>
         </div>
 
-        {/* Right — three vertical logo tickers (top → down), no boxes/borders */}
-        <div className="grid grid-cols-3">
-          {COLUMNS.map((col, i) => (
-            <TickerColumn key={i} items={col} duration={DURATIONS[i]} />
-          ))}
+        {/* Right — static logo wall on small screens, three scrolling logo
+            tickers (top → down) from md up, no boxes/borders either way */}
+        <div>
+          <div className="grid grid-cols-2 gap-x-2 gap-y-1 md:hidden">
+            {CLIENTS.map((c) => (
+              <LogoGridItem key={c.name} client={c} />
+            ))}
+          </div>
+
+          <div className="hidden md:grid md:grid-cols-3">
+            {COLUMNS.map((col, i) => (
+              <TickerColumn key={i} items={col} duration={DURATIONS[i]} />
+            ))}
+          </div>
         </div>
       </div>
     </section>

@@ -44,15 +44,15 @@ export function Divisions() {
             data-up
             className="max-w-xl text-base leading-relaxed text-ink-dim md:text-lg"
           >
-            Two dedicated teams, one standard of engineering — our Buildings &amp;
-            Infrastructure team designs the MEP and BIM behind data centres,
-            airports and industrial facilities, while our Oil &amp; Gas team takes
-            refineries, LNG and offshore work to fabrication detail.
+            Our Buildings &amp; Infrastructure team designs the MEP and BIM
+            behind data centres, airports and industrial facilities. Our Oil
+            &amp; Gas team takes refineries, LNG and offshore work to
+            fabrication detail.
           </p>
         </div>
 
         {/* Two division cards */}
-        <div className="mt-12 grid gap-6 md:mt-14 md:grid-cols-2">
+        <div className="mt-12 grid gap-6 md:mt-14 md:grid-cols-2 md:gap-8">
           {DIVISIONS.map((d) => {
             return (
               <a

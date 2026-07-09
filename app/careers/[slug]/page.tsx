@@ -20,7 +20,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const opening = await getJobOpening(slug);
   if (!opening) return {};
-  const title = `${opening.title} — Careers | C&T Consulting Engineers`;
+  const title = `${opening.title} | Careers | C&T Consulting Engineers`;
   return {
     title,
     description: opening.summary,

@@ -9,14 +9,14 @@ export const VISION =
   "C&T shall be a professionally managed engineering services company committed to total stakeholder satisfaction while delivering SMART ENGINEERING solutions to the desired standards.";
 
 export const MISSION =
-  "To deliver sustainable MEP engineering & BIM services across the globe — compliant with local ESG criteria — for the better performance of every asset we touch.";
+  "To deliver sustainable MEP engineering & BIM services across the globe, compliant with local ESG criteria, for the better performance of every asset we touch.";
 
 export type Value = { name: string; body: string };
 
 export const VALUES: Value[] = [
   {
     name: "Ethics",
-    body: "Honest, principled conduct in every engagement — the standard our clients and partners rely on.",
+    body: "Honest, principled conduct in every engagement, the standard our clients and partners rely on.",
   },
   {
     name: "Legal Compliance",
@@ -24,7 +24,7 @@ export const VALUES: Value[] = [
   },
   {
     name: "Transparent Transactions",
-    body: "Clear, open dealings with clients, partners and our own team — no hidden terms, no surprises.",
+    body: "Clear, open dealings with clients, partners and our own team, without hidden terms or surprises.",
   },
   {
     name: "Integrity",
@@ -32,7 +32,7 @@ export const VALUES: Value[] = [
   },
   {
     name: "Growth & Development",
-    body: "We enjoy the journey — investing in our people so they grow alongside the practice.",
+    body: "We enjoy the journey, investing in our people so they grow alongside the practice.",
   },
   {
     name: "Share & Care",
@@ -112,8 +112,8 @@ export const LOCATIONS: Location[] = [
     lat: 24.45,
     lng: 54.38,
     entities: [
-      "Fortis Technical Services LLC — Dubai",
-      "Fortis Contracting & General Maintenance LLC — Abu Dhabi",
+      "Fortis Technical Services LLC, Dubai",
+      "Fortis Contracting & General Maintenance LLC, Abu Dhabi",
     ],
   },
   {
@@ -133,7 +133,7 @@ export const LEADERSHIP: Leader[] = [
   {
     name: "Jimmy Bentex",
     role: "Founder & CEO",
-    photo: "/leadership/jimmy.png",
+    photo: "/leadership/jimmy.jpg",
     bio: "B Tech Mechanical Engineering (CET), M Tech (KU). IGBC Lead Associate & ISHRAE member. 25 years across Bilt Middle East, Voltas (TATA), Bluestar & Chalmers Engineering, Dubai.",
   },
   { name: "Vidyanand", role: "CFO", photo: "/leadership/vidyanand.jpeg" },
@@ -141,14 +141,14 @@ export const LEADERSHIP: Leader[] = [
   {
     name: "V S Sriram",
     role: "Technical Advisor",
-    photo: "/leadership/vs-sriram.png",
-    bio: "Mechanical Engineering graduate with 35+ years in MEP across India, the Middle East and SE Asia. Dynamic techno-commercial professional with strong analytical and problem-solving skills, and a passionate mentor and technical trainer.",
+    photo: "/leadership/vs-sriram.jpg",
+    bio: "Mechanical Engineering graduate with 35+ years in MEP across India, the Middle East and SE Asia. Techno-commercial background with strong analytical and problem-solving skills. Also mentors and trains engineers on technical topics.",
   },
   {
     name: "Sherjin Raj S S",
     role: "OM / HOD Plumbing & Fire",
-    photo: "/leadership/sherjin.png",
-    bio: "Mechanical Engineer with 20+ years in MEPF — engineering design, project management, construction supervision and operations across airport, hospitality, residential, industrial and commercial sectors.",
+    photo: "/leadership/sherjin.jpg",
+    bio: "Mechanical Engineer with 20+ years in MEPF: engineering design, project management, construction supervision and operations across airport, hospitality, residential, industrial and commercial sectors.",
   },
   { name: "Saibu", role: "OM / HOD E&I" },
   { name: "Arun Kumar", role: "HOD Electrical" },
@@ -156,7 +156,7 @@ export const LEADERSHIP: Leader[] = [
   {
     name: "Sunil Kumar AK",
     role: "HOD Instrumentation",
-    photo: "/leadership/sunilkumar.png",
+    photo: "/leadership/sunilkumar.jpg",
     bio: "B Tech Instrumentation & Control (4th rank, Calicut University), MBA (Bajaj Institute, Bombay), PMP-certified. 29+ years across HPCL, ADNOC, Reliance, Singapore Power, Yokogawa, Schneider Electric, AVEVA & Dangote Refinery.",
   },
 ];

@@ -146,18 +146,21 @@ export function Globe({
     });
 
     const onPointerDown = (e: PointerEvent) => {
+      if (e.pointerType === "touch") return;
       isDragging.current = true;
       lastX.current = e.clientX;
       canvas.setPointerCapture(e.pointerId);
+      canvas.style.cursor = "grabbing";
     };
     const onPointerMove = (e: PointerEvent) => {
       if (!isDragging.current) return;
       const dx = e.clientX - lastX.current;
       lastX.current = e.clientX;
-      phiRef.current -= dx * 0.006;
+      phiRef.current += dx * 0.006;
     };
     const onPointerUp = () => {
       isDragging.current = false;
+      canvas.style.cursor = "grab";
     };
 
     canvas.addEventListener("pointerdown", onPointerDown);
@@ -212,7 +215,7 @@ export function Globe({
               onFocus={() => setActive(i)}
               onBlur={() => setActive((a) => (a === i ? null : a))}
               onClick={() => setActive((a) => (a === i ? null : i))}
-              aria-label={`${m.name} — ${m.role ?? "office"}`}
+              aria-label={`${m.name}, ${m.role ?? "office"}`}
               className="absolute left-0 top-0 flex h-8 w-8 items-center justify-center rounded-full"
               style={{ opacity: 0 }}
             >

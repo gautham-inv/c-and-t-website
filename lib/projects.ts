@@ -50,11 +50,11 @@ export const PROJECTS: Project[] = [
     description: [
       {
         type: "p",
-        text: "C&T delivered BIM modelling for the plant rooms across the EXPO 2020 campus in Dubai — a 300,000 m² commercial development — coordinating dense mechanical, electrical and public-health plant for one of the region's highest-profile events.",
+        text: "C&T delivered BIM modelling for the plant rooms across the EXPO 2020 campus in Dubai, a 300,000 m² commercial development, coordinating dense mechanical, electrical and public-health plant for the World Expo site.",
       },
       {
         type: "p",
-        text: "Working for CINQ / Voltas International, our team modelled the plant rooms to LOD 400, producing fabrication-ready, clash-resolved models so the services could be prefabricated and installed against a fixed, immovable opening date.",
+        text: "Working for CINQ / Voltas International, the team modelled the plant rooms to LOD 400, producing fabrication-ready, clash-resolved models so the services could be prefabricated and installed against a fixed opening date.",
       },
       { type: "heading", text: "Scope" },
       {
@@ -69,7 +69,7 @@ export const PROJECTS: Project[] = [
     ],
     info: [
       { label: "Client", value: "CINQ / Voltas International" },
-      { label: "Type", value: "Commercial Building — Expo Campus" },
+      { label: "Type", value: "Commercial Building, Expo Campus" },
       { label: "Area", value: "300,000 m²" },
       {
         label: "Services",
@@ -97,11 +97,11 @@ export const PROJECTS: Project[] = [
     description: [
       {
         type: "p",
-        text: "C&T provided MEP design and BIM services for Terminal 2 at Trivandrum Airport in Kerala, a 163,000 m² passenger terminal. The scope spanned the mechanical, electrical and public-health systems that keep a large transit building running.",
+        text: "C&T provided MEP design and BIM services for Terminal 2 at Trivandrum Airport in Kerala, a 163,000 m² passenger terminal, covering the mechanical, electrical and public-health systems that keep a large transit building running.",
       },
       {
         type: "p",
-        text: "Delivering both design and coordinated BIM models, our team resolved the services across the terminal's public concourses and back-of-house plant so that the disciplines could be built out cleanly on site.",
+        text: "The team delivered both design and coordinated BIM models, resolving services across the terminal's public concourses and back-of-house plant so the disciplines could be built out cleanly on site.",
       },
       { type: "heading", text: "Scope" },
       {
@@ -115,7 +115,7 @@ export const PROJECTS: Project[] = [
       },
     ],
     info: [
-      { label: "Type", value: "Airport — Passenger Terminal" },
+      { label: "Type", value: "Airport, Passenger Terminal" },
       { label: "Area", value: "163,000 m²" },
       { label: "Services", value: "MEP Design & BIM" },
       { label: "Location", value: "Kerala, India" },
@@ -139,11 +139,11 @@ export const PROJECTS: Project[] = [
     description: [
       {
         type: "p",
-        text: "C&T delivered MEP design and BIM services for the Calinova 2.4 MW data centre in Calicut, coordinating the power, cooling and public-health systems that a critical facility of this kind depends on.",
+        text: "C&T delivered MEP design and BIM services for the Calinova 2.4 MW data centre in Calicut, coordinating the power, cooling and public-health systems a critical facility depends on.",
       },
       {
         type: "p",
-        text: "Our team produced coordinated models of the mechanical and electrical services, resolving the dense plant and distribution routes so the facility could be installed against tight, mission-critical tolerances.",
+        text: "The team produced coordinated models of the mechanical and electrical services, resolving dense plant and distribution routes so the facility could be installed to tight, mission-critical tolerances.",
       },
       { type: "heading", text: "Scope" },
       {
@@ -157,7 +157,7 @@ export const PROJECTS: Project[] = [
       },
     ],
     info: [
-      { label: "Type", value: "Data Centre — 2.4 MW" },
+      { label: "Type", value: "Data Centre, 2.4 MW" },
       { label: "Services", value: "MEP Design & BIM" },
       { label: "Location", value: "Calicut, India" },
       { label: "Division", value: "Buildings & Infrastructure" },
@@ -180,11 +180,11 @@ export const PROJECTS: Project[] = [
     description: [
       {
         type: "p",
-        text: "C&T carried out detailed engineering and 3D modelling for the Yamal LNG project in Russia, working for TECHNIP on one of the Arctic's major liquefied-natural-gas developments.",
+        text: "C&T carried out detailed engineering and 3D modelling for the Yamal LNG project in Russia, working for TECHNIP on a large liquefied-natural-gas development in the Russian Arctic.",
       },
       {
         type: "p",
-        text: "Our team produced detailed 3D models of the process and utility systems, supporting coordinated engineering across the disciplines involved in the facility.",
+        text: "The team produced detailed 3D models of the process and utility systems, supporting coordinated engineering across the disciplines involved in the facility.",
       },
       { type: "heading", text: "Scope" },
       {
@@ -225,7 +225,7 @@ export const PROJECTS: Project[] = [
       },
       {
         type: "p",
-        text: "Our team modelled the services to LOD 300, producing coordinated models that let the disciplines be resolved and reviewed ahead of construction.",
+        text: "The team modelled the services to LOD 300, producing coordinated models that let the disciplines be resolved and reviewed before construction started.",
       },
       { type: "heading", text: "Scope" },
       {
@@ -267,7 +267,7 @@ export const PROJECTS: Project[] = [
       },
       {
         type: "p",
-        text: "Our team modelled the services to LOD 500, delivering fabrication-level detail so the plant could be prefabricated and installed with confidence.",
+        text: "The team modelled the services to LOD 500, delivering fabrication-level detail so the plant could be prefabricated and installed directly from the model.",
       },
       { type: "heading", text: "Scope" },
       {
@@ -309,7 +309,7 @@ export const PROJECTS: Project[] = [
       },
       {
         type: "p",
-        text: "Our team produced coordinated models of the offshore process piping, resolving the dense routing that an offshore platform demands within its tight spatial envelope.",
+        text: "The team produced coordinated models of the offshore process piping, resolving dense routing within the platform's tight spatial envelope.",
       },
       { type: "heading", text: "Scope" },
       {
@@ -324,7 +324,7 @@ export const PROJECTS: Project[] = [
     ],
     info: [
       { label: "Client", value: "Qatar Energy" },
-      { label: "Type", value: "Offshore — Process Facility" },
+      { label: "Type", value: "Offshore, Process Facility" },
       { label: "Services", value: "Process Piping" },
       { label: "Division", value: "Oil & Gas" },
     ],
@@ -350,7 +350,7 @@ export const PROJECTS: Project[] = [
       },
       {
         type: "p",
-        text: "Our team designed the platform's HVAC and E&I systems and produced coordinated models, resolving the services within the constrained envelope of an offshore structure.",
+        text: "The team designed the platform's HVAC and E&I systems and produced coordinated models, resolving services within the constrained envelope of an offshore structure.",
       },
       { type: "heading", text: "Scope" },
       {
@@ -365,7 +365,7 @@ export const PROJECTS: Project[] = [
     ],
     info: [
       { label: "Client", value: "Dry Dock World" },
-      { label: "Type", value: "Offshore Platform — 2 GW" },
+      { label: "Type", value: "Offshore Platform, 2 GW" },
       { label: "Services", value: "HVAC & E&I Design" },
       { label: "Division", value: "Oil & Gas" },
     ],
@@ -391,7 +391,7 @@ export const PROJECTS: Project[] = [
       },
       {
         type: "p",
-        text: "Our team modelled the services to LOD 400, producing fabrication-ready, clash-resolved models so the disciplines could be prefabricated and installed efficiently.",
+        text: "The team modelled the services to LOD 400, producing fabrication-ready, clash-resolved models so the disciplines could be prefabricated and installed on site.",
       },
       { type: "heading", text: "Scope" },
       {
@@ -405,7 +405,7 @@ export const PROJECTS: Project[] = [
       },
     ],
     info: [
-      { label: "Type", value: "Tower — High-rise Building" },
+      { label: "Type", value: "Tower, High-rise Building" },
       { label: "Services", value: "MEP Design & BIM (LOD 400)" },
       { label: "Location", value: "Dubai, UAE" },
       { label: "Division", value: "Buildings & Infrastructure" },
@@ -432,7 +432,7 @@ export const PROJECTS: Project[] = [
       },
       {
         type: "p",
-        text: "Our team modelled the services to LOD 300, producing coordinated models that let the disciplines be resolved and reviewed ahead of construction.",
+        text: "The team modelled the services to LOD 300 and coordinated the disciplines so clashes could be resolved before construction began.",
       },
       { type: "heading", text: "Scope" },
       {
@@ -474,7 +474,7 @@ export const PROJECTS: Project[] = [
       },
       {
         type: "p",
-        text: "Our team designed the services across the mall's public and back-of-house areas, coordinating the disciplines at the scale a large retail development demands.",
+        text: "The team designed services across the mall's public and back-of-house areas, coordinating disciplines at the scale a large retail development demands.",
       },
       { type: "heading", text: "Scope" },
       {
@@ -488,7 +488,7 @@ export const PROJECTS: Project[] = [
     ],
     info: [
       { label: "Client", value: "EIDC" },
-      { label: "Type", value: "Retail — Mall" },
+      { label: "Type", value: "Retail, Mall" },
       { label: "Area", value: "1.8M sqft" },
       { label: "Services", value: "MEP Design" },
       { label: "Location", value: "Muscat, Oman" },
@@ -517,7 +517,7 @@ export const PROJECTS: Project[] = [
       },
       {
         type: "p",
-        text: "Our team designed and coordinated the services across the mall, resolving the disciplines to suit the operational needs of a large retail environment.",
+        text: "The team designed and coordinated services across the mall, resolving disciplines to suit the operational needs of a large retail environment.",
       },
       { type: "heading", text: "Scope" },
       {
@@ -531,7 +531,7 @@ export const PROJECTS: Project[] = [
     ],
     info: [
       { label: "Client", value: "EIDC" },
-      { label: "Type", value: "Retail — Mall" },
+      { label: "Type", value: "Retail, Mall" },
       { label: "Area", value: "100,000 m²" },
       { label: "Services", value: "MEP Design" },
       { label: "Location", value: "Oman" },
@@ -560,7 +560,7 @@ export const PROJECTS: Project[] = [
       },
       {
         type: "p",
-        text: "Our team modelled the plant to LOD 500, producing fabrication-level, clash-resolved models so the dense mechanical and electrical services could be prefabricated and installed.",
+        text: "The team modelled the plant to LOD 500, producing fabrication-level, clash-resolved models so the dense mechanical and electrical services could be prefabricated and installed.",
       },
       { type: "heading", text: "Scope" },
       {
@@ -603,7 +603,7 @@ export const PROJECTS: Project[] = [
       },
       {
         type: "p",
-        text: "Our team designed and coordinated the services through the tower's basements, ground floor and residential/commercial levels, resolving the disciplines for a tall building.",
+        text: "The team designed and coordinated services through the tower's basements, ground floor and residential/commercial levels, resolving disciplines for a tall building.",
       },
       { type: "heading", text: "Scope" },
       {
@@ -618,7 +618,7 @@ export const PROJECTS: Project[] = [
     ],
     info: [
       { label: "Client", value: "VX Studio" },
-      { label: "Type", value: "Tower — 5B+G+31" },
+      { label: "Type", value: "Tower, 5B+G+31" },
       { label: "Services", value: "MEP Design" },
       { label: "Location", value: "Dubai, UAE" },
       { label: "Year", value: "2018" },
@@ -646,7 +646,7 @@ export const PROJECTS: Project[] = [
       },
       {
         type: "p",
-        text: "Our team designed and coordinated the services through the tower's basements, ground floor and upper levels, resolving the disciplines for a tall building.",
+        text: "The team designed the services through the tower's basements, ground floor and upper levels and coordinated the disciplines for a tall building.",
       },
       { type: "heading", text: "Scope" },
       {
@@ -661,7 +661,7 @@ export const PROJECTS: Project[] = [
     ],
     info: [
       { label: "Client", value: "VX Studio" },
-      { label: "Type", value: "Tower — 6B+G+31" },
+      { label: "Type", value: "Tower, 6B+G+31" },
       { label: "Services", value: "MEP Design" },
       { label: "Location", value: "Dubai, UAE" },
       { label: "Year", value: "2018" },
@@ -689,7 +689,7 @@ export const PROJECTS: Project[] = [
       },
       {
         type: "p",
-        text: "Our team modelled the services across the five buildings to LOD 350–500, producing coordinated, clash-resolved models suited to fabrication and installation.",
+        text: "The team modelled the services across the five buildings to LOD 350–500, producing coordinated, clash-resolved models suited to fabrication and installation.",
       },
       { type: "heading", text: "Scope" },
       {
@@ -704,7 +704,7 @@ export const PROJECTS: Project[] = [
     ],
     info: [
       { label: "Client", value: "Voltas" },
-      { label: "Type", value: "Commercial — 5 Buildings" },
+      { label: "Type", value: "Commercial, 5 Buildings" },
       { label: "Services", value: "BIM (LOD 350–500)" },
       { label: "Location", value: "Qatar" },
       { label: "Year", value: "2020–21" },
@@ -732,7 +732,7 @@ export const PROJECTS: Project[] = [
       },
       {
         type: "p",
-        text: "Our team designed and modelled the site utility systems, producing coordinated models that resolved the services across the development's infrastructure.",
+        text: "The team designed and modelled the site utility systems, producing coordinated models that resolved services across the development's infrastructure.",
       },
       { type: "heading", text: "Scope" },
       {
@@ -747,7 +747,7 @@ export const PROJECTS: Project[] = [
     ],
     info: [
       { label: "Client", value: "Artelia / NEOM" },
-      { label: "Type", value: "Site Utilities — Infrastructure" },
+      { label: "Type", value: "Site Utilities, Infrastructure" },
       { label: "Services", value: "MEP Design & BIM" },
       { label: "Location", value: "KSA" },
       { label: "Division", value: "Oil & Gas" },

@@ -20,7 +20,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const project = await getProject(slug);
   if (!project) return {};
-  const title = `${project.name} — C&T Consulting Engineers`;
+  const title = `${project.name} | C&T Consulting Engineers`;
   const description = project.tagline ?? project.name;
   return {
     title,

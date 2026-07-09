@@ -45,7 +45,7 @@ export const SERVICES: Service[] = [
           "ELV & IBMS",
           "Plumbing",
         ],
-        body: "Building services designed as one coordinated system — HVAC, power, public health, fire and ELV — sized for real loads across data centres, terminals and complex buildings.",
+        body: "Building services designed as one coordinated system (HVAC, power, public health, fire and ELV), sized for real loads across data centres, terminals and complex buildings.",
       },
       "oil-and-gas": {
         subDisciplines: [
@@ -56,7 +56,7 @@ export const SERVICES: Service[] = [
           "Fire Protection",
           "Fire & Gas",
         ],
-        body: "Detailed engineering for refineries, LNG and offshore facilities — process-adjacent buildings, E&I, piping and fire & gas taken to fabrication detail and international code.",
+        body: "Detailed engineering for refineries, LNG and offshore facilities, covering process-adjacent buildings, E&I, piping and fire & gas taken to fabrication detail and international code.",
       },
     },
   },
@@ -82,7 +82,7 @@ export const SERVICES: Service[] = [
           "Clash-free routing",
           "As-builts",
         ],
-        body: "Fabrication- and construction-ready models up to LOD 500 — plant, piping and structure modelled and clash-resolved, as delivered on Yamal LNG and the Duqm Refinery.",
+        body: "Fabrication- and construction-ready models up to LOD 500. Plant, piping and structure are modelled and clash-resolved, as delivered on Yamal LNG and the Duqm Refinery.",
       },
     },
   },
@@ -146,7 +146,7 @@ export const SERVICES: Service[] = [
           "Bill of quantities",
           "Tender & procurement support",
         ],
-        body: "Material take-offs and BOQ extracted directly from the model for procurement and tender — accurate quantities straight from the coordinated design.",
+        body: "Material take-offs and BOQ are extracted directly from the model for procurement and tender, with quantities pulled straight from the coordinated design.",
       },
       "oil-and-gas": {
         subDisciplines: [
@@ -170,7 +170,7 @@ export const SERVICES: Service[] = [
           "Flythrough animations",
           "Stakeholder review",
         ],
-        body: "Walkthrough and flythrough videos rendered straight from the BIM model — communicating design intent and spatial coordination for stakeholder review.",
+        body: "Walkthrough and flythrough videos rendered straight from the BIM model. They communicate design intent and spatial coordination for stakeholder review.",
       },
       "oil-and-gas": {
         subDisciplines: [

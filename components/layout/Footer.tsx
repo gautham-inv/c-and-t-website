@@ -1,12 +1,12 @@
 "use client";
 
 import { useCallback } from "react";
-import { ArrowRight } from "lucide-react";
 import {
   WITHUS_OVERLAP_VH,
   WITHUS_OVERLAP_VH_MOBILE,
 } from "@/components/sections/WithUs";
 import { getLenis } from "@/lib/lenis";
+import { SOCIAL_LINKS } from "@/lib/social";
 
 // Section links use the /#id form so they resolve from any page (navigate home,
 // then scroll). "sectors" points at the Expertise/divisions block, which is the
@@ -28,7 +28,10 @@ const OFFICES = [
   { place: "Canada", detail: "Mississauga, ON" },
 ];
 
-const SOCIALS = ["LinkedIn", "Instagram", "X", "YouTube"];
+const LEGAL = [
+  { label: "Privacy Policy", href: "#" },
+  { label: "Terms of Service", href: "#" },
+];
 
 export function Footer() {
   // Section links (/#id) smooth-scroll on the homepage via Lenis; on other
@@ -101,45 +104,16 @@ export function Footer() {
             ))}
           </nav>
 
-          {/* Subscribe + offices */}
+          {/* Offices */}
           <div>
-            <p className="max-w-xs font-display text-xl font-normal leading-snug md:text-2xl">
-              Subscribe for the latest C&amp;T updates.
-            </p>
-            <form
-              onSubmit={(e) => e.preventDefault()}
-              className="mt-6 flex items-center gap-3"
-            >
-              <input
-                type="email"
-                required
-                placeholder="Your email"
-                className="h-11 flex-1 border-b border-paper/25 bg-transparent text-sm text-paper outline-none placeholder:text-paper/40 focus:border-green"
-              />
-              <button
-                type="submit"
-                aria-label="Subscribe"
-                className="flex items-center gap-3"
-              >
-                <span className="flex h-11 w-11 items-center justify-center rounded-full border border-paper/30 transition-colors duration-300 hover:border-green hover:bg-green/10">
-                  <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
-                </span>
-                <span className="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-paper/70">
-                  Join us
-                </span>
-              </button>
-            </form>
-
-            <div className="mt-12">
-              <p className="label text-beige/80">Our offices</p>
-              <ul className="mt-4 space-y-2">
-                {OFFICES.map((o) => (
-                  <li key={o.place} className="text-sm text-paper/70">
-                    <span className="text-paper">{o.place}</span> — {o.detail}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <p className="label text-beige/80">Our offices</p>
+            <ul className="mt-4 space-y-2">
+              {OFFICES.map((o) => (
+                <li key={o.place} className="text-sm text-paper/70">
+                  <span className="text-paper">{o.place}</span>, {o.detail}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
@@ -150,39 +124,45 @@ export function Footer() {
           </span>
         </div>
 
-        {/* Bottom bar */}
-        <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-          <div className="flex shrink-0 items-center">
-            <img
-              src="/logo.webp"
-              alt="C&T Consulting Engineers"
-              width={462}
-              height={200}
-              className="h-10 w-auto shrink-0 object-contain"
-              draggable={false}
-            />
-          </div>
+        {/* Bottom bar — logo on one side, socials + legal grouped tightly on
+            the other (md+) instead of three items spread across the full
+            width, which read as disconnected islands on wide screens. */}
+        <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
+          <img
+            src="/logo.webp"
+            alt="C&T Consulting Engineers"
+            width={462}
+            height={200}
+            className="h-10 w-auto shrink-0 self-start object-contain md:self-auto"
+            draggable={false}
+          />
 
-          <div className="flex flex-wrap gap-x-5 gap-y-2 font-mono text-[0.68rem] uppercase tracking-[0.14em] text-paper/55">
-            <a href="#" className="transition-colors hover:text-paper">
-              Privacy Policy
-            </a>
-            <span className="text-paper/25">·</span>
-            <a href="#" className="transition-colors hover:text-paper">
-              Terms of Service
-            </a>
-          </div>
+          <div className="flex flex-col gap-8 sm:flex-row sm:items-center sm:gap-8 md:gap-10">
+            <div className="flex items-center gap-3">
+              {SOCIAL_LINKS.map(({ label, href, Icon }) => (
+                <a
+                  key={label}
+                  href={href}
+                  aria-label={label}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-paper/25 text-paper/70 transition-colors duration-300 hover:border-green hover:text-green"
+                >
+                  <Icon className="h-4 w-4" strokeWidth={1.75} />
+                </a>
+              ))}
+            </div>
 
-          <p className="font-mono text-[0.68rem] uppercase tracking-[0.14em] text-paper/45">
-            © 2026 C&amp;T Consulting Engineers Pvt Ltd
-          </p>
-
-          <div className="flex flex-wrap gap-x-4 font-mono text-[0.68rem] uppercase tracking-[0.14em] text-paper/55">
-            {SOCIALS.map((s) => (
-              <a key={s} href="#" className="transition-colors hover:text-paper">
-                {s}
-              </a>
-            ))}
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-[0.68rem] uppercase tracking-[0.14em]">
+              {LEGAL.map((l, i) => (
+                <span key={l.label} className="flex items-center gap-x-3">
+                  {i > 0 && <span className="text-paper/25">·</span>}
+                  <a href={l.href} className="text-paper/55 transition-colors hover:text-paper">
+                    {l.label}
+                  </a>
+                </span>
+              ))}
+              <span className="text-paper/25">·</span>
+              <span className="text-paper/45">© 2026 C&amp;T Consulting Engineers Pvt Ltd</span>
+            </div>
           </div>
         </div>
       </div>

@@ -23,7 +23,7 @@ export const INSIGHTS: Insight[] = [
     date: "May 2026",
     image: "/bim-and-3d-modelling.jpg",
     excerpt:
-      "Clash-checked, federated models resolve coordination conflicts before they reach site — keeping terminal programmes on track across thousands of MEP interfaces.",
+      "Clash-checked, federated models resolve coordination conflicts before they reach site, keeping terminal programmes on track across thousands of MEP interfaces.",
     href: "/insights",
   },
   {
@@ -33,7 +33,7 @@ export const INSIGHTS: Insight[] = [
     date: "Apr 2026",
     image: "/cfd-fea-analysis.webp",
     excerpt:
-      "Simulating airflow and smoke movement lets us tune ventilation for passenger comfort and life-safety long before the first duct is installed.",
+      "Airflow and smoke simulations tune ventilation for passenger comfort and life safety long before the first duct is installed.",
     href: "/insights",
   },
   {
@@ -43,7 +43,7 @@ export const INSIGHTS: Insight[] = [
     date: "Mar 2026",
     image: "/datacenter.jpeg",
     excerpt:
-      "Power density, redundancy and cooling drive every decision — here's how we approach the mechanical and electrical backbone of a modern data hall.",
+      "Power density, redundancy and cooling drive every decision behind the mechanical and electrical backbone of a modern data hall.",
     href: "/insights",
   },
   {
@@ -53,7 +53,7 @@ export const INSIGHTS: Insight[] = [
     date: "Feb 2026",
     image: "/mep-engineering-design.jpg",
     excerpt:
-      "High-LOD modelling on refineries and LNG plants turns the model into a construction tool — accurate take-offs, fewer RFIs and faster fabrication.",
+      "High-LOD modelling on refineries and LNG plants turns the model into a construction tool, producing accurate take-offs, fewer RFIs and faster fabrication.",
     href: "/insights",
   },
 ];

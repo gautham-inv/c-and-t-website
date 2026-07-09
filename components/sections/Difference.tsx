@@ -10,17 +10,17 @@ gsap.registerPlugin(ScrollTrigger);
 const CASE_STUDIES = [
   {
     image: "/calinova-case-study.jpg",
-    caption: "Calinova Data Centre — MEP & BIM · 2.4 MW | Calicut",
+    caption: "Calinova Data Centre, MEP & BIM · 2.4 MW | Calicut",
     title: "A 2.4 MW data centre, coordinated clash-free",
-    body: "A hyperscale-ready facility with no tolerance for downtime — full MEP design plus a LOD 400 BIM model, with CFD-validated cooling. The result: a clash-free model and a faster, rework-free install.",
+    body: "A hyperscale-ready facility with no tolerance for downtime. We delivered full MEP design plus a LOD 400 BIM model, with CFD-validated cooling, and the coordination paid off: a clash-free model and a faster, rework-free install.",
     cta: "View project",
     href: "/projects/calinova-data-centre",
   },
   {
     image: "/trivandrum-airport-case-study.jpg",
-    caption: "Trivandrum Airport T2 — MEP Design & BIM | Kerala",
+    caption: "Trivandrum Airport T2, MEP Design & BIM | Kerala",
     title: "A new terminal, engineered for millions",
-    body: "Resilient systems for millions of passengers a year — every MEP discipline modelled to LOD 400, with CFD across the concourse balancing comfort against energy. Delivered coordinated and on programme.",
+    body: "Systems built for millions of passengers a year. Every MEP discipline was modelled to LOD 400, with CFD across the concourse balancing comfort against energy use, delivered coordinated and on programme.",
     cta: "View project",
     href: "/projects/trivandrum-airport-t2",
   },
@@ -36,15 +36,14 @@ export function Difference() {
         return;
 
       // Heading only — simple translate-up reveal (no fade, no card stagger).
-      gsap.fromTo(
-        heading.current,
-        { y: 48 },
-        {
-          y: 0,
-          ease: "none",
-          scrollTrigger: { trigger: root.current, start: "top 90%", end: "top 55%", scrub: true },
-        },
-      );
+      // Plays once on the way in; unlike a scrubbed tween, it doesn't run
+      // backward when you scroll back up past the trigger.
+      gsap.from(heading.current, {
+        y: 48,
+        duration: 0.9,
+        ease: "power3.out",
+        scrollTrigger: { trigger: root.current, start: "top 78%" },
+      });
     },
     { scope: root },
   );
@@ -61,12 +60,12 @@ export function Difference() {
           ref={heading}
           className="mb-8 max-w-4xl font-display text-[clamp(2rem,1rem+3vw,3.6rem)] font-semibold leading-[1.08] tracking-[-0.02em] md:mb-10"
         >
-          Proof in the work —{" "}
+          Proof in the work:{" "}
           <span className="text-green-dark">featured case studies</span>
         </h2>
 
         {/* Two case studies */}
-        <div className="grid gap-x-10 gap-y-12 md:grid-cols-2 md:gap-x-16">
+        <div className="grid gap-6 md:grid-cols-2 md:gap-8">
           {CASE_STUDIES.map((p) => (
             <article key={p.title}>
               {/* Image with the CTA overlaid inside */}

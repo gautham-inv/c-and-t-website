@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { getLenis } from "@/lib/lenis";
 import { openEnquiry } from "@/lib/enquiry";
+import { SOCIAL_LINKS } from "@/lib/social";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,8 +22,10 @@ const NAV = [
   { label: "Careers", href: "/careers" },
 ];
 
-const SOCIAL = ["LinkedIn", "Instagram", "X", "YouTube"];
-const LEGAL = ["Privacy Policy", "Terms of Use", "ISO 9001:2015"];
+const LEGAL = [
+  { label: "Privacy Policy", href: "#" },
+  { label: "Terms of Service", href: "#" },
+];
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
@@ -117,7 +120,7 @@ export function Navbar() {
             {/* Logo — home */}
             <a
               href="/"
-              aria-label="C&T Consulting Engineers — home"
+              aria-label="C&T Consulting Engineers, home"
               className="shrink-0"
             >
               <img
@@ -202,6 +205,14 @@ export function Navbar() {
         >
           <div className="flex h-full flex-col px-6 py-6">
             <div className="flex items-center justify-between">
+              <img
+                src="/logo.webp"
+                alt="C&T Consulting Engineers"
+                width={462}
+                height={200}
+                className="h-9 w-auto"
+                draggable={false}
+              />
               <button
                 onClick={() => setOpen(false)}
                 className="group inline-flex items-center gap-2.5 text-sm font-medium tracking-wide"
@@ -211,14 +222,6 @@ export function Navbar() {
                 </span>
                 Close
               </button>
-              <img
-                src="/logo.webp"
-                alt="C&T Consulting Engineers"
-                width={462}
-                height={200}
-                className="h-9 w-auto"
-                draggable={false}
-              />
             </div>
 
             <div className="flex flex-1 items-center">
@@ -258,14 +261,36 @@ export function Navbar() {
               <span>India · UAE · Canada</span>
             </div>
 
-            <div className="mt-6 flex flex-wrap gap-x-6 gap-y-1 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-paper/45">
-              {SOCIAL.map((s) => (
-                <span key={s}>{s}</span>
-              ))}
-              <span className="text-paper/30">·</span>
-              {LEGAL.map((l) => (
-                <span key={l}>{l}</span>
-              ))}
+            <div className="mt-6 border-t border-paper/15 pt-6 sm:mt-8 sm:pt-7">
+              <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-center gap-3">
+                  {SOCIAL_LINKS.map(({ label, href, Icon }) => (
+                    <a
+                      key={label}
+                      href={href}
+                      aria-label={label}
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-paper/25 text-paper/70 transition-colors duration-300 hover:border-green hover:text-green"
+                    >
+                      <Icon className="h-4 w-4" strokeWidth={1.75} />
+                    </a>
+                  ))}
+                </div>
+
+                <div className="flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-paper/55">
+                  {LEGAL.map((l, i) => (
+                    <span key={l.label} className="flex items-center gap-x-5">
+                      {i > 0 && <span className="text-paper/25">·</span>}
+                      <a href={l.href} className="transition-colors hover:text-paper">
+                        {l.label}
+                      </a>
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <p className="mt-5 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-paper/45 sm:mt-6">
+                © 2026 C&T Consulting Engineers Pvt Ltd
+              </p>
             </div>
           </div>
         </div>

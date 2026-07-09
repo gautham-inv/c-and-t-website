@@ -6,9 +6,9 @@ import { CareersView } from "@/components/careers/CareersView";
 import { getCareersPage, getJobOpenings } from "@/sanity/lib/data";
 
 export const metadata: Metadata = {
-  title: "Careers — C&T Consulting Engineers",
+  title: "Careers | C&T Consulting Engineers",
   description:
-    "Build your career with C&T. MEP, BIM and CFD roles across India, the UAE and Canada — landmark projects, inspiring leadership and global exposure.",
+    "MEP, BIM and CFD job openings at C&T Consulting Engineers, with teams in India, the UAE and Canada.",
 };
 
 export default async function CareersPage() {

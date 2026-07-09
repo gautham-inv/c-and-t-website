@@ -20,13 +20,12 @@ export function ProjectsIndex({ items }: { items: PortfolioCard[] }) {
             backgroundSize: "56px 56px",
           }}
         />
-        <span className="absolute left-6 top-28 h-6 w-6 border-l border-t border-beige md:left-10" />
         <div className="relative mx-auto max-w-[1600px] px-6 pb-4 pt-36 text-center md:px-10 md:pt-44">
           <h1 className="mx-auto max-w-4xl font-display text-[clamp(2.5rem,1rem+5vw,4.5rem)] font-semibold leading-[1.04] tracking-[-0.025em]">
             Selected <span className="text-green-dark">projects</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-ink-dim md:text-xl">
-            Airports, data centres, refineries and offshore platforms —
+            Airports, data centres, refineries and offshore platforms,
             engineered by our Buildings &amp; Infrastructure and Oil &amp; Gas
             teams.
           </p>

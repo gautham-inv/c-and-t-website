@@ -135,14 +135,14 @@ export function Projects() {
               data-up
               className="font-display text-[clamp(2rem,1rem+3vw,3.6rem)] font-semibold leading-[1.08] tracking-[-0.02em]"
             >
-              The C&amp;T footprint —{" "}
+              The C&amp;T footprint:{" "}
               <span className="text-green-dark">projects built to endure</span>
             </h2>
             <div data-up className="max-w-xl">
               <p className="text-base leading-relaxed text-ink-dim md:text-lg">
-                Data centres, airports, refineries and offshore platforms —
-                these projects must perform for generations. Move through the
-                work; we engineer systems that endure and adapt.
+                Data centres, airports, refineries and offshore platforms:
+                these projects have to perform for decades. Browse the work
+                below to see how each one was engineered.
               </p>
               <div className="mt-5 flex items-center justify-between gap-4">
                 <a

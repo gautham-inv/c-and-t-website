@@ -129,7 +129,7 @@ export function WithUs({ rounded = true }: { rounded?: boolean }) {
             data-up
             className="mx-auto max-w-3xl font-display text-[clamp(2rem,1rem+3.4vw,4rem)] font-semibold leading-[1.05] tracking-[-0.02em]"
           >
-            Let&apos;s build what&apos;s next together.
+            Ready to start your next project?
           </h2>
           <div
             data-up
@@ -150,10 +150,14 @@ export function WithUs({ rounded = true }: { rounded?: boolean }) {
 
         {/* Finished-structure hero (~2x). Bottom-anchored so its bottom edge
             meets the card bottom — exactly where the footer's blueprint band
-            begins — making the two layers pixel-aligned across the wipe. */}
+            begins — making the two layers pixel-aligned across the wipe.
+            Height is capped by vw (not just vh): og.png's own aspect ratio
+            means its rendered height tracks viewport WIDTH, not height, so a
+            pure vh value way overshoots on tall/narrow viewports (tablets in
+            portrait) — min() caps it at whichever is smaller. */}
         <div
           aria-hidden
-          className="pointer-events-none relative z-[1] mt-8 h-[42vh] select-none md:mt-14 md:h-[88vh]"
+          className="pointer-events-none relative z-[1] mt-8 h-[42vh] select-none md:mt-14 md:h-[min(88vh,54vw)]"
         >
           {/* Width steps up on small/medium so the structure render fills the
               frame instead of stranding a tiny image. The footer's blueprint

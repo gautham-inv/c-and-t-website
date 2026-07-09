@@ -86,8 +86,8 @@ export function Services() {
             <span className="text-ink-dim">deliver</span>
           </h2>
           <p className="mt-5 max-w-xl text-base leading-relaxed text-ink-dim">
-            The same disciplines, delivered by both teams to different scopes —
-            from Buildings &amp; Infrastructure to Oil &amp; Gas.
+            The same disciplines, delivered by both teams to different scopes:
+            Buildings &amp; Infrastructure and Oil &amp; Gas.
             <span className="hidden lg:inline"> Hover a service to preview it.</span>
           </p>
 
@@ -107,7 +107,7 @@ export function Services() {
           {/* Grid of services — hovering swaps the image on the left. Each
               service is delivered by BOTH divisions, so every card points
               separately into its Buildings and Oil & Gas scope. */}
-          <div className="mt-8 grid gap-3 sm:grid-cols-2">
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 md:gap-8">
             {SERVICES.map((s, i) => {
               return (
                 <div

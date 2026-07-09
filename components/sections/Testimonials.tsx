@@ -10,19 +10,19 @@ gsap.registerPlugin(ScrollTrigger);
 const QUOTES = [
   {
     quote:
-      "C&T's BIM coordination took our plant rooms from concept to a clash-free model faster than any team we'd worked with.",
+      "C&T's BIM coordination got our plant rooms to a clash-free model faster than any team we've worked with.",
     name: "BIM Manager",
     role: "International EPC partner",
   },
   {
     quote:
-      "Their MEP design held up under the toughest review cycles — precise, well-documented and delivered on time across time zones.",
+      "Their MEP design held up under the toughest review cycles we've run. It was precise, well documented, and they hit deadlines even coordinating across time zones.",
     name: "Project Director",
     role: "Data centre developer",
   },
   {
     quote:
-      "From detailed engineering to CFD validation, C&T gave us the confidence to build right the first time.",
+      "C&T ran detailed engineering and CFD validation for us, and we built it right the first time.",
     name: "Engineering Lead",
     role: "Energy major",
   },
