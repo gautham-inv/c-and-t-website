@@ -17,6 +17,11 @@ const DIV_SHORT: Record<DivisionSlug, string> = {
   "oil-and-gas": "Oil & Gas",
 };
 
+// The homepage teaser stays to the original six flagship services — the full
+// list (including the consulting/management services) lives on /services and
+// on each division page, where an exhaustive list is expected.
+const FEATURED = SERVICES.filter((s) => s.featured);
+
 export function Services() {
   const root = useRef<HTMLElement>(null);
   const [active, setActive] = useState(0);
@@ -46,7 +51,7 @@ export function Services() {
           data-up
           className="relative hidden min-h-[24rem] overflow-hidden rounded-3xl bg-[#0c1f18] lg:block lg:min-h-[34rem]"
         >
-          {SERVICES.map((s, i) => (
+          {FEATURED.map((s, i) => (
             <img
               key={s.slug}
               src={s.image}
@@ -71,10 +76,10 @@ export function Services() {
           </span>
           <div className="absolute inset-x-6 bottom-6 text-paper">
             <p className="font-display text-2xl font-medium leading-tight md:text-3xl">
-              {SERVICES[active].name}
+              {FEATURED[active].name}
             </p>
             <p className="mt-2 max-w-md text-sm leading-relaxed text-paper/70">
-              {SERVICES[active].blurb}
+              {FEATURED[active].blurb}
             </p>
           </div>
         </div>
@@ -108,7 +113,7 @@ export function Services() {
               service is delivered by BOTH divisions, so every card points
               separately into its Buildings and Oil & Gas scope. */}
           <div className="mt-8 grid gap-6 sm:grid-cols-2 md:gap-8">
-            {SERVICES.map((s, i) => {
+            {FEATURED.map((s, i) => {
               return (
                 <div
                   key={s.slug}

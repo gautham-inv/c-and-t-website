@@ -63,40 +63,106 @@ export type Opening = {
 
 export const OPENINGS: Opening[] = [
   {
-    slug: "senior-mep-design-engineer",
-    title: "Senior MEP Design Engineer",
+    slug: "electrical-lv-bim-modeler",
+    title: "Electrical & LV BIM Modeler",
+    team: "BIM",
+    location: "Trivandrum, India",
+    type: "Full-time",
+    experience: "3+ years",
+    summary:
+      "Model electrical and LV systems in Revit, coordinated and clash-free across the federated project model.",
+    about:
+      "You will build and maintain electrical and low-voltage (LV) Revit models for live projects, working from design intent through to coordinated, construction-ready detail.",
+    responsibilities: [
+      "Model electrical distribution, lighting and LV systems in Revit to the project's LOD requirement.",
+      "Coordinate the electrical model against architecture, structure and other MEP disciplines.",
+      "Resolve clashes flagged in Navisworks coordination runs.",
+      "Maintain model standards, naming conventions and family libraries.",
+    ],
+    requirements: [
+      "Diploma or degree in Electrical Engineering or a related field.",
+      "3+ years of electrical/LV BIM modelling experience.",
+      "Working knowledge of Revit MEP and Navisworks.",
+    ],
+    niceToHave: ["Middle East project experience."],
+  },
+  {
+    slug: "hvac-bim-modeler",
+    title: "HVAC BIM Modeler",
+    team: "BIM",
+    location: "Trivandrum, India",
+    type: "Full-time",
+    experience: "3+ years",
+    summary:
+      "Model HVAC systems in Revit, coordinated and clash-free across the federated project model.",
+    about:
+      "You will build and maintain HVAC Revit models for live projects, from ductwork and piping layouts through to coordinated, construction-ready detail.",
+    responsibilities: [
+      "Model ductwork, piping and HVAC equipment in Revit to the project's LOD requirement.",
+      "Coordinate the HVAC model against architecture, structure and other MEP disciplines.",
+      "Resolve clashes flagged in Navisworks coordination runs.",
+      "Maintain model standards, naming conventions and family libraries.",
+    ],
+    requirements: [
+      "Diploma or degree in Mechanical Engineering or a related field.",
+      "3+ years of HVAC BIM modelling experience.",
+      "Working knowledge of Revit MEP and Navisworks.",
+    ],
+    niceToHave: ["Middle East project experience."],
+  },
+  {
+    slug: "electrical-lv-design-engineer",
+    title: "Electrical & LV Design Engineer",
     team: "Buildings & Infrastructure",
     location: "Trivandrum, India",
     type: "Full-time",
-    experience: "6+ years",
-    summary:
-      "Lead multidiscipline MEP design for commercial and industrial projects, from concept to IFC.",
+    experience: "2+ years",
+    summary: "Design LV power, lighting and low-current systems for building projects.",
     about:
-      "As a Senior MEP Design Engineer you will own the design of mechanical, electrical and plumbing systems across landmark building projects, coordinating disciplines, mentoring juniors and holding the technical standard from concept through to issued-for-construction.",
+      "You will support the electrical scope on building projects: LV distribution, lighting design and load calculations, working closely with the wider MEP and BIM teams.",
     responsibilities: [
-      "Produce and review MEP design calculations, drawings and specifications to project standards.",
-      "Coordinate across HVAC, electrical, fire and plumbing disciplines to resolve interfaces early.",
-      "Mentor junior engineers and review their deliverables before issue.",
-      "Liaise with clients, architects and contractors through design reviews.",
+      "Prepare LV distribution, lighting and small-power designs.",
+      "Perform load calculations, cable sizing and single-line diagrams.",
+      "Support low-current system coordination (fire alarm, data, CCTV).",
     ],
     requirements: [
-      "Bachelor's degree in Mechanical / Electrical Engineering.",
-      "6+ years of MEP consultancy experience on commercial or industrial projects.",
-      "Strong command of relevant codes (ASHRAE, NFPA, local authority requirements).",
-      "Proficiency in HAP / Revit / AutoCAD MEP.",
+      "Bachelor's degree in Electrical Engineering.",
+      "2+ years in building services electrical design.",
+      "Proficiency in Dialux / AutoCAD.",
     ],
-    niceToHave: [
-      "Experience with LEED / ESG-aligned design.",
-      "Exposure to airport or high-rise projects.",
+    niceToHave: ["Middle East project experience."],
+  },
+  {
+    slug: "phe-firefighting-bim-modeler",
+    title: "PHE & Firefighting BIM Modeler",
+    team: "BIM",
+    location: "Trivandrum, India",
+    type: "Full-time",
+    experience: "3+ years",
+    summary:
+      "Model plumbing, public health and firefighting systems in Revit, coordinated and clash-free.",
+    about:
+      "You will build and maintain plumbing, public health engineering (PHE) and firefighting Revit models for live projects, from layout through to coordinated, construction-ready detail.",
+    responsibilities: [
+      "Model PHE and firefighting systems (drainage, water supply, sprinklers, hydrants) in Revit to the project's LOD requirement.",
+      "Coordinate the model against architecture, structure and other MEP disciplines.",
+      "Resolve clashes flagged in Navisworks coordination runs.",
+      "Maintain model standards, naming conventions and family libraries.",
     ],
+    requirements: [
+      "Diploma or degree in Mechanical/Civil Engineering or a related field.",
+      "3+ years of PHE/firefighting BIM modelling experience.",
+      "Working knowledge of Revit MEP and Navisworks.",
+    ],
+    niceToHave: ["Middle East project experience."],
   },
   {
     slug: "bim-coordinator",
     title: "BIM Coordinator",
     team: "BIM",
-    location: "Dubai, UAE",
+    location: "Trivandrum, India",
     type: "Full-time",
-    experience: "4+ years",
+    experience: "5+ years",
     summary:
       "Own federated models, run clash coordination and drive BIM standards across live projects.",
     about:
@@ -108,102 +174,86 @@ export const OPENINGS: Opening[] = [
       "Generate coordination reports and track resolution to close-out.",
     ],
     requirements: [
-      "4+ years of BIM coordination on MEP-heavy projects.",
+      "5+ years of BIM coordination on MEP-heavy projects.",
       "Expert in Revit and Navisworks.",
       "Working knowledge of ISO 19650 workflows.",
     ],
-    niceToHave: ["Dynamo / scripting for model automation."],
+    niceToHave: ["Middle East project experience.", "Dynamo / scripting for model automation."],
   },
   {
-    slug: "hvac-design-engineer",
-    title: "HVAC Design Engineer",
+    slug: "electrical-cad-draftsman",
+    title: "Electrical CAD Draftsman",
     team: "Buildings & Infrastructure",
     location: "Trivandrum, India",
     type: "Full-time",
     experience: "3+ years",
-    summary:
-      "Design and size HVAC systems: load calculations, equipment selection and ductwork layouts.",
+    summary: "Produce electrical CAD drawings from design intent through to issued-for-construction.",
     about:
-      "You will handle the HVAC scope on building projects end-to-end: heat-load calculations, system selection, equipment sizing and ductwork design, working closely with the wider MEP team.",
+      "You will produce electrical design and detail drawings in AutoCAD, working from engineers' design intent through to construction-ready sheets.",
     responsibilities: [
-      "Perform heat-load calculations and system selection.",
-      "Size equipment, ductwork and pipework; produce schematics and layouts.",
-      "Prepare equipment schedules, specifications and tender documents.",
+      "Prepare electrical layout, schematic and detail drawings in AutoCAD.",
+      "Incorporate engineer and BIM markups into drawing updates.",
+      "Maintain drawing registers, revisions and title blocks to project standards.",
     ],
     requirements: [
-      "Bachelor's degree in Mechanical Engineering.",
-      "3+ years in HVAC design consultancy.",
-      "Proficiency in HAP / Duct Sizer / AutoCAD.",
+      "Diploma in Electrical Engineering or Draftsmanship.",
+      "3+ years as an electrical CAD draftsman.",
+      "Proficiency in AutoCAD.",
     ],
+    niceToHave: ["Middle East project experience."],
   },
   {
-    slug: "piping-process-engineer",
-    title: "Piping & Process Engineer",
-    team: "Oil & Gas",
-    location: "Abu Dhabi, UAE",
-    type: "Full-time",
-    experience: "5+ years",
-    summary:
-      "Deliver piping and process engineering for oil, gas and marine facilities.",
-    about:
-      "Join our Oil & Gas team to deliver piping and process engineering for refineries, marine and energy facilities, covering P&IDs, stress analysis, isometrics and MTOs.",
-    responsibilities: [
-      "Develop P&IDs, piping layouts and isometric drawings.",
-      "Perform piping stress analysis and support design.",
-      "Prepare material take-offs and technical specifications.",
-    ],
-    requirements: [
-      "Bachelor's degree in Mechanical / Chemical Engineering.",
-      "5+ years in oil & gas piping / process design.",
-      "Familiarity with CAESAR II, PDMS / E3D.",
-    ],
-  },
-  {
-    slug: "electrical-design-engineer",
-    title: "Electrical Design Engineer",
+    slug: "hvac-cad-draftsman",
+    title: "HVAC CAD Draftsman",
     team: "Buildings & Infrastructure",
     location: "Trivandrum, India",
     type: "Full-time",
     experience: "3+ years",
-    summary:
-      "Design LV power, lighting and low-current systems for building projects.",
+    summary: "Produce HVAC CAD drawings from design intent through to issued-for-construction.",
     about:
-      "You will own the electrical scope on building projects: LV distribution, lighting design, load schedules and low-current systems, coordinating tightly with the mechanical and BIM teams.",
+      "You will produce HVAC design and detail drawings in AutoCAD, working from engineers' design intent through to construction-ready sheets.",
     responsibilities: [
-      "Design LV distribution, lighting and small-power systems.",
-      "Prepare load schedules, cable sizing and single-line diagrams.",
-      "Design low-current systems (fire alarm, data, CCTV) coordination.",
+      "Prepare ductwork, piping and equipment layout drawings in AutoCAD.",
+      "Incorporate engineer and BIM markups into drawing updates.",
+      "Maintain drawing registers, revisions and title blocks to project standards.",
     ],
     requirements: [
-      "Bachelor's degree in Electrical Engineering.",
-      "3+ years in building services electrical design.",
-      "Proficiency in Dialux / AutoCAD.",
+      "Diploma in Mechanical Engineering or Draftsmanship.",
+      "3+ years as an HVAC CAD draftsman.",
+      "Proficiency in AutoCAD.",
     ],
+    niceToHave: ["Middle East project experience."],
   },
   {
-    slug: "mep-project-manager",
-    title: "Project Manager, MEP",
-    team: "Corporate",
-    location: "Dubai, UAE",
+    slug: "plumbing-firefighting-draftsman",
+    title: "Plumbing and Firefighting Draftsman",
+    team: "Buildings & Infrastructure",
+    location: "Trivandrum, India",
     type: "Full-time",
-    experience: "8+ years",
-    summary:
-      "Own delivery, programme and client relationships across a portfolio of MEP projects.",
+    experience: "3+ years",
+    summary: "Produce plumbing and firefighting CAD drawings from design intent through to issued-for-construction.",
     about:
-      "As an MEP Project Manager you will steer delivery across a portfolio of projects, owning programme, resourcing and commercials while keeping clients close and the technical quality high.",
+      "You will produce plumbing, public health and firefighting design and detail drawings in AutoCAD, working from engineers' design intent through to construction-ready sheets.",
     responsibilities: [
-      "Own project programme, resourcing and delivery to budget.",
-      "Be the main point of contact for clients and stakeholders.",
-      "Coordinate multidiscipline teams across offices.",
-      "Manage risk, scope and change through delivery.",
+      "Prepare plumbing, drainage and firefighting layout drawings in AutoCAD.",
+      "Incorporate engineer and BIM markups into drawing updates.",
+      "Maintain drawing registers, revisions and title blocks to project standards.",
     ],
     requirements: [
-      "Bachelor's degree in Engineering; PMP a plus.",
-      "8+ years in MEP delivery with 3+ managing projects.",
-      "Strong client-facing and commercial acumen.",
+      "Diploma in Mechanical/Civil Engineering or Draftsmanship.",
+      "3+ years as a plumbing/firefighting draftsman.",
+      "Proficiency in AutoCAD.",
     ],
+    niceToHave: ["Middle East project experience."],
   },
 ];
+
+/** Direct contact for candidates who'd rather email/call than use the apply
+ * form — shown alongside the openings list on the careers page. */
+export const CAREERS_CONTACT = {
+  email: "mail@candtengineers.com",
+  phone: "+91 974-728-2551",
+};
 
 export function getOpening(slug: string): Opening | undefined {
   return OPENINGS.find((o) => o.slug === slug);

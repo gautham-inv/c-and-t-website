@@ -1,5 +1,6 @@
 import { ArrowUpRight, MapPin, Briefcase } from "lucide-react";
 import type { JobOpeningCard } from "@/sanity/lib/data";
+import { CAREERS_CONTACT } from "@/lib/careers";
 
 /**
  * Open positions as a card grid. Each card links through to its
@@ -19,6 +20,24 @@ export function OpeningsGrid({ openings }: { openings: JobOpeningCard[] }) {
             our teams. Don&apos;t see a fit? We still want to hear from you.
           </p>
         </div>
+
+        <p className="mt-4 text-sm text-ink-dim">
+          Prefer email or a call? Send your CV to{" "}
+          <a
+            href={`mailto:${CAREERS_CONTACT.email}`}
+            className="text-ink underline decoration-line underline-offset-4 transition-colors hover:text-green-dark"
+          >
+            {CAREERS_CONTACT.email}
+          </a>{" "}
+          or reach us at{" "}
+          <a
+            href={`tel:${CAREERS_CONTACT.phone.replace(/[^+\d]/g, "")}`}
+            className="text-ink underline decoration-line underline-offset-4 transition-colors hover:text-green-dark"
+          >
+            {CAREERS_CONTACT.phone}
+          </a>
+          .
+        </p>
 
         <div className="mt-12 grid gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
           {openings.map((o) => (

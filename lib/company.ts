@@ -174,4 +174,12 @@ export const CAPABILITIES: Capability[] = [
   { label: "Multispecialty Hospitals" },
   { label: "Shopping Malls" },
   { label: "Highrise Residential" },
+  { label: "Offices" },
+  { label: "Interior Fitouts" },
+  { label: "Pumping Stations & Chiller Plants" },
+  { label: "Base Build" },
+  { label: "Roads & Transportation" },
+  { label: "Infrastructure & Town Planning" },
+  { label: "Factories & Manufacturing" },
+  { label: "Laboratories" },
 ];

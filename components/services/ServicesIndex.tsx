@@ -1,6 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
 import { serviceDivisions, type Service } from "@/lib/services";
 import type { Division } from "@/lib/divisions";
+import { ToolsStrip } from "./ToolsStrip";
 
 // Lightweight services directory. Cards hold names, a sub-discipline preview
 // and pointers INTO the division pages — the canonical scope lives there, so
@@ -114,6 +115,8 @@ export function ServicesIndex({
           </div>
         </div>
       </section>
+
+      <ToolsStrip />
     </div>
   );
 }
