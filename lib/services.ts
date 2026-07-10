@@ -78,7 +78,7 @@ export const SERVICES: Service[] = [
   {
     slug: "bim",
     name: "BIM & 3D Modelling",
-    image: "/bim-model-view.jpg",
+    image: "/bim-models/3d-view-1.jpg",
     blurb: "Federated, data-rich models from LOD 100 to LOD 500.",
     featured: true,
     byDivision: {
@@ -106,7 +106,7 @@ export const SERVICES: Service[] = [
   {
     slug: "clash",
     name: "Clash Detection & Coordination",
-    image: "/clash-plant-room.jpg",
+    image: "/bim-models/chw-pump-room-1.jpg",
     blurb: "Multidiscipline coordination that turns models build-ready.",
     featured: true,
     byDivision: {
@@ -131,7 +131,7 @@ export const SERVICES: Service[] = [
   {
     slug: "cfd",
     name: "CFD & FEA Analysis",
-    image: "/hvac-ducting-model.jpg",
+    image: "/bim-models/rp9s-navis-hvac.jpg",
     blurb: "Performance validated in simulation before construction.",
     featured: true,
     byDivision: {
