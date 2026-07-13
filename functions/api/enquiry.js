@@ -34,11 +34,12 @@ export async function onRequestPost(context) {
   const company = get("company");
   const email = get("email");
   const phone = get("phone");
-  const projectType = get("projectType");
+  const division = get("division");
+  const services = get("services");
   const message = get("message");
   const file = form.get("file");
 
-  if (!company || !email || !phone || !projectType || !message) {
+  if (!company || !email || !phone || !division || !message) {
     return json({ error: "Missing required fields." }, 400);
   }
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
@@ -61,7 +62,8 @@ export async function onRequestPost(context) {
     <p><strong>Company:</strong> ${escapeHtml(company)}</p>
     <p><strong>Email:</strong> ${escapeHtml(email)}</p>
     <p><strong>Phone:</strong> ${escapeHtml(phone)}</p>
-    <p><strong>Project type:</strong> ${escapeHtml(projectType)}</p>
+    <p><strong>Practice:</strong> ${escapeHtml(division)}</p>
+    <p><strong>Services:</strong> ${services ? escapeHtml(services) : "Not specified"}</p>
     <p><strong>Message:</strong><br>${escapeHtml(message).replace(/\n/g, "<br>")}</p>
   `.trim();
 

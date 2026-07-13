@@ -4,6 +4,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { X, ArrowUpRight, Paperclip, Check } from "lucide-react";
 import { ENQUIRY_EVENT } from "@/lib/enquiry";
 import { getLenis } from "@/lib/lenis";
+import { DIVISIONS } from "@/lib/divisions";
+import { SERVICES } from "@/lib/services";
 
 /**
  * "Get in touch" project-enquiry modal — global, mounted once in the root
@@ -15,13 +17,28 @@ import { getLenis } from "@/lib/lenis";
  */
 const ENDPOINT = "/api/enquiry";
 
-const PROJECT_TYPES = [
-  "MEP Design",
-  "HVAC",
-  "Oil and Gas",
-  "Fire Fighting",
-  "3D Modelling",
-] as const;
+// The enquiry flow mirrors the site's IA: pick a division, then multi-select
+// the services you need within it. Services are the flagship set a client
+// would lead an enquiry with — everything else folds into "Other". Built from
+// lib/divisions + lib/services (static, so this never hits Sanity).
+const FORM_SERVICE_SLUGS = ["mep", "bim", "cad", "clash", "cfd", "mto"];
+
+type DivisionOption = { slug: string; name: string; services: string[] };
+
+const DIVISION_OPTIONS: DivisionOption[] = [
+  ...DIVISIONS.map((d) => ({
+    slug: d.slug,
+    name: d.name,
+    services: [
+      ...FORM_SERVICE_SLUGS.filter((s) => d.serviceSlugs.includes(s)).map(
+        (s) => SERVICES.find((x) => x.slug === s)?.name ?? s,
+      ),
+      "Other",
+    ],
+  })),
+  // Catch-all so nobody is blocked when they don't know the practice yet.
+  { slug: "unsure", name: "Not sure yet", services: [] },
+];
 
 // Word · Excel · PowerPoint · PDF · Images · Videos · Audio
 const ACCEPT =
@@ -39,8 +56,11 @@ export function EnquiryModal() {
   const [open, setOpen] = useState(false);
   const [sent, setSent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [projectType, setProjectType] = useState("");
+  const [divisionSlug, setDivisionSlug] = useState("");
+  const [services, setServices] = useState<string[]>([]);
   const [file, setFile] = useState<File | null>(null);
+
+  const division = DIVISION_OPTIONS.find((d) => d.slug === divisionSlug);
   const [errors, setErrors] = useState<Errors>({});
   const formRef = useRef<HTMLFormElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -105,7 +125,7 @@ export function EnquiryModal() {
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(get("email")))
       next.email = "Enter a valid email address.";
     if (!get("phone")) next.phone = "Add a contact number.";
-    if (!projectType) next.projectType = "Pick a project type.";
+    if (!divisionSlug) next.division = "Pick which practice fits your project.";
     if (!get("message")) next.message = "Tell us a little about the project.";
 
     setErrors(next);
@@ -116,7 +136,8 @@ export function EnquiryModal() {
       const res = await fetch(ENDPOINT, { method: "POST", body: data });
       if (!res.ok) throw new Error("Submission failed");
       form.reset();
-      setProjectType("");
+      setDivisionSlug("");
+      setServices([]);
       setFile(null);
       setSent(true);
     } catch {
@@ -253,22 +274,23 @@ export function EnquiryModal() {
                   </div>
                 </div>
 
-                {/* Project type */}
+                {/* Division — single select */}
                 <div>
                   <span className={LABEL}>
-                    Project type <span className="text-green-dark">*</span>
+                    Which practice? <span className="text-green-dark">*</span>
                   </span>
-                  <input type="hidden" name="projectType" value={projectType} />
+                  <input type="hidden" name="division" value={division?.name ?? ""} />
                   <div className="mt-2.5 flex flex-wrap gap-2.5">
-                    {PROJECT_TYPES.map((t) => {
-                      const active = projectType === t;
+                    {DIVISION_OPTIONS.map((d) => {
+                      const active = divisionSlug === d.slug;
                       return (
                         <button
-                          key={t}
+                          key={d.slug}
                           type="button"
                           onClick={() => {
-                            setProjectType(t);
-                            setErrors((p) => ({ ...p, projectType: undefined }));
+                            setDivisionSlug(d.slug);
+                            setServices([]);
+                            setErrors((p) => ({ ...p, division: undefined }));
                           }}
                           aria-pressed={active}
                           className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors duration-200 ${
@@ -277,17 +299,59 @@ export function EnquiryModal() {
                               : "border-line bg-white text-navy/80 hover:border-navy/40"
                           }`}
                         >
-                          {t}
+                          {d.name}
                         </button>
                       );
                     })}
                   </div>
-                  {errors.projectType && (
-                    <p className="mt-1.5 text-xs text-red-600">
-                      {errors.projectType}
-                    </p>
+                  {errors.division && (
+                    <p className="mt-1.5 text-xs text-red-600">{errors.division}</p>
                   )}
                 </div>
+
+                {/* Services — multi select, filtered by the chosen division */}
+                {division && division.services.length > 0 && (
+                  <div>
+                    <span className={LABEL}>
+                      Services needed{" "}
+                      <span className="font-sans normal-case tracking-normal text-ink-dim/70">
+                        (optional, select any)
+                      </span>
+                    </span>
+                    <input
+                      type="hidden"
+                      name="services"
+                      value={services.join(", ")}
+                    />
+                    <div className="mt-2.5 flex flex-wrap gap-2.5">
+                      {division.services.map((s) => {
+                        const active = services.includes(s);
+                        return (
+                          <button
+                            key={s}
+                            type="button"
+                            onClick={() =>
+                              setServices((prev) =>
+                                prev.includes(s)
+                                  ? prev.filter((x) => x !== s)
+                                  : [...prev, s],
+                              )
+                            }
+                            aria-pressed={active}
+                            className={`inline-flex items-center gap-1.5 rounded-full border px-4 py-2 text-sm font-medium transition-colors duration-200 ${
+                              active
+                                ? "border-green bg-green text-white"
+                                : "border-line bg-white text-navy/80 hover:border-navy/40"
+                            }`}
+                          >
+                            {active && <Check className="h-3.5 w-3.5" strokeWidth={2.5} />}
+                            {s}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
 
                 {/* Message */}
                 <div>

@@ -23,7 +23,7 @@ export const VALUES: Value[] = [
     body: "We work within the letter and the spirit of the law in every market we operate in.",
   },
   {
-    name: "Transparent Transactions",
+    name: "Transparency",
     body: "Clear, open dealings with clients, partners and our own team, without hidden terms or surprises.",
   },
   {
