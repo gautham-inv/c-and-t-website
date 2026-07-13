@@ -137,7 +137,12 @@ export const LEADERSHIP: Leader[] = [
     bio: "B Tech Mechanical Engineering (CET), M Tech (KU). IGBC Lead Associate & ISHRAE member. 25 years across Bilt Middle East, Voltas (TATA), Bluestar & Chalmers Engineering, Dubai.",
   },
   { name: "Vidyanand", role: "CFO", photo: "/leadership/vidyanand.jpeg" },
-  { name: "Laxman Babu", role: "Director" },
+  {
+    name: "Laxman Babu Challa",
+    role: "Director",
+    photo: "/leadership/laxman-babu.jpg",
+    bio: "Mechanical Engineering graduate (JNTU Hyderabad) with 35 years across HVAC, MEP and steel fabrication. Senior leadership at Voltas, Airmech (Bahrain), Weathermaker (Dubai) and L&T, most recently VP Engineering (Group) at Yashoda Hospitals. Founding secretary, ISHRAE Cochin Chapter.",
+  },
   {
     name: "V S Sriram",
     role: "Technical Advisor",

@@ -50,6 +50,7 @@ export const DIVISIONS: Division[] = [
       "mep",
       "bim",
       "clash",
+      "cad",
       "cfd",
       "mto",
       "walkthrough",
@@ -97,6 +98,7 @@ export const DIVISIONS: Division[] = [
     serviceSlugs: [
       "mep",
       "bim",
+      "cad",
       "mto",
       "walkthrough",
       "cfd",

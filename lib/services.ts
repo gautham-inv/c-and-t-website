@@ -51,15 +51,25 @@ export const SERVICES: Service[] = [
           "HVAC",
           "Public health (PHE)",
           "Fire protection & gas suppression",
-          "Fire detection & alarm",
-          "ELV systems",
+          "Fire alarm systems",
+          "Voice evacuation",
+          "Aspiration / smoke detection",
+          "Emergency & exit lighting",
+          "CCTV & surveillance",
+          "Access control",
+          "Public address",
+          "Water leak detection",
+          "Rodent repellant",
+          "Nurse call",
+          "Disabled alarm",
+          "Intrusion detection",
           "Telecom & ICT",
           "LPG",
           "Building management system",
           "SCADA",
           "Life safety",
         ],
-        body: "Building services designed as one coordinated system, architecture and structure through HVAC, power, public health, fire, life safety, ELV, telecom and building management, sized for real loads across data centres, terminals and complex buildings.",
+        body: "Building services designed as one coordinated system, architecture and structure through HVAC, power, public health, fire, life safety, the full ELV suite, telecom and building management, sized for real loads across data centres, terminals and complex buildings.",
       },
       "oil-and-gas": {
         subDisciplines: [
@@ -85,12 +95,11 @@ export const SERVICES: Service[] = [
       building: {
         subDisciplines: [
           "LOD 100–500 modelling",
-          "Concept to as-built drawings",
           "Federated coordination",
           "Quantity extraction",
           "As-built handover",
         ],
-        body: "Federated Revit models spanning LOD 100 through LOD 500, plus concept, GFC/IFC, shop and as-built drawings, give architecture, structure and services one coordinated source of truth across a building, with quantities and as-builts pulled straight from the model.",
+        body: "Federated Revit models spanning LOD 100 through LOD 500 give architecture, structure and services one coordinated source of truth across a building, with quantities and as-builts pulled straight from the model.",
       },
       "oil-and-gas": {
         subDisciplines: [
@@ -125,6 +134,32 @@ export const SERVICES: Service[] = [
           "Rework reduction",
         ],
         body: "Clash detection across dense piping, structure and equipment cuts rework on tight fabrication and construction programmes.",
+      },
+    },
+  },
+  {
+    slug: "cad",
+    name: "CAD Drafting",
+    image: "/bim-models/rp3s-ducting-layout.jpg",
+    blurb: "Design, detail, shop and as-built drawings, from concept to construction.",
+    byDivision: {
+      building: {
+        subDisciplines: [
+          "Design drawings (concept / schematic)",
+          "Detail drawings (GFC / IFC)",
+          "Shop drawings",
+          "As-built drawings",
+        ],
+        body: "2D CAD drawings across the full project lifecycle: concept and schematic design drawings, GFC/IFC detail drawings, shop drawings and as-builts, drafted in AutoCAD alongside the coordinated BIM model.",
+      },
+      "oil-and-gas": {
+        subDisciplines: [
+          "Design drawings (concept / schematic)",
+          "Detail drawings (GFC / IFC)",
+          "Shop drawings",
+          "As-built drawings",
+        ],
+        body: "CAD drafting for energy-sector projects: concept, GFC/IFC detail, shop and as-built drawings produced to project and client standards.",
       },
     },
   },
