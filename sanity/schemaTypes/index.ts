@@ -11,6 +11,7 @@ import { jobOpening } from "./jobOpening";
 import { homePage } from "./homePage";
 import { aboutPage } from "./aboutPage";
 import { careersPage } from "./careersPage";
+import { servicesPage } from "./servicesPage";
 import { siteSettings } from "./siteSettings";
 
 // Objects
@@ -29,6 +30,7 @@ import {
   value,
   capability,
   leader,
+  isoCert,
   tool,
   navItem,
   office,
@@ -48,6 +50,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   homePage,
   aboutPage,
   careersPage,
+  servicesPage,
   siteSettings,
   // Objects
   stat,
@@ -64,6 +67,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   value,
   capability,
   leader,
+  isoCert,
   tool,
   navItem,
   office,

@@ -17,7 +17,7 @@ export const TOOLS: Tool[] = [
   { name: "Dialux", logo: "/tools/dialux.png", href: "https://www.dialux.com/en-GB/" },
   { name: "HydraCALC", logo: "/tools/hydracalc.png", href: "https://hydratecinc.com/software/hydratec/hydracalc" },
   { name: "PipeNet", logo: "/tools/pipenet.jpeg", href: "https://sunrise-sys.com/" },
-  { name: "Bluebeam Revu", logo: "/tools/bluebeam-revu.png", href: "https://www.bluebeam.com/solutions/revu/" },
+  { name: "Bluebeam Revu", logo: "/tools/bluebeam-revu.jpg", href: "https://www.bluebeam.com/solutions/revu/" },
   { name: "Autodesk ReCap Pro", logo: "/tools/autodesk-recap-pro.webp", href: "https://www.autodesk.com/products/recap/overview" },
   { name: "Microsoft Office 365", logo: "/tools/office-365.png", href: "https://www.microsoft.com/microsoft-365" },
   { name: "Microsoft Project", logo: "/tools/microsoft-project.png", href: "https://www.microsoft.com/microsoft-365/project/project-management-software" },

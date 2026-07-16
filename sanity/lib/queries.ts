@@ -109,17 +109,19 @@ export const aboutPageQuery = groq`
       role,
       "photo": coalesce(photo.asset->url, photo),
       bio
-    },
-    "isoLogo": coalesce(isoLogo.asset->url, isoLogo),
-    "isoDocument": isoDocument.asset->url
+    }
   }
 `;
 
-export const toolsQuery = groq`
-  *[_type == "siteSettings"][0].tools[]{
-    name,
-    "logo": coalesce(logo.asset->url, logo),
-    "href": url
+export const servicesPageQuery = groq`
+  *[_type == "servicesPage"][0]{
+    title,
+    blurb,
+    "tools": tools[]{
+      name,
+      "logo": coalesce(logo.asset->url, logo),
+      "href": url
+    }
   }
 `;
 

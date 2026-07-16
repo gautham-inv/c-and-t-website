@@ -184,18 +184,23 @@ export const CAPABILITIES: Capability[] = [
   })),
 ];
 
-/** ISO 9001 is the one company-level certification with its own logo + a
- * link to the certificate PDF. The rest (IGBC, KSEI, IME, KSECBC, PMP) are
- * held by individual engineers and are mentioned in the "Our story" copy
- * instead of getting their own logos. */
+/** Company-level ISO certifications shown as a logo row on the About page.
+ * Each has a text label, a logo, and an optional certificate PDF. The other
+ * credentials (IGBC, KSEI, IME, KSECBC, PMP) are held by individuals and are
+ * mentioned in the "Our story" copy rather than shown as logos. This is the
+ * fallback; the frontend reads it from Sanity (aboutPage.isoCertifications). */
 export type IsoCertification = {
   name: string;
   logo?: string;
   documentPath?: string;
 };
 
-export const ISO_CERTIFICATION: IsoCertification = {
-  name: "ISO 9001:2015 Registered",
-  logo: "/certifications/iso-9001-logo.png",
-  documentPath: "/certifications/iso-9001-certificate.pdf",
-};
+export const ISO_CERTIFICATIONS: IsoCertification[] = [
+  {
+    name: "ISO 9001:2015",
+    logo: "/certifications/iso-9001-logo.png",
+    documentPath: "/certifications/iso-9001-certificate.pdf",
+  },
+  { name: "ISO 45001:2015", logo: "/certifications/45001.png" },
+  { name: "ISO 14001:2015", logo: "/certifications/14001.png" },
+];

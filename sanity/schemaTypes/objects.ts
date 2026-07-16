@@ -242,6 +242,30 @@ export const capability = defineType({
   preview: { select: { title: "label", subtitle: "href" } },
 });
 
+/** Company ISO certification shown as a logo + label on the About page. */
+export const isoCert = defineType({
+  name: "isoCert",
+  title: "ISO certification",
+  type: "object",
+  fields: [
+    defineField({
+      name: "name",
+      title: "Label",
+      type: "string",
+      description: 'e.g. "ISO 9001:2015".',
+      validation: (r) => r.required(),
+    }),
+    defineField({ name: "logo", type: "image", options: { hotspot: true } }),
+    defineField({
+      name: "document",
+      title: "Certificate (PDF, optional)",
+      type: "file",
+      description: "Opened when the badge is clicked.",
+    }),
+  ],
+  preview: { select: { title: "name", media: "logo" } },
+});
+
 /** Software/tool logo shown in the /services tools strip. */
 export const tool = defineType({
   name: "tool",

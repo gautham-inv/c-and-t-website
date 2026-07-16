@@ -2,7 +2,7 @@ import { TOOLS, type Tool } from "@/lib/tools";
 
 // Software/tools stack — a flat reference list, not tied to any one service, so
 // it's its own strip rather than crammed into a service card. Data comes from
-// Sanity (siteSettings → tools) via props; the imported TOOLS is the fallback.
+// Sanity (servicesPage → tools) via props; the imported TOOLS is the fallback.
 export function ToolsStrip({ tools = TOOLS }: { tools?: Tool[] }) {
   return (
     <section className="border-t border-line bg-mist">

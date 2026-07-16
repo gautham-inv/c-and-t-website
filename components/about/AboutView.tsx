@@ -11,6 +11,7 @@ import { JourneyCarousel } from "@/components/about/JourneyCarousel";
 import { MissionVisionStack } from "@/components/about/MissionVisionStack";
 import { ValuesSplit } from "@/components/about/ValuesSplit";
 import { Leadership } from "@/components/about/Leadership";
+import { ISO_CERTIFICATIONS } from "@/lib/company";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -245,25 +246,47 @@ export function AboutView({ about }: { about: AboutPageData }) {
             </div>
           </div>
 
-          {about.isoLogo && (
-            <div data-up className="mt-12 flex justify-end">
-              <a
-                href={about.isoDocument || undefined}
-                target={about.isoDocument ? "_blank" : undefined}
-                rel={about.isoDocument ? "noopener noreferrer" : undefined}
-                className="group inline-flex items-center gap-3"
-              >
-                <span className="flex h-11 w-11 items-center justify-center overflow-hidden">
-                  <img
-                    src={about.isoLogo}
-                    alt="ISO 9001:2015 Registered"
-                    className="h-full w-full object-contain"
-                  />
-                </span>
-                <span className="font-mono text-[0.62rem] uppercase tracking-[0.12em] text-ink/70 transition-colors group-hover:text-green-dark">
-                  ISO 9001:2015 Registered
-                </span>
-              </a>
+          {ISO_CERTIFICATIONS.length > 0 && (
+            <div
+              data-up
+              className="mt-12 flex flex-wrap items-center justify-end gap-x-8 gap-y-5"
+            >
+              {ISO_CERTIFICATIONS.map((c) => {
+                const inner = (
+                  <>
+                    {c.logo && (
+                      <span className="flex h-11 w-11 items-center justify-center overflow-hidden">
+                        <img
+                          src={c.logo}
+                          alt={c.name}
+                          className="h-full w-full object-contain"
+                          onError={(e) => {
+                            e.currentTarget.style.display = "none";
+                          }}
+                        />
+                      </span>
+                    )}
+                    <span className="font-mono text-[0.62rem] uppercase tracking-[0.12em] text-ink/70 transition-colors group-hover:text-green-dark">
+                      {c.name}
+                    </span>
+                  </>
+                );
+                return c.documentPath ? (
+                  <a
+                    key={c.name}
+                    href={c.documentPath}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group inline-flex items-center gap-3"
+                  >
+                    {inner}
+                  </a>
+                ) : (
+                  <div key={c.name} className="inline-flex items-center gap-3">
+                    {inner}
+                  </div>
+                );
+              })}
             </div>
           )}
 

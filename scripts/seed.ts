@@ -12,7 +12,7 @@
  *
  *   Document types seeded:
  *     service, division, project, insight, jobOpening (collections)
- *     homePage, aboutPage, careersPage, siteSettings (singletons)
+ *     homePage, aboutPage, servicesPage, careersPage, siteSettings (singletons)
  *
  * REQUIREMENTS
  *   A Sanity write token in the SANITY_API_WRITE_TOKEN environment variable.
@@ -45,7 +45,7 @@ import {
   LOCATIONS,
   CAPABILITIES,
   LEADERSHIP,
-  ISO_CERTIFICATION,
+  ISO_CERTIFICATIONS,
 } from "../lib/company";
 import { CAREERS_INTRO, REASONS, OPENINGS, TEAM_PHOTOS } from "../lib/careers";
 import { TOOLS } from "../lib/tools";
@@ -613,8 +613,15 @@ async function seedAboutPage(): Promise<void> {
     leadership.push(item);
   }
 
-  const isoLogo = await uploadImage(ISO_CERTIFICATION.logo, ISO_CERTIFICATION.name);
-  const isoDocument = await uploadFile(ISO_CERTIFICATION.documentPath);
+  const isoCertifications = [];
+  for (const cert of ISO_CERTIFICATIONS) {
+    const logo = await uploadImage(cert.logo, cert.name);
+    const document = cert.documentPath ? await uploadFile(cert.documentPath) : undefined;
+    const item: Record<string, unknown> = { _type: "isoCert", _key: key("iso"), name: cert.name };
+    if (logo) item.logo = logo;
+    if (document) item.document = document;
+    isoCertifications.push(item);
+  }
 
   const doc: Record<string, unknown> = {
     _id: "aboutPage",
@@ -655,9 +662,8 @@ async function seedAboutPage(): Promise<void> {
       return item;
     }),
     leadership,
+    isoCertifications,
   };
-  if (isoLogo) doc.isoLogo = isoLogo;
-  if (isoDocument) doc.isoDocument = isoDocument;
 
   await client.createOrReplace(doc as never);
   console.log(`  ✓ aboutPage`);
@@ -691,7 +697,7 @@ async function seedCareersPage(): Promise<void> {
   console.log(`  ✓ careersPage`);
 }
 
-async function seedSiteSettings(): Promise<void> {
+async function seedServicesPage(): Promise<void> {
   const tools = [];
   for (const t of TOOLS) {
     const logo = await uploadImage(t.logo, t.name);
@@ -702,15 +708,23 @@ async function seedSiteSettings(): Promise<void> {
   }
 
   const doc: Record<string, unknown> = {
+    _id: "servicesPage",
+    _type: "servicesPage",
+    tools,
+  };
+  await client.createOrReplace(doc as never);
+  console.log(`  ✓ servicesPage`);
+}
+
+async function seedSiteSettings(): Promise<void> {
+  const doc: Record<string, unknown> = {
     _id: "siteSettings",
     _type: "siteSettings",
-    tools,
     navItems: SITE_SETTINGS.navItems.map((n) => ({ _type: "navItem", _key: key("nav"), ...n })),
     footerLinks: SITE_SETTINGS.footerLinks.map((n) => ({ _type: "navItem", _key: key("fnav"), ...n })),
     footerTagline: "Precision engineered. Globally delivered.",
     offices: SITE_SETTINGS.offices.map((o) => ({ _type: "office", _key: key("off"), ...o })),
     socials: SITE_SETTINGS.socials.map((s) => ({ _type: "socialLink", _key: key("soc"), ...s })),
-    isoBadge: "ISO 9001:2015",
     copyright: SITE_SETTINGS.copyright,
   };
   await client.createOrReplace(doc as never);
@@ -738,6 +752,7 @@ async function main(): Promise<void> {
   console.log("\nSingletons:");
   await seedHomePage(projectSlugByName, insightIdByTitle);
   await seedAboutPage();
+  await seedServicesPage();
   await seedCareersPage();
   await seedSiteSettings();
 
@@ -747,7 +762,7 @@ async function main(): Promise<void> {
     projects: projectSlugByName.size,
     insights: insightIdByTitle.size,
     jobOpenings: OPENINGS.length,
-    singletons: 4,
+    singletons: 5,
     imagesUploaded: [...imageCache.values()].filter(Boolean).length,
     imagesMissing: [...imageCache.values()].filter((v) => v === null).length,
   };

@@ -21,7 +21,7 @@ import {
   jobOpeningsQuery,
   jobOpeningBySlugQuery,
   allJobOpeningSlugsQuery,
-  toolsQuery,
+  servicesPageQuery,
   siteSettingsQuery,
 } from "./queries";
 import { TOOLS, type Tool } from "@/lib/tools";
@@ -44,7 +44,7 @@ import {
   LOCATIONS,
   CAPABILITIES,
   LEADERSHIP,
-  ISO_CERTIFICATION,
+  ISO_CERTIFICATIONS,
 } from "@/lib/company";
 import {
   CAREERS_INTRO,
@@ -239,8 +239,6 @@ export type AboutPageData = {
   locations: typeof LOCATIONS;
   capabilities: typeof CAPABILITIES;
   leadership: typeof LEADERSHIP;
-  isoLogo?: string;
-  isoDocument?: string;
 };
 
 const ABOUT_FALLBACK: AboutPageData = {
@@ -252,8 +250,6 @@ const ABOUT_FALLBACK: AboutPageData = {
   locations: LOCATIONS,
   capabilities: CAPABILITIES,
   leadership: LEADERSHIP,
-  isoLogo: ISO_CERTIFICATION.logo,
-  isoDocument: ISO_CERTIFICATION.documentPath,
 };
 
 export function getAboutPage(): Promise<AboutPageData> {
@@ -266,8 +262,6 @@ export function getAboutPage(): Promise<AboutPageData> {
         return {
           ...r,
           leadership: r.leadership?.length ? r.leadership : LEADERSHIP,
-          isoLogo: r.isoLogo || ISO_CERTIFICATION.logo,
-          isoDocument: r.isoDocument || ISO_CERTIFICATION.documentPath,
         };
       }),
     ABOUT_FALLBACK,
@@ -342,16 +336,33 @@ export function getJobOpeningSlugs(): Promise<string[]> {
   );
 }
 
-// ── Tools (software strip on /services) ────────────────────────────────────
+// ── Services page content ──────────────────────────────────────────────────
 
-export function getTools(): Promise<Tool[]> {
+export type ServicesPageData = {
+  title: string;
+  blurb: string;
+  tools: Tool[];
+};
+
+const SERVICES_PAGE_FALLBACK: ServicesPageData = {
+  title: "Our services",
+  blurb: "Every engagement hands over the engineering design documents, drawings, reports, CFD analysis, hydraulic calculations and 3D models/renders behind it, to the codes and standards that apply at the project's location.",
+  tools: TOOLS,
+};
+
+export function getServicesPage(): Promise<ServicesPageData> {
   return withFallback(
     async () => {
-      const rows = await client.fetch<Tool[]>(toolsQuery);
-      return (rows ?? []).filter((t) => t.name && t.logo);
+      const data = await client.fetch<Partial<ServicesPageData> | null>(servicesPageQuery);
+      if (!data) return SERVICES_PAGE_FALLBACK;
+      return {
+        title: data.title || SERVICES_PAGE_FALLBACK.title,
+        blurb: data.blurb || SERVICES_PAGE_FALLBACK.blurb,
+        tools: data.tools?.length ? data.tools.filter((t) => t.name && t.logo) : SERVICES_PAGE_FALLBACK.tools,
+      };
     },
-    TOOLS,
-    nonEmpty,
+    SERVICES_PAGE_FALLBACK,
+    (v) => !!v && !!v.title,
   );
 }
 

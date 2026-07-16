@@ -14,17 +14,9 @@ export const siteSettings = defineType({
     }),
     defineField({ name: "navItems", title: "Navbar menu", type: "array", of: [{ type: "navItem" }] }),
     defineField({ name: "footerLinks", title: "Footer quick-links", type: "array", of: [{ type: "navItem" }] }),
-    defineField({
-      name: "tools",
-      title: "Software & tools",
-      type: "array",
-      of: [{ type: "tool" }],
-      description: "Logos shown in the tools strip on the Services page.",
-    }),
     defineField({ name: "footerTagline", type: "text", rows: 2 }),
     defineField({ name: "offices", type: "array", of: [{ type: "office" }] }),
     defineField({ name: "socials", title: "Social links", type: "array", of: [{ type: "socialLink" }] }),
-    defineField({ name: "isoBadge", title: "ISO badge text", type: "string" }),
     defineField({ name: "copyright", type: "string" }),
     defineField({
       name: "enquiryEmail",

@@ -4,6 +4,7 @@ import type { StructureResolver } from "sanity/structure";
 const SINGLETONS = [
   { id: "homePage", type: "homePage", title: "Home page" },
   { id: "aboutPage", type: "aboutPage", title: "About page" },
+  { id: "servicesPage", type: "servicesPage", title: "Services page" },
   { id: "careersPage", type: "careersPage", title: "Careers page" },
   { id: "siteSettings", type: "siteSettings", title: "Site settings" },
 ];

@@ -11,6 +11,7 @@
     "studio:deploy": "sanity deploy",
     "studio:build": "sanity build",
     "seed": "tsx scripts/seed.ts",
+    "migrate:about-iso": "tsx scripts/migrate-about-iso.ts",
     "deploy": "next build && wrangler pages deploy out --project-name=c-and-t --branch=main"
   },
   "dependencies": {
