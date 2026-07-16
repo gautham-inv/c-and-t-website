@@ -20,8 +20,30 @@ export default async function Home() {
     getServices(),
     getInsights(),
   ]);
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "C&T Consulting Engineers",
+    "image": "https://www.candtengineers.com/logo.webp",
+    "url": "https://www.candtengineers.com",
+    "telephone": "+914712555026",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Trivandrum",
+      "addressLocality": "Trivandrum",
+      "addressRegion": "Kerala",
+      "addressCountry": "IN"
+    },
+    "description": "C&T is a multidisciplinary engineering services company delivering MEP engineering design, BIM modeling, and detailed engineering worldwide."
+  };
+
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Hero />
       <WhoWeAre />
       <Stats />

@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "Who we are | C&T Consulting Engineers",
   description:
     "C&T started as a single-engineer HVAC practice in 2011 and is now an MEP and BIM engineering group with offices in India, the UAE and Canada.",
+  alternates: {
+    canonical: "/about",
+  },
 };
 
 export default async function AboutPage() {

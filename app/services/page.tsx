@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "Our Services | C&T Consulting Engineers",
   description:
     "MEP design, BIM & 3D modelling, clash coordination, CFD/FEA, and MTO/BOQ & walkthrough videos, delivered across our Buildings & Infrastructure and Oil & Gas teams.",
+  alternates: {
+    canonical: "/services",
+  },
 };
 
 export default async function ServicesPage() {

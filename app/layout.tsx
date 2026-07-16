@@ -23,6 +23,10 @@ const satoshi = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.candtengineers.com"),
+  alternates: {
+    canonical: "/",
+  },
   title: "C&T Consulting Engineers | MEP, BIM & CFD | Smart Engineering",
   description:
     "Precision Engineered. Globally Delivered. C&T delivers MEP design, BIM modelling and CFD analysis for buildings, airports, industrial and oil & gas projects worldwide since 2013.",

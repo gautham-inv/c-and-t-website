@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   title: "Projects | C&T Consulting Engineers",
   description:
     "Selected projects across airports, data centres, refineries and offshore platforms, engineered by C&T's Buildings & Infrastructure and Oil & Gas teams.",
+  alternates: {
+    canonical: "/projects",
+  },
 };
 
 export default async function ProjectsPage() {

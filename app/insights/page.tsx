@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "Insights | C&T Consulting Engineers",
   description:
     "Articles from C&T's engineers on BIM, CFD and MEP, and the methods behind our building and energy projects.",
+  alternates: {
+    canonical: "/insights",
+  },
 };
 
 export default async function InsightsPage() {

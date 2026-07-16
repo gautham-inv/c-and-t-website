@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "Careers | C&T Consulting Engineers",
   description:
     "MEP, BIM and CFD job openings at C&T Consulting Engineers, with teams in India, the UAE and Canada.",
+  alternates: {
+    canonical: "/careers",
+  },
 };
 
 export default async function CareersPage() {

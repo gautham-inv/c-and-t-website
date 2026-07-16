@@ -22,6 +22,9 @@ export async function generateMetadata({
   return {
     title,
     description: opening.summary,
+    alternates: {
+      canonical: `/careers/${slug}`,
+    },
     openGraph: { title, description: opening.summary },
   };
 }
@@ -35,8 +38,40 @@ export default async function OpeningPage({
   const opening = await getJobOpening(slug);
   if (!opening) notFound();
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "JobPosting",
+    "title": opening.title,
+    "description": `${opening.about}\n\nResponsibilities:\n${(opening.responsibilities ?? []).map((r) => `* ${r}`).join("\n")}\n\nRequirements:\n${(opening.requirements ?? []).map((r) => `* ${r}`).join("\n")}`,
+    "datePosted": "2026-07-16",
+    "validThrough": "2027-07-16",
+    "employmentType":
+      opening.type === "Full-time"
+        ? "FULL_TIME"
+        : opening.type === "Contract"
+          ? "CONTRACTOR"
+          : "INTERN",
+    "hiringOrganization": {
+      "@type": "Organization",
+      "name": "C&T Consulting Engineers",
+      "sameAs": "https://www.candtengineers.com"
+    },
+    "jobLocation": {
+      "@type": "Place",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": opening.location,
+        "addressCountry": "IN"
+      }
+    }
+  };
+
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <JobDescription opening={opening} />
       <WithUs rounded={false} />
     </main>
