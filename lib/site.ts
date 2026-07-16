@@ -46,8 +46,6 @@ export const SITE_SETTINGS: SiteSettings = {
   socials: [
     { label: "LinkedIn", href: "#" },
     { label: "Instagram", href: "#" },
-    { label: "X", href: "#" },
-    { label: "YouTube", href: "#" },
   ],
   copyright: "© 2026 C&T Consulting Engineers Pvt Ltd",
 };
