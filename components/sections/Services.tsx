@@ -5,7 +5,7 @@ import { ArrowUpRight } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { SERVICES, serviceDivisions } from "@/lib/services";
+import { SERVICES, serviceDivisions, type Service } from "@/lib/services";
 import type { DivisionSlug } from "@/lib/divisions";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -20,9 +20,18 @@ const DIV_SHORT: Record<DivisionSlug, string> = {
 // The homepage teaser stays to the original six flagship services — the full
 // list (including the consulting/management services) lives on /services and
 // on each division page, where an exhaustive list is expected.
-const FEATURED = SERVICES.filter((s) => s.featured);
 
-export function Services() {
+export function Services({ services = SERVICES }: { services?: Service[] } = {}) {
+  // Flagship set for the accordion. Guard against a dataset where nothing is
+  // flagged featured (fall back to the lib flags, then to the first few) so
+  // the accordion always has at least one entry to render.
+  const flagged = services.filter((s) => s.featured);
+  const FEATURED =
+    flagged.length > 0
+      ? flagged
+      : SERVICES.filter((s) => s.featured).length > 0
+        ? SERVICES.filter((s) => s.featured)
+        : services.slice(0, 6);
   const root = useRef<HTMLElement>(null);
   const [active, setActive] = useState(0);
 

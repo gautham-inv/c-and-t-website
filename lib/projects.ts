@@ -46,7 +46,7 @@ export const PROJECTS: Project[] = [
     slug: "expo-2020-dubai",
     name: "EXPO 2020 Campus, Dubai",
     tagline: "Plant-room BIM · LOD 400",
-    heroImage: "/expocampus.jpg",
+    heroImage: "/projects/expocampus.jpg",
     description: [
       {
         type: "p",
@@ -80,7 +80,7 @@ export const PROJECTS: Project[] = [
     ],
     personnel: [],
     gallery: [
-      { image: "/expocampus.jpg", span: "lg", alt: "Expo 2020 campus" },
+      { image: "/projects/expocampus.jpg", span: "lg", alt: "Expo 2020 campus" },
       { image: "/bim-and-3d-modelling.jpg", span: "tall", alt: "Plant-room BIM model" },
       { image: "/mep-engineering-design.jpg", span: "sm", alt: "MEP design" },
       { image: "/clash-detection-and-coordination.jpg", span: "sm", alt: "Clash coordination" },
@@ -90,14 +90,14 @@ export const PROJECTS: Project[] = [
     ],
   },
   {
-    slug: "trivandrum-airport-t2",
-    name: "Trivandrum Airport T2",
+    slug: "south-india-airport-terminal",
+    name: "Major Airport, South India",
     tagline: "MEP Design & BIM · 163,000 m²",
-    heroImage: "/trivandrum-airport-case-study.jpg",
+    heroImage: "/projects/airport-terminal-case-study.jpg",
     description: [
       {
         type: "p",
-        text: "C&T provided MEP design and BIM services for Terminal 2 at Trivandrum Airport in Kerala, a 163,000 m² passenger terminal, covering the mechanical, electrical and public-health systems that keep a large transit building running.",
+        text: "C&T provided MEP design and BIM services for a major airport terminal in south India, a 163,000 m² passenger terminal, covering the mechanical, electrical and public-health systems that keep a large transit building running.",
       },
       {
         type: "p",
@@ -118,12 +118,12 @@ export const PROJECTS: Project[] = [
       { label: "Type", value: "Airport, Passenger Terminal" },
       { label: "Area", value: "163,000 m²" },
       { label: "Services", value: "MEP Design & BIM" },
-      { label: "Location", value: "Kerala, India" },
+      { label: "Location", value: "South India" },
       { label: "Division", value: "Buildings & Infrastructure" },
     ],
     personnel: [],
     gallery: [
-      { image: "/trivandrum-airport-case-study.jpg", span: "lg", alt: "Trivandrum Airport Terminal 2" },
+      { image: "/projects/airport-terminal-case-study.jpg", span: "lg", alt: "Airport terminal, south India" },
       { image: "/airport.webp", span: "tall", alt: "Airport terminal" },
       { image: "/mep-engineering-design.jpg", span: "sm", alt: "MEP design" },
       { image: "/bim-and-3d-modelling.jpg", span: "sm", alt: "BIM model" },
@@ -135,7 +135,7 @@ export const PROJECTS: Project[] = [
     slug: "calinova-data-centre",
     name: "Calinova 2.4 MW Data Centre",
     tagline: "MEP Design & BIM · Calicut",
-    heroImage: "/calinova-case-study.jpg",
+    heroImage: "/projects/calinova-case-study.jpg",
     description: [
       {
         type: "p",
@@ -164,19 +164,19 @@ export const PROJECTS: Project[] = [
     ],
     personnel: [],
     gallery: [
-      { image: "/calinova-case-study.jpg", span: "lg", alt: "Calinova data centre" },
-      { image: "/bim-models/electrical-room-1.jpg", span: "tall", alt: "Electrical room, data centre" },
-      { image: "/bim-models/chw-pump-room-2.jpg", span: "sm", alt: "Chilled water pump room" },
-      { image: "/bim-models/ets-room-1.jpg", span: "sm", alt: "ETS room" },
-      { image: "/bim-models/fire-pump-room-1.jpg", span: "wide", alt: "Fire pump room" },
-      { image: "/bim-models/3d-view-2.jpg", span: "sm", alt: "Coordinated MEP model" },
+      { image: "/projects/calinova-case-study.jpg", span: "lg", alt: "Calinova data centre" },
+      { image: "/bim-models/electrical-room-1.png", span: "tall", alt: "Electrical room, data centre" },
+      { image: "/bim-models/chw-pump-room-2.jpeg", span: "sm", alt: "Chilled water pump room" },
+      { image: "/bim-models/ets-room-1.jpeg", span: "sm", alt: "ETS room" },
+      { image: "/bim-models/fire-pump-room-1.png", span: "wide", alt: "Fire pump room" },
+      { image: "/bim-models/3d-view-2.jpeg", span: "sm", alt: "Coordinated MEP model" },
     ],
   },
   {
     slug: "yamal-lng",
     name: "Yamal LNG, Russia",
     tagline: "Detailed Engineering · 3D · TECHNIP",
-    heroImage: "/yamallng.jpeg",
+    heroImage: "/projects/yamal.webp",
     description: [
       {
         type: "p",
@@ -205,9 +205,9 @@ export const PROJECTS: Project[] = [
     ],
     personnel: [],
     gallery: [
-      { image: "/yamallng.jpeg", span: "lg", alt: "Yamal LNG facility" },
+      { image: "/projects/yamal.webp", span: "lg", alt: "Yamal LNG facility" },
       { image: "/oil-and-gas-division.jpg", span: "tall", alt: "Oil and gas facility" },
-      { image: "/detailed-engineering.jpg", span: "sm", alt: "Detailed engineering" },
+      { image: "/services/detailed-engineering.jpg", span: "sm", alt: "Detailed engineering" },
       { image: "/bim-and-3d-modelling.jpg", span: "sm", alt: "3D model" },
       { image: "/oil-and-gas-walkthrough.jpg", span: "wide", alt: "Process plant walkthrough" },
       { image: "/clash-detection-and-coordination.jpg", span: "sm", alt: "Clash coordination" },
@@ -217,7 +217,7 @@ export const PROJECTS: Project[] = [
     slug: "bial-bangalore",
     name: "BIAL, Bangalore",
     tagline: "MEP Design · BIM LOD 300 · AECOM",
-    heroImage: "/airport.webp",
+    heroImage: "/projects/bial-bangalore.jpg",
     description: [
       {
         type: "p",
@@ -247,7 +247,7 @@ export const PROJECTS: Project[] = [
     ],
     personnel: [],
     gallery: [
-      { image: "/airport.webp", span: "lg", alt: "BIAL airport" },
+      { image: "/projects/bial-bangalore.jpg", span: "lg", alt: "BIAL airport" },
       { image: "/airport.jpg", span: "tall", alt: "Airport terminal" },
       { image: "/mep-engineering-design.jpg", span: "sm", alt: "MEP design" },
       { image: "/bim-and-3d-modelling.jpg", span: "sm", alt: "LOD 300 BIM model" },
@@ -259,7 +259,7 @@ export const PROJECTS: Project[] = [
     slug: "duqm-refinery",
     name: "Duqm Refinery, Oman",
     tagline: "Detailed Engineering · LOD 500 · PETROFAC",
-    heroImage: "/duqmrefinery.jpeg",
+    heroImage: "/projects/duqm-refinery.jpeg",
     description: [
       {
         type: "p",
@@ -289,9 +289,9 @@ export const PROJECTS: Project[] = [
     ],
     personnel: [],
     gallery: [
-      { image: "/duqmrefinery.jpeg", span: "lg", alt: "Duqm Refinery" },
+      { image: "/projects/duqm-refinery.jpeg", span: "lg", alt: "Duqm Refinery" },
       { image: "/oil-and-gas-division.jpg", span: "tall", alt: "Refinery plant" },
-      { image: "/detailed-engineering.jpg", span: "sm", alt: "Detailed engineering" },
+      { image: "/services/detailed-engineering.jpg", span: "sm", alt: "Detailed engineering" },
       { image: "/bim-and-3d-modelling.jpg", span: "sm", alt: "LOD 500 model" },
       { image: "/oil-and-gas-walkthrough.jpg", span: "wide", alt: "Process plant walkthrough" },
       { image: "/clash-detection-and-coordination.jpg", span: "sm", alt: "Clash coordination" },
@@ -301,7 +301,7 @@ export const PROJECTS: Project[] = [
     slug: "compression-4-nfps",
     name: "Compression 4-NFPS",
     tagline: "Process Piping · Offshore · Qatar Energy",
-    heroImage: "/Compression-4-NFPS.jpeg",
+    heroImage: "/projects/Compression-4-NFPS.jpeg",
     description: [
       {
         type: "p",
@@ -330,10 +330,10 @@ export const PROJECTS: Project[] = [
     ],
     personnel: [],
     gallery: [
-      { image: "/Compression-4-NFPS.jpeg", span: "lg", alt: "Compression 4-NFPS offshore facility" },
-      { image: "/bim-models/whp13n-navis-hvac.jpg", span: "tall", alt: "Offshore platform HVAC model" },
-      { image: "/bim-models/rp3s-navis-model.jpg", span: "sm", alt: "Compartment 3D model" },
-      { image: "/bim-models/rp5n-navis-model.jpg", span: "sm", alt: "Compartment 3D model" },
+      { image: "/projects/Compression-4-NFPS.jpeg", span: "lg", alt: "Compression 4-NFPS offshore facility" },
+      { image: "/bim-models/whp13n-navis-hvac.png", span: "tall", alt: "Offshore platform HVAC model" },
+      { image: "/bim-models/rp3s-navis-model.png", span: "sm", alt: "Compartment 3D model" },
+      { image: "/bim-models/rp5n-navis-model.png", span: "sm", alt: "Compartment 3D model" },
       { image: "/oil-and-gas-walkthrough.jpg", span: "wide", alt: "Piping walkthrough" },
       { image: "/clash-detection-and-coordination.jpg", span: "sm", alt: "Clash coordination" },
     ],
@@ -342,7 +342,7 @@ export const PROJECTS: Project[] = [
     slug: "balwin-4",
     name: "Balwin 4 (2 GW)",
     tagline: "HVAC & E&I Design · Offshore Platform",
-    heroImage: "/oil-and-gas-division.jpg",
+    heroImage: "/bim-models/whp13n-navis-model.png",
     description: [
       {
         type: "p",
@@ -371,11 +371,11 @@ export const PROJECTS: Project[] = [
     ],
     personnel: [],
     gallery: [
-      { image: "/bim-models/whp13n-navis-model.jpg", span: "lg", alt: "WHP13N platform model" },
-      { image: "/bim-models/rp9s-navis-model.jpg", span: "tall", alt: "RP9S compartment model" },
-      { image: "/bim-models/rp3s-navis-hvac.jpg", span: "sm", alt: "RP3S HVAC services model" },
-      { image: "/bim-models/rp5n-navis-hvac.jpg", span: "sm", alt: "RP5N HVAC services model" },
-      { image: "/bim-models/rp3s-ducting-layout.jpg", span: "wide", alt: "Ducting layout" },
+      { image: "/bim-models/whp13n-navis-model.png", span: "lg", alt: "WHP13N platform model" },
+      { image: "/bim-models/rp9s-navis-model.png", span: "tall", alt: "RP9S compartment model" },
+      { image: "/bim-models/rp3s-navis-hvac.png", span: "sm", alt: "RP3S HVAC services model" },
+      { image: "/bim-models/rp5n-navis-hvac.png", span: "sm", alt: "RP5N HVAC services model" },
+      { image: "/bim-models/rp3s-ducting-layout.png", span: "wide", alt: "Ducting layout" },
       { image: "/clash-detection-and-coordination.jpg", span: "sm", alt: "Clash coordination" },
     ],
   },
@@ -383,7 +383,7 @@ export const PROJECTS: Project[] = [
     slug: "vega-tower-dubai",
     name: "Vega Tower, Dubai",
     tagline: "MEP Design & BIM · LOD 400",
-    heroImage: "/building-division.jpg",
+    heroImage: "/projects/images.jpeg",
     description: [
       {
         type: "p",
@@ -412,19 +412,19 @@ export const PROJECTS: Project[] = [
     ],
     personnel: [],
     gallery: [
-      { image: "/building-division.jpg", span: "lg", alt: "Vega Tower" },
-      { image: "/bim-models/ets-room-2.jpg", span: "tall", alt: "ETS room" },
-      { image: "/bim-models/electrical-room-2.jpg", span: "sm", alt: "Electrical room" },
-      { image: "/bim-models/fire-pump-room-2.jpg", span: "sm", alt: "Fire pump room" },
-      { image: "/bim-models/3d-view-3.jpg", span: "wide", alt: "Coordinated MEP model" },
-      { image: "/bim-models/chw-pump-room-3.jpg", span: "sm", alt: "Chilled water pump room" },
+      { image: "/projects/images.jpeg", span: "lg", alt: "Vega Tower" },
+      { image: "/bim-models/ets-room-2.jpeg", span: "tall", alt: "ETS room" },
+      { image: "/bim-models/electrical-room-2.jpeg", span: "sm", alt: "Electrical room" },
+      { image: "/bim-models/fire-pump-room-2.png", span: "sm", alt: "Fire pump room" },
+      { image: "/bim-models/3d-view-3.jpeg", span: "wide", alt: "Coordinated MEP model" },
+      { image: "/bim-models/chw-pump-room-3.jpeg", span: "sm", alt: "Chilled water pump room" },
     ],
   },
   {
     slug: "muscat-cargo-oman",
     name: "Muscat Cargo, Oman",
     tagline: "MEP Design & BIM LOD 300 · Commercial",
-    heroImage: "/building-division.jpg",
+    heroImage: "/projects/muscat-cargo-oman.jpg",
     description: [
       {
         type: "p",
@@ -454,10 +454,10 @@ export const PROJECTS: Project[] = [
     ],
     personnel: [],
     gallery: [
-      { image: "/building-division.jpg", span: "lg", alt: "Muscat Cargo development" },
-      { image: "/bim-models/ets-room-3.jpg", span: "tall", alt: "ETS room" },
-      { image: "/bim-models/electrical-room-3.jpg", span: "sm", alt: "Electrical room" },
-      { image: "/bim-models/3d-view-4.jpg", span: "sm", alt: "Coordinated MEP model" },
+      { image: "/projects/muscat-cargo-oman.jpg", span: "lg", alt: "Muscat Cargo development" },
+      { image: "/bim-models/ets-room-3.jpeg", span: "tall", alt: "ETS room" },
+      { image: "/bim-models/electrical-room-3.jpeg", span: "sm", alt: "Electrical room" },
+      { image: "/bim-models/3d-view-4.jpeg", span: "sm", alt: "Coordinated MEP model" },
       { image: "/engineering.jpg", span: "wide", alt: "Building services" },
       { image: "/clash-detection-and-coordination.jpg", span: "sm", alt: "Clash coordination" },
     ],
@@ -466,7 +466,7 @@ export const PROJECTS: Project[] = [
     slug: "mall-of-muscat",
     name: "Mall of Muscat, Oman",
     tagline: "MEP Design · 1.8M sqft",
-    heroImage: "/building-division.jpg",
+    heroImage: "/projects/mall-of-muscat.jpeg",
     description: [
       {
         type: "p",
@@ -497,10 +497,10 @@ export const PROJECTS: Project[] = [
     ],
     personnel: [],
     gallery: [
-      { image: "/building-division.jpg", span: "lg", alt: "Mall of Muscat" },
+      { image: "/projects/mall-of-muscat.jpeg", span: "lg", alt: "Mall of Muscat" },
       { image: "/mep-engineering-design.jpg", span: "tall", alt: "MEP design" },
       { image: "/engineering.jpg", span: "sm", alt: "Building services" },
-      { image: "/detailed-engineering.jpg", span: "sm", alt: "Detailed engineering" },
+      { image: "/services/detailed-engineering.jpg", span: "sm", alt: "Detailed engineering" },
       { image: "/bim-and-3d-modelling.jpg", span: "wide", alt: "3D model" },
       { image: "/clash-detection-and-coordination.jpg", span: "sm", alt: "Clash coordination" },
     ],
@@ -543,7 +543,7 @@ export const PROJECTS: Project[] = [
       { image: "/building-division.jpg", span: "lg", alt: "Al Khoud Mall" },
       { image: "/mep-engineering-design.jpg", span: "tall", alt: "MEP design" },
       { image: "/engineering.jpg", span: "sm", alt: "Building services" },
-      { image: "/detailed-engineering.jpg", span: "sm", alt: "Detailed engineering" },
+      { image: "/services/detailed-engineering.jpg", span: "sm", alt: "Detailed engineering" },
       { image: "/bim-and-3d-modelling.jpg", span: "wide", alt: "3D model" },
       { image: "/clash-detection-and-coordination.jpg", span: "sm", alt: "Clash coordination" },
     ],
@@ -552,7 +552,7 @@ export const PROJECTS: Project[] = [
     slug: "emaar-district-cooling",
     name: "Emaar District Cooling Plant, Dubai",
     tagline: "BIM LOD 500 · Voltas",
-    heroImage: "/engineering.jpg",
+    heroImage: "/projects/District-Cooling-Plant-emaar.jpg",
     description: [
       {
         type: "p",
@@ -583,10 +583,10 @@ export const PROJECTS: Project[] = [
     ],
     personnel: [],
     gallery: [
-      { image: "/engineering.jpg", span: "lg", alt: "Emaar district cooling plant" },
+      { image: "/projects/District-Cooling-Plant-emaar.jpg", span: "lg", alt: "Emaar district cooling plant" },
       { image: "/bim-and-3d-modelling.jpg", span: "tall", alt: "LOD 500 BIM model" },
       { image: "/mep-engineering-design.jpg", span: "sm", alt: "MEP design" },
-      { image: "/detailed-engineering.jpg", span: "sm", alt: "Detailed engineering" },
+      { image: "/services/detailed-engineering.jpg", span: "sm", alt: "Detailed engineering" },
       { image: "/clash-detection-and-coordination.jpg", span: "wide", alt: "Clash coordination" },
       { image: "/bim-clash-detection.jpg", span: "sm", alt: "Clash detection" },
     ],
@@ -595,7 +595,7 @@ export const PROJECTS: Project[] = [
     slug: "ahad-tower-dubai",
     name: "AHAD Tower, Dubai",
     tagline: "MEP Design · 5B+G+31 · VX Studio",
-    heroImage: "/building-division.jpg",
+    heroImage: "/projects/ahad-tower-dubai.jpg",
     description: [
       {
         type: "p",
@@ -626,10 +626,10 @@ export const PROJECTS: Project[] = [
     ],
     personnel: [],
     gallery: [
-      { image: "/building-division.jpg", span: "lg", alt: "AHAD Tower" },
+      { image: "/projects/ahad-tower-dubai.jpg", span: "lg", alt: "AHAD Tower" },
       { image: "/mep-engineering-design.jpg", span: "tall", alt: "MEP design" },
       { image: "/engineering.jpg", span: "sm", alt: "Building services" },
-      { image: "/detailed-engineering.jpg", span: "sm", alt: "Detailed engineering" },
+      { image: "/services/detailed-engineering.jpg", span: "sm", alt: "Detailed engineering" },
       { image: "/bim-and-3d-modelling.jpg", span: "wide", alt: "3D model" },
       { image: "/clash-detection-and-coordination.jpg", span: "sm", alt: "Clash coordination" },
     ],
@@ -638,7 +638,7 @@ export const PROJECTS: Project[] = [
     slug: "igo-101-dubai",
     name: "IGO 101, Dubai",
     tagline: "MEP Design · 6B+G+31 · VX Studio",
-    heroImage: "/building-division.jpg",
+    heroImage: "/projects/igo-101.webp",
     description: [
       {
         type: "p",
@@ -669,10 +669,10 @@ export const PROJECTS: Project[] = [
     ],
     personnel: [],
     gallery: [
-      { image: "/building-division.jpg", span: "lg", alt: "IGO 101" },
+      { image: "/projects/igo-101.webp", span: "lg", alt: "IGO 101" },
       { image: "/mep-engineering-design.jpg", span: "tall", alt: "MEP design" },
       { image: "/engineering.jpg", span: "sm", alt: "Building services" },
-      { image: "/detailed-engineering.jpg", span: "sm", alt: "Detailed engineering" },
+      { image: "/services/detailed-engineering.jpg", span: "sm", alt: "Detailed engineering" },
       { image: "/bim-and-3d-modelling.jpg", span: "wide", alt: "3D model" },
       { image: "/clash-detection-and-coordination.jpg", span: "sm", alt: "Clash coordination" },
     ],
@@ -681,7 +681,7 @@ export const PROJECTS: Project[] = [
     slug: "commercial-boulevard-qatar",
     name: "Commercial Boulevard, Qatar",
     tagline: "BIM LOD 350–500 · 5 Buildings · Voltas",
-    heroImage: "/building-division.jpg",
+    heroImage: "/projects/qatar-commercial-boulevard-2.jpg",
     description: [
       {
         type: "p",
@@ -712,10 +712,10 @@ export const PROJECTS: Project[] = [
     ],
     personnel: [],
     gallery: [
-      { image: "/building-division.jpg", span: "lg", alt: "Commercial Boulevard" },
+      { image: "/projects/qatar-commercial-boulevard-2.jpg", span: "lg", alt: "Commercial Boulevard" },
       { image: "/bim-and-3d-modelling.jpg", span: "tall", alt: "BIM model" },
       { image: "/mep-engineering-design.jpg", span: "sm", alt: "MEP design" },
-      { image: "/detailed-engineering.jpg", span: "sm", alt: "Detailed engineering" },
+      { image: "/services/detailed-engineering.jpg", span: "sm", alt: "Detailed engineering" },
       { image: "/clash-detection-and-coordination.jpg", span: "wide", alt: "Clash coordination" },
       { image: "/bim-clash-detection.jpg", span: "sm", alt: "Clash detection" },
     ],
@@ -724,7 +724,7 @@ export const PROJECTS: Project[] = [
     slug: "ner-wicr-site-utilities",
     name: "NER & WICR Site Utilities",
     tagline: "MEP Design & BIM · Artelia / NEOM",
-    heroImage: "/oil-and-gas-division.jpg",
+    heroImage: "/projects/ner-wicr-ksa.png",
     description: [
       {
         type: "p",
@@ -754,10 +754,10 @@ export const PROJECTS: Project[] = [
     ],
     personnel: [],
     gallery: [
-      { image: "/oil-and-gas-division.jpg", span: "lg", alt: "NER & WICR site utilities" },
+      { image: "/projects/ner-wicr-ksa.png", span: "lg", alt: "NER & WICR site utilities" },
       { image: "/oil-and-gas-walkthrough.jpg", span: "tall", alt: "Site utilities walkthrough" },
       { image: "/mep-engineering-design.jpg", span: "sm", alt: "MEP design" },
-      { image: "/detailed-engineering.jpg", span: "sm", alt: "Detailed engineering" },
+      { image: "/services/detailed-engineering.jpg", span: "sm", alt: "Detailed engineering" },
       { image: "/bim-and-3d-modelling.jpg", span: "wide", alt: "3D model" },
       { image: "/clash-detection-and-coordination.jpg", span: "sm", alt: "Clash coordination" },
     ],
@@ -775,26 +775,29 @@ export type PortfolioItem = {
    * placeholder card rather than reusing an unrelated image. */
   image?: string;
   division: DivisionSlug;
+  /** Industry tag(s) — slugs into lib/industries.ts. Oil & Gas work isn't
+   * tagged: that division is organised purely by service, not by sector. */
+  industries?: string[];
 };
 
 export const PORTFOLIO: PortfolioItem[] = [
-  { name: "EXPO 2020 Campus, Dubai", meta: "BIM · Plant Rooms LOD 400 · 300,000 m² · 2019", image: "/expocampus.jpg", division: "building" },
-  { name: "Trivandrum Airport T2", meta: "MEP Design & BIM · 163,000 m² · Kerala", image: "/trivandrum-airport-case-study.jpg", division: "building" },
-  { name: "Calinova 2.4 MW Data Centre", meta: "MEP Design & BIM · Calicut", image: "/calinova-case-study.jpg", division: "building" },
-  { name: "Yamal LNG, Russia", meta: "Detailed Engineering · 3D · TECHNIP", image: "/yamallng.jpeg", division: "oil-and-gas" },
-  { name: "BIAL, Bangalore", meta: "MEP Design · BIM LOD 300 · AECOM", image: "/airport.webp", division: "building" },
-  { name: "Duqm Refinery, Oman", meta: "Detailed Engineering · LOD 500 · PETROFAC", image: "/duqmrefinery.jpeg", division: "oil-and-gas" },
-  { name: "Compression 4-NFPS", meta: "Process Piping · Offshore · Qatar Energy", image: "/Compression-4-NFPS.jpeg", division: "oil-and-gas" },
-  { name: "Balwin 4 (2 GW)", meta: "HVAC & E&I Design · Offshore Platform · Dry Dock World", division: "oil-and-gas" },
-  { name: "Vega Tower, Dubai", meta: "MEP Design & BIM · LOD 400", division: "building" },
-  { name: "Muscat Cargo, Oman", meta: "MEP Design & BIM LOD 300 · Commercial · EIDC/J&P", division: "building" },
-  { name: "Mall of Muscat, Oman", meta: "MEP Design · 1.8M sqft · EIDC · 2016", division: "building" },
-  { name: "Al Khoud Mall, Oman", meta: "MEP Design · 100,000 m² · EIDC · 2017", division: "building" },
-  { name: "Emaar District Cooling Plant, Dubai", meta: "BIM LOD 500 · Voltas · 2020", division: "building" },
-  { name: "AHAD Tower, Dubai", meta: "MEP Design · 5B+G+31 · VX Studio · 2018", division: "building" },
-  { name: "IGO 101, Dubai", meta: "MEP Design · 6B+G+31 · VX Studio · 2018", division: "building" },
-  { name: "Commercial Boulevard, Qatar", meta: "BIM LOD 350–500 · 5 Buildings · Voltas · 2020–21", division: "building" },
-  { name: "NER & WICR Site Utilities", meta: "MEP Design & BIM · Artelia / NEOM · KSA", division: "oil-and-gas" },
+  { name: "EXPO 2020 Campus, Dubai", meta: "BIM · Plant Rooms LOD 400 · 300,000 m² · 2019", image: "/projects/expocampus.jpg", division: "building", industries: ["commercial-mercantile"] },
+  { name: "Major Airport, South India", meta: "MEP Design & BIM · 163,000 m² · South India", image: "/projects/airport-terminal-case-study.jpg", division: "building", industries: ["aviation-airports"] },
+  { name: "Calinova 2.4 MW Data Centre", meta: "MEP Design & BIM · Calicut", image: "/projects/calinova-case-study.jpg", division: "building", industries: ["data-centres"] },
+  { name: "Yamal LNG, Russia", meta: "Detailed Engineering · 3D · TECHNIP", image: "/projects/yamal.webp", division: "oil-and-gas" },
+  { name: "BIAL, Bangalore", meta: "MEP Design · BIM LOD 300 · AECOM", image: "/projects/bial-bangalore.jpg", division: "building", industries: ["aviation-airports"] },
+  { name: "Duqm Refinery, Oman", meta: "Detailed Engineering · LOD 500 · PETROFAC", image: "/projects/duqm-refinery.jpeg", division: "oil-and-gas" },
+  { name: "Compression 4-NFPS", meta: "Process Piping · Offshore · Qatar Energy", image: "/projects/Compression-4-NFPS.jpeg", division: "oil-and-gas" },
+  { name: "Balwin 4 (2 GW)", meta: "HVAC & E&I Design · Offshore Platform · Dry Dock World", image: "/bim-models/whp13n-navis-model.png", division: "oil-and-gas" },
+  { name: "Vega Tower, Dubai", meta: "MEP Design & BIM · LOD 400", image: "/projects/images.jpeg", division: "building", industries: ["high-rise-buildings"] },
+  { name: "Muscat Cargo, Oman", meta: "MEP Design & BIM LOD 300 · Commercial · EIDC/J&P", image: "/projects/muscat-cargo-oman.jpg", division: "building", industries: ["commercial-mercantile"] },
+  { name: "Mall of Muscat, Oman", meta: "MEP Design · 1.8M sqft · EIDC · 2016", image: "/projects/mall-of-muscat.jpeg", division: "building", industries: ["commercial-mercantile"] },
+  { name: "Al Khoud Mall, Oman", meta: "MEP Design · 100,000 m² · EIDC · 2017", division: "building", industries: ["commercial-mercantile"] },
+  { name: "Emaar District Cooling Plant, Dubai", meta: "BIM LOD 500 · Voltas · 2020", image: "/projects/District-Cooling-Plant-emaar.jpg", division: "building", industries: ["chiller-plants"] },
+  { name: "AHAD Tower, Dubai", meta: "MEP Design · 5B+G+31 · VX Studio · 2018", image: "/projects/ahad-tower-dubai.jpg", division: "building", industries: ["high-rise-buildings"] },
+  { name: "IGO 101, Dubai", meta: "MEP Design · 6B+G+31 · VX Studio · 2018", image: "/projects/igo-101.webp", division: "building", industries: ["high-rise-buildings"] },
+  { name: "Commercial Boulevard, Qatar", meta: "BIM LOD 350–500 · 5 Buildings · Voltas · 2020–21", image: "/projects/qatar-commercial-boulevard-2.jpg", division: "building", industries: ["commercial-mercantile"] },
+  { name: "NER & WICR Site Utilities", meta: "MEP Design & BIM · Artelia / NEOM · KSA", image: "/projects/ner-wicr-ksa.png", division: "oil-and-gas" },
 ];
 
 /** Projects belonging to a division, in portfolio order. */

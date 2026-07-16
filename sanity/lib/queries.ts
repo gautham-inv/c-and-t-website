@@ -13,6 +13,7 @@ export const allServicesQuery = groq`
     name,
     "image": coalesce(image.asset->url, image),
     blurb,
+    featured,
     "byDivision": byDivision[]{
       "division": division->slug.current,
       subDisciplines,
@@ -32,33 +33,8 @@ export const allDivisionsQuery = groq`
     overview,
     stats,
     "serviceSlugs": services[]->slug.current,
-    "sectorSlugs": sectors[]->slug.current,
-    faqs
-  }
-`;
-
-// ── Sectors ── (small collection — fetch all, resolve by slug in JS)
-export const allSectorsQuery = groq`
-  *[_type == "sector"]{
-    "slug": slug.current,
-    name,
-    "divisionSlug": division->slug.current,
-    tagline,
-    "image": coalesce(image.asset->url, image),
-    overview,
-    stats,
-    approach,
-    "services": services[]{
-      body,
-      points,
-      "label": service->name,
-      "image": coalesce(service->image.asset->url, service->image),
-      "href": "/divisions/" + service->byDivision[0].division->slug.current + "#" + service->slug.current
-    },
-    expertise,
-    "projects": projects[]{ name, meta, "image": coalesce(image.asset->url, image) },
-    "insights": insights[]->{ title, tag, "read": readTime, "href": "/insights/" + slug.current, "image": coalesce(image.asset->url, image) },
-    faqs
+    hasIndustries,
+    "faqs": faqs[]{ "q": question, "a": answer }
   }
 `;
 
@@ -70,7 +46,8 @@ export const portfolioQuery = groq`
     "image": coalesce(image.asset->url, image),
     "division": division->slug.current,
     "slug": slug.current,
-    "hasDetailPage": enableDetailPage == true
+    "hasDetailPage": enableDetailPage == true,
+    industries
   }
 `;
 
@@ -132,20 +109,27 @@ export const aboutPageQuery = groq`
       role,
       "photo": coalesce(photo.asset->url, photo),
       bio
-    }
+    },
+    "isoLogo": coalesce(isoLogo.asset->url, isoLogo),
+    "isoDocument": isoDocument.asset->url
+  }
+`;
+
+export const toolsQuery = groq`
+  *[_type == "siteSettings"][0].tools[]{
+    name,
+    "logo": coalesce(logo.asset->url, logo),
+    "href": url
   }
 `;
 
 export const siteSettingsQuery = groq`
   *[_type == "siteSettings"][0]{
-    logo,
     navItems,
-    footerTagline,
+    footerLinks,
     offices,
-    socials,
-    isoBadge,
-    copyright,
-    enquiryEmail
+    "socials": socials[]{ label, href },
+    copyright
   }
 `;
 

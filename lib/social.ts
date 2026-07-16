@@ -9,3 +9,16 @@ export const SOCIAL_LINKS: SocialLink[] = [
   { label: "X", href: "#", Icon: X },
   { label: "YouTube", href: "#", Icon: Youtube },
 ];
+
+/** Icons live in code (Lucide), so when socials come from Sanity as
+ * {label, href} we resolve the icon by label. Unknown labels render no icon. */
+const SOCIAL_ICON: Record<string, LucideIcon> = {
+  LinkedIn: Linkedin,
+  Instagram: Instagram,
+  X: X,
+  YouTube: Youtube,
+};
+
+export function socialIcon(label: string): LucideIcon | undefined {
+  return SOCIAL_ICON[label];
+}

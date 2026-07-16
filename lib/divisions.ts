@@ -24,8 +24,9 @@ export type Division = {
   stats: DivisionStat[];
   /** Services offered in this division (slugs into lib/services.ts), in order. */
   serviceSlugs: string[];
-  /** Child sectors (slugs into lib/sectors.ts). Building only; empty for O&G. */
-  sectorSlugs: string[];
+  /** Whether this division shows the industries-served chip cloud (see
+   * lib/industries.ts). Building only; Oil & Gas isn't broken into sectors. */
+  hasIndustries: boolean;
   faqs: DivisionFAQ[];
 };
 
@@ -42,7 +43,7 @@ export const DIVISIONS: Division[] = [
       "A dedicated team delivers fully coordinated MEP designs and federated BIM models across data centres, airports and industrial facilities. Clashes are resolved in the model before they reach site, so construction stays on programme.",
     ],
     stats: [
-      { value: "163,000 m²", label: "Trivandrum T2 terminal" },
+      { value: "163,000 m²", label: "South India airport terminal" },
       { value: "2.4 MW", label: "Calinova data centre" },
       { value: "LOD 300–400", label: "BIM coordination" },
     ],
@@ -63,11 +64,11 @@ export const DIVISIONS: Division[] = [
       "cost-consultancy",
       "resource-deployment",
     ],
-    sectorSlugs: ["data-centres", "airports", "industrial"],
+    hasIndustries: true,
     faqs: [
       {
         q: "Do you work directly with owners or with the lead consultant?",
-        a: "Both. On Trivandrum T2 we delivered design and BIM directly; on BIAL Bangalore we worked as the MEP and BIM partner to AECOM. We adapt to whichever delivery model the project runs on.",
+        a: "Both. On our South India airport terminal project we delivered design and BIM directly; on BIAL Bangalore we worked as the MEP and BIM partner to AECOM. We adapt to whichever delivery model the project runs on.",
       },
       {
         q: "What level of BIM detail do you deliver for buildings?",
@@ -110,7 +111,7 @@ export const DIVISIONS: Division[] = [
       "cost-consultancy",
       "resource-deployment",
     ],
-    sectorSlugs: [],
+    hasIndustries: false,
     faqs: [
       {
         q: "You're newer to oil & gas, so what's your track record?",

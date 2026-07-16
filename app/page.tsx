@@ -1,4 +1,3 @@
-import { Navbar } from "@/components/layout/Navbar";
 import { Hero } from "@/components/sections/Hero";
 import { WhoWeAre } from "@/components/sections/WhoWeAre";
 import { Stats } from "@/components/sections/Stats";
@@ -11,19 +10,25 @@ import { Testimonials } from "@/components/sections/Testimonials";
 import { Insights } from "@/components/sections/Insights";
 import { GreenZone } from "@/components/sections/GreenZone";
 import { WithUs } from "@/components/sections/WithUs";
-import { Footer } from "@/components/layout/Footer";
+import { getDivisions, getServices, getInsights } from "@/sanity/lib/data";
 
-export default function Home() {
+export default async function Home() {
+  // Data-backed homepage sections read from Sanity (fallback to lib/* when the
+  // dataset isn't seeded) so the homepage stays in sync with the detail pages.
+  const [divisions, services, insights] = await Promise.all([
+    getDivisions(),
+    getServices(),
+    getInsights(),
+  ]);
   return (
     <main>
-      <Navbar />
       <Hero />
       <WhoWeAre />
       <Stats />
       {/* Divisions → services → proof: the two divisions first (how the firm
           is organised), then the services, then the case studies. */}
-      <Divisions />
-      <Services />
+      <Divisions divisions={divisions} />
+      <Services services={services} />
       <Difference />
       <Projects />
 
@@ -33,7 +38,7 @@ export default function Home() {
         <Testimonials />
       </GreenZone>
 
-      <Insights />
+      <Insights insights={insights} />
 
       {/* Placeholder anchors for sections built in later phases — they keep
           the nav links resolvable while the homepage is assembled. */}
@@ -41,7 +46,6 @@ export default function Home() {
       <section id="faq" className="scroll-mt-24" />
 
       <WithUs />
-      <Footer />
     </main>
   );
 }

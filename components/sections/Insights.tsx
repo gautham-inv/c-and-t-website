@@ -5,7 +5,7 @@ import { ArrowUpRight } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { INSIGHTS } from "@/lib/insights";
+import { INSIGHTS, type Insight } from "@/lib/insights";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -14,9 +14,9 @@ gsap.registerPlugin(ScrollTrigger);
  * full on /insights. Editorial two-card layout (shared with the sector pages):
  * a tall lead article beside a shorter second one, heights balanced.
  */
-export function Insights() {
+export function Insights({ insights = INSIGHTS }: { insights?: Insight[] } = {}) {
   const root = useRef<HTMLElement>(null);
-  const featured = INSIGHTS.slice(0, 2);
+  const featured = insights.slice(0, 2);
 
   useGSAP(
     () => {

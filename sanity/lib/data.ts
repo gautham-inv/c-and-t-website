@@ -16,13 +16,16 @@ import {
   insightsQuery,
   allServicesQuery,
   allDivisionsQuery,
-  allSectorsQuery,
   aboutPageQuery,
   careersPageQuery,
   jobOpeningsQuery,
   jobOpeningBySlugQuery,
   allJobOpeningSlugsQuery,
+  toolsQuery,
+  siteSettingsQuery,
 } from "./queries";
+import { TOOLS, type Tool } from "@/lib/tools";
+import { SITE_SETTINGS, type SiteSettings } from "@/lib/site";
 import {
   PORTFOLIO,
   PROJECTS,
@@ -32,7 +35,6 @@ import {
 import { INSIGHTS, type Insight } from "@/lib/insights";
 import { SERVICES, type Service } from "@/lib/services";
 import { DIVISIONS, type Division, type DivisionSlug } from "@/lib/divisions";
-import { SECTORS, type Sector } from "@/lib/sectors";
 import {
   VISION,
   MISSION,
@@ -42,6 +44,7 @@ import {
   LOCATIONS,
   CAPABILITIES,
   LEADERSHIP,
+  ISO_CERTIFICATION,
 } from "@/lib/company";
 import {
   CAREERS_INTRO,
@@ -74,6 +77,7 @@ export type PortfolioCard = {
   image?: string;
   division: string;
   slug?: string;
+  industries?: string[];
 };
 
 export function getPortfolio(): Promise<PortfolioCard[]> {
@@ -83,6 +87,7 @@ export function getPortfolio(): Promise<PortfolioCard[]> {
     image: p.image,
     division: p.division,
     slug: projectSlug(p.name),
+    industries: p.industries,
   }));
   return withFallback(
     async () => {
@@ -95,6 +100,7 @@ export function getPortfolio(): Promise<PortfolioCard[]> {
         image: r.image,
         division: r.division,
         slug: r.hasDetailPage ? r.slug : undefined,
+        industries: r.industries,
       }));
     },
     fallback,
@@ -158,7 +164,7 @@ export function getInsights(): Promise<Insight[]> {
   );
 }
 
-// ── Services / Divisions / Sectors ──────────────────────────────────────
+// ── Services / Divisions ────────────────────────────────────────────────
 // Small collections (a handful of docs each) — fetch the whole set once per
 // request and resolve individual entries in JS rather than round-tripping a
 // by-slug query per lookup.
@@ -169,13 +175,17 @@ export function getServices(): Promise<Service[]> {
   return withFallback(
     async () => {
       const rows = await client.fetch<
-        (Omit<Service, "byDivision"> & { byDivision?: ByDivisionRow[] })[]
+        (Omit<Service, "byDivision"> & { featured?: boolean; byDivision?: ByDivisionRow[] })[]
       >(allServicesQuery);
       return (rows ?? []).map((r) => ({
         slug: r.slug,
         name: r.name,
         image: r.image,
         blurb: r.blurb,
+        // `featured` (drives the homepage accordion) may be absent on older
+        // Sanity docs — backfill from the lib default by slug so the homepage
+        // never ends up with an empty featured set.
+        featured: r.featured ?? SERVICES.find((s) => s.slug === r.slug)?.featured ?? false,
         byDivision: Object.fromEntries(
           (r.byDivision ?? [])
             .filter((b): b is Required<ByDivisionRow> => !!b.division)
@@ -195,7 +205,19 @@ export async function getService(slug: string): Promise<Service | undefined> {
 
 export function getDivisions(): Promise<Division[]> {
   return withFallback(
-    () => client.fetch<Division[]>(allDivisionsQuery),
+    async () => {
+      const rows = await client.fetch<Division[]>(allDivisionsQuery);
+      // GROQ returns `null` (not omitted) for array fields a doc hasn't set —
+      // normalize to [] so the division page/DivisionView never `.map` a null.
+      return (rows ?? []).map((d) => ({
+        ...d,
+        overview: d.overview ?? [],
+        stats: d.stats ?? [],
+        serviceSlugs: d.serviceSlugs ?? [],
+        faqs: d.faqs ?? [],
+        hasIndustries: !!d.hasIndustries,
+      }));
+    },
     DIVISIONS,
     nonEmpty,
   );
@@ -204,19 +226,6 @@ export function getDivisions(): Promise<Division[]> {
 export async function getDivision(slug: string): Promise<Division | undefined> {
   const divisions = await getDivisions();
   return divisions.find((d) => d.slug === slug);
-}
-
-export function getSectors(): Promise<Sector[]> {
-  return withFallback(
-    () => client.fetch<Sector[]>(allSectorsQuery),
-    SECTORS,
-    nonEmpty,
-  );
-}
-
-export async function getSector(slug: string): Promise<Sector | undefined> {
-  const sectors = await getSectors();
-  return sectors.find((s) => s.slug === slug);
 }
 
 // ── About page ───────────────────────────────────────────────────────────
@@ -230,6 +239,8 @@ export type AboutPageData = {
   locations: typeof LOCATIONS;
   capabilities: typeof CAPABILITIES;
   leadership: typeof LEADERSHIP;
+  isoLogo?: string;
+  isoDocument?: string;
 };
 
 const ABOUT_FALLBACK: AboutPageData = {
@@ -241,6 +252,8 @@ const ABOUT_FALLBACK: AboutPageData = {
   locations: LOCATIONS,
   capabilities: CAPABILITIES,
   leadership: LEADERSHIP,
+  isoLogo: ISO_CERTIFICATION.logo,
+  isoDocument: ISO_CERTIFICATION.documentPath,
 };
 
 export function getAboutPage(): Promise<AboutPageData> {
@@ -253,6 +266,8 @@ export function getAboutPage(): Promise<AboutPageData> {
         return {
           ...r,
           leadership: r.leadership?.length ? r.leadership : LEADERSHIP,
+          isoLogo: r.isoLogo || ISO_CERTIFICATION.logo,
+          isoDocument: r.isoDocument || ISO_CERTIFICATION.documentPath,
         };
       }),
     ABOUT_FALLBACK,
@@ -324,5 +339,40 @@ export function getJobOpeningSlugs(): Promise<string[]> {
     },
     fallback,
     nonEmpty,
+  );
+}
+
+// ── Tools (software strip on /services) ────────────────────────────────────
+
+export function getTools(): Promise<Tool[]> {
+  return withFallback(
+    async () => {
+      const rows = await client.fetch<Tool[]>(toolsQuery);
+      return (rows ?? []).filter((t) => t.name && t.logo);
+    },
+    TOOLS,
+    nonEmpty,
+  );
+}
+
+// ── Site chrome (Navbar + Footer) ──────────────────────────────────────────
+
+export function getSiteSettings(): Promise<SiteSettings> {
+  return withFallback(
+    () =>
+      client.fetch<Partial<SiteSettings> | null>(siteSettingsQuery).then((r) => {
+        if (!r) return SITE_SETTINGS;
+        // Each field falls back independently so a partially-filled settings
+        // doc never blanks out a menu or the offices list.
+        return {
+          navItems: r.navItems?.length ? r.navItems : SITE_SETTINGS.navItems,
+          footerLinks: r.footerLinks?.length ? r.footerLinks : SITE_SETTINGS.footerLinks,
+          offices: r.offices?.length ? r.offices : SITE_SETTINGS.offices,
+          socials: r.socials?.length ? r.socials : SITE_SETTINGS.socials,
+          copyright: r.copyright || SITE_SETTINGS.copyright,
+        };
+      }),
+    SITE_SETTINGS,
+    (v) => !!v && Array.isArray(v.navItems) && v.navItems.length > 0,
   );
 }

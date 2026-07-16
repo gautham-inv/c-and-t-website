@@ -1,16 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Navbar } from "@/components/layout/Navbar";
 import { WithUs } from "@/components/sections/WithUs";
-import { Footer } from "@/components/layout/Footer";
-import { DivisionView } from "@/components/divisions/DivisionView";
+import { DivisionView, type DivisionIndustry } from "@/components/divisions/DivisionView";
 import {
   getDivisions,
-  getSectors,
   getServices,
   getPortfolio,
 } from "@/sanity/lib/data";
-import type { Sector } from "@/lib/sectors";
+import { INDUSTRIES } from "@/lib/industries";
 import type { Service } from "@/lib/services";
 
 // Static export: every division route must be known at build time.
@@ -42,9 +39,8 @@ export default async function DivisionPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const [divisions, sectors, services, portfolio] = await Promise.all([
+  const [divisions, services, portfolio] = await Promise.all([
     getDivisions(),
-    getSectors(),
     getServices(),
     getPortfolio(),
   ]);
@@ -52,9 +48,18 @@ export default async function DivisionPage({
   if (!division) notFound();
 
   const other = divisions.find((d) => d.slug !== division.slug);
-  const divisionSectors = division.sectorSlugs
-    .map((s) => sectors.find((x) => x.slug === s))
-    .filter((s): s is Sector => !!s);
+  // Only industries with a tagged, published project link anywhere — the
+  // rest still show (so the chip cloud reflects everything the division
+  // serves), just as a plain label rather than a link to an empty list.
+  const industries: DivisionIndustry[] = division.hasIndustries
+    ? INDUSTRIES.map((ind) => ({
+        slug: ind.slug,
+        label: ind.label,
+        projectCount: portfolio.filter(
+          (p) => p.division === division.slug && p.industries?.includes(ind.slug),
+        ).length,
+      }))
+    : [];
   const divisionServices = division.serviceSlugs
     .map((serviceSlug) => {
       const svc = services.find((s) => s.slug === serviceSlug);
@@ -66,16 +71,14 @@ export default async function DivisionPage({
 
   return (
     <main>
-      <Navbar />
       <DivisionView
         division={division}
         other={other}
-        sectors={divisionSectors}
+        industries={industries}
         services={divisionServices}
         projects={projects}
       />
       <WithUs rounded={false} />
-      <Footer />
     </main>
   );
 }

@@ -9,7 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const CASE_STUDIES = [
   {
-    image: "/calinova-case-study.jpg",
+    image: "/projects/calinova-case-study.jpg",
     caption: "Calinova Data Centre, MEP & BIM · 2.4 MW | Calicut",
     title: "A 2.4 MW data centre, coordinated clash-free",
     body: "A hyperscale-ready facility with no tolerance for downtime. We delivered full MEP design plus a LOD 400 BIM model, with CFD-validated cooling, and the coordination paid off: a clash-free model and a faster, rework-free install.",
@@ -17,12 +17,12 @@ const CASE_STUDIES = [
     href: "/projects/calinova-data-centre",
   },
   {
-    image: "/trivandrum-airport-case-study.jpg",
-    caption: "Trivandrum Airport T2, MEP Design & BIM | Kerala",
+    image: "/projects/airport-terminal-case-study.jpg",
+    caption: "Major Airport, South India · MEP Design & BIM",
     title: "A new terminal, engineered for millions",
     body: "Systems built for millions of passengers a year. Every MEP discipline was modelled to LOD 400, with CFD across the concourse balancing comfort against energy use, delivered coordinated and on programme.",
     cta: "View project",
-    href: "/projects/trivandrum-airport-t2",
+    href: "/projects/south-india-airport-terminal",
   },
 ];
 

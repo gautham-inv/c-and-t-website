@@ -1,4 +1,4 @@
-import { WrenchIcon } from "@sanity/icons";
+import { WrenchIcon } from "@sanity/icons/Wrench";
 import { defineField, defineType } from "sanity";
 
 export const service = defineType({
@@ -25,6 +25,13 @@ export const service = defineType({
       type: "text",
       rows: 2,
       description: "One-line summary for cards / accordion.",
+    }),
+    defineField({
+      name: "featured",
+      title: "Featured on homepage",
+      type: "boolean",
+      initialValue: false,
+      description: "Shown in the homepage services accordion (the flagship set).",
     }),
     defineField({
       name: "byDivision",

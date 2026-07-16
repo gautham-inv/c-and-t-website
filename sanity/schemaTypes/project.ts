@@ -1,5 +1,6 @@
-import { CaseIcon } from "@sanity/icons";
+import { CaseIcon } from "@sanity/icons/Case";
 import { defineField, defineType } from "sanity";
+import { INDUSTRIES } from "@/lib/industries";
 
 /**
  * One type covers both the flat portfolio cards (PORTFOLIO) and the rich detail
@@ -47,6 +48,16 @@ export const project = defineType({
       options: { hotspot: true },
       fields: [{ name: "alt", type: "string", title: "Alt text" }],
       description: "Optional — omit to render a branded placeholder card.",
+    }),
+    defineField({
+      name: "industries",
+      title: "Industries / sectors",
+      type: "array",
+      group: "card",
+      of: [{ type: "string" }],
+      options: { list: INDUSTRIES.map((i) => ({ title: i.label, value: i.slug })) },
+      description:
+        "Tags this project for the industry filter on /projects. Leave empty for Oil & Gas division work — that division is organised by service, not sector.",
     }),
 
     defineField({

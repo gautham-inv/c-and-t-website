@@ -1,4 +1,4 @@
-import { ComponentIcon } from "@sanity/icons";
+import { ComponentIcon } from "@sanity/icons/Component";
 import { defineField, defineType } from "sanity";
 
 export const division = defineType({
@@ -42,11 +42,12 @@ export const division = defineType({
       description: "Ordered — the services this division delivers.",
     }),
     defineField({
-      name: "sectors",
-      title: "Child sectors",
-      type: "array",
-      of: [{ type: "reference", to: [{ type: "sector" }] }],
-      description: "Buildings only; leave empty for Oil & Gas.",
+      name: "hasIndustries",
+      title: "Show industries-served chip cloud?",
+      type: "boolean",
+      initialValue: false,
+      description:
+        "On for Buildings & Infrastructure; off for Oil & Gas, which isn't broken into sectors.",
     }),
     defineField({ name: "faqs", type: "array", of: [{ type: "faq" }] }),
   ],

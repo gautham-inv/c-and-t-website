@@ -1,19 +1,24 @@
 import { ArrowUpRight } from "lucide-react";
 import type { Division } from "@/lib/divisions";
 import type { Service } from "@/lib/services";
-import type { Sector } from "@/lib/sectors";
 import type { PortfolioCard } from "@/sanity/lib/data";
+
+/** An industry this division serves, with how many portfolio projects are
+ * tagged with it. Only industries with `projectCount > 0` link anywhere —
+ * there are too few projects to justify a page per industry, so the rest
+ * render as plain labels rather than a link that leads to an empty list. */
+export type DivisionIndustry = { slug: string; label: string; projectCount: number };
 
 export function DivisionView({
   division,
   other,
-  sectors,
+  industries,
   services,
   projects,
 }: {
   division: Division;
   other?: Division;
-  sectors: Sector[];
+  industries: DivisionIndustry[];
   services: { svc: Service; scope: { subDisciplines: string[]; body: string } }[];
   projects: PortfolioCard[];
 }) {
@@ -67,49 +72,26 @@ export function DivisionView({
         </div>
       </section>
 
-      {/* ── Sectors (Building only) ── */}
-      {sectors.length > 0 && (
-        <section className="bg-green-dark text-paper">
-          <div className="mx-auto max-w-[1600px] px-6 py-16 md:px-10 md:py-24">
+      {/* ── Sectors (Building only) — a chip cloud, not cards: with 19
+          industries and only a handful of showcased projects so far, a
+          picture-card grid would either need photos we don't have or imply a
+          page behind every tile. All chips read the same and are purely
+          informational (non-clickable). ── */}
+      {industries.length > 0 && (
+        <section className="flex min-h-screen items-center bg-green-dark text-paper">
+          <div className="mx-auto w-full max-w-[1600px] px-6 py-20 md:px-10 md:py-28">
             <h2 className="max-w-3xl font-display text-[clamp(1.9rem,1rem+3vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.02em]">
               Sectors we serve in{" "}
               <span className="text-beige-light">{division.shortName.toLowerCase()}</span>
             </h2>
-            <div className="mt-12 grid grid-cols-2 gap-5 md:mt-14 lg:grid-cols-3">
-              {sectors.map((s) => (
-                <a
-                  key={s.slug}
-                  href={`/sectors/${s.slug}`}
-                  className="group relative block aspect-[4/5] overflow-hidden rounded-2xl bg-[#0a1c25]"
+            <div className="mt-10 flex flex-wrap gap-3 md:mt-14">
+              {industries.map((ind) => (
+                <span
+                  key={ind.slug}
+                  className="inline-flex items-center rounded-full border border-paper/30 bg-paper/[0.04] px-5 py-2.5 font-display text-base font-medium leading-none text-paper md:text-lg"
                 >
-                  <img
-                    src={s.image}
-                    alt={s.name}
-                    loading="lazy"
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-[800ms] ease-out group-hover:scale-105"
-                  />
-                  <div
-                    aria-hidden
-                    className="absolute inset-0"
-                    style={{
-                      background:
-                        "linear-gradient(to top, rgba(9,33,44,0.9) 0%, rgba(9,33,44,0.25) 45%, transparent 72%)",
-                    }}
-                  />
-                  <span className="absolute left-4 top-4 h-4 w-4 border-l border-t border-beige/60" />
-                  <div className="absolute inset-x-5 bottom-5">
-                    <p className="font-display text-xl font-medium leading-tight md:text-2xl">
-                      {s.name}
-                    </p>
-                    <span className="mt-2 inline-flex items-center gap-1.5 font-mono text-[0.62rem] uppercase tracking-[0.16em] text-beige-light transition-colors duration-300 group-hover:text-green">
-                      Explore sector
-                      <ArrowUpRight
-                        className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                        strokeWidth={1.75}
-                      />
-                    </span>
-                  </div>
-                </a>
+                  {ind.label}
+                </span>
               ))}
             </div>
           </div>

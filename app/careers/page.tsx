@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import { Navbar } from "@/components/layout/Navbar";
 import { WithUs } from "@/components/sections/WithUs";
-import { Footer } from "@/components/layout/Footer";
 import { CareersView } from "@/components/careers/CareersView";
 import { getCareersPage, getJobOpenings } from "@/sanity/lib/data";
 
@@ -18,10 +16,8 @@ export default async function CareersPage() {
   ]);
   return (
     <main>
-      <Navbar />
       <CareersView careers={careers} openings={openings} />
       <WithUs rounded={false} />
-      <Footer />
     </main>
   );
 }

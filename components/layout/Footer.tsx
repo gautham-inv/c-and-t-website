@@ -6,34 +6,29 @@ import {
   WITHUS_OVERLAP_VH_MOBILE,
 } from "@/components/sections/WithUs";
 import { getLenis } from "@/lib/lenis";
-import { SOCIAL_LINKS } from "@/lib/social";
-
-// Section links use the /#id form so they resolve from any page (navigate home,
-// then scroll). "sectors" points at the Expertise/divisions block, which is the
-// only sector-style section on the homepage.
-const NAV = [
-  { label: "services", href: "/#services" },
-  { label: "sectors", href: "/#divisions" },
-  { label: "projects", href: "/#projects" },
-  { label: "about", href: "/about" },
-  { label: "insights", href: "/#blog" },
-  { label: "contact", href: "/#contact" },
-  { label: "faq", href: "/#faq" },
-  { label: "careers", href: "/careers" },
-];
-
-const OFFICES = [
-  { place: "India (HQ)", detail: "Trivandrum, Kerala" },
-  { place: "UAE", detail: "Deira, Dubai" },
-  { place: "Canada", detail: "Mississauga, ON" },
-];
+import { socialIcon } from "@/lib/social";
+import { SITE_SETTINGS, type NavLink, type Office, type SocialRef } from "@/lib/site";
 
 const LEGAL = [
   { label: "Privacy Policy", href: "#" },
   { label: "Terms of Service", href: "#" },
 ];
 
-export function Footer() {
+/** Footer chrome. `links`/`offices`/`socials`/`copyright` come from Sanity via
+ * the root layout; they default to SITE_SETTINGS so the footer renders
+ * unchanged when the dataset isn't seeded. Section links (/#id) smooth-scroll
+ * on the homepage and navigate home elsewhere. */
+export function Footer({
+  links = SITE_SETTINGS.footerLinks,
+  offices = SITE_SETTINGS.offices,
+  socials = SITE_SETTINGS.socials,
+  copyright = SITE_SETTINGS.copyright,
+}: {
+  links?: NavLink[];
+  offices?: Office[];
+  socials?: SocialRef[];
+  copyright?: string;
+} = {}) {
   // Section links (/#id) smooth-scroll on the homepage via Lenis; on other
   // pages they fall through to a normal navigation that lands on the anchor.
   const onNav = useCallback((e: React.MouseEvent, href: string) => {
@@ -92,7 +87,7 @@ export function Footer() {
 
           {/* Nav */}
           <nav className="flex flex-col items-start gap-1">
-            {NAV.map((n) => (
+            {links.map((n) => (
               <a
                 key={n.label}
                 href={n.href}
@@ -108,7 +103,7 @@ export function Footer() {
           <div>
             <p className="label text-beige/80">Our offices</p>
             <ul className="mt-4 space-y-2">
-              {OFFICES.map((o) => (
+              {offices.map((o) => (
                 <li key={o.place} className="text-sm text-paper/70">
                   <span className="text-paper">{o.place}</span>, {o.detail}
                 </li>
@@ -139,16 +134,19 @@ export function Footer() {
 
           <div className="flex flex-col gap-8 sm:flex-row sm:items-center sm:gap-8 md:gap-10">
             <div className="flex items-center gap-3">
-              {SOCIAL_LINKS.map(({ label, href, Icon }) => (
-                <a
-                  key={label}
-                  href={href}
-                  aria-label={label}
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-paper/25 text-paper/70 transition-colors duration-300 hover:border-green hover:text-green"
-                >
-                  <Icon className="h-4 w-4" strokeWidth={1.75} />
-                </a>
-              ))}
+              {socials.map(({ label, href }) => {
+                const Icon = socialIcon(label);
+                return (
+                  <a
+                    key={label}
+                    href={href}
+                    aria-label={label}
+                    className="flex h-10 w-10 items-center justify-center rounded-full border border-paper/25 text-paper/70 transition-colors duration-300 hover:border-green hover:text-green"
+                  >
+                    {Icon && <Icon className="h-4 w-4" strokeWidth={1.75} />}
+                  </a>
+                );
+              })}
             </div>
 
             <div className="flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-[0.68rem] uppercase tracking-[0.14em]">
@@ -161,7 +159,7 @@ export function Footer() {
                 </span>
               ))}
               <span className="text-paper/25">·</span>
-              <span className="text-paper/45">© 2026 C&amp;T Consulting Engineers Pvt Ltd</span>
+              <span className="text-paper/45">{copyright}</span>
             </div>
           </div>
         </div>

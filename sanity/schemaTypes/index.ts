@@ -3,7 +3,6 @@ import type { SchemaTypeDefinition } from "sanity";
 // Documents
 import { service } from "./service";
 import { division } from "./division";
-import { sector } from "./sector";
 import { project } from "./project";
 import { insight } from "./insight";
 import { jobOpening } from "./jobOpening";
@@ -19,8 +18,6 @@ import {
   stat,
   faq,
   divisionScope,
-  sectorService,
-  sectorProject,
   approach,
   galleryItem,
   personnel,
@@ -32,6 +29,7 @@ import {
   value,
   capability,
   leader,
+  tool,
   navItem,
   office,
   socialLink,
@@ -43,7 +41,6 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   // Documents
   service,
   division,
-  sector,
   project,
   insight,
   jobOpening,
@@ -56,8 +53,6 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   stat,
   faq,
   divisionScope,
-  sectorService,
-  sectorProject,
   approach,
   galleryItem,
   personnel,
@@ -69,6 +64,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   value,
   capability,
   leader,
+  tool,
   navItem,
   office,
   socialLink,

@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Navbar } from "@/components/layout/Navbar";
 import { WithUs } from "@/components/sections/WithUs";
-import { Footer } from "@/components/layout/Footer";
 import { JobDescription } from "@/components/careers/JobDescription";
 import { getJobOpening, getJobOpeningSlugs } from "@/sanity/lib/data";
 
@@ -39,10 +37,8 @@ export default async function OpeningPage({
 
   return (
     <main>
-      <Navbar />
       <JobDescription opening={opening} />
       <WithUs rounded={false} />
-      <Footer />
     </main>
   );
 }

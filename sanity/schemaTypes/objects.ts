@@ -63,50 +63,6 @@ export const divisionScope = defineType({
   },
 });
 
-/** Sector-specific application of a service (mirrors sectors.ts → SectorService). */
-export const sectorService = defineType({
-  name: "sectorService",
-  title: "Sector service",
-  type: "object",
-  fields: [
-    defineField({
-      name: "service",
-      type: "reference",
-      to: [{ type: "service" }],
-      description: "Pulls label / image / link target from the service.",
-      validation: (r) => r.required(),
-    }),
-    defineField({
-      name: "body",
-      type: "text",
-      rows: 3,
-      description: "How this service applies in this sector.",
-    }),
-    defineField({
-      name: "points",
-      title: "Scope highlights",
-      type: "array",
-      of: [{ type: "string" }],
-      validation: (r) => r.max(3),
-      description: "Up to 3 short scope highlights.",
-    }),
-  ],
-  preview: { select: { title: "service.name", subtitle: "body" } },
-});
-
-/** A project as shown on a sector page (card-shaped). */
-export const sectorProject = defineType({
-  name: "sectorProject",
-  title: "Sector project",
-  type: "object",
-  fields: [
-    defineField({ name: "name", type: "string", validation: (r) => r.required() }),
-    defineField({ name: "meta", type: "string" }),
-    defineField({ name: "image", type: "image", options: { hotspot: true } }),
-  ],
-  preview: { select: { title: "name", subtitle: "meta", media: "image" } },
-});
-
 export const approach = defineType({
   name: "approach",
   title: "Approach",
@@ -284,6 +240,24 @@ export const capability = defineType({
     }),
   ],
   preview: { select: { title: "label", subtitle: "href" } },
+});
+
+/** Software/tool logo shown in the /services tools strip. */
+export const tool = defineType({
+  name: "tool",
+  title: "Tool",
+  type: "object",
+  fields: [
+    defineField({ name: "name", type: "string", validation: (r) => r.required() }),
+    defineField({ name: "logo", type: "image", options: { hotspot: true } }),
+    defineField({
+      name: "url",
+      title: "Product URL",
+      type: "url",
+      description: "Link to the maker's product page.",
+    }),
+  ],
+  preview: { select: { title: "name", subtitle: "url", media: "logo" } },
 });
 
 export const navItem = defineType({

@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
-import { Navbar } from "@/components/layout/Navbar";
 import { AboutView } from "@/components/about/AboutView";
 import { WithUs } from "@/components/sections/WithUs";
-import { Footer } from "@/components/layout/Footer";
 import { getAboutPage } from "@/sanity/lib/data";
 
 export const metadata: Metadata = {
@@ -15,10 +13,8 @@ export default async function AboutPage() {
   const about = await getAboutPage();
   return (
     <main>
-      <Navbar />
       <AboutView about={about} />
       <WithUs rounded={false} />
-      <Footer />
     </main>
   );
 }

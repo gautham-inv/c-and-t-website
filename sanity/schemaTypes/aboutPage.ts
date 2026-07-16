@@ -1,4 +1,4 @@
-import { UsersIcon } from "@sanity/icons";
+import { UsersIcon } from "@sanity/icons/Users";
 import { defineField, defineType } from "sanity";
 
 export const aboutPage = defineType({
@@ -42,6 +42,18 @@ export const aboutPage = defineType({
       title: "Leadership",
       type: "array",
       of: [{ type: "leader" }],
+    }),
+    defineField({
+      name: "isoLogo",
+      title: "ISO 9001 logo",
+      type: "image",
+      options: { hotspot: true },
+      description: "Shown bottom-right of the \"Our story\" section, linking to the certificate PDF below.",
+    }),
+    defineField({
+      name: "isoDocument",
+      title: "ISO 9001 certificate (PDF)",
+      type: "file",
     }),
   ],
   preview: { prepare: () => ({ title: "About page" }) },

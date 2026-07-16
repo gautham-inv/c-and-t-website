@@ -6,28 +6,27 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { getLenis } from "@/lib/lenis";
 import { openEnquiry } from "@/lib/enquiry";
-import { SOCIAL_LINKS } from "@/lib/social";
+import { socialIcon } from "@/lib/social";
+import { SITE_SETTINGS, type NavLink, type SocialRef } from "@/lib/site";
 
 gsap.registerPlugin(ScrollTrigger);
-
-/** Primary nav — shown inline on desktop, in the overlay on mobile. Section
- * links (/#id) smooth-scroll on the homepage and navigate home elsewhere;
- * page links route normally. */
-const NAV = [
-  { label: "Who we are", href: "/about" },
-  { label: "What we do", href: "/services" },
-  { label: "Expertise", href: "/#divisions" },
-  { label: "Projects", href: "/projects" },
-  { label: "Insights", href: "/insights" },
-  { label: "Careers", href: "/careers" },
-];
 
 const LEGAL = [
   { label: "Privacy Policy", href: "#" },
   { label: "Terms of Service", href: "#" },
 ];
 
-export function Navbar() {
+/** Primary nav — inline on desktop, overlay on mobile. `nav`/`socials` come
+ * from Sanity via the root layout; they default to SITE_SETTINGS so the bar
+ * renders unchanged when the dataset isn't seeded. Section links (/#id)
+ * smooth-scroll on the homepage and navigate home elsewhere. */
+export function Navbar({
+  nav = SITE_SETTINGS.navItems,
+  socials = SITE_SETTINGS.socials,
+}: {
+  nav?: NavLink[];
+  socials?: SocialRef[];
+} = {}) {
   const [open, setOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
 
@@ -135,7 +134,7 @@ export function Navbar() {
 
             {/* Desktop nav — all options listed directly */}
             <nav className="hidden items-center gap-7 lg:flex lg:gap-9">
-              {NAV.map((n) => (
+              {nav.map((n) => (
                 <a
                   key={n.label}
                   href={n.href}
@@ -226,7 +225,7 @@ export function Navbar() {
 
             <div className="flex flex-1 items-center">
               <ul className="flex w-full flex-col items-start gap-2">
-                {NAV.map((n, i) => (
+                {nav.map((n, i) => (
                   <li key={n.label} className="overflow-hidden py-0.5">
                     <a
                       href={n.href}
@@ -246,7 +245,7 @@ export function Navbar() {
                       openEnquiry();
                     }}
                     data-open={open}
-                    style={{ transitionDelay: open ? `${300 + NAV.length * 55}ms` : "0ms" }}
+                    style={{ transitionDelay: open ? `${300 + nav.length * 55}ms` : "0ms" }}
                     className="block translate-y-full pb-[0.12em] font-display text-[clamp(2.25rem,1rem+8vw,4rem)] font-semibold leading-[1.15] tracking-[-0.02em] text-green transition-[transform,color] duration-[600ms] ease-[cubic-bezier(0.76,0,0.24,1)] data-[open=true]:translate-y-0"
                   >
                     Contact
@@ -264,16 +263,19 @@ export function Navbar() {
             <div className="mt-6 border-t border-paper/15 pt-6 sm:mt-8 sm:pt-7">
               <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center gap-3">
-                  {SOCIAL_LINKS.map(({ label, href, Icon }) => (
-                    <a
-                      key={label}
-                      href={href}
-                      aria-label={label}
-                      className="flex h-9 w-9 items-center justify-center rounded-full border border-paper/25 text-paper/70 transition-colors duration-300 hover:border-green hover:text-green"
-                    >
-                      <Icon className="h-4 w-4" strokeWidth={1.75} />
-                    </a>
-                  ))}
+                  {socials.map(({ label, href }) => {
+                    const Icon = socialIcon(label);
+                    return (
+                      <a
+                        key={label}
+                        href={href}
+                        aria-label={label}
+                        className="flex h-9 w-9 items-center justify-center rounded-full border border-paper/25 text-paper/70 transition-colors duration-300 hover:border-green hover:text-green"
+                      >
+                        {Icon && <Icon className="h-4 w-4" strokeWidth={1.75} />}
+                      </a>
+                    );
+                  })}
                 </div>
 
                 <div className="flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-paper/55">

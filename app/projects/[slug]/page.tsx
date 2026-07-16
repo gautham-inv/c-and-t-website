@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Navbar } from "@/components/layout/Navbar";
 import { WithUs } from "@/components/sections/WithUs";
-import { Footer } from "@/components/layout/Footer";
 import { ProjectView } from "@/components/projects/ProjectView";
 import { getProject, getProjectSlugs } from "@/sanity/lib/data";
 
@@ -40,10 +38,8 @@ export default async function ProjectPage({
 
   return (
     <main>
-      <Navbar />
       <ProjectView project={project} />
       <WithUs rounded={false} />
-      <Footer />
     </main>
   );
 }

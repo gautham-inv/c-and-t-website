@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-import { Navbar } from "@/components/layout/Navbar";
 import { WithUs } from "@/components/sections/WithUs";
-import { Footer } from "@/components/layout/Footer";
 import { ServicesIndex } from "@/components/services/ServicesIndex";
-import { getServices, getDivisions } from "@/sanity/lib/data";
+import { getServices, getDivisions, getTools } from "@/sanity/lib/data";
 
 export const metadata: Metadata = {
   title: "Our Services | C&T Consulting Engineers",
@@ -12,13 +10,15 @@ export const metadata: Metadata = {
 };
 
 export default async function ServicesPage() {
-  const [services, divisions] = await Promise.all([getServices(), getDivisions()]);
+  const [services, divisions, tools] = await Promise.all([
+    getServices(),
+    getDivisions(),
+    getTools(),
+  ]);
   return (
     <main>
-      <Navbar />
-      <ServicesIndex services={services} divisions={divisions} />
+      <ServicesIndex services={services} divisions={divisions} tools={tools} />
       <WithUs rounded={false} />
-      <Footer />
     </main>
   );
 }

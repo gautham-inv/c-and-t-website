@@ -1,17 +1,20 @@
 import { ArrowUpRight } from "lucide-react";
 import { serviceDivisions, type Service } from "@/lib/services";
 import type { Division } from "@/lib/divisions";
+import type { Tool } from "@/lib/tools";
 import { ToolsStrip } from "./ToolsStrip";
 
-// Lightweight services directory. Cards hold names, a sub-discipline preview
-// and pointers INTO the division pages — the canonical scope lives there, so
-// there are no per-service detail pages to duplicate.
+// Lightweight services directory. Cards hold a name, a blurb and pointers
+// INTO the division pages — the canonical scope lives there, so there are no
+// per-service detail pages to duplicate.
 export function ServicesIndex({
   services,
   divisions,
+  tools,
 }: {
   services: Service[];
   divisions: Division[];
+  tools: Tool[];
 }) {
   return (
     <div className="bg-mist text-ink">
@@ -31,9 +34,10 @@ export function ServicesIndex({
             Our <span className="text-green-dark">services</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-ink-dim md:text-xl">
-            Each service is delivered by both teams, with the scope tuned to the
-            work. Pick a service to see how we apply it in Building or Oil &amp;
-            Gas.
+             Every engagement hands over the engineering design documents,
+            drawings, reports, CFD analysis, hydraulic calculations and 3D
+            models/renders behind it, to the codes and standards that apply at
+            the project&apos;s location.
           </p>
         </div>
       </section>
@@ -44,14 +48,6 @@ export function ServicesIndex({
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {services.map((svc) => {
               const svcDivisions = serviceDivisions(svc);
-              // Merge sub-disciplines across divisions for a preview line.
-              const preview = Array.from(
-                new Set(
-                  svcDivisions.flatMap(
-                    (d) => svc.byDivision[d]?.subDisciplines ?? [],
-                  ),
-                ),
-              ).slice(0, 6);
 
               return (
                 <article
@@ -75,18 +71,6 @@ export function ServicesIndex({
                     <p className="mt-3 text-sm leading-relaxed text-ink-dim">
                       {svc.blurb}
                     </p>
-
-                    <ul className="mt-5 grid gap-x-6 gap-y-0 sm:grid-cols-2">
-                      {preview.map((d) => (
-                        <li
-                          key={d}
-                          className="flex items-center gap-2.5 py-1.5 text-sm text-ink/80"
-                        >
-                          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-green" />
-                          {d}
-                        </li>
-                      ))}
-                    </ul>
 
                     {/* Pointers into the division pages */}
                     <div className="mt-auto flex flex-col gap-1 pt-6">
@@ -116,7 +100,7 @@ export function ServicesIndex({
         </div>
       </section>
 
-      <ToolsStrip />
+      <ToolsStrip tools={tools} />
     </div>
   );
 }

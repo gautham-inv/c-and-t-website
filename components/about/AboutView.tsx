@@ -132,13 +132,13 @@ export function AboutView({ about }: { about: AboutPageData }) {
             className="relative z-20 mx-auto max-w-4xl px-6 pt-[17vh] text-center will-change-transform"
           >
             <h1 className="mx-auto max-w-3xl font-display text-[clamp(2rem,1rem+3.5vw,3.75rem)] font-semibold leading-[1.05] tracking-[-0.03em]">
-              A <span className="text-green-dark">global</span> engineering
-              practice, built since 2011.
+              <span className="text-green-dark">MEP, BIM &amp; CFD</span>{" "}
+              engineering, built since 2011.
             </h1>
             <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-ink-dim">
-              A professionally managed team of qualified engineers, building
-              complete Infrastructure, Architectural &amp; MEP systems across
-              three continents.
+              A professionally managed team of qualified engineers delivering
+              complete Infrastructure, Architectural &amp; MEP systems, from
+              design and BIM coordination through to commissioning.
             </p>
           </div>
 
@@ -245,9 +245,31 @@ export function AboutView({ about }: { about: AboutPageData }) {
             </div>
           </div>
 
+          {about.isoLogo && (
+            <div data-up className="mt-12 flex justify-end">
+              <a
+                href={about.isoDocument || undefined}
+                target={about.isoDocument ? "_blank" : undefined}
+                rel={about.isoDocument ? "noopener noreferrer" : undefined}
+                className="group inline-flex items-center gap-3"
+              >
+                <span className="flex h-11 w-11 items-center justify-center overflow-hidden">
+                  <img
+                    src={about.isoLogo}
+                    alt="ISO 9001:2015 Registered"
+                    className="h-full w-full object-contain"
+                  />
+                </span>
+                <span className="font-mono text-[0.62rem] uppercase tracking-[0.12em] text-ink/70 transition-colors group-hover:text-green-dark">
+                  ISO 9001:2015 Registered
+                </span>
+              </a>
+            </div>
+          )}
+
           <div
             data-up
-            className="mt-12 grid gap-x-16 gap-y-6 border-t border-line pt-10 md:grid-cols-2"
+            className="mt-6 grid gap-x-16 gap-y-6 border-t border-line pt-10 md:grid-cols-2"
           >
             <p className="text-base leading-relaxed text-ink-dim">
               Our first clients, Aries Marine and EIDC, are still clients today,
@@ -257,10 +279,15 @@ export function AboutView({ about }: { about: AboutPageData }) {
             <p className="text-base leading-relaxed text-ink-dim">
               Today the group spans India, the UAE and Canada, and delivers
               sustainable, ESG-aligned MEP and BIM services worldwide, built to
-              perform over the life of every asset.
+              perform over the life of every asset. The practice is ISO
+              9001:2015 registered and IGBC certified, with team credentials
+              spanning a KSEI Class A Supervisory Licence, IME Chartered
+              Engineering, a KSECBC Energy Simulation Expert Licence and PMP
+              certification.
             </p>
           </div>
         </div>
+
       </section>
 
       {/* ── 4. Journey — horizontal carousel ── */}

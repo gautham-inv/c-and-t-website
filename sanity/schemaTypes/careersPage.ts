@@ -1,4 +1,4 @@
-import { UsersIcon } from "@sanity/icons";
+import { UsersIcon } from "@sanity/icons/Users";
 import { defineField, defineType } from "sanity";
 
 /** Careers page singleton — the editorial sections of /careers. The openings

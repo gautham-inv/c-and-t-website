@@ -5,6 +5,19 @@
  * capabilities list (which links out to the pages that own each in detail).
  */
 
+import { INDUSTRIES } from "./industries";
+
+/** Industries with at least one tagged, published project — see
+ * lib/projects.ts PORTFOLIO. Only these get a link; the rest of
+ * INDUSTRIES still appear as plain labels below. */
+const LINKED_INDUSTRIES = new Set([
+  "aviation-airports",
+  "data-centres",
+  "commercial-mercantile",
+  "high-rise-buildings",
+  "chiller-plants",
+]);
+
 export const VISION =
   "C&T shall be a professionally managed engineering services company committed to total stakeholder satisfaction while delivering SMART ENGINEERING solutions to the desired standards.";
 
@@ -86,7 +99,7 @@ export const PROJECT_AWARDS: Award[] = [
   { year: "2016", name: "Mall of Muscat", meta: "Oman" },
   { year: "2017", name: "AHAD Tower", meta: "46 storeys · Dubai" },
   { year: "2021", name: "Duqm Refinery", meta: "Oman" },
-  { year: "2025", name: "Trivandrum Airport T2", meta: "Kerala, India" },
+  { year: "2025", name: "Major Airport, South India", meta: "South India" },
 ];
 
 /** Global group footprint — drives both the locations rail and the globe markers. */
@@ -144,26 +157,19 @@ export const LEADERSHIP: Leader[] = [
     bio: "Mechanical Engineering graduate (JNTU Hyderabad) with 35 years across HVAC, MEP and steel fabrication. Senior leadership at Voltas, Airmech (Bahrain), Weathermaker (Dubai) and L&T, most recently VP Engineering (Group) at Yashoda Hospitals. Founding secretary, ISHRAE Cochin Chapter.",
   },
   {
-    name: "V S Sriram",
+    name: "Sriram V. S.",
     role: "Technical Advisor",
     photo: "/leadership/vs-sriram.jpg",
     bio: "Mechanical Engineering graduate with 35+ years in MEP across India, the Middle East and SE Asia. Techno-commercial background with strong analytical and problem-solving skills. Also mentors and trains engineers on technical topics.",
   },
   {
-    name: "Sherjin Raj S S",
-    role: "OM / HOD Plumbing & Fire",
+    name: "Sherjin",
+    role: "Operations Manager, Buildings & Infrastructure",
     photo: "/leadership/sherjin.jpg",
     bio: "Mechanical Engineer with 20+ years in MEPF: engineering design, project management, construction supervision and operations across airport, hospitality, residential, industrial and commercial sectors.",
   },
-  { name: "Saibu", role: "OM / HOD E&I" },
-  { name: "Arun Kumar", role: "HOD Electrical" },
-  { name: "Kumar", role: "HOD HVAC" },
-  {
-    name: "Sunil Kumar AK",
-    role: "HOD Instrumentation",
-    photo: "/leadership/sunilkumar.jpg",
-    bio: "B Tech Instrumentation & Control (4th rank, Calicut University), MBA (Bajaj Institute, Bombay), PMP-certified. 29+ years across HPCL, ADNOC, Reliance, Singapore Power, Yokogawa, Schneider Electric, AVEVA & Dangote Refinery.",
-  },
+  { name: "Saibu", role: "Operations Manager, Oil & Gas" },
+  { name: "Rajeev Kumar", role: "Operations Manager, Middle East" },
 ];
 
 /** What we engineer — links out to the page that owns each capability in depth. */
@@ -171,20 +177,25 @@ export type Capability = { label: string; href?: string };
 
 export const CAPABILITIES: Capability[] = [
   { label: "Oil & Gas · Marine · Renewable Energy", href: "/divisions/oil-and-gas" },
-  { label: "Aviation & Airports", href: "/sectors/airports" },
-  { label: "Data Centers", href: "/sectors/data-centres" },
   { label: "Fluid Dynamics (CFD)", href: "/services" },
-  { label: "Industrial Facilities", href: "/sectors/industrial" },
-  { label: "Luxury Hotels" },
-  { label: "Multispecialty Hospitals" },
-  { label: "Shopping Malls" },
-  { label: "Highrise Residential" },
-  { label: "Offices" },
-  { label: "Interior Fitouts" },
-  { label: "Pumping Stations & Chiller Plants" },
-  { label: "Base Build" },
-  { label: "Roads & Transportation" },
-  { label: "Infrastructure & Town Planning" },
-  { label: "Factories & Manufacturing" },
-  { label: "Laboratories" },
+  ...INDUSTRIES.map((ind) => ({
+    label: ind.label,
+    href: LINKED_INDUSTRIES.has(ind.slug) ? `/projects?industry=${ind.slug}` : undefined,
+  })),
 ];
+
+/** ISO 9001 is the one company-level certification with its own logo + a
+ * link to the certificate PDF. The rest (IGBC, KSEI, IME, KSECBC, PMP) are
+ * held by individual engineers and are mentioned in the "Our story" copy
+ * instead of getting their own logos. */
+export type IsoCertification = {
+  name: string;
+  logo?: string;
+  documentPath?: string;
+};
+
+export const ISO_CERTIFICATION: IsoCertification = {
+  name: "ISO 9001:2015 Registered",
+  logo: "/certifications/iso-9001-logo.png",
+  documentPath: "/certifications/iso-9001-certificate.pdf",
+};

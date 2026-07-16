@@ -10,13 +10,13 @@ import { projectSlug } from "@/lib/projects";
 gsap.registerPlugin(ScrollTrigger);
 
 const PROJECTS = [
-  { name: "Trivandrum Airport T2", meta: "MEP Design & BIM · Kerala", image: "/airport.webp", size: "wide" },
-  { name: "Calinova 2.4 MW Data Centre", meta: "MEP & BIM · 2.4 MW · Calicut", image: "/datacenter.jpeg", size: "tall" },
-  { name: "Vega Tower, Dubai", meta: "MEP Design & BIM · LOD 400", image: "/images.jpeg", size: "standard" },
-  { name: "EXPO 2020 Campus, Dubai", meta: "BIM Modelling · CINQ / Voltas", image: "/expocampus.jpg", size: "wide" },
-  { name: "Duqm Refinery, Oman", meta: "Detailed Engineering · LOD 500", image: "/duqmrefinery.jpeg", size: "tall" },
-  { name: "Yamal LNG, Russia", meta: "Detailed Engineering & 3D · Technip", image: "/yamallng.jpeg", size: "wide" },
-  { name: "Compression 4-NFPS", meta: "Offshore · Qatar Energy", image: "/Compression-4-NFPS.jpeg", size: "standard" },
+  { name: "Major Airport, South India", meta: "MEP Design & BIM · South India", image: "/projects/airport-terminal-case-study.jpg", size: "wide" },
+  { name: "Calinova 2.4 MW Data Centre", meta: "MEP & BIM · 2.4 MW · Calicut", image: "/projects/calinova-case-study.jpg", size: "tall" },
+  { name: "Vega Tower, Dubai", meta: "MEP Design & BIM · LOD 400", image: "/projects/images.jpeg", size: "standard" },
+  { name: "EXPO 2020 Campus, Dubai", meta: "BIM Modelling · CINQ / Voltas", image: "/projects/expocampus.jpg", size: "wide" },
+  { name: "Duqm Refinery, Oman", meta: "Detailed Engineering · LOD 500", image: "/projects/duqm-refinery.jpeg", size: "tall" },
+  { name: "Yamal LNG, Russia", meta: "Detailed Engineering & 3D · Technip", image: "/projects/yamal.webp", size: "wide" },
+  { name: "Compression 4-NFPS", meta: "Offshore · Qatar Energy", image: "/projects/Compression-4-NFPS.jpeg", size: "standard" },
 ];
 
 // Sizes only apply from md up (the pinned horizontal track). On mobile every

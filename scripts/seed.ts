@@ -11,7 +11,7 @@
  *   script upserts rather than duplicating.
  *
  *   Document types seeded:
- *     service, division, sector, project, insight, jobOpening (collections)
+ *     service, division, project, insight, jobOpening (collections)
  *     homePage, aboutPage, careersPage, siteSettings (singletons)
  *
  * REQUIREMENTS
@@ -34,7 +34,6 @@ import type { SanityClient } from "@sanity/client";
 import { apiVersion, dataset, projectId } from "../sanity/env";
 import { SERVICES } from "../lib/services";
 import { DIVISIONS } from "../lib/divisions";
-import { SECTORS } from "../lib/sectors";
 import { PROJECTS, PORTFOLIO } from "../lib/projects";
 import { INSIGHTS } from "../lib/insights";
 import {
@@ -46,8 +45,11 @@ import {
   LOCATIONS,
   CAPABILITIES,
   LEADERSHIP,
+  ISO_CERTIFICATION,
 } from "../lib/company";
 import { CAREERS_INTRO, REASONS, OPENINGS, TEAM_PHOTOS } from "../lib/careers";
+import { TOOLS } from "../lib/tools";
+import { SITE_SETTINGS } from "../lib/site";
 
 // ---------------------------------------------------------------------------
 // Client
@@ -94,6 +96,7 @@ const PUBLIC_DIR = path.join(PROJECT_ROOT, "public");
 
 type Ref = { _type: "reference"; _ref: string };
 type ImageRef = { _type: "image"; asset: Ref; alt?: string };
+type FileRef = { _type: "file"; asset: Ref };
 type SlugValue = { _type: "slug"; current: string };
 
 let keyCounter = 0;
@@ -125,7 +128,6 @@ function slugify(input: string): string {
 // Deterministic id builders.
 const idService = (s: string) => `service-${s}`;
 const idDivision = (s: string) => `division-${s}`;
-const idSector = (s: string) => `sector-${s}`;
 const idProject = (s: string) => `project-${s}`;
 const idInsight = (s: string) => `insight-${s}`;
 const idJobOpening = (s: string) => `jobOpening-${s}`;
@@ -176,6 +178,41 @@ async function uploadImage(
   } catch (err) {
     console.warn(`  ! failed to upload ${publicPath}: ${(err as Error).message}`);
     imageCache.set(publicPath, null);
+    return undefined;
+  }
+}
+
+const fileCache = new Map<string, string | null>();
+
+/** Same as uploadImage, but for non-image files (e.g. certificate PDFs). */
+async function uploadFile(
+  publicPath: string | undefined | null,
+): Promise<FileRef | undefined> {
+  if (!publicPath) return undefined;
+
+  if (fileCache.has(publicPath)) {
+    const cached = fileCache.get(publicPath);
+    return cached ? { _type: "file", asset: ref(cached) } : undefined;
+  }
+
+  const relative = publicPath.replace(/^\//, "");
+  const filePath = path.join(PUBLIC_DIR, relative);
+
+  if (!existsSync(filePath)) {
+    console.warn(`  ! file not found, skipping: ${publicPath}`);
+    fileCache.set(publicPath, null);
+    return undefined;
+  }
+
+  try {
+    const buffer = await readFile(filePath);
+    const filename = path.basename(filePath);
+    const asset = await client.assets.upload("file", buffer, { filename });
+    fileCache.set(publicPath, asset._id);
+    return { _type: "file", asset: ref(asset._id) };
+  } catch (err) {
+    console.warn(`  ! failed to upload ${publicPath}: ${(err as Error).message}`);
+    fileCache.set(publicPath, null);
     return undefined;
   }
 }
@@ -243,6 +280,7 @@ async function seedServices(): Promise<void> {
       name: s.name,
       slug: slug(s.slug),
       blurb: s.blurb,
+      featured: s.featured ?? false,
       order: i,
     };
     if (image) doc.image = image;
@@ -273,52 +311,6 @@ async function seedDivisions(): Promise<void> {
     n++;
   }
   console.log(`  ✓ divisions: ${n}`);
-}
-
-async function seedSectors(): Promise<void> {
-  let n = 0;
-  for (const sec of SECTORS) {
-    const image = await uploadImage(sec.image);
-
-    const approach = sec.approach?.map((a) => ({
-      _type: "approach",
-      _key: key("ap"),
-      title: a.title,
-      body: a.body,
-    }));
-
-    const projects = [];
-    for (const p of sec.projects) {
-      const img = await uploadImage(p.image);
-      const item: Record<string, unknown> = {
-        _type: "sectorProject",
-        _key: key("sp"),
-        name: p.name,
-        meta: p.meta,
-      };
-      if (img) item.image = img;
-      projects.push(item);
-    }
-
-    const doc: Record<string, unknown> = {
-      _id: idSector(sec.slug),
-      _type: "sector",
-      name: sec.name,
-      slug: slug(sec.slug),
-      tagline: sec.tagline,
-      overview: sec.overview,
-      stats: sec.stats.map((st) => ({ _type: "stat", _key: key("st"), value: st.value, label: st.label })),
-      projects,
-      faqs: sec.faqs.map((f) => ({ _type: "faq", _key: key("faq"), question: f.q, answer: f.a })),
-    };
-    if (image) doc.image = image;
-    if (approach && approach.length) doc.approach = approach;
-    if (sec.expertise && sec.expertise.length) doc.expertise = sec.expertise;
-    // division ref, services refs, insights refs wired in pass 2.
-    await client.createOrReplace(doc as never);
-    n++;
-  }
-  console.log(`  ✓ sectors: ${n}`);
 }
 
 /**
@@ -368,6 +360,7 @@ async function seedProjects(): Promise<Map<string, string>> {
     };
     if (card?.meta) doc.meta = card.meta;
     if (cardImage) doc.image = cardImage;
+    if (card?.industries?.length) doc.industries = card.industries;
 
     if (detail) {
       if (detail.tagline) doc.tagline = detail.tagline;
@@ -452,7 +445,7 @@ async function seedProjects(): Promise<Map<string, string>> {
   return slugByName;
 }
 
-/** Returns a map: insight title -> insight _id (used for sector insight refs). */
+/** Returns a map: insight title -> insight _id (used for homePage insight refs). */
 async function seedInsights(): Promise<Map<string, string>> {
   const idByTitle = new Map<string, string>();
   let n = 0;
@@ -503,7 +496,19 @@ async function seedJobOpenings(): Promise<void> {
     await client.createOrReplace(doc as never);
     n++;
   }
-  console.log(`  ✓ jobOpenings: ${n}`);
+
+  // Prune: OPENINGS is the single source of truth for the *current* roles, so
+  // remove any jobOpening documents left over from earlier seeds (different
+  // slugs / withdrawn roles) — after this the dataset holds exactly these.
+  const keep = new Set(OPENINGS.map((o) => idJobOpening(o.slug)));
+  const existing = await client.fetch<string[]>(`*[_type == "jobOpening"]._id`);
+  const stale = (existing ?? []).filter((id) => !keep.has(id));
+  for (const id of stale) {
+    await client.delete(id);
+    console.log(`  – removed stale jobOpening: ${id}`);
+  }
+
+  console.log(`  ✓ jobOpenings: ${n} (removed ${stale.length} stale)`);
 }
 
 // ---------------------------------------------------------------------------
@@ -531,56 +536,16 @@ async function wireServiceReferences(): Promise<void> {
 }
 
 async function wireDivisionReferences(): Promise<void> {
-  // division.services[] -> service refs; division.sectors[] -> sector refs.
+  // division.services[] -> service refs.
   for (const d of DIVISIONS) {
     const services = d.serviceSlugs.map((slugId) => ({
       _type: "reference",
       _key: key("svc"),
       _ref: idService(slugId),
     }));
-    const sectors = d.sectorSlugs.map((slugId) => ({
-      _type: "reference",
-      _key: key("sct"),
-      _ref: idSector(slugId),
-    }));
-    await client.patch(idDivision(d.slug)).set({ services, sectors }).commit();
+    await client.patch(idDivision(d.slug)).set({ services, hasIndustries: d.hasIndustries }).commit();
   }
-  console.log(`  ✓ wired division.services + division.sectors`);
-}
-
-async function wireSectorReferences(insightIdByTitle: Map<string, string>): Promise<void> {
-  // sector.division ref; sector.services[].service ref; sector.insights[] refs.
-  for (const sec of SECTORS) {
-    const services = [];
-    for (const svc of sec.services) {
-      // The service slug is embedded in the href, e.g. "/divisions/building#mep".
-      const svcSlug = svc.href.split("#")[1];
-      const item: Record<string, unknown> = {
-        _type: "sectorService",
-        _key: key("ss"),
-        body: svc.body,
-        points: svc.points,
-      };
-      if (svcSlug) item.service = ref(idService(svcSlug));
-      services.push(item);
-    }
-
-    const patch: Record<string, unknown> = {
-      division: ref(idDivision(sec.divisionSlug)),
-      services,
-    };
-
-    if (sec.insights && sec.insights.length) {
-      const insights = sec.insights
-        .map((ins) => insightIdByTitle.get(ins.title))
-        .filter((id): id is string => Boolean(id))
-        .map((id) => ({ _type: "reference", _key: key("ins"), _ref: id }));
-      if (insights.length) patch.insights = insights;
-    }
-
-    await client.patch(idSector(sec.slug)).set(patch).commit();
-  }
-  console.log(`  ✓ wired sector.division + sector.services + sector.insights`);
+  console.log(`  ✓ wired division.services + division.hasIndustries`);
 }
 
 // ---------------------------------------------------------------------------
@@ -648,6 +613,9 @@ async function seedAboutPage(): Promise<void> {
     leadership.push(item);
   }
 
+  const isoLogo = await uploadImage(ISO_CERTIFICATION.logo, ISO_CERTIFICATION.name);
+  const isoDocument = await uploadFile(ISO_CERTIFICATION.documentPath);
+
   const doc: Record<string, unknown> = {
     _id: "aboutPage",
     _type: "aboutPage",
@@ -688,6 +656,9 @@ async function seedAboutPage(): Promise<void> {
     }),
     leadership,
   };
+  if (isoLogo) doc.isoLogo = isoLogo;
+  if (isoDocument) doc.isoDocument = isoDocument;
+
   await client.createOrReplace(doc as never);
   console.log(`  ✓ aboutPage`);
 }
@@ -721,32 +692,26 @@ async function seedCareersPage(): Promise<void> {
 }
 
 async function seedSiteSettings(): Promise<void> {
+  const tools = [];
+  for (const t of TOOLS) {
+    const logo = await uploadImage(t.logo, t.name);
+    const item: Record<string, unknown> = { _type: "tool", _key: key("tool"), name: t.name };
+    if (logo) item.logo = logo;
+    if (t.href) item.url = t.href;
+    tools.push(item);
+  }
+
   const doc: Record<string, unknown> = {
     _id: "siteSettings",
     _type: "siteSettings",
-    navItems: [
-      { _type: "navItem", _key: key("nav"), label: "Expertise", href: "/#services" },
-      { _type: "navItem", _key: key("nav"), label: "Sectors", href: "/#sectors" },
-      { _type: "navItem", _key: key("nav"), label: "Projects", href: "/#projects" },
-      { _type: "navItem", _key: key("nav"), label: "About", href: "/about" },
-      { _type: "navItem", _key: key("nav"), label: "Insights", href: "/#blog" },
-      { _type: "navItem", _key: key("nav"), label: "Careers", href: "/careers" },
-      { _type: "navItem", _key: key("nav"), label: "Contact", href: "/#contact" },
-    ],
+    tools,
+    navItems: SITE_SETTINGS.navItems.map((n) => ({ _type: "navItem", _key: key("nav"), ...n })),
+    footerLinks: SITE_SETTINGS.footerLinks.map((n) => ({ _type: "navItem", _key: key("fnav"), ...n })),
     footerTagline: "Precision engineered. Globally delivered.",
-    offices: [
-      { _type: "office", _key: key("off"), place: "India (HQ)", detail: "Trivandrum, Kerala" },
-      { _type: "office", _key: key("off"), place: "UAE", detail: "Deira, Dubai" },
-      { _type: "office", _key: key("off"), place: "Canada", detail: "Mississauga, ON" },
-    ],
-    socials: [
-      { _type: "socialLink", _key: key("soc"), label: "LinkedIn" },
-      { _type: "socialLink", _key: key("soc"), label: "Instagram" },
-      { _type: "socialLink", _key: key("soc"), label: "X" },
-      { _type: "socialLink", _key: key("soc"), label: "YouTube" },
-    ],
+    offices: SITE_SETTINGS.offices.map((o) => ({ _type: "office", _key: key("off"), ...o })),
+    socials: SITE_SETTINGS.socials.map((s) => ({ _type: "socialLink", _key: key("soc"), ...s })),
     isoBadge: "ISO 9001:2015",
-    copyright: "© 2026 C&T Consulting Engineers Pvt Ltd",
+    copyright: SITE_SETTINGS.copyright,
   };
   await client.createOrReplace(doc as never);
   console.log(`  ✓ siteSettings`);
@@ -762,7 +727,6 @@ async function main(): Promise<void> {
   console.log("Pass 1 — base documents:");
   await seedServices();
   await seedDivisions();
-  await seedSectors();
   const projectSlugByName = await seedProjects();
   const insightIdByTitle = await seedInsights();
   await seedJobOpenings();
@@ -770,7 +734,6 @@ async function main(): Promise<void> {
   console.log("\nPass 2 — wiring references:");
   await wireServiceReferences();
   await wireDivisionReferences();
-  await wireSectorReferences(insightIdByTitle);
 
   console.log("\nSingletons:");
   await seedHomePage(projectSlugByName, insightIdByTitle);
@@ -781,7 +744,6 @@ async function main(): Promise<void> {
   const summary = {
     services: SERVICES.length,
     divisions: DIVISIONS.length,
-    sectors: SECTORS.length,
     projects: projectSlugByName.size,
     insights: insightIdByTitle.size,
     jobOpenings: OPENINGS.length,

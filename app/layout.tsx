@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
 import { EnquiryModal } from "@/components/forms/EnquiryModal";
 import { ApplyModal } from "@/components/forms/ApplyModal";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
+import { getSiteSettings } from "@/sanity/lib/data";
 import "./globals.css";
 
 /* Satoshi — self-hosted (Fontshare). Carries display + body. 600 requests
@@ -28,16 +31,28 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  // Site chrome is rendered once here (not per page) and fed a single Sanity
+  // fetch, so the Navbar/Footer stay editable from `siteSettings` in Studio.
+  const settings = await getSiteSettings();
   return (
     <html lang="en" className={satoshi.variable}>
       <body>
         <GoogleAnalytics />
-        <SmoothScroll>{children}</SmoothScroll>
+        <SmoothScroll>
+          <Navbar nav={settings.navItems} socials={settings.socials} />
+          {children}
+          <Footer
+            links={settings.footerLinks}
+            offices={settings.offices}
+            socials={settings.socials}
+            copyright={settings.copyright}
+          />
+        </SmoothScroll>
         <EnquiryModal />
         <ApplyModal />
       </body>

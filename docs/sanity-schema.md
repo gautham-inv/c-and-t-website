@@ -7,10 +7,17 @@ Studio-editable, with **no structural drift** from how the site renders today.
 
 ## Design decisions
 
-1. **References over duplication.** `service`, `division`, `sector`, `project`
+1. **References over duplication.** `service`, `division`, `project`
    reference each other (mirrors the `slug` join keys in `lib/`). A service's
-   per-division scope, a division's service list, a sector's parent division —
-   all references, so renaming/reordering happens in one place.
+   per-division scope, a division's service list, a project's division —
+   all references, so renaming/reordering happens in one place. There's no
+   `sector` document type: with only a handful of projects per industry so
+   far, a dedicated page per industry isn't worth it. Instead, `project` has
+   a flat `industries: string[]` tag (slugs into `lib/industries.ts`), and the
+   Buildings & Infrastructure division page renders every industry as a chip
+   — linked to `/projects?industry=X` where at least one project is tagged,
+   plain text otherwise. Oil & Gas doesn't use this at all (`hasIndustries`
+   off) — that division is organised by service, not sector.
 2. **Images become Sanity assets.** Today's `/public/*.jpg` string paths become
    `image` fields (with hotspot + required `alt`). The frontend reads them via
    the image URL builder instead of a static path.
@@ -53,24 +60,7 @@ Studio-editable, with **no structural drift** from how the site renders today.
 | `overview` | array of text | paragraphs |
 | `stats` | array of `stat` | |
 | `services` | array of reference → `service` | ordered; "services offered here" |
-| `sectors` | array of reference → `sector` | Building only; empty for O&G |
-| `faqs` | array of `faq` | |
-
-### `sector`
-| Field | Type | Notes |
-|---|---|---|
-| `name` | string | |
-| `slug` | slug | |
-| `division` | reference → `division` | parent in the IA |
-| `tagline` | text | |
-| `image` | image | |
-| `overview` | array of text | |
-| `stats` | array of `stat` | |
-| `approach` | array of `approach` | optional — section hides when empty |
-| `services` | array of `sectorService` | sector-specific body+points + service ref |
-| `expertise` | array of string | optional sub-discipline grid |
-| `projects` | array of `sectorProject` | name/meta/image (or reference → project) |
-| `insights` | array of reference → `insight` | optional |
+| `hasIndustries` | boolean | on for Building, off for Oil & Gas |
 | `faqs` | array of `faq` | |
 
 ### `project`
@@ -81,6 +71,7 @@ Studio-editable, with **no structural drift** from how the site renders today.
 | `division` | reference → `division` | for division portfolio filtering |
 | `meta` | string | card meta line ("BIM · LOD 400 · 2019") |
 | `image` | image | optional — omit → branded placeholder card |
+| `industries` | array of string | slugs into `lib/industries.ts`; empty for Oil & Gas |
 | **— detail-page fields (optional) —** | | present ⇒ `/projects/[slug]` built |
 | `tagline` | string | hero sub-line |
 | `heroImage` | image | |
@@ -135,8 +126,6 @@ Studio-editable, with **no structural drift** from how the site renders today.
 | `stat` | `{ value: string, label: string }` |
 | `faq` | `{ question: string, answer: text }` |
 | `divisionScope` | `{ division: ref→division, subDisciplines: string[], body: text }` |
-| `sectorService` | `{ service: ref→service, body: text, points: string[] (3) }` |
-| `sectorProject` | `{ name: string, meta: string, image }` *(or `ref→project`)* |
 | `approach` | `{ title: string, body: text }` |
 | `galleryItem` | `{ image, span: 'sm'\|'wide'\|'tall'\|'lg', alt: string }` |
 | `personnel` | `{ name: string, role: string, photo?: image }` |

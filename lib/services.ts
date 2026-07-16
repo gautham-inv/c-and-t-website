@@ -88,18 +88,16 @@ export const SERVICES: Service[] = [
   {
     slug: "bim",
     name: "BIM & 3D Modelling",
-    image: "/bim-models/3d-view-1.jpg",
+    image: "/bim-models/3d-view-1.jpeg",
     blurb: "Federated, data-rich models from LOD 100 to LOD 500.",
     featured: true,
     byDivision: {
       building: {
         subDisciplines: [
           "LOD 100–500 modelling",
-          "Federated coordination",
-          "Quantity extraction",
-          "As-built handover",
+          "Clash coordination & detection reports",
         ],
-        body: "Federated Revit models spanning LOD 100 through LOD 500 give architecture, structure and services one coordinated source of truth across a building, with quantities and as-builts pulled straight from the model.",
+        body: "Federated Revit models spanning LOD 100 through LOD 500 give architecture, structure and services one coordinated source of truth across a building.",
       },
       "oil-and-gas": {
         subDisciplines: [
@@ -115,7 +113,7 @@ export const SERVICES: Service[] = [
   {
     slug: "clash",
     name: "Clash Detection & Coordination",
-    image: "/bim-models/chw-pump-room-1.jpg",
+    image: "/bim-models/chw-pump-room-1.jpeg",
     blurb: "Multidiscipline coordination that turns models build-ready.",
     featured: true,
     byDivision: {
@@ -140,7 +138,7 @@ export const SERVICES: Service[] = [
   {
     slug: "cad",
     name: "CAD Drafting",
-    image: "/bim-models/rp3s-ducting-layout.jpg",
+    image: "/bim-models/rp3s-ducting-layout.png",
     blurb: "Design, detail, shop and as-built drawings, from concept to construction.",
     byDivision: {
       building: {
@@ -166,36 +164,32 @@ export const SERVICES: Service[] = [
   {
     slug: "cfd",
     name: "CFD & FEA Analysis",
-    image: "/bim-models/rp9s-navis-hvac.jpg",
+    image: "/services/cfd.jpg",
     blurb: "Performance validated in simulation before construction.",
     featured: true,
     byDivision: {
       building: {
         subDisciplines: [
-          "Airflow & ventilation",
-          "Thermal & hotspot",
-          "Smoke movement",
+          "CFD Analysis",
           "Hydraulic calculations",
           "ETAP power system studies",
         ],
-        body: "Airflow, thermal and smoke-movement simulation validates cooling, comfort and evacuation safety before any equipment is energised, backed by hydraulic calculations and ETAP power-system studies where the project needs them.",
+        body: "CFD analysis validates cooling, comfort and airflow performance before any equipment is energised, backed by hydraulic calculations and ETAP power-system studies where the project needs them.",
       },
       "oil-and-gas": {
         subDisciplines: [
-          "Ventilation analysis",
-          "Gas dispersion",
-          "Thermal modelling",
+          "CFD Analysis",
           "Hydraulic calculations",
           "ETAP power system studies",
         ],
-        body: "Ventilation, gas-dispersion and thermal analysis for enclosed plant and offshore modules, backed by hydraulic calculations and ETAP power-system studies where airflow and safety margins are tightly governed.",
+        body: "CFD analysis for enclosed plant and offshore modules, backed by hydraulic calculations and ETAP power-system studies where airflow and safety margins are tightly governed.",
       },
     },
   },
   {
     slug: "mto",
     name: "Tendering & MTO",
-    image: "/bmt-moq.jpg",
+    image: "/services/tender.avif",
     blurb: "Model-based take-offs and tender-ready bills of quantities.",
     featured: true,
     byDivision: {
@@ -248,7 +242,7 @@ export const SERVICES: Service[] = [
   {
     slug: "cobie",
     name: "cOBie Asset Management",
-    image: "/detailed-engineering.jpg",
+    image: "/services/cobie.webp",
     blurb: "Structured asset data handed over in cOBie format, ready for facility management.",
     byDivision: {
       building: {
@@ -272,7 +266,7 @@ export const SERVICES: Service[] = [
   {
     slug: "dpr",
     name: "Detailed Project Reports",
-    image: "/muscat-cargo-oman.jpg",
+    image: "/services/detailed-engineering.jpg",
     blurb: "DPRs prepared for government-funded infrastructure projects.",
     byDivision: {
       building: {
@@ -289,7 +283,7 @@ export const SERVICES: Service[] = [
   {
     slug: "pmo",
     name: "Project Monitoring (PMO)",
-    image: "/engineering.jpg",
+    image: "/services/project-monitoring.jpg",
     blurb: "Independent programme tracking across design and construction.",
     byDivision: {
       building: {
@@ -313,7 +307,7 @@ export const SERVICES: Service[] = [
   {
     slug: "pmc",
     name: "Project Management (PMC)",
-    image: "/bim-clash-detection.jpg",
+    image: "/services/project-management.jpg",
     blurb: "On-site and remote project management for delivery-critical programmes.",
     byDivision: {
       building: {
@@ -338,7 +332,7 @@ export const SERVICES: Service[] = [
   {
     slug: "peer-review",
     name: "Peer Review Consultation",
-    image: "/expocampus.jpg",
+    image: "/services/peer-review.jpg",
     blurb: "Independent technical review before designs go for approval or construction.",
     byDivision: {
       building: {
@@ -362,7 +356,7 @@ export const SERVICES: Service[] = [
   {
     slug: "value-engineering",
     name: "Value Engineering",
-    image: "/large-image-who-are-we.jpg",
+    image: "/services/value-engineering.jpg",
     blurb: "Design alternatives that protect performance while controlling cost.",
     byDivision: {
       building: {
@@ -386,7 +380,7 @@ export const SERVICES: Service[] = [
   {
     slug: "cost-consultancy",
     name: "Cost Consultancy",
-    image: "/small-image-who-we-are.jpeg",
+    image: "/services/cost-consultancy-construction.jpg",
     blurb: "Cost planning and control from concept through construction.",
     byDivision: {
       building: {
@@ -410,7 +404,7 @@ export const SERVICES: Service[] = [
   {
     slug: "resource-deployment",
     name: "Engineering Resource Deployment",
-    image: "/Compression-4-NFPS.jpeg",
+    image: "/services/engineering-resource-deployment.jpg",
     blurb: "Engineers, drafters and modellers deployed directly into client teams.",
     byDivision: {
       building: {

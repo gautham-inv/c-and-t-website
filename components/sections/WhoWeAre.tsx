@@ -110,8 +110,8 @@ export function WhoWeAre() {
                     className="absolute inset-x-0 -top-[18%] h-[136%] bg-[#0a1c25] will-change-transform"
                   >
                     <img
-                      src="/large-image-who-are-we.jpg"
-                      alt="C&T engineering project"
+                      src="/bim-models/3d-view-1.jpeg"
+                      alt="3D BIM model of a coordinated MEP plant room"
                       className="h-full w-full object-cover"
                       loading="lazy"
                     />
@@ -128,8 +128,8 @@ export function WhoWeAre() {
                     className="absolute inset-x-0 -top-[28%] h-[156%] bg-[#0d1f16] will-change-transform"
                   >
                     <img
-                      src="/small-image-who-we-are.jpeg"
-                      alt=""
+                      src="/bim-models/rp3s-ducting-layout.png"
+                      alt="2D CAD ducting layout drawing"
                       className="h-full w-full object-cover"
                       loading="lazy"
                     />

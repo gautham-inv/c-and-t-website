@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import { Navbar } from "@/components/layout/Navbar";
+import { Suspense } from "react";
 import { WithUs } from "@/components/sections/WithUs";
-import { Footer } from "@/components/layout/Footer";
 import { ProjectsIndex } from "@/components/projects/ProjectsIndex";
 import { getPortfolio } from "@/sanity/lib/data";
 
@@ -15,10 +14,13 @@ export default async function ProjectsPage() {
   const items = await getPortfolio();
   return (
     <main>
-      <Navbar />
-      <ProjectsIndex items={items} />
+      {/* ProjectsIndex reads ?industry= via useSearchParams, which requires
+          a Suspense boundary even in a static export (no data actually
+          suspends — this just satisfies Next's CSR-bailout rule). */}
+      <Suspense fallback={null}>
+        <ProjectsIndex items={items} />
+      </Suspense>
       <WithUs rounded={false} />
-      <Footer />
     </main>
   );
 }

@@ -1,4 +1,4 @@
-import { CaseIcon } from "@sanity/icons";
+import { CaseIcon } from "@sanity/icons/Case";
 import { defineField, defineType } from "sanity";
 
 /** A single open position. Mirrors the `Opening` type in lib/careers.ts —
