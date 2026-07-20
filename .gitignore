@@ -17,3 +17,5 @@ next-env.d.ts
 
 # documents / source decks — kept locally, not committed
 *.pdf
+# ...except certificates actually served/linked from the live site
+!public/certifications/*.pdf
