@@ -22,13 +22,13 @@ export type SiteSettings = {
 export const SITE_SETTINGS: SiteSettings = {
   navItems: [
     { label: "Who we are", href: "/about" },
-    { label: "Divisions", href: "/divisions" },
+    { label: "What we do", href: "/divisions" },
     { label: "Projects", href: "/projects" },
     { label: "Insights", href: "/insights" },
     { label: "Careers", href: "/careers" },
   ],
   footerLinks: [
-    { label: "divisions", href: "/divisions" },
+    { label: "what we do", href: "/divisions" },
     { label: "projects", href: "/#projects" },
     { label: "about", href: "/about" },
     { label: "insights", href: "/#blog" },
@@ -42,8 +42,8 @@ export const SITE_SETTINGS: SiteSettings = {
     { place: "Canada", detail: "Mississauga, ON" },
   ],
   socials: [
-    { label: "LinkedIn", href: "#" },
-    { label: "Instagram", href: "#" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/company/candtengineers/" },
+    { label: "Instagram", href: "https://www.instagram.com/candtengineers/" },
   ],
   copyright: "© 2026 C&T Consulting Engineers Pvt Ltd",
 };

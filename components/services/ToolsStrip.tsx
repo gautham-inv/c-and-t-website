@@ -6,8 +6,8 @@ import { TOOLS, type Tool } from "@/lib/tools";
 export function ToolsStrip({ tools = TOOLS }: { tools?: Tool[] }) {
   return (
     <section className="border-t border-line bg-mist">
-      <div className="mx-auto max-w-[1600px] px-6 py-14 md:px-10 md:py-20">
-        <h2 className="font-display text-2xl font-semibold leading-snug tracking-[-0.01em] md:text-3xl">
+      <div className="mx-auto max-w-[1600px] px-6 py-20 md:px-10 md:py-28">
+        <h2 className="font-display text-[clamp(2rem,1rem+3.5vw,3.5rem)] font-semibold leading-[1.06] tracking-[-0.025em]">
           Software &amp; tools we <span className="text-green-dark">design in</span>
         </h2>
         <p className="mt-3 max-w-2xl text-sm leading-relaxed text-ink-dim md:text-base">

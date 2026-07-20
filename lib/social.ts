@@ -4,10 +4,8 @@ export type SocialLink = { label: string; href: string; Icon: LucideIcon };
 
 /** Shared across Navbar's mobile menu and the real Footer, so both stay in sync. */
 export const SOCIAL_LINKS: SocialLink[] = [
-  { label: "LinkedIn", href: "#", Icon: Linkedin },
-  { label: "Instagram", href: "#", Icon: Instagram },
-  { label: "X", href: "#", Icon: X },
-  { label: "YouTube", href: "#", Icon: Youtube },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/candtengineers/", Icon: Linkedin },
+  { label: "Instagram", href: "https://www.instagram.com/candtengineers/", Icon: Instagram },
 ];
 
 /** Icons live in code (Lucide), so when socials come from Sanity as

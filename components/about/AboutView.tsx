@@ -10,7 +10,7 @@ import { JourneyTimeline } from "@/components/about/JourneyTimeline";
 import { MissionVisionStack } from "@/components/about/MissionVisionStack";
 import { ValuesSplit } from "@/components/about/ValuesSplit";
 import { Leadership } from "@/components/about/Leadership";
-import { ISO_CERTIFICATIONS, ENGINEERING_SCOPE } from "@/lib/company";
+import { ISO_CERTIFICATIONS } from "@/lib/company";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -331,55 +331,6 @@ export function AboutView({ about }: { about: AboutPageData }) {
       <section data-reveal className="bg-surface">
         <div className="mx-auto max-w-[1600px] px-6 py-20 md:px-10 md:py-28">
           <Leadership leaders={about.leadership} />
-        </div>
-      </section>
-
-      {/* ── 8. What we engineer — capability chip cloud ── */}
-      <section data-reveal className="bg-surface">
-        <div className="mx-auto max-w-[1600px] px-6 py-20 md:px-10 md:py-28">
-          <div className="grid gap-8 md:grid-cols-[0.8fr_1.2fr] md:gap-16">
-            <h2
-              data-up
-              className="font-display text-[clamp(1.9rem,1rem+3vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.02em]"
-            >
-              What we <span className="text-green-dark">engineer</span>
-            </h2>
-            <p
-              data-up
-              className="max-w-xl self-end text-lg leading-relaxed text-ink-dim"
-            >
-              The full engineering, drafting, modelling and consultancy scope we
-              deliver across both practices, from single systems to complete
-              developments.
-            </p>
-          </div>
-
-          <div className="mt-12 gap-5 md:mt-16 md:columns-2 lg:columns-3 [&>*]:mb-5">
-            {ENGINEERING_SCOPE.map((g) => (
-              <div
-                key={g.key}
-                data-up
-                className="break-inside-avoid rounded-2xl border border-line bg-mist p-6"
-              >
-                <h3 className="font-display text-lg font-medium leading-snug text-ink">
-                  {g.title}
-                </h3>
-                {g.items && (
-                  <ul className="mt-4 space-y-2 border-t border-line pt-4">
-                    {g.items.map((item) => (
-                      <li
-                        key={item}
-                        className="flex gap-2.5 text-sm leading-relaxed text-ink-dim"
-                      >
-                        <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-green" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            ))}
-          </div>
         </div>
       </section>
     </div>

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { WithUs } from "@/components/sections/WithUs";
 import { DivisionsIndex } from "@/components/divisions/DivisionsIndex";
+import { EngineeringScope } from "@/components/divisions/EngineeringScope";
+import { ToolsStrip } from "@/components/services/ToolsStrip";
 import { getDivisions, getServicesPage } from "@/sanity/lib/data";
 
 export const metadata: Metadata = {
@@ -19,7 +21,9 @@ export default async function DivisionsPage() {
   ]);
   return (
     <main>
-      <DivisionsIndex divisions={divisions} tools={servicesPageData.tools} />
+      <DivisionsIndex divisions={divisions} />
+      <EngineeringScope />
+      <ToolsStrip tools={servicesPageData.tools} />
       <WithUs rounded={false} />
     </main>
   );

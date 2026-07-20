@@ -105,11 +105,7 @@ export function ValuesSplit({
             that harmonises with brand green, strong contrast against navy ink). */}
         <div className="flex items-center bg-green px-6 py-16 md:px-12 md:py-24 lg:px-20">
           <div>
-            <span className="font-mono text-[0.66rem] uppercase tracking-[0.2em] text-ink/55">
-              {String(active + 1).padStart(2, "0")} /{" "}
-              {String(values.length).padStart(2, "0")}
-            </span>
-            <p className="mt-6 max-w-xl font-display text-[clamp(1.5rem,1rem+1.6vw,2.5rem)] font-medium leading-[1.28] tracking-[-0.01em] text-ink">
+            <p className="max-w-xl font-display text-[clamp(1.5rem,1rem+1.6vw,2.5rem)] font-medium leading-[1.28] tracking-[-0.01em] text-ink">
               {current.body}
             </p>
           </div>
