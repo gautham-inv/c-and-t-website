@@ -2,45 +2,32 @@
 
 import { useRef } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import type { Milestone, Award } from "@/lib/company";
+import type { Milestone } from "@/lib/company";
 
 /**
- * Horizontal journey carousel (GISI-style) in the light palette. Merges the
- * practice's milestones and the projects awarded into one chronological track;
- * prev/next arrows scroll by a card. Each card is tagged so the two threads
- * stay legible in a single timeline.
+ * Journey — the practice's own milestones (formation and geographic expansion)
+ * shown as a horizontal carousel. Projects awarded live elsewhere; this thread
+ * is only the corporate story, tagged Practice (formation/rebrand) or Expansion
+ * (new office/entity).
  */
-type Card = { year: string; tag: string; title: string; detail: string };
-
-export function JourneyCarousel({
-  milestones,
-  awards,
-}: {
-  milestones: Milestone[];
-  awards: Award[];
-}) {
+export function JourneyTimeline({ milestones }: { milestones: Milestone[] }) {
   const track = useRef<HTMLDivElement>(null);
 
-  const CARDS: Card[] = [
-    ...milestones.map((m) => ({
+  const CARDS = milestones
+    .slice()
+    .sort((a, b) => Number(a.year) - Number(b.year))
+    .map((m) => ({
       year: m.year,
       tag: m.detail ? "Practice" : "Expansion",
       title: m.title,
       detail: [m.detail, m.place].filter(Boolean).join(" · "),
-    })),
-    ...awards.map((a) => ({
-      year: a.year,
-      tag: "Project awarded",
-      title: a.name,
-      detail: a.meta,
-    })),
-  ].sort((a, b) => Number(a.year) - Number(b.year));
+    }));
 
   const scrollBy = (dir: 1 | -1) => {
     const el = track.current;
     if (!el) return;
     const card = el.querySelector<HTMLElement>("[data-card]");
-    const amount = card ? card.offsetWidth + 20 : el.clientWidth * 0.8;
+    const amount = card ? card.offsetWidth + 24 : el.clientWidth * 0.8;
     el.scrollBy({ left: dir * amount, behavior: "smooth" });
   };
 

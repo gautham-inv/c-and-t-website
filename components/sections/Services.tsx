@@ -106,10 +106,10 @@ export function Services({ services = SERVICES }: { services?: Service[] } = {})
           </p>
 
           <a
-            href="/services"
+            href="/divisions"
             className="group mt-7 inline-flex w-fit items-center gap-2.5 rounded-full border border-line py-2.5 pl-5 pr-2.5 text-sm font-medium text-navy transition-colors duration-300 hover:border-navy"
           >
-            See all services
+            Explore divisions
             <span className="flex h-7 w-7 items-center justify-center rounded-full bg-green text-white">
               <ArrowUpRight
                 className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"

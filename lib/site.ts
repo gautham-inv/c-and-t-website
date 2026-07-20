@@ -22,15 +22,13 @@ export type SiteSettings = {
 export const SITE_SETTINGS: SiteSettings = {
   navItems: [
     { label: "Who we are", href: "/about" },
-    { label: "What we do", href: "/services" },
-    { label: "Expertise", href: "/#divisions" },
+    { label: "Divisions", href: "/divisions" },
     { label: "Projects", href: "/projects" },
     { label: "Insights", href: "/insights" },
     { label: "Careers", href: "/careers" },
   ],
   footerLinks: [
-    { label: "services", href: "/#services" },
-    { label: "expertise", href: "/#divisions" },
+    { label: "divisions", href: "/divisions" },
     { label: "projects", href: "/#projects" },
     { label: "about", href: "/about" },
     { label: "insights", href: "/#blog" },

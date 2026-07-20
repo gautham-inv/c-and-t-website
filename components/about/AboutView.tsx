@@ -1,17 +1,16 @@
 "use client";
 
 import { useRef } from "react";
-import { ArrowUpRight } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { AboutPageData } from "@/sanity/lib/data";
 import { Globe } from "@/components/about/Globe";
-import { JourneyCarousel } from "@/components/about/JourneyCarousel";
+import { JourneyTimeline } from "@/components/about/JourneyTimeline";
 import { MissionVisionStack } from "@/components/about/MissionVisionStack";
 import { ValuesSplit } from "@/components/about/ValuesSplit";
 import { Leadership } from "@/components/about/Leadership";
-import { ISO_CERTIFICATIONS } from "@/lib/company";
+import { ISO_CERTIFICATIONS, ENGINEERING_SCOPE } from "@/lib/company";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -133,7 +132,7 @@ export function AboutView({ about }: { about: AboutPageData }) {
             className="relative z-20 mx-auto max-w-4xl px-6 pt-[17vh] text-center will-change-transform"
           >
             <h1 className="mx-auto max-w-3xl font-display text-[clamp(2rem,1rem+3.5vw,3.75rem)] font-semibold leading-[1.05] tracking-[-0.03em]">
-              <span className="text-green-dark">MEP, BIM &amp; CFD</span>{" "}
+              <span className="text-green-dark">MEP &amp; BIM</span>{" "}
               engineering, built since 2011.
             </h1>
             <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-ink-dim">
@@ -317,10 +316,7 @@ export function AboutView({ about }: { about: AboutPageData }) {
       <section data-reveal className="bg-surface">
         <div className="mx-auto max-w-[1600px] px-6 py-20 md:px-10 md:py-28">
           <div data-up>
-            <JourneyCarousel
-              milestones={about.companyMilestones}
-              awards={about.projectAwards}
-            />
+            <JourneyTimeline milestones={about.companyMilestones} />
           </div>
         </div>
       </section>
@@ -348,38 +344,41 @@ export function AboutView({ about }: { about: AboutPageData }) {
             >
               What we <span className="text-green-dark">engineer</span>
             </h2>
-            <div data-up>
-              <p className="max-w-xl text-lg leading-relaxed text-ink-dim">
-                The sectors and disciplines below span both practices, from
-                single systems to complete developments.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-2.5">
-                {about.capabilities.map((c) => {
-                  const base =
-                    "inline-flex items-center gap-2 rounded-full border px-5 py-2.5 font-display text-base font-medium leading-none transition-colors duration-300 md:text-lg";
-                  return c.href ? (
-                    <a
-                      key={c.label}
-                      href={c.href}
-                      className={`group ${base} border-green-dark/25 bg-green-dark/[0.04] text-ink hover:border-green-dark hover:bg-green-dark hover:text-paper`}
-                    >
-                      {c.label}
-                      <ArrowUpRight
-                        className="h-4 w-4 shrink-0 text-green-dark transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-paper"
-                        strokeWidth={1.75}
-                      />
-                    </a>
-                  ) : (
-                    <span
-                      key={c.label}
-                      className={`${base} border-line bg-mist text-ink/80`}
-                    >
-                      {c.label}
-                    </span>
-                  );
-                })}
+            <p
+              data-up
+              className="max-w-xl self-end text-lg leading-relaxed text-ink-dim"
+            >
+              The full engineering, drafting, modelling and consultancy scope we
+              deliver across both practices, from single systems to complete
+              developments.
+            </p>
+          </div>
+
+          <div className="mt-12 gap-5 md:mt-16 md:columns-2 lg:columns-3 [&>*]:mb-5">
+            {ENGINEERING_SCOPE.map((g) => (
+              <div
+                key={g.key}
+                data-up
+                className="break-inside-avoid rounded-2xl border border-line bg-mist p-6"
+              >
+                <h3 className="font-display text-lg font-medium leading-snug text-ink">
+                  {g.title}
+                </h3>
+                {g.items && (
+                  <ul className="mt-4 space-y-2 border-t border-line pt-4">
+                    {g.items.map((item) => (
+                      <li
+                        key={item}
+                        className="flex gap-2.5 text-sm leading-relaxed text-ink-dim"
+                      >
+                        <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-green" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>

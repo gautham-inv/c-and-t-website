@@ -172,12 +172,87 @@ export const LEADERSHIP: Leader[] = [
   { name: "Rajeev Kumar", role: "Operations Manager, Middle East" },
 ];
 
+/**
+ * What we engineer — the full engineering & consultancy scope, grouped A–O,
+ * shown on the About page. This is the authoritative capability list the
+ * practice delivers across both divisions. Categories with sub-items list them;
+ * standalone services (E–O) carry no items. Rendered as a single-view grid, not
+ * links — it's a scope statement, not navigation.
+ */
+export type ScopeGroup = { key: string; title: string; items?: string[] };
+
+export const ENGINEERING_SCOPE: ScopeGroup[] = [
+  {
+    key: "A",
+    title: "Comprehensive engineering, design, review & vetting",
+    items: [
+      "Architectural & space planning",
+      "Life safety",
+      "Structural",
+      "Electrical (HV & LV)",
+      "HVAC",
+      "PHE",
+      "Fire protection & gas suppression",
+      "Fire detection — fire alarm, voice evacuation, aspiration & emergency/exit lighting",
+      "ELV — CCTV, access control, public address, water leakage, rodent repellant, nurse call, disabled alarm, intrusion detection & other specialist services",
+      "Telecom & ICT",
+      "LPG",
+      "Building management system",
+      "SCADA",
+    ],
+  },
+  {
+    key: "B",
+    title: "Tendering support",
+    items: [
+      "BOQ / MIR preparation",
+      "Specification documents",
+      "MTO",
+      "Tender documents",
+      "Estimates",
+    ],
+  },
+  {
+    key: "C",
+    title: "Engineering drafting service (CAD)",
+    items: [
+      "Design drawings — concept / schematic",
+      "Detail drawings — GFC / IFC",
+      "Shop drawings",
+      "As-built drawings",
+    ],
+  },
+  {
+    key: "D",
+    title: "Revit-based BIM modelling",
+    items: [
+      "LOD 100 / 200",
+      "LOD 300",
+      "LOD 350",
+      "LOD 400",
+      "LOD 500",
+      "Clash coordination & detection reports",
+    ],
+  },
+  { key: "E", title: "cOBie asset management" },
+  { key: "F", title: "Detailed Project Reports (DPR) for government-funded projects" },
+  { key: "G", title: "PMO — project monitoring" },
+  { key: "H", title: "PMC — project management" },
+  { key: "I", title: "Peer review consultation" },
+  { key: "J", title: "Value engineering" },
+  { key: "K", title: "Cost consultancy" },
+  { key: "L", title: "Engineering / drafting / modeller resource deployment" },
+  { key: "M", title: "CFD analysis" },
+  { key: "N", title: "Hydraulic calculation" },
+  { key: "O", title: "ETAP study" },
+];
+
 /** What we engineer — links out to the page that owns each capability in depth. */
 export type Capability = { label: string; href?: string };
 
 export const CAPABILITIES: Capability[] = [
   { label: "Oil & Gas · Marine · Renewable Energy", href: "/divisions/oil-and-gas" },
-  { label: "Fluid Dynamics (CFD)", href: "/services" },
+  { label: "Fluid Dynamics (CFD)", href: "/divisions" },
   ...INDUSTRIES.map((ind) => ({
     label: ind.label,
     href: LINKED_INDUSTRIES.has(ind.slug) ? `/projects?industry=${ind.slug}` : undefined,
