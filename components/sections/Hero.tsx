@@ -4,7 +4,7 @@ export function Hero() {
       {/* Looping background video */}
       <video
         className="absolute inset-0 h-full w-full object-cover"
-        src="/hero.webm"
+        src="/final.webm"
         autoPlay
         muted
         loop

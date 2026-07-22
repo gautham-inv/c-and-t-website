@@ -798,6 +798,56 @@ export const PORTFOLIO: PortfolioItem[] = [
   { name: "IGO 101, Dubai", meta: "MEP Design · 6B+G+31 · VX Studio · 2018", image: "/projects/igo-101.webp", division: "building", industries: ["high-rise-buildings"] },
   { name: "Commercial Boulevard, Qatar", meta: "BIM LOD 350–500 · 5 Buildings · Voltas · 2020–21", image: "/projects/qatar-commercial-boulevard-2.jpg", division: "building", industries: ["commercial-mercantile"] },
   { name: "NER & WICR Site Utilities", meta: "MEP Design & BIM · Artelia / NEOM · KSA", image: "/projects/ner-wicr-ksa.png", division: "oil-and-gas" },
+
+  // Named projects from the company profile without a real photo or full
+  // scope on hand yet — card-only entries (no detail page) until confirmed
+  // details/images come through. `meta` intentionally stays to what the
+  // source document actually states, no invented client/area/year.
+  { name: "Palm Mall, Muscat", meta: "Retail, Mall · Muscat, Oman", division: "building", industries: ["commercial-mercantile"] },
+  { name: "Sohar Mall", meta: "Retail, Mall · Sohar, Oman", division: "building", industries: ["commercial-mercantile"] },
+  { name: "West 5 Tower", meta: "Tower", division: "building", industries: ["high-rise-buildings"] },
+  { name: "Business Bay Residential Tower", meta: "Residential Tower · Business Bay, Dubai", division: "building", industries: ["residential", "high-rise-buildings"] },
+  { name: "Jumeirah Residence", meta: "Residence · Jumeirah, Dubai", division: "building", industries: ["hospitality"] },
+  { name: "Al Seeb 4-Star Hotel", meta: "4-Star Hotel · Al Seeb, Oman", division: "building", industries: ["hospitality"] },
+  { name: "Abuja 4-Star Hotel, Nigeria", meta: "4-Star Hotel · Abuja, Nigeria", division: "building", industries: ["hospitality"] },
+  { name: "IBIS Hotel", meta: "Hotel", division: "building", industries: ["hospitality"] },
+  { name: "St. Regis 5-Star Beach Hotel", meta: "5-Star Beach Hotel", division: "building", industries: ["hospitality"] },
+  { name: "4-Star Hotel, Sohar", meta: "4-Star Hotel · Sohar, Oman", division: "building", industries: ["hospitality"] },
+  { name: "Poovar Island Resort", meta: "Island Resort", division: "building", industries: ["hospitality"] },
+  { name: "Al Ashram Villas", meta: "Villas", division: "building", industries: ["residential"] },
+  { name: "Guru Hospital", meta: "Hospital", division: "building", industries: ["hospitals"] },
+  { name: "SUT Hospital", meta: "Hospital", division: "building", industries: ["hospitals"] },
+  { name: "Salalah Cargo Terminal", meta: "Cargo Terminal · Salalah, Oman", division: "building", industries: ["aviation-airports"] },
+  { name: "200 MLD Water Plant, Qurayyat", meta: "200 MLD Water Plant · Qurayyat, Oman", division: "building", industries: ["infrastructure-town-planning"] },
+  { name: "STP Buildings", meta: "Sewage Treatment Plant Buildings", division: "building", industries: ["infrastructure-town-planning"] },
+  { name: "Warehouse, Doha", meta: "Warehouse · Doha, Qatar", division: "building", industries: ["industrial"] },
+  { name: "Jatayu Nature Park", meta: "Adventure Park, Ropeway & Cave Resort", division: "building" },
+  { name: "Reliance Trends", meta: "Retail", division: "building", industries: ["commercial-mercantile"] },
+  { name: "Eurofragrance Dubai", meta: "BIM Modelling · Dubai, UAE", division: "building" },
+
+  // From the project register table (Sl no. 1–23, "Building Projects"). Row 1
+  // (Trivandrum airport T2) is the existing "Major Airport, South India" entry
+  // above — NDA, name withheld. Rows 3, 13, 16, 17 (Kempegowda/Bangalore,
+  // NEOM NER & WICR, CBD Qatar, Emaar DCP) match existing entries and are
+  // skipped rather than duplicated. Card-only, no photos yet.
+  { name: "MOPA Airport, Goa", meta: "HVAC Commissioning · GMR · 2024", division: "building", industries: ["aviation-airports"] },
+  { name: "Hospitals, Schools & Offices, Kerala", meta: "BIM · Govt of Kerala · 2024", image: "/projects/kerala-hospital.avif", division: "building", industries: ["hospitals", "offices"] },
+  { name: "Man Industries, KSA", meta: "MEP Design & BIM · Man Industry, KSA · 2024", image: "/projects/man-industry.webp", division: "building", industries: ["industrial"] },
+  { name: "Oman Botanical Garden", meta: "As-Built BIM · Bhawans Engineering · 2024", image: "/projects/oman-botanic.webp", division: "building", industries: ["infrastructure-town-planning"] },
+  { name: "STEP (Petrofac)", meta: "Peer Review · Petrofac · 2024", image: "/projects/step-petrofac.webp", division: "oil-and-gas" },
+  { name: "Khasab Hospital, Oman", meta: "BIM Modelling · MEP · LOD 400 · 2024", image: "/projects/khasab-hospital-oman.jpg", division: "building", industries: ["hospitals"] },
+  { name: "Waaree Project, Gujarat", meta: "ETP Piping Design · Waaree · 2023", image: "/projects/waree-gujarat.webp", division: "building", industries: ["industrial"] },
+  { name: "Sultan Centre, Oman", meta: "MEP Design · EIDC · 2023", image: "/projects/sultan-centre-oman.webp", division: "building", industries: ["commercial-mercantile"] },
+  { name: "MIRFA RO Plant, Abu Dhabi", meta: "MEP Concept Design · Artelia · 2023", image: "/projects/Mirfa-2-RO-abudhabi.jpg", division: "building", industries: ["infrastructure-town-planning"] },
+  { name: "Yiti 300 Villa Project, Oman", meta: "Architectural & MEP BIM · Adi Oman · 2022", image: "/projects/yiti-oman.webp", division: "building", industries: ["residential"] },
+  { name: "Jeddah South Container Terminal, KSA", meta: "3rd Party MEP Design Review · DP World · 2022", image: "/projects/jeddah-south-container.jpg", division: "building", industries: ["infrastructure-town-planning"] },
+  { name: "Das Island Harbour Expansion & Rehabilitation, Abu Dhabi", meta: "MEP Design · Abu Dhabi Oil Company · 2021", image: "/projects/das-island.webp", division: "oil-and-gas" },
+  { name: "Touristic Village, Oman", meta: "MEP Design · Corduff Oman · 2020", division: "building", industries: ["hospitality"] },
+  { name: "Lifty Retail Shop, Dubai", meta: "HVAC Design · Al Zahia City Centre · 2020", division: "building", industries: ["commercial-mercantile"] },
+  { name: "G+1+R Villa, Al Thanyah Fourth, Dubai", meta: "HVAC Design · Hiranandani · 2020", image: "/projects/althanayah-fourth.webp", division: "building", industries: ["residential"] },
+  { name: "Cotton Body, Deira City Centre", meta: "HVAC Design · Kalandoor Contracting · 2019", image: "/projects/Cotton-On-Body-deira.jpeg", division: "building", industries: ["commercial-mercantile"] },
+  { name: "Lefties Retail", meta: "HVAC Design · Kalandoor Contracting · 2019", image: "/projects/lefties-retail.jpg", division: "building", industries: ["commercial-mercantile"] },
+  { name: "Decathlon, Dubai", meta: "HVAC Design · 2019", image: "/projects/decathlon-dubai.jpeg", division: "building", industries: ["commercial-mercantile"] },
 ];
 
 /** Projects belonging to a division, in portfolio order. */

@@ -10,7 +10,6 @@ import { JourneyTimeline } from "@/components/about/JourneyTimeline";
 import { MissionVisionStack } from "@/components/about/MissionVisionStack";
 import { ValuesSplit } from "@/components/about/ValuesSplit";
 import { Leadership } from "@/components/about/Leadership";
-import { ISO_CERTIFICATIONS } from "@/lib/company";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -245,12 +244,12 @@ export function AboutView({ about }: { about: AboutPageData }) {
             </div>
           </div>
 
-          {ISO_CERTIFICATIONS.length > 0 && (
+          {about.isoCertifications.length > 0 && (
             <div
               data-up
               className="mt-12 flex flex-wrap items-center justify-end gap-x-8 gap-y-5"
             >
-              {ISO_CERTIFICATIONS.map((c) => {
+              {about.isoCertifications.map((c) => {
                 const inner = (
                   <>
                     {c.logo && (
@@ -270,10 +269,10 @@ export function AboutView({ about }: { about: AboutPageData }) {
                     </span>
                   </>
                 );
-                return c.documentPath ? (
+                return c.document ? (
                   <a
                     key={c.name}
-                    href={c.documentPath}
+                    href={c.document}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group inline-flex items-center gap-3"

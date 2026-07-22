@@ -1,5 +1,6 @@
-import type { Project, ProjectBlock, Personnel, Testimonial } from "@/lib/projects";
+import type { Project, Personnel, Testimonial } from "@/lib/projects";
 import { ProjectGallery } from "@/components/projects/ProjectGallery";
+import { RichBlocks } from "@/components/shared/RichBlocks";
 
 export function ProjectView({ project }: { project: Project }) {
   return (
@@ -38,9 +39,7 @@ export function ProjectView({ project }: { project: Project }) {
               Project Description
             </h2>
             <div className="mt-8 space-y-5">
-              {project.description.map((block, i) => (
-                <DescriptionBlock key={i} block={block} />
-              ))}
+              <RichBlocks blocks={project.description} />
             </div>
           </div>
 
@@ -108,30 +107,6 @@ export function ProjectView({ project }: { project: Project }) {
       {/* ── Project gallery — bento grid ── */}
       <ProjectGallery items={project.gallery} />
     </div>
-  );
-}
-
-function DescriptionBlock({ block }: { block: ProjectBlock }) {
-  if (block.type === "heading") {
-    return (
-      <h3 className="pt-3 font-display text-lg font-semibold leading-snug md:text-xl">
-        {block.text}
-      </h3>
-    );
-  }
-  if (block.type === "list") {
-    return (
-      <ul className="list-disc space-y-2 pl-5 text-base leading-relaxed text-ink-dim md:text-lg">
-        {block.items.map((item) => (
-          <li key={item}>{item}</li>
-        ))}
-      </ul>
-    );
-  }
-  return (
-    <p className="text-base leading-relaxed text-ink-dim md:text-lg">
-      {block.text}
-    </p>
   );
 }
 

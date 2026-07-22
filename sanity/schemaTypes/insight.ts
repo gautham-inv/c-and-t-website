@@ -32,6 +32,13 @@ export const insight = defineType({
       of: [{ type: "block" }, { type: "image", options: { hotspot: true } }],
       description: "Fill in when article detail pages ship.",
     }),
+    defineField({
+      name: "attribution",
+      title: "Attribution (optional)",
+      type: "text",
+      rows: 2,
+      description: "Credit line for republished/guest content, shown at the end of the article.",
+    }),
   ],
   orderings: [
     { title: "Newest first", name: "dateDesc", by: [{ field: "date", direction: "desc" }] },

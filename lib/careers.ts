@@ -6,6 +6,7 @@
  * Openings below are PLACEHOLDER roles — edit titles/copy freely, or swap this
  * array for a Sanity `jobOpening` query when the CMS wiring lands site-wide.
  */
+import type { GallerySpan } from "./projects";
 
 export const CAREERS_INTRO =
   "At C&T we are united by a single vision: smart engineering that lasts. With teams across India, the UAE and Canada, our engineers deliver MEP, BIM and CFD work on some of the most demanding projects in the world. Grow with a practice that has been building since 2011.";
@@ -279,4 +280,23 @@ export const TEAM_PHOTOS: string[] = [
   "/careers2.jpeg",
   "/careers3.jpg",
   "/careers4.avif",
+];
+
+/** Celebrations gallery — real event photos (Christmas, Onam, office
+ * inauguration), rendered as a bento grid (same layout as the project
+ * gallery). `span` is a curated layout choice for this exact 10-photo set;
+ * Sanity-sourced photos beyond these get spans auto-assigned by index. */
+export type CelebrationPhoto = { image: string; alt: string; span: GallerySpan };
+
+export const CELEBRATION_PHOTOS: CelebrationPhoto[] = [
+  { image: "/celebrations/onam-2024-1.jpg", alt: "Onam 2024 celebration, team photo", span: "lg" },
+  { image: "/celebrations/christmas-2025-1.jpg", alt: "Christmas 2025 celebration", span: "tall" },
+  { image: "/celebrations/office-inauguration-1.jpg", alt: "Office inauguration ribbon cutting", span: "tall" },
+  { image: "/celebrations/christmas-2025-2.jpg", alt: "Christmas 2025 cake cutting", span: "wide" },
+  { image: "/celebrations/office-inauguration-2.jpg", alt: "New office space, inauguration day", span: "wide" },
+  { image: "/celebrations/onam-2024-2.jpg", alt: "Onam 2024 celebration, pookalam", span: "sm" },
+  { image: "/celebrations/christmas-2025-3.jpg", alt: "Christmas 2025 celebration, team", span: "sm" },
+  { image: "/celebrations/onam-2024-3.jpg", alt: "Onam 2024 celebration", span: "sm" },
+  { image: "/celebrations/christmas-2025-4.jpg", alt: "Christmas 2025 celebration", span: "sm" },
+  { image: "/celebrations/office-inauguration-3.jpg", alt: "Office inauguration celebration", span: "sm" },
 ];

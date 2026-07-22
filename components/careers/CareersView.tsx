@@ -8,6 +8,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { getLenis } from "@/lib/lenis";
 import type { CareersPageData, JobOpeningCard } from "@/sanity/lib/data";
 import { OpeningsGrid } from "@/components/careers/OpeningsGrid";
+import { BentoGallery } from "@/components/shared/BentoGallery";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -208,7 +209,17 @@ export function CareersView({
         </div>
       </section>
 
-      {/* ── 5. Openings — cards → /careers/[slug] ── */}
+      {/* ── 5. Celebrations gallery — same bento layout as a project gallery ── */}
+      <BentoGallery
+        heading={
+          <>
+            Celebrating <span className="text-green-dark">together</span>
+          </>
+        }
+        items={careers.celebrationPhotos}
+      />
+
+      {/* ── 6. Openings — cards → /careers/[slug] ── */}
       <OpeningsGrid openings={openings} />
     </div>
   );

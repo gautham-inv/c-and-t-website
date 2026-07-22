@@ -48,6 +48,19 @@ export const careersPage = defineType({
       of: [{ type: "image", options: { hotspot: true } }],
       description: "Life-at-C&T photo grid.",
     }),
+    defineField({
+      name: "celebrationPhotos",
+      title: "Celebrations gallery",
+      type: "array",
+      of: [
+        {
+          type: "image",
+          options: { hotspot: true },
+          fields: [{ name: "alt", type: "string", title: "Alt text" }],
+        },
+      ],
+      description: "Event photos (parties, inaugurations, festivals) shown as a bento gallery, same layout as a project gallery.",
+    }),
   ],
   preview: { prepare: () => ({ title: "Careers page" }) },
 });

@@ -14,6 +14,8 @@ import {
   projectBySlugQuery,
   allProjectSlugsQuery,
   insightsQuery,
+  insightBySlugQuery,
+  allInsightSlugsQuery,
   allServicesQuery,
   allDivisionsQuery,
   aboutPageQuery,
@@ -31,6 +33,8 @@ import {
   PROJECTS,
   projectSlug,
   type Project,
+  type ProjectBlock,
+  type GallerySpan,
 } from "@/lib/projects";
 import { INSIGHTS, type Insight } from "@/lib/insights";
 import { SERVICES, type Service } from "@/lib/services";
@@ -51,7 +55,9 @@ import {
   REASONS,
   OPENINGS,
   TEAM_PHOTOS,
+  CELEBRATION_PHOTOS,
   type Opening,
+  type CelebrationPhoto,
 } from "@/lib/careers";
 
 /** Run `fn`; on throw or a "not useful" result, return `fallback`. */
@@ -155,11 +161,73 @@ export function getInsights(): Promise<Insight[]> {
         date: a.date,
         image: a.image,
         excerpt: a.excerpt,
-        // No per-article pages yet — mirror lib/insights.ts behaviour.
-        href: "/insights",
+        slug: a.slug ?? "",
+        href: a.slug ? `/insights/${a.slug}` : "/insights",
       }));
     },
     INSIGHTS,
+    nonEmpty,
+  );
+}
+
+/** Sanity's real Portable Text (`_type: "block"`) → the simple
+ * heading/paragraph/list shape `RichBlocks` renders. Consecutive bullet
+ * blocks collapse into one `list` entry, mirroring how they were authored. */
+type PortableTextBlock = {
+  _type: string;
+  style?: string;
+  listItem?: string;
+  children?: { text?: string }[];
+};
+
+function portableTextToBlocks(blocks: PortableTextBlock[]): ProjectBlock[] {
+  const out: ProjectBlock[] = [];
+  for (const b of blocks) {
+    if (b._type !== "block") continue;
+    const text = (b.children ?? []).map((c) => c.text ?? "").join("");
+    if (b.listItem) {
+      const last = out[out.length - 1];
+      if (last?.type === "list") last.items.push(text);
+      else out.push({ type: "list", items: [text] });
+    } else if (b.style === "h3" || b.style === "h2") {
+      out.push({ type: "heading", text });
+    } else {
+      out.push({ type: "p", text });
+    }
+  }
+  return out;
+}
+
+export function getInsight(slug: string): Promise<Insight | undefined> {
+  const fallback = INSIGHTS.find((i) => i.slug === slug);
+  return withFallback(
+    () =>
+      client
+        .fetch<(Omit<Insight, "body"> & { body?: PortableTextBlock[] }) | null>(
+          insightBySlugQuery,
+          { slug },
+        )
+        .then((r) => {
+          if (!r) return fallback;
+          return {
+            ...r,
+            href: `/insights/${r.slug}`,
+            body: r.body?.length ? portableTextToBlocks(r.body) : undefined,
+          };
+        }),
+    fallback,
+    (v) => !!v,
+  );
+}
+
+export function getInsightSlugs(): Promise<string[]> {
+  const fallback = INSIGHTS.map((i) => i.slug);
+  return withFallback(
+    async () => {
+      const rows = await client.fetch<{ slug: string }[]>(allInsightSlugsQuery);
+      return (rows ?? []).map((r) => r.slug).filter(Boolean);
+    },
+    fallback,
     nonEmpty,
   );
 }
@@ -230,6 +298,17 @@ export async function getDivision(slug: string): Promise<Division | undefined> {
 
 // ── About page ───────────────────────────────────────────────────────────
 
+/** Resolved ISO certification — `logo`/`document` are Sanity CDN URLs once
+ * seeded (absolute, so they work identically on localhost and hosted); the
+ * fallback below points at local `/certifications/*` paths instead. */
+export type IsoCert = { name: string; logo?: string; document?: string };
+
+const ISO_FALLBACK: IsoCert[] = ISO_CERTIFICATIONS.map((c) => ({
+  name: c.name,
+  logo: c.logo,
+  document: c.documentPath,
+}));
+
 export type AboutPageData = {
   vision: string;
   mission: string;
@@ -239,6 +318,7 @@ export type AboutPageData = {
   locations: typeof LOCATIONS;
   capabilities: typeof CAPABILITIES;
   leadership: typeof LEADERSHIP;
+  isoCertifications: IsoCert[];
 };
 
 const ABOUT_FALLBACK: AboutPageData = {
@@ -250,6 +330,7 @@ const ABOUT_FALLBACK: AboutPageData = {
   locations: LOCATIONS,
   capabilities: CAPABILITIES,
   leadership: LEADERSHIP,
+  isoCertifications: ISO_FALLBACK,
 };
 
 export function getAboutPage(): Promise<AboutPageData> {
@@ -262,6 +343,9 @@ export function getAboutPage(): Promise<AboutPageData> {
         return {
           ...r,
           leadership: r.leadership?.length ? r.leadership : LEADERSHIP,
+          isoCertifications: r.isoCertifications?.length
+            ? r.isoCertifications
+            : ISO_FALLBACK,
         };
       }),
     ABOUT_FALLBACK,
@@ -277,6 +361,7 @@ export type CareersPageData = {
   whyTitle: string;
   whyBody: string[];
   teamPhotos: string[];
+  celebrationPhotos: CelebrationPhoto[];
 };
 
 const CAREERS_PAGE_FALLBACK: CareersPageData = {
@@ -288,14 +373,41 @@ const CAREERS_PAGE_FALLBACK: CareersPageData = {
     "When you join us, you join a team working toward one goal — to build a better, more sustainable tomorrow, one asset at a time.",
   ],
   teamPhotos: TEAM_PHOTOS,
+  celebrationPhotos: CELEBRATION_PHOTOS,
 };
+
+/** Layout cycle for celebration photos that come from Sanity without a
+ * curated `span` (Studio just uploads plain images) — repeats to fit
+ * whatever count is actually uploaded. */
+const CELEBRATION_SPAN_CYCLE: GallerySpan[] = [
+  "lg", "tall", "tall", "wide", "wide", "sm", "sm", "sm", "sm", "sm",
+];
 
 export function getCareersPage(): Promise<CareersPageData> {
   return withFallback(
     () =>
       client
-        .fetch<CareersPageData | null>(careersPageQuery)
-        .then((r) => (r ?? CAREERS_PAGE_FALLBACK)),
+        .fetch<
+          (Omit<CareersPageData, "celebrationPhotos"> & {
+            celebrationPhotos?: { image?: string; alt?: string }[] | null;
+          })
+          | null
+        >(careersPageQuery)
+        .then((r) => {
+          if (!r) return CAREERS_PAGE_FALLBACK;
+          const photos = (r.celebrationPhotos ?? []).filter((p) => p.image);
+          return {
+            ...r,
+            teamPhotos: r.teamPhotos ?? TEAM_PHOTOS,
+            celebrationPhotos: photos.length
+              ? photos.map((p, i) => ({
+                  image: p.image!,
+                  alt: p.alt ?? "",
+                  span: CELEBRATION_SPAN_CYCLE[i % CELEBRATION_SPAN_CYCLE.length],
+                }))
+              : CELEBRATION_PHOTOS,
+          };
+        }),
     CAREERS_PAGE_FALLBACK,
     (v) => !!v && !!v.intro,
   );

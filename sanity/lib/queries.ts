@@ -82,6 +82,24 @@ export const insightsQuery = groq`
   }
 `;
 
+export const insightBySlugQuery = groq`
+  *[_type == "insight" && slug.current == $slug][0]{
+    title,
+    "slug": slug.current,
+    tag,
+    "read": readTime,
+    date,
+    "image": coalesce(image.asset->url, image),
+    excerpt,
+    body,
+    attribution
+  }
+`;
+
+export const allInsightSlugsQuery = groq`
+  *[_type == "insight"]{ "slug": slug.current }
+`;
+
 // ── Singletons ──
 export const homePageQuery = groq`
   *[_type == "homePage"][0]{
@@ -109,6 +127,11 @@ export const aboutPageQuery = groq`
       role,
       "photo": coalesce(photo.asset->url, photo),
       bio
+    },
+    "isoCertifications": isoCertifications[]{
+      name,
+      "logo": coalesce(logo.asset->url, logo),
+      "document": document.asset->url
     }
   }
 `;
@@ -143,7 +166,11 @@ export const careersPageQuery = groq`
     reasons,
     whyTitle,
     whyBody,
-    "teamPhotos": teamPhotos[].asset->url
+    "teamPhotos": teamPhotos[].asset->url,
+    "celebrationPhotos": celebrationPhotos[]{
+      "image": asset->url,
+      alt
+    }
   }
 `;
 

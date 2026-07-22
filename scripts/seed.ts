@@ -34,7 +34,7 @@ import type { SanityClient } from "@sanity/client";
 import { apiVersion, dataset, projectId } from "../sanity/env";
 import { SERVICES } from "../lib/services";
 import { DIVISIONS } from "../lib/divisions";
-import { PROJECTS, PORTFOLIO } from "../lib/projects";
+import { PROJECTS, PORTFOLIO, type ProjectBlock } from "../lib/projects";
 import { INSIGHTS } from "../lib/insights";
 import {
   VISION,
@@ -47,7 +47,7 @@ import {
   LEADERSHIP,
   ISO_CERTIFICATIONS,
 } from "../lib/company";
-import { CAREERS_INTRO, REASONS, OPENINGS, TEAM_PHOTOS } from "../lib/careers";
+import { CAREERS_INTRO, REASONS, OPENINGS, TEAM_PHOTOS, CELEBRATION_PHOTOS } from "../lib/careers";
 import { TOOLS } from "../lib/tools";
 import { SITE_SETTINGS } from "../lib/site";
 
@@ -247,6 +247,18 @@ function textBlock(text: string, style = "normal", listItem?: string): Block {
   return block;
 }
 
+/** Convert the simple heading/paragraph/list block shape (lib/projects.ts
+ * `ProjectBlock`, reused for insight bodies) into real Portable Text. */
+function blocksToPortableText(blocks: ProjectBlock[]): Block[] {
+  const out: Block[] = [];
+  for (const block of blocks) {
+    if (block.type === "p") out.push(textBlock(block.text, "normal"));
+    else if (block.type === "heading") out.push(textBlock(block.text, "h3"));
+    else for (const item of block.items) out.push(textBlock(item, "normal", "bullet"));
+  }
+  return out;
+}
+
 // ---------------------------------------------------------------------------
 // Date parsing for insights ("May 2026" -> ISO datetime, best effort)
 // ---------------------------------------------------------------------------
@@ -368,15 +380,7 @@ async function seedProjects(): Promise<Map<string, string>> {
       const heroImage = await uploadImage(detail.heroImage, name);
       if (heroImage) doc.heroImage = heroImage;
 
-      // Portable Text description.
-      const description: Block[] = [];
-      for (const block of detail.description) {
-        if (block.type === "p") description.push(textBlock(block.text, "normal"));
-        else if (block.type === "heading") description.push(textBlock(block.text, "h3"));
-        else if (block.type === "list") {
-          for (const item of block.items) description.push(textBlock(item, "normal", "bullet"));
-        }
-      }
+      const description = blocksToPortableText(detail.description);
       if (description.length) doc.description = description;
 
       if (detail.info.length) {
@@ -451,8 +455,10 @@ async function seedInsights(): Promise<Map<string, string>> {
   let n = 0;
   for (let i = 0; i < INSIGHTS.length; i++) {
     const ins = INSIGHTS[i];
-    const s = slugify(ins.title);
-    const id = idInsight(s || String(i));
+    // Keyed by the permanent `id`, NOT `slug` — the slug is free to change
+    // (renamed for a nicer URL, edited copy, etc.) without ever orphaning the
+    // underlying Sanity document or creating a duplicate.
+    const id = idInsight(ins.id || String(i));
     idByTitle.set(ins.title, id);
 
     const image = await uploadImage(ins.image, ins.title);
@@ -460,7 +466,7 @@ async function seedInsights(): Promise<Map<string, string>> {
       _id: id,
       _type: "insight",
       title: ins.title,
-      slug: slug(s || String(i)),
+      slug: slug(ins.slug || String(i)),
       tag: ins.tag,
       readTime: ins.read,
       excerpt: ins.excerpt,
@@ -468,11 +474,39 @@ async function seedInsights(): Promise<Map<string, string>> {
     const date = parseInsightDate(ins.date);
     if (date) doc.date = date;
     if (image) doc.image = image;
+    if (ins.body?.length) doc.body = blocksToPortableText(ins.body);
+    if (ins.attribution) doc.attribution = ins.attribution;
     await client.createOrReplace(doc as never);
     n++;
   }
   console.log(`  ✓ insights: ${n}`);
   return idByTitle;
+}
+
+/** Prune insight documents left over from an entry that was deleted outright
+ * (not just renamed — renames keep the same `id` and are handled by
+ * createOrReplace in seedInsights). Run this AFTER seedHomePage: homePage's
+ * featuredInsights refs are rewritten there from the current INSIGHTS list,
+ * so anything actually stale is no longer referenced by the time we get here.
+ * A doc can still fail to delete if something outside this schema (e.g.
+ * legacy content) references it — log and skip rather than fail the seed. */
+async function pruneStaleInsights(): Promise<void> {
+  const keep = new Set(INSIGHTS.map((ins, i) => idInsight(ins.id || String(i))));
+  const existing = await client.fetch<string[]>(`*[_type == "insight"]._id`);
+  const stale = (existing ?? []).filter((id) => !keep.has(id));
+  let removed = 0;
+  for (const id of stale) {
+    try {
+      await client.delete(id);
+      console.log(`  – removed stale insight: ${id}`);
+      removed++;
+    } catch (err) {
+      console.warn(
+        `  ! could not remove stale insight ${id} (likely still referenced elsewhere): ${(err as Error).message}`,
+      );
+    }
+  }
+  if (stale.length) console.log(`  ✓ insight cleanup: removed ${removed}/${stale.length} stale`);
 }
 
 async function seedJobOpenings(): Promise<void> {
@@ -676,6 +710,12 @@ async function seedCareersPage(): Promise<void> {
     if (image) teamPhotos.push({ ...image, _key: key("tp") });
   }
 
+  const celebrationPhotos = [];
+  for (const c of CELEBRATION_PHOTOS) {
+    const image = await uploadImage(c.image, c.alt);
+    if (image) celebrationPhotos.push({ ...image, _key: key("cel") });
+  }
+
   const doc: Record<string, unknown> = {
     _id: "careersPage",
     _type: "careersPage",
@@ -692,6 +732,7 @@ async function seedCareersPage(): Promise<void> {
       "Grow with a practice that has been building since 2011 — mentored by industry veterans, on projects that define skylines and careers.",
     ],
     teamPhotos,
+    celebrationPhotos,
   };
   await client.createOrReplace(doc as never);
   console.log(`  ✓ careersPage`);
@@ -755,6 +796,10 @@ async function main(): Promise<void> {
   await seedServicesPage();
   await seedCareersPage();
   await seedSiteSettings();
+
+  // Runs after seedHomePage so its rewritten featuredInsights refs no longer
+  // point at anything stale — see pruneStaleInsights for why the ordering matters.
+  await pruneStaleInsights();
 
   const summary = {
     services: SERVICES.length,

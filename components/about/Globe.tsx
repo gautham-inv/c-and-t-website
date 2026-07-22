@@ -1,7 +1,7 @@
 "use client";
 
 import createGlobe from "cobe";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 /** Office marker — the shape lines up with lib/company.ts `Location`, so the
  * same data drives the globe now (LOCATIONS) and via Sanity later. */
@@ -36,16 +36,12 @@ export function Globe({
   markers?: GlobeMarker[];
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const hotspotRefs = useRef<(HTMLButtonElement | null)[]>([]);
-  const tooltipRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const phiRef = useRef(0);
   const widthRef = useRef(0);
   const isDragging = useRef(false);
   const lastX = useRef(0);
   const autoRotate = useRef(true);
-  const [active, setActive] = useState<number | null>(null);
-  const activeRef = useRef<number | null>(null);
-  activeRef.current = active;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -78,8 +74,7 @@ export function Globe({
 
     let raf = 0;
     const frame = () => {
-      const spinning =
-        !reduce && autoRotate.current && activeRef.current === null && !isDragging.current;
+      const spinning = !reduce && autoRotate.current && !isDragging.current;
       if (spinning) phiRef.current += 0.0035;
 
       globe.update({
@@ -89,7 +84,7 @@ export function Globe({
         height: widthRef.current * 2,
       });
 
-      // Project each marker onto the 2D canvas so a DOM hotspot can track it.
+      // Project each marker onto the 2D canvas so the info card can track it.
       const size = widthRef.current;
       const R = size * GLOBE_RADIUS;
       const cx = size / 2;
@@ -100,7 +95,7 @@ export function Globe({
       const st = Math.sin(THETA);
 
       for (let i = 0; i < markers.length; i++) {
-        const el = hotspotRefs.current[i];
+        const el = cardRefs.current[i];
         if (!el) continue;
         const m = markers[i];
         const latR = m.lat * DEG;
@@ -117,7 +112,7 @@ export function Globe({
         const y2 = y * ct - z1 * st;
         const z2 = y * st + z1 * ct;
         // COBE renders the marker on a sphere of radius MARKER_RADIUS, not the
-        // unit sphere — scale before projecting or the hotspot drifts off the dot.
+        // unit sphere — scale before projecting or the card drifts off the pin.
         const rx = x1 * MARKER_RADIUS;
         const ry = y2 * MARKER_RADIUS;
         const sx = cx + rx * R;
@@ -126,15 +121,10 @@ export function Globe({
         // shown near the silhouette edge so limb markers don't flicker.
         const front = z2 >= 0 || rx * rx + ry * ry >= 0.64;
 
-        el.style.transform = `translate(-50%,-50%) translate(${sx}px, ${sy}px)`;
+        // Card sits just above its marker, like a pinned map label — the card
+        // itself is the marker now, not a dot you have to hover to reveal it.
+        el.style.transform = `translate(-50%,-100%) translate(${sx}px, ${sy - 10}px)`;
         el.style.opacity = front ? "1" : "0";
-        el.style.pointerEvents = front ? "auto" : "none";
-
-        // Keep the open tooltip pinned above its marker.
-        if (activeRef.current === i && tooltipRef.current) {
-          tooltipRef.current.style.transform = `translate(-50%,-100%) translate(${sx}px, ${sy - 18}px)`;
-          tooltipRef.current.style.opacity = front ? "1" : "0";
-        }
       }
 
       raf = requestAnimationFrame(frame);
@@ -179,8 +169,6 @@ export function Globe({
     };
   }, [markers]);
 
-  const activeMarker = active !== null ? markers[active] : null;
-
   return (
     <div className={`relative ${className}`}>
       <canvas
@@ -198,67 +186,41 @@ export function Globe({
         aria-label="Interactive globe marking C&T offices in India, the UAE and Canada"
       />
 
-      {/* Interactive hotspots — invisible hit-areas that track COBE's own dots;
-          a ring + tooltip reveal on hover/focus. */}
+      {/* Office cards — pinned directly to each marker's projected position,
+          always visible (no hover/click needed to reveal them). */}
       <div className="pointer-events-none absolute inset-0">
-        {markers.map((m, i) => {
-          const on = active === i;
-          return (
-            <button
-              key={m.name}
-              ref={(el) => {
-                hotspotRefs.current[i] = el;
-              }}
-              type="button"
-              onMouseEnter={() => setActive(i)}
-              onMouseLeave={() => setActive((a) => (a === i ? null : a))}
-              onFocus={() => setActive(i)}
-              onBlur={() => setActive((a) => (a === i ? null : a))}
-              onClick={() => setActive((a) => (a === i ? null : i))}
-              aria-label={`${m.name}, ${m.role ?? "office"}`}
-              className="absolute left-0 top-0 flex h-8 w-8 items-center justify-center rounded-full"
-              style={{ opacity: 0 }}
-            >
-              <span
-                className={`rounded-full transition-all duration-300 ${
-                  on
-                    ? "h-4 w-4 bg-green ring-4 ring-green/30"
-                    : "h-3.5 w-3.5 ring-2 ring-green/60"
-                }`}
-              />
-            </button>
-          );
-        })}
-
-        {/* Tooltip — positioned by the frame loop above the active marker. */}
-        {activeMarker && (
+        {markers.map((m, i) => (
           <div
-            ref={tooltipRef}
-            className="absolute left-0 top-0 z-30 w-max max-w-[15rem] rounded-2xl border border-line bg-paper/95 px-4 py-3 text-left shadow-[0_20px_50px_-24px_rgba(15,43,35,0.6)] backdrop-blur-sm"
-            style={{ opacity: 0 }}
-            role="status"
+            key={m.name}
+            ref={(el) => {
+              cardRefs.current[i] = el;
+            }}
+            role="group"
+            aria-label={`${m.name}, ${m.role ?? "office"}`}
+            className="absolute left-0 top-0 w-max max-w-[10.5rem] rounded-2xl border border-line bg-paper/95 px-3.5 py-2.5 text-left shadow-[0_16px_40px_-20px_rgba(15,43,35,0.55)] backdrop-blur-sm transition-opacity duration-300"
           >
-            <p className="font-mono text-[0.58rem] uppercase tracking-[0.18em] text-green-dark">
-              {activeMarker.role ?? "Office"}
+            <p className="flex items-center gap-1.5 font-mono text-[0.56rem] uppercase tracking-[0.16em] text-green-dark">
+              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-green" />
+              {m.role ?? "Office"}
             </p>
-            <p className="mt-1 font-display text-base font-semibold leading-tight text-ink">
-              {activeMarker.name}
+            <p className="mt-1 font-display text-sm font-semibold leading-tight text-ink">
+              {m.name}
             </p>
-            {activeMarker.entities && activeMarker.entities.length > 0 && (
-              <ul className="mt-2 space-y-1">
-                {activeMarker.entities.map((e) => (
+            {m.entities && m.entities.length > 0 && (
+              <ul className="mt-1.5 space-y-1">
+                {m.entities.map((e) => (
                   <li
                     key={e}
-                    className="flex items-start gap-2 text-[0.8rem] leading-snug text-ink-dim"
+                    className="flex items-start gap-1.5 text-[0.68rem] leading-snug text-ink-dim"
                   >
-                    <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-green" />
+                    <span className="mt-1 h-1 w-1 shrink-0 rounded-full bg-green" />
                     {e}
                   </li>
                 ))}
               </ul>
             )}
           </div>
-        )}
+        ))}
       </div>
     </div>
   );
