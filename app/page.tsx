@@ -2,7 +2,6 @@ import { Hero } from "@/components/sections/Hero";
 import { WhoWeAre } from "@/components/sections/WhoWeAre";
 import { Stats } from "@/components/sections/Stats";
 import { Divisions } from "@/components/sections/Divisions";
-import { Difference } from "@/components/sections/Difference";
 import { Services } from "@/components/sections/Services";
 import { Projects } from "@/components/sections/Projects";
 import { Clients } from "@/components/sections/Clients";
@@ -47,11 +46,10 @@ export default async function Home() {
       <Hero />
       <WhoWeAre />
       <Stats />
-      {/* Divisions → services → proof: the two divisions first (how the firm
-          is organised), then the services, then the case studies. */}
+      {/* Divisions → services → featured work: the two divisions first (how the
+          firm is organised), then the services, then the projects showcase. */}
       <Divisions divisions={divisions} />
       <Services services={services} />
-      <Difference />
       <Projects />
 
       {/* Off-white → green scrubbed colour zone for the social-proof block. */}

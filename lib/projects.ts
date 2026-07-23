@@ -215,13 +215,13 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: "bial-bangalore",
-    name: "BIAL, Bangalore",
+    name: "International Airport, South India",
     tagline: "MEP Design · BIM LOD 300 · AECOM",
     heroImage: "/projects/bial-bangalore.jpg",
     description: [
       {
         type: "p",
-        text: "C&T provided MEP design and BIM services for BIAL in Bangalore, working for AECOM on the mechanical, electrical and public-health systems of the airport development.",
+        text: "C&T provided MEP design and BIM services for a major international airport in South India, working for AECOM on the mechanical, electrical and public-health systems of the airport development.",
       },
       {
         type: "p",
@@ -242,12 +242,12 @@ export const PROJECTS: Project[] = [
       { label: "Client", value: "AECOM" },
       { label: "Type", value: "Airport" },
       { label: "Services", value: "MEP Design · BIM LOD 300" },
-      { label: "Location", value: "Bangalore, India" },
+      { label: "Location", value: "South India" },
       { label: "Division", value: "Buildings & Infrastructure" },
     ],
     personnel: [],
     gallery: [
-      { image: "/projects/bial-bangalore.jpg", span: "lg", alt: "BIAL airport" },
+      { image: "/projects/bial-bangalore.jpg", span: "lg", alt: "Airport terminal" },
       { image: "/airport.jpg", span: "tall", alt: "Airport terminal" },
       { image: "/mep-engineering-design.jpg", span: "sm", alt: "MEP design" },
       { image: "/bim-and-3d-modelling.jpg", span: "sm", alt: "LOD 300 BIM model" },
@@ -781,17 +781,20 @@ export type PortfolioItem = {
 };
 
 export const PORTFOLIO: PortfolioItem[] = [
+  // Front-loaded flagship work (surfaced first on /projects and the division grids).
+  { name: "Mall of Muscat, Oman", meta: "MEP Design · 1.8M sqft · EIDC · 2016", image: "/projects/mall-of-muscat.jpeg", division: "building", industries: ["commercial-mercantile"] },
+  { name: "Muscat Cargo, Oman", meta: "MEP Design & BIM LOD 300 · Commercial · EIDC/J&P", image: "/projects/muscat-cargo-oman.jpg", division: "building", industries: ["commercial-mercantile"] },
+  { name: "Compression 4-NFPS", meta: "Process Piping · Offshore · Qatar Energy", image: "/projects/Compression-4-NFPS.jpeg", division: "oil-and-gas" },
+  { name: "Vega Tower, Dubai", meta: "MEP Design & BIM · LOD 400", image: "/bim-models/vega-full-3d.jpg", division: "building", industries: ["high-rise-buildings"] },
+  { name: "Electra Tower", meta: "High-rise Tower", image: "/projects/electra-tower.jpg", division: "building", industries: ["high-rise-buildings"] },
+
   { name: "EXPO 2020 Campus, Dubai", meta: "BIM · Plant Rooms LOD 400 · 300,000 m² · 2019", image: "/projects/expocampus.jpg", division: "building", industries: ["commercial-mercantile"] },
   { name: "Major Airport, South India", meta: "MEP Design & BIM · 163,000 m² · South India", image: "/projects/airport-terminal-case-study.jpg", division: "building", industries: ["aviation-airports"] },
   { name: "Calinova 2.4 MW Data Centre", meta: "MEP Design & BIM · Calicut", image: "/projects/calinova-case-study.jpg", division: "building", industries: ["data-centres"] },
   { name: "Yamal LNG, Russia", meta: "Detailed Engineering · 3D · TECHNIP", image: "/projects/yamal.webp", division: "oil-and-gas" },
-  { name: "BIAL, Bangalore", meta: "MEP Design · BIM LOD 300 · AECOM", image: "/projects/bial-bangalore.jpg", division: "building", industries: ["aviation-airports"] },
+  { name: "International Airport, South India", meta: "MEP Design · BIM LOD 300 · AECOM", image: "/projects/bial-bangalore.jpg", division: "building", industries: ["aviation-airports"] },
   { name: "Duqm Refinery, Oman", meta: "Detailed Engineering · LOD 500 · PETROFAC", image: "/projects/duqm-refinery.jpeg", division: "oil-and-gas" },
-  { name: "Compression 4-NFPS", meta: "Process Piping · Offshore · Qatar Energy", image: "/projects/Compression-4-NFPS.jpeg", division: "oil-and-gas" },
   { name: "Balwin 4 (2 GW)", meta: "HVAC & E&I Design · Offshore Platform · Dry Dock World", image: "/bim-models/whp13n-navis-model.png", division: "oil-and-gas" },
-  { name: "Vega Tower, Dubai", meta: "MEP Design & BIM · LOD 400", image: "/bim-models/vega-full-3d.jpg", division: "building", industries: ["high-rise-buildings"] },
-  { name: "Muscat Cargo, Oman", meta: "MEP Design & BIM LOD 300 · Commercial · EIDC/J&P", image: "/projects/muscat-cargo-oman.jpg", division: "building", industries: ["commercial-mercantile"] },
-  { name: "Mall of Muscat, Oman", meta: "MEP Design · 1.8M sqft · EIDC · 2016", image: "/projects/mall-of-muscat.jpeg", division: "building", industries: ["commercial-mercantile"] },
   { name: "Al Khoud Mall, Oman", meta: "MEP Design · 100,000 m² · EIDC · 2017", division: "building", industries: ["commercial-mercantile"] },
   { name: "Emaar District Cooling Plant, Dubai", meta: "BIM LOD 500 · Voltas · 2020", image: "/projects/District-Cooling-Plant-emaar.jpg", division: "building", industries: ["chiller-plants"] },
   { name: "AHAD Tower, Dubai", meta: "MEP Design · 5B+G+31 · VX Studio · 2018", image: "/projects/ahad-tower-dubai.jpg", division: "building", industries: ["high-rise-buildings"] },
@@ -830,7 +833,7 @@ export const PORTFOLIO: PortfolioItem[] = [
   // above — NDA, name withheld. Rows 3, 13, 16, 17 (Kempegowda/Bangalore,
   // NEOM NER & WICR, CBD Qatar, Emaar DCP) match existing entries and are
   // skipped rather than duplicated. Card-only, no photos yet.
-  { name: "MOPA Airport, Goa", meta: "HVAC Commissioning · GMR · 2024", division: "building", industries: ["aviation-airports"] },
+  { name: "Major Airport, West India", meta: "HVAC Commissioning · GMR · 2024", division: "building", industries: ["aviation-airports"] },
   { name: "Hospitals, Schools & Offices, Kerala", meta: "BIM · Govt of Kerala · 2024", image: "/projects/kerala-hospital.avif", division: "building", industries: ["hospitals", "offices"] },
   { name: "Man Industries, KSA", meta: "MEP Design & BIM · Man Industry, KSA · 2024", image: "/projects/man-industry.webp", division: "building", industries: ["industrial"] },
   { name: "Oman Botanical Garden", meta: "As-Built BIM · Bhawans Engineering · 2024", image: "/projects/oman-botanic.webp", division: "building", industries: ["infrastructure-town-planning"] },

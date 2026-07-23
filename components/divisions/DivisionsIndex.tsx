@@ -19,17 +19,18 @@ export function DivisionsIndex({ divisions }: { divisions: Division[] }) {
             backgroundSize: "56px 56px",
           }}
         />
-        <div className="relative mx-auto max-w-[1600px] px-6 pb-16 pt-36 md:px-10 md:pb-24 md:pt-44">
-          <h1 className="max-w-4xl font-display text-[clamp(2rem,1rem+3.5vw,3.5rem)] font-semibold leading-[1.06] tracking-[-0.025em]">
+        <div className="relative mx-auto max-w-[1600px] px-6 pb-16 pt-36 text-center md:px-10 md:pb-24 md:pt-44">
+          <h1 className="mx-auto max-w-4xl font-display text-[clamp(2rem,1rem+3.5vw,3.5rem)] font-semibold leading-[1.06] tracking-[-0.025em]">
             What we <span className="text-green-dark">do</span>
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-dim">
-            C&amp;T delivers MEP engineering, BIM, drafting and consultancy
-            through two divisions with dedicated teams. Choose a practice to see
-            the services, scope and projects it delivers.
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-ink-dim">
+            C&amp;T delivers architectural, structural and MEP engineering, BIM,
+            drafting and consultancy through two divisions with dedicated teams.
+            Choose a practice to see the services, scope and projects it
+            delivers.
           </p>
 
-          <div className="mt-14 flex flex-col gap-6 md:mt-16 md:flex-row">
+          <div className="mt-14 flex flex-col gap-6 text-left md:mt-16 md:flex-row">
             {divisions.map((d) => (
               <Link
                 key={d.slug}

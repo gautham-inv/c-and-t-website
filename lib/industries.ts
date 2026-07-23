@@ -10,26 +10,29 @@
 
 export type Industry = { slug: string; label: string };
 
+// Order matters: this drives the "Sectors we serve" chip order on the building
+// division page. High-rise leads; the strong, project-backed sectors sit up
+// front; hospitality / interior fitouts / base build / roads / infrastructure
+// are pushed to the back. (Corporate Interior Fitouts removed.)
 export const INDUSTRIES: Industry[] = [
+  { slug: "high-rise-buildings", label: "High Rise Buildings" },
   { slug: "commercial-mercantile", label: "Commercial & Mercantile" },
-  { slug: "offices", label: "Offices" },
-  { slug: "hospitals", label: "Hospitals" },
-  { slug: "hospitality", label: "Hospitality" },
-  { slug: "interior-fitouts", label: "Interior Fitouts" },
-  { slug: "pumping-stations", label: "Pumping stations" },
-  { slug: "chiller-plants", label: "Chiller plants" },
-  { slug: "base-build", label: "Base Build" },
-  { slug: "corporate-interior-fitouts", label: "Corporate Interior Fitouts" },
-  { slug: "residential", label: "Residential" },
   { slug: "data-centres", label: "Data Centres" },
   { slug: "aviation-airports", label: "Aviation (Airports)" },
-  { slug: "roads-transportation", label: "Roads & Transportation" },
+  { slug: "hospitals", label: "Hospitals" },
+  { slug: "offices", label: "Offices" },
+  { slug: "residential", label: "Residential" },
   { slug: "industrial", label: "Industrial" },
-  { slug: "infrastructure-town-planning", label: "Infrastructure & Town planning" },
-  { slug: "high-rise-buildings", label: "High Rise Buildings" },
   { slug: "factories", label: "Factories" },
   { slug: "manufacturing-centres", label: "Manufacturing centres" },
   { slug: "laboratories", label: "Laboratories" },
+  { slug: "chiller-plants", label: "Chiller plants" },
+  { slug: "pumping-stations", label: "Pumping stations" },
+  { slug: "hospitality", label: "Hospitality" },
+  { slug: "interior-fitouts", label: "Interior Fitouts" },
+  { slug: "base-build", label: "Base Build" },
+  { slug: "roads-transportation", label: "Roads & Transportation" },
+  { slug: "infrastructure-town-planning", label: "Infrastructure & Town planning" },
 ];
 
 export function getIndustry(slug: string): Industry | undefined {

@@ -36,7 +36,7 @@ export const DIVISIONS: Division[] = [
     name: "Buildings & Infrastructure",
     shortName: "Buildings & Infrastructure",
     tagline:
-      "MEP design and BIM coordination for the buildings and infrastructure the world depends on.",
+      "Overall design, from concept to turnkey, and BIM coordination for the buildings and infrastructure the world depends on.",
     image: "/building-division.jpg",
     overview: [
       "Our Buildings & Infrastructure team designs the mechanical, electrical and public-health systems for hyperscale data centres, international airport terminals, towers, malls and industrial campuses, keeping complex, systems-dense facilities running.",
@@ -50,12 +50,11 @@ export const DIVISIONS: Division[] = [
     serviceSlugs: [
       "mep",
       "bim",
-      "clash",
+      "cobie",
       "cad",
       "cfd",
       "mto",
       "walkthrough",
-      "cobie",
       "dpr",
       "pmo",
       "pmc",
@@ -68,7 +67,7 @@ export const DIVISIONS: Division[] = [
     faqs: [
       {
         q: "Do you work directly with owners or with the lead consultant?",
-        a: "Both. On our South India airport terminal project we delivered design and BIM directly; on BIAL Bangalore we worked as the MEP and BIM partner to AECOM. We adapt to whichever delivery model the project runs on.",
+        a: "Both. On our South India airport terminal project we delivered design and BIM directly; on another major South India airport we worked as the MEP and BIM partner to AECOM. We adapt to whichever delivery model the project runs on.",
       },
       {
         q: "What level of BIM detail do you deliver for buildings?",

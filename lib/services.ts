@@ -38,7 +38,7 @@ export type Service = {
 export const SERVICES: Service[] = [
   {
     slug: "mep",
-    name: "MEP Engineering Design",
+    name: "Multidisciplinary Engineering Design",
     image: "/mep-engineering-design.jpg",
     blurb: "Multidiscipline mechanical, electrical and public-health design.",
     featured: true,
@@ -95,9 +95,11 @@ export const SERVICES: Service[] = [
       building: {
         subDisciplines: [
           "LOD 100–500 modelling",
+          "Navisworks clash runs",
           "Clash coordination & detection reports",
+          "Constructability review",
         ],
-        body: "Federated Revit models spanning LOD 100 through LOD 500 give architecture, structure and services one coordinated source of truth across a building.",
+        body: "Federated Revit models spanning LOD 100 through LOD 500 give architecture, structure and services one coordinated source of truth. Every service route is clash-checked in Navisworks before it reaches site, so dense ceilings and plant rooms install right the first time.",
       },
       "oil-and-gas": {
         subDisciplines: [
@@ -148,7 +150,7 @@ export const SERVICES: Service[] = [
           "Shop drawings",
           "As-built drawings",
         ],
-        body: "2D CAD drawings across the full project lifecycle: concept and schematic design drawings, GFC/IFC detail drawings, shop drawings and as-builts, drafted in AutoCAD alongside the coordinated BIM model.",
+        body: "2D CAD drawings across the full project lifecycle: concept and schematic design drawings, GFC/IFC detail drawings, shop drawings and as-builts, drafted in AutoCAD to project and client standards.",
       },
       "oil-and-gas": {
         subDisciplines: [
@@ -170,9 +172,7 @@ export const SERVICES: Service[] = [
     byDivision: {
       building: {
         subDisciplines: [
-          "CFD Analysis",
-          "Hydraulic calculations",
-          "ETAP power system studies",
+          "Specialised services: CFD analysis, hydraulic calculations & ETAP power-system studies",
         ],
         body: "CFD analysis validates cooling, comfort and airflow performance before any equipment is energised, backed by hydraulic calculations and ETAP power-system studies where the project needs them.",
       },
@@ -337,11 +337,11 @@ export const SERVICES: Service[] = [
     byDivision: {
       building: {
         subDisciplines: [
-          "Design review",
-          "Code compliance check",
-          "Constructability check",
+          "Overall design review",
+          "Value engineering",
+          "Design gap analysis",
         ],
-        body: "An independent technical review of MEP designs before they reach approval or site, checking code compliance, coordination and constructability so issues surface on paper, not on site.",
+        body: "An independent technical review of the overall design before it reaches approval or site — covering value engineering and design gap analysis so issues surface on paper, not on site.",
       },
       "oil-and-gas": {
         subDisciplines: [
@@ -412,7 +412,6 @@ export const SERVICES: Service[] = [
           "Design engineers",
           "CAD draftsmen",
           "BIM modellers",
-          "Flexible deployment terms",
         ],
         body: "Engineers, draftsmen and BIM modellers deployed directly into a client's own team on flexible terms, for programmes that need extra capacity without a long hiring cycle.",
       },

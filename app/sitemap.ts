@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getDivisions, getProjectSlugs, getJobOpeningSlugs } from "@/sanity/lib/data";
+import { getDivisions, getJobOpeningSlugs } from "@/sanity/lib/data";
 
 export const dynamic = "force-static";
 
@@ -22,9 +22,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   try {
-    const [divisions, projectSlugs, jobSlugs] = await Promise.all([
+    const [divisions, jobSlugs] = await Promise.all([
       getDivisions(),
-      getProjectSlugs(),
       getJobOpeningSlugs(),
     ]);
 
@@ -36,15 +35,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     }));
 
-    // 3. Project case study pages
-    const projectRoutes = (projectSlugs ?? []).map((slug) => ({
-      url: `${baseUrl}/projects/${slug}`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    }));
-
-    // 4. Job opening pages
+    // 3. Job opening pages
     const jobRoutes = (jobSlugs ?? []).map((slug) => ({
       url: `${baseUrl}/careers/${slug}`,
       lastModified: new Date(),
@@ -52,12 +43,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.6,
     }));
 
-    return [
-      ...staticRoutes,
-      ...divisionRoutes,
-      ...projectRoutes,
-      ...jobRoutes,
-    ];
+    return [...staticRoutes, ...divisionRoutes, ...jobRoutes];
   } catch (error) {
     console.error("Error generating sitemap:", error);
     return staticRoutes;

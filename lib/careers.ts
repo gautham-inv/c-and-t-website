@@ -32,8 +32,8 @@ export const REASONS: Reason[] = [
     body: "Airports, high-rise towers, refineries and data centres: the kind of work that defines skylines and careers.",
   },
   {
-    title: "Sustainability at the core",
-    body: "Every asset we engineer is tuned for ESG-aligned, long-term performance. We build for the planet, not just the brief.",
+    title: "Exposure across sectors",
+    body: "From airports, data centres and high-rise towers to refineries, hospitals and malls, you work across a genuinely broad range of sectors, widening your engineering range with every project.",
   },
   {
     title: "An inclusive culture",
@@ -292,11 +292,9 @@ export const CELEBRATION_PHOTOS: CelebrationPhoto[] = [
   { image: "/celebrations/onam-2024-1.jpg", alt: "Onam 2024 celebration, team photo", span: "lg" },
   { image: "/celebrations/christmas-2025-1.jpg", alt: "Christmas 2025 celebration", span: "tall" },
   { image: "/celebrations/office-inauguration-1.jpg", alt: "Office inauguration ribbon cutting", span: "tall" },
-  { image: "/celebrations/christmas-2025-2.jpg", alt: "Christmas 2025 cake cutting", span: "wide" },
-  { image: "/celebrations/office-inauguration-2.jpg", alt: "New office space, inauguration day", span: "wide" },
-  { image: "/celebrations/onam-2024-2.jpg", alt: "Onam 2024 celebration, pookalam", span: "sm" },
-  { image: "/celebrations/christmas-2025-3.jpg", alt: "Christmas 2025 celebration, team", span: "sm" },
-  { image: "/celebrations/onam-2024-3.jpg", alt: "Onam 2024 celebration", span: "sm" },
-  { image: "/celebrations/christmas-2025-4.jpg", alt: "Christmas 2025 celebration", span: "sm" },
+  { image: "/celebrations/christmas-2025-2.jpg", alt: "Christmas 2025 celebration", span: "wide" },
+  { image: "/celebrations/office-inauguration-2.jpg", alt: "New office space, inauguration day", span: "sm" },
   { image: "/celebrations/office-inauguration-3.jpg", alt: "Office inauguration celebration", span: "sm" },
+  { image: "/celebrations/christmas-2025-3.jpg", alt: "Christmas 2025 celebration, team", span: "wide" },
+  { image: "/celebrations/office-inauguration-4.jpg", alt: "Office inauguration celebration", span: "sm" },
 ];

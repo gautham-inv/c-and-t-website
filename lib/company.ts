@@ -32,24 +32,12 @@ export const VALUES: Value[] = [
     body: "Honest, principled conduct in every engagement, the standard our clients and partners rely on.",
   },
   {
-    name: "Legal Compliance",
-    body: "We work within the letter and the spirit of the law in every market we operate in.",
-  },
-  {
-    name: "Transparency",
-    body: "Clear, open dealings with clients, partners and our own team, without hidden terms or surprises.",
-  },
-  {
     name: "Integrity",
     body: "We do what we say and say what we mean, holding the line even when no one is watching.",
   },
   {
     name: "Growth & Development",
     body: "We enjoy the journey, investing in our people so they grow alongside the practice.",
-  },
-  {
-    name: "Share & Care",
-    body: "We share knowledge and success, and care for the people and communities our work serves.",
   },
 ];
 

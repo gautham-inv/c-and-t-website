@@ -185,41 +185,17 @@ export function CareersView({
         </div>
       </section>
 
-      {/* ── 4. Team mosaic ── */}
-      <section data-reveal className="bg-surface">
-        <div className="mx-auto max-w-[1600px] px-6 py-16 md:px-10 md:py-24">
-          <p data-up className="label text-green-dark">
-            Life at C&amp;T
-          </p>
-          <div data-up className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-4">
-            {careers.teamPhotos.map((src) => (
-              <div
-                key={src}
-                className="group relative aspect-[4/5] overflow-hidden rounded-xl bg-stone"
-              >
-                <img
-                  src={src}
-                  alt=""
-                  loading="lazy"
-                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── 5. Celebrations gallery — same bento layout as a project gallery ── */}
+      {/* ── 4. Life at C&T — celebrations gallery (bento + lightbox) ── */}
       <BentoGallery
         heading={
           <>
-            Celebrating <span className="text-green-dark">together</span>
+            Life at <span className="text-green-dark">C&amp;T</span>
           </>
         }
         items={careers.celebrationPhotos}
       />
 
-      {/* ── 6. Openings — cards → /careers/[slug] ── */}
+      {/* ── 5. Openings — cards → /careers/[slug] ── */}
       <OpeningsGrid openings={openings} />
     </div>
   );

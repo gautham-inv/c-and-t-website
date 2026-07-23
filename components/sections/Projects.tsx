@@ -5,7 +5,6 @@ import { ArrowUpRight, ArrowLeft, ArrowRight } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { projectSlug } from "@/lib/projects";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -189,15 +188,14 @@ export function Projects() {
             {PROJECTS.map((p, i) => {
               const c = PALETTE[i % PALETTE.length];
               const sizeConfig = SIZES[p.size as keyof typeof SIZES] || SIZES.standard;
-              const slug = projectSlug(p.name);
               const cardClass = `group relative flex h-[26rem] w-[82vw] shrink-0 snap-start flex-col overflow-hidden rounded-[1.75rem] p-8 md:p-10 ${c.bg} ${c.text} ${sizeConfig.card}`;
-              const inner = (
-                <>
-                  {slug && (
-                    <span className="absolute right-7 top-7 inline-flex h-9 w-9 items-center justify-center rounded-full border border-current/30 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                      <ArrowUpRight className="h-4 w-4" strokeWidth={1.75} />
-                    </span>
-                  )}
+              // Projects no longer have detail pages — each card links to the
+              // /projects index rather than a per-project route.
+              return (
+                <a key={p.name} data-card href="/projects" className={cardClass}>
+                  <span className="absolute right-7 top-7 inline-flex h-9 w-9 items-center justify-center rounded-full border border-current/30 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                    <ArrowUpRight className="h-4 w-4" strokeWidth={1.75} />
+                  </span>
                   <h3 className="max-w-[74%] font-display text-[clamp(1.6rem,1rem+1.5vw,2.6rem)] font-medium leading-[1.08] tracking-[-0.01em]">
                     {p.name}
                   </h3>
@@ -222,16 +220,7 @@ export function Projects() {
                       </div>
                     </div>
                   </div>
-                </>
-              );
-              return slug ? (
-                <a key={p.name} data-card href={`/projects/${slug}`} className={cardClass}>
-                  {inner}
                 </a>
-              ) : (
-                <article key={p.name} data-card className={cardClass}>
-                  {inner}
-                </article>
               );
             })}
           </div>

@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { useSearchParams } from "next/navigation";
-import { ArrowUpRight, X } from "lucide-react";
+import { X } from "lucide-react";
 import type { PortfolioCard } from "@/sanity/lib/data";
 import { getIndustry } from "@/lib/industries";
 
@@ -46,11 +46,7 @@ export function ProjectsIndex({ items }: { items: PortfolioCard[] }) {
               </>
             )}
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-ink-dim md:text-xl">
-            Airports, data centres, refineries and offshore platforms,
-            engineered by our Buildings &amp; Infrastructure and Oil &amp; Gas
-            teams.
-          </p>
+          
 
           {industry && (
             <div className="mt-7 flex justify-center">
@@ -83,79 +79,64 @@ export function ProjectsIndex({ items }: { items: PortfolioCard[] }) {
             <div className="grid auto-rows-[clamp(19rem,30vw,27rem)] grid-flow-dense grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 md:gap-6">
               {filtered.map((p, i) => {
                 const wide = SPANS[i % SPANS.length] === 2;
-                const slug = p.slug;
                 // col-span-2 is sm+ only — unscoped it would force an implicit
                 // extra column on the 1-col mobile grid, making "wide" cards
                 // overflow wider than the rest instead of matching their size.
                 const cls = `group relative block overflow-hidden rounded-2xl bg-stone col-span-1 ${
                   wide ? "sm:col-span-2" : ""
                 }`;
-                const inner = (
-                  <>
+                // Photo cards hide their metadata and reveal it on hover/focus
+                // (leadership-style wipe) — no detail page to link to. Cards
+                // without a photo keep the branded blueprint look with the
+                // label always visible, since there's no image to reveal from.
+                return (
+                  <article
+                    key={p.name}
+                    className={cls}
+                    tabIndex={p.image ? 0 : undefined}
+                    aria-label={p.image ? `${p.name} — ${p.meta}` : undefined}
+                  >
                     {p.image ? (
                       <>
                         <img
                           src={p.image}
                           alt={p.name}
                           loading="lazy"
-                          className="absolute inset-0 h-full w-full object-cover transition-transform duration-[800ms] ease-out group-hover:scale-105"
+                          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 motion-reduce:transition-none group-hover:scale-[1.04] group-focus-visible:scale-[1.04]"
                         />
-                        <div
-                          aria-hidden
-                          className="absolute inset-0"
-                          style={{
-                            background:
-                              "linear-gradient(to top, rgba(15,43,35,0.92) 0%, rgba(15,43,35,0.3) 45%, transparent 72%)",
-                          }}
-                        />
+                        <span className="absolute left-4 top-4 h-4 w-4 border-l border-t border-beige/50" />
+                        {/* Hover/focus wipe — metadata rises over the photo. */}
+                        <div className="absolute inset-x-0 bottom-0 translate-y-full bg-gradient-to-t from-ink via-ink/92 to-ink/0 px-5 pb-5 pt-16 transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] motion-reduce:translate-y-0 motion-reduce:transition-none group-hover:translate-y-0 group-focus-visible:translate-y-0">
+                          <p className="font-display text-lg font-medium leading-tight text-paper md:text-xl">
+                            {p.name}
+                          </p>
+                          <p className="mt-1.5 font-mono text-[0.6rem] uppercase tracking-[0.14em] text-paper/60">
+                            {p.meta}
+                          </p>
+                        </div>
                       </>
                     ) : (
-                      // No real photo yet — branded blueprint card, not a borrowed image.
-                      <div
-                        aria-hidden
-                        className="absolute inset-0 opacity-[0.16] transition-transform duration-[800ms] ease-out group-hover:scale-105"
-                        style={{
-                          backgroundImage:
-                            "linear-gradient(to right,#729d35 1px,transparent 1px),linear-gradient(to bottom,#729d35 1px,transparent 1px)",
-                          backgroundSize: "34px 34px",
-                        }}
-                      />
+                      <>
+                        <div
+                          aria-hidden
+                          className="absolute inset-0 opacity-[0.16]"
+                          style={{
+                            backgroundImage:
+                              "linear-gradient(to right,#729d35 1px,transparent 1px),linear-gradient(to bottom,#729d35 1px,transparent 1px)",
+                            backgroundSize: "34px 34px",
+                          }}
+                        />
+                        <span className="absolute left-4 top-4 h-4 w-4 border-l border-t border-beige/50" />
+                        <div className="absolute inset-x-5 bottom-5 text-ink">
+                          <p className="font-display text-lg font-medium leading-tight md:text-xl">
+                            {p.name}
+                          </p>
+                          <p className="mt-1.5 font-mono text-[0.6rem] uppercase tracking-[0.14em] text-ink-dim">
+                            {p.meta}
+                          </p>
+                        </div>
+                      </>
                     )}
-                    <span className="absolute left-4 top-4 h-4 w-4 border-l border-t border-beige/50" />
-                    <div
-                      className={`absolute inset-x-5 bottom-5 ${
-                        p.image ? "text-paper" : "text-ink"
-                      }`}
-                    >
-                      <p className="font-display text-lg font-medium leading-tight md:text-xl">
-                        {p.name}
-                      </p>
-                      <p
-                        className={`mt-1.5 font-mono text-[0.6rem] uppercase tracking-[0.14em] ${
-                          p.image ? "text-paper/60" : "text-ink-dim"
-                        }`}
-                      >
-                        {p.meta}
-                      </p>
-                      {slug && (
-                        <span className="mt-3 inline-flex items-center gap-1.5 font-mono text-[0.6rem] uppercase tracking-[0.16em] text-green-dark transition-colors duration-300 group-hover:text-green">
-                          View project
-                          <ArrowUpRight
-                            className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                            strokeWidth={1.75}
-                          />
-                        </span>
-                      )}
-                    </div>
-                  </>
-                );
-                return slug ? (
-                  <a key={p.name} href={`/projects/${slug}`} className={cls}>
-                    {inner}
-                  </a>
-                ) : (
-                  <article key={p.name} className={cls}>
-                    {inner}
                   </article>
                 );
               })}

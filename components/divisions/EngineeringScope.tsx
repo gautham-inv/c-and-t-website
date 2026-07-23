@@ -13,11 +13,11 @@ export function EngineeringScope() {
   return (
     <section className="border-t border-line bg-surface">
       <div className="mx-auto max-w-[1600px] px-6 py-20 md:px-10 md:py-28">
-        <div className="grid gap-8 md:grid-cols-[0.8fr_1.2fr] md:gap-16">
+        <div>
           <h2 className="font-display text-[clamp(2rem,1rem+3.5vw,3.5rem)] font-semibold leading-[1.06] tracking-[-0.025em]">
             What we <span className="text-green-dark">engineer</span>
           </h2>
-          <p className="max-w-xl self-end text-lg leading-relaxed text-ink-dim">
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-dim">
             The full engineering, drafting, modelling and consultancy scope both
             divisions deliver, from single systems to complete developments.
           </p>

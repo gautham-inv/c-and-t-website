@@ -23,7 +23,7 @@ const CLIENTS: Client[] = [
   { name: "Technip", logo: "/clients/technip.webp", h: 50, url: "https://www.ten.com/en" },
   { name: "Qatar Energy", logo: "/clients/qatarenergy.webp", h: 56, url: "https://www.qatarenergy.qa" },
   { name: "L&T", logo: "/clients/l&t.png", h: 54, url: "https://www.larsentoubro.com" },
-  { name: "KIIFB", logo: "/clients/kiifb.webp", h: 44, url: "https://www.kiifb.org" },
+  { name: "Centre for Management Development (Govt of Kerala)", logo: "/clients/cmd.png", h: 56, url: "https://cmd.kerala.gov.in" },
   { name: "CINQ", logo: "/clients/cinq.webp", h: 52, url: "https://www.cinq.ae" },
   { name: "ADNOC", logo: "/clients/adnoc.png", h: 42, url: "https://www.adnoc.ae" },
   { name: "AHI Carrier", logo: "/clients/ahicarrier.png", h: 50, url: "https://www.ahi-carrier.com" },

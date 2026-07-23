@@ -206,54 +206,79 @@ export function AboutView({ about }: { about: AboutPageData }) {
         </div>
       </section>
 
-      {/* ── 3. History — two-column ── */}
+      {/* ── 3. CEO's message ── */}
       <section data-reveal className="bg-mist">
         <div className="mx-auto max-w-[1600px] px-6 py-20 md:px-10 md:py-28">
-          <h2
-            data-up
-            className="max-w-3xl font-display text-[clamp(2rem,1rem+3.4vw,3.75rem)] font-semibold leading-[1.05] tracking-[-0.02em]"
-          >
-            <span className="text-ink-dim">Our story</span>
-            <br />
-            from one engineer to a global practice
-          </h2>
-
-          <div className="mt-14 grid gap-10 md:grid-cols-2 md:gap-16">
-            <div data-up className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-stone">
+          <div className="grid gap-10 md:grid-cols-[0.85fr_1.15fr] md:gap-16">
+            <div
+              data-up
+              className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-stone md:sticky md:top-28 md:self-start"
+            >
               <img
-                src="/large-image-who-are-we.jpg"
-                alt="C&T engineering team on site"
+                src="/leadership/jimmy.jpg"
+                alt="Jimmy Bentex, Founder & CEO"
                 loading="lazy"
                 className="absolute inset-0 h-full w-full object-cover"
               />
             </div>
-            <div data-up className="flex flex-col justify-center">
-              <p className="font-display text-[clamp(1.3rem,0.9rem+1.3vw,1.85rem)] font-normal leading-[1.32] tracking-[-0.01em]">
-                C&amp;T began in 2011 as{" "}
-                <span className="text-green-dark">Climate Designers</span>, a
-                single engineer specialising in HVAC. By 2013 it had grown into{" "}
-                <span className="text-green-dark">C&amp;T Consulting Engineers</span>
-                , a full multidiscipline MEP practice.
-              </p>
-              <p className="mt-6 text-lg leading-relaxed text-ink-dim">
-                A professionally managed team of qualified engineers spans
-                design, estimation, execution, commissioning and testing, and
-                delivers complete Infrastructure, Architectural &amp; MEP
-                systems for commercial and industrial projects.
-              </p>
+            <div data-up>
+              <span className="font-mono text-[0.66rem] uppercase tracking-[0.2em] text-green-dark">
+                CEO&apos;s message
+              </span>
+              <div className="mt-6 space-y-5 text-lg leading-relaxed text-ink-dim">
+                <p className="font-display text-[clamp(1.3rem,0.9rem+1.3vw,1.85rem)] font-normal leading-[1.32] tracking-[-0.01em] text-ink">
+                  Greetings from C&amp;T!
+                </p>
+                <p>
+                  Our journey started at a rented office space in 2011, with a
+                  single employee offering HVAC engineering services. Still in
+                  its growth and consolidation phase, the company now has close
+                  to 100 employees across our offices in Thiruvananthapuram,
+                  Kerala, India — including two owned office buildings — and the
+                  UAE, and offers engineering services for the complete MEP
+                  domain, not only in the commercial segment but also in
+                  specialised areas like Oil &amp; Gas, Marine, Renewable Energy
+                  and Data Centres, to name a few, cutting across geographies
+                  including India, the UAE, Qatar, Saudi Arabia, Canada and
+                  Europe.
+                </p>
+                <p>
+                  Our young and energetic team, supported and guided by an
+                  experienced set of senior team members, is capable of rising
+                  to demanding situations and delivering quality outputs within
+                  stipulated timeframes.
+                </p>
+                <p>
+                  Today, clients from various sectors and geographies continue
+                  to trust us with repeat orders.
+                </p>
+              </div>
+              <div className="mt-8 border-t border-line pt-6">
+                <p className="font-display text-lg font-semibold leading-tight text-ink">
+                  Jimmy Bentex
+                </p>
+                <p className="mt-1 font-mono text-[0.66rem] uppercase tracking-[0.16em] text-green-dark">
+                  Founder &amp; CEO
+                </p>
+              </div>
             </div>
           </div>
+        </div>
+      </section>
 
-          {about.isoCertifications.length > 0 && (
+      {/* ── 4. Certifications band — narrow full-width strip ── */}
+      {about.isoCertifications.length > 0 && (
+        <section data-reveal className="border-y border-line bg-surface">
+          <div className="mx-auto max-w-[1600px] px-6 py-10 md:px-10 md:py-12">
             <div
               data-up
-              className="mt-12 flex flex-wrap items-center justify-end gap-x-8 gap-y-5"
+              className="mx-auto flex max-w-4xl flex-wrap items-center justify-between gap-x-8 gap-y-6"
             >
               {about.isoCertifications.map((c) => {
                 const inner = (
                   <>
                     {c.logo && (
-                      <span className="flex h-11 w-11 items-center justify-center overflow-hidden">
+                      <span className="flex h-12 w-12 items-center justify-center overflow-hidden">
                         <img
                           src={c.logo}
                           alt={c.name}
@@ -264,7 +289,7 @@ export function AboutView({ about }: { about: AboutPageData }) {
                         />
                       </span>
                     )}
-                    <span className="font-mono text-[0.62rem] uppercase tracking-[0.12em] text-ink/70 transition-colors group-hover:text-green-dark">
+                    <span className="font-mono text-[0.66rem] uppercase tracking-[0.12em] text-ink/70 transition-colors group-hover:text-green-dark">
                       {c.name}
                     </span>
                   </>
@@ -286,39 +311,12 @@ export function AboutView({ about }: { about: AboutPageData }) {
                 );
               })}
             </div>
-          )}
-
-          <div
-            data-up
-            className="mt-6 grid gap-x-16 gap-y-6 border-t border-line pt-10 md:grid-cols-2"
-          >
-            <p className="text-base leading-relaxed text-ink-dim">
-              Our first clients, Aries Marine and EIDC, are still clients today,
-              a relationship that goes back to the company&apos;s earliest
-              projects.
-            </p>
-            <p className="text-base leading-relaxed text-ink-dim">
-              Today the group spans India, the UAE and Canada, and delivers
-              sustainable, ESG-aligned MEP and BIM services worldwide, built to
-              perform over the life of every asset. The practice is ISO
-              9001:2015 registered and IGBC certified, with team credentials
-              spanning a KSEI Class A Supervisory Licence, IME Chartered
-              Engineering, a KSECBC Energy Simulation Expert Licence and PMP
-              certification.
-            </p>
           </div>
-        </div>
+        </section>
+      )}
 
-      </section>
-
-      {/* ── 4. Journey — horizontal carousel ── */}
-      <section data-reveal className="bg-surface">
-        <div className="mx-auto max-w-[1600px] px-6 py-20 md:px-10 md:py-28">
-          <div data-up>
-            <JourneyTimeline milestones={about.companyMilestones} />
-          </div>
-        </div>
-      </section>
+      {/* ── 5. Journey — full-viewport, scroll-driven timeline ── */}
+      <JourneyTimeline milestones={about.companyMilestones} />
 
       {/* ── 5. Mission → Vision — sticky-pinned stack ── */}
       <MissionVisionStack mission={about.mission} vision={about.vision} />

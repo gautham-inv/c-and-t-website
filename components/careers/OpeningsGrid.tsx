@@ -11,15 +11,9 @@ export function OpeningsGrid({ openings }: { openings: JobOpeningCard[] }) {
   return (
     <section id="openings" className="scroll-mt-28 bg-mist">
       <div className="mx-auto max-w-[1600px] px-6 py-20 md:px-10 md:py-28">
-        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <h2 className="max-w-2xl font-display text-[clamp(1.9rem,1rem+3vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.02em]">
-            Current <span className="text-green-dark">openings</span>
-          </h2>
-          <p className="max-w-sm text-base leading-relaxed text-ink-dim">
-            {openings.length} open role{openings.length === 1 ? "" : "s"} across
-            our teams. Don&apos;t see a fit? We still want to hear from you.
-          </p>
-        </div>
+        <h2 className="max-w-2xl font-display text-[clamp(1.9rem,1rem+3vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.02em]">
+          Current <span className="text-green-dark">openings</span>
+        </h2>
 
         <p className="mt-4 text-sm text-ink-dim">
           Prefer email or a call? Send your CV to{" "}
