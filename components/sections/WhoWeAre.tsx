@@ -128,7 +128,7 @@ export function WhoWeAre() {
                     className="absolute inset-x-0 -top-[28%] h-[156%] bg-[#0d1f16] will-change-transform"
                   >
                     <img
-                      src="/bim-models/rp3s-ducting-layout.png"
+                      src="mep-shop-drawing-services.webp"
                       alt="2D CAD ducting layout drawing"
                       className="h-full w-full object-cover"
                       loading="lazy"
