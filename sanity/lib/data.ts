@@ -34,7 +34,6 @@ import {
   projectSlug,
   type Project,
   type ProjectBlock,
-  type GallerySpan,
 } from "@/lib/projects";
 import { INSIGHTS, type Insight } from "@/lib/insights";
 import { SERVICES, type Service } from "@/lib/services";
@@ -148,6 +147,21 @@ export function getProjectSlugs(): Promise<string[]> {
   );
 }
 
+/** Sanity's `date` field is a raw ISO datetime string (e.g.
+ * "2026-07-01T00:00:00.000Z") — format it into the short, human display
+ * string the fallback data hand-writes (e.g. "Jul 1, 2026"). UTC keeps a
+ * midnight date from shifting a day back in timezones behind UTC. */
+function formatInsightDate(date: string): string {
+  const parsed = new Date(date);
+  if (Number.isNaN(parsed.getTime())) return date;
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(parsed);
+}
+
 export function getInsights(): Promise<Insight[]> {
   return withFallback(
     async () => {
@@ -158,7 +172,7 @@ export function getInsights(): Promise<Insight[]> {
         title: a.title,
         tag: a.tag,
         read: a.read,
-        date: a.date,
+        date: formatInsightDate(a.date),
         image: a.image,
         excerpt: a.excerpt,
         slug: a.slug ?? "",
@@ -211,6 +225,7 @@ export function getInsight(slug: string): Promise<Insight | undefined> {
           if (!r) return fallback;
           return {
             ...r,
+            date: formatInsightDate(r.date),
             href: `/insights/${r.slug}`,
             body: r.body?.length ? portableTextToBlocks(r.body) : undefined,
           };
@@ -376,20 +391,15 @@ const CAREERS_PAGE_FALLBACK: CareersPageData = {
   celebrationPhotos: CELEBRATION_PHOTOS,
 };
 
-/** Layout cycle for celebration photos that come from Sanity without a
- * curated `span` (Studio just uploads plain images) — repeats to fit
- * whatever count is actually uploaded. */
-const CELEBRATION_SPAN_CYCLE: GallerySpan[] = [
-  "lg", "tall", "tall", "wide", "wide", "sm", "sm", "sm", "sm", "sm",
-];
-
 export function getCareersPage(): Promise<CareersPageData> {
   return withFallback(
     () =>
       client
         .fetch<
           (Omit<CareersPageData, "celebrationPhotos"> & {
-            celebrationPhotos?: { image?: string; alt?: string }[] | null;
+            celebrationPhotos?:
+              | { image?: string; alt?: string; width?: number; height?: number }[]
+              | null;
           })
           | null
         >(careersPageQuery)
@@ -400,10 +410,11 @@ export function getCareersPage(): Promise<CareersPageData> {
             ...r,
             teamPhotos: r.teamPhotos ?? TEAM_PHOTOS,
             celebrationPhotos: photos.length
-              ? photos.map((p, i) => ({
+              ? photos.map((p) => ({
                   image: p.image!,
                   alt: p.alt ?? "",
-                  span: CELEBRATION_SPAN_CYCLE[i % CELEBRATION_SPAN_CYCLE.length],
+                  width: p.width ?? 1200,
+                  height: p.height ?? 900,
                 }))
               : CELEBRATION_PHOTOS,
           };

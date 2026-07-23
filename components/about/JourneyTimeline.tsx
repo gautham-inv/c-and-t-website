@@ -35,8 +35,10 @@ export function JourneyTimeline({ milestones }: { milestones: Milestone[] }) {
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const mm = gsap.matchMedia();
 
-      // Desktop + motion: pin the section and scrub the reveal — the line grows
-      // left→right and each milestone column pops in as the line reaches it.
+      // Desktop + motion: pin the section and drive the reveal — the line
+      // grows left→right and each milestone column pops in as the line
+      // reaches it. Progress is clamped to the furthest point reached so
+      // scrolling back up doesn't un-reveal milestones already shown.
       mm.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
         gsap.set(lineH.current, { scaleX: 0, transformOrigin: "left center" });
         // First milestone (2011) is already visible the moment the section is
@@ -45,16 +47,7 @@ export function JourneyTimeline({ milestones }: { milestones: Milestone[] }) {
         for (let i = 1; i < count; i++) {
           gsap.set(`[data-mi="${i}"]`, { opacity: 0, y: 26 });
         }
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: section.current,
-            start: "top top",
-            end: `+=${count * 240}`,
-            scrub: 0.5,
-            pin: true,
-            anticipatePin: 1,
-          },
-        });
+        const tl = gsap.timeline({ paused: true });
         tl.to(lineH.current, { scaleX: 1, ease: "none", duration: count });
         for (let i = 1; i < count; i++) {
           tl.to(
@@ -64,10 +57,24 @@ export function JourneyTimeline({ milestones }: { milestones: Milestone[] }) {
             Math.max(0, i - 0.15),
           );
         }
+
+        let maxProgress = 0;
+        ScrollTrigger.create({
+          trigger: section.current,
+          start: "top top",
+          end: `+=${count * 240}`,
+          pin: true,
+          anticipatePin: 1,
+          onUpdate: (self) => {
+            maxProgress = Math.max(maxProgress, self.progress);
+            tl.progress(maxProgress);
+          },
+        });
       });
 
       // Mobile or reduced motion: no pin. Grow the vertical line on enter and
-      // reveal nodes with a simple stagger; everything ends fully visible.
+      // reveal nodes with a simple stagger, clamped forward-only so scrolling
+      // back up doesn't un-reveal nodes already shown.
       mm.add("(max-width: 767px), (prefers-reduced-motion: reduce)", () => {
         if (reduce) {
           gsap.set(lineV.current, { scaleY: 1 });
@@ -77,13 +84,22 @@ export function JourneyTimeline({ milestones }: { milestones: Milestone[] }) {
         gsap.set(lineV.current, { scaleY: 0, transformOrigin: "top center" });
         gsap.set("[data-mi]", { opacity: 0, y: 20 });
         gsap.set('[data-mi="0"]', { opacity: 1, y: 0 });
-        const tl = gsap.timeline({
-          scrollTrigger: { trigger: section.current, start: "top 70%", end: "bottom 70%", scrub: 0.5 },
-        });
+        const tl = gsap.timeline({ paused: true });
         tl.to(lineV.current, { scaleY: 1, ease: "none", duration: count });
         for (let i = 1; i < count; i++) {
           tl.to(`[data-mi="${i}"]`, { opacity: 1, y: 0, duration: 0.6 }, Math.max(0, i - 0.15));
         }
+
+        let maxProgress = 0;
+        ScrollTrigger.create({
+          trigger: section.current,
+          start: "top 70%",
+          end: "bottom 70%",
+          onUpdate: (self) => {
+            maxProgress = Math.max(maxProgress, self.progress);
+            tl.progress(maxProgress);
+          },
+        });
       });
 
       return () => mm.revert();

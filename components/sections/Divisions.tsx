@@ -31,25 +31,14 @@ export function Divisions({ divisions = DIVISIONS }: { divisions?: Division[] } 
   return (
     <section ref={root} id="divisions" className="scroll-mt-24 bg-paper text-navy">
       <div className="mx-auto max-w-[1600px] px-6 py-16 md:px-10 md:py-20">
-        {/* Heading + intro */}
-        <div className="grid gap-6 md:grid-cols-2 md:items-end md:gap-16">
-          <h2
-            data-up
-            className="font-display text-[clamp(2rem,1rem+3vw,3.6rem)] font-semibold leading-[1.08] tracking-[-0.02em]"
-          >
-            Two practices,{" "}
-            <span className="text-green-dark">one standard</span>
-          </h2>
-          <p
-            data-up
-            className="max-w-xl text-base leading-relaxed text-ink-dim md:text-lg"
-          >
-            Our Buildings &amp; Infrastructure team designs the MEP and BIM
-            behind data centres, airports and industrial facilities. Our Oil
-            &amp; Gas team takes refineries, LNG and offshore work to
-            fabrication detail.
-          </p>
-        </div>
+        {/* Heading */}
+        <h2
+          data-up
+          className="font-display text-[clamp(1.9rem,1rem+3vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.02em]"
+        >
+          Two practices,{" "}
+          <span className="text-green-dark">one standard</span>
+        </h2>
 
         {/* Two division cards */}
         <div className="mt-12 grid gap-6 md:mt-14 md:grid-cols-2 md:gap-8">

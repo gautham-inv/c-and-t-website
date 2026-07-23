@@ -102,7 +102,7 @@ export function ProjectsIndex({ items }: { items: PortfolioCard[] }) {
                           src={p.image}
                           alt={p.name}
                           loading="lazy"
-                          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 motion-reduce:transition-none group-hover:scale-[1.04] group-focus-visible:scale-[1.04]"
+                          className="absolute inset-0 h-full w-full object-cover"
                         />
                         <span className="absolute left-4 top-4 h-4 w-4 border-l border-t border-beige/50" />
                         {/* Hover/focus wipe — metadata rises over the photo. */}

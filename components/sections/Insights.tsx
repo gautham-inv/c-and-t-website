@@ -40,7 +40,7 @@ export function Insights({ insights = INSIGHTS }: { insights?: Insight[] } = {})
           <div>
             <h2
               data-up
-              className="font-display text-[clamp(2rem,1rem+3vw,3.6rem)] font-semibold leading-[1.06] tracking-[-0.02em]"
+              className="font-display text-[clamp(1.9rem,1rem+3vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.02em]"
             >
               Recent <span className="text-green-dark">thinking</span>
             </h2>

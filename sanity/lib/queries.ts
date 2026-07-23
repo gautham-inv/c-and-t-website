@@ -169,7 +169,9 @@ export const careersPageQuery = groq`
     "teamPhotos": teamPhotos[].asset->url,
     "celebrationPhotos": celebrationPhotos[]{
       "image": asset->url,
-      alt
+      alt,
+      "width": asset->metadata.dimensions.width,
+      "height": asset->metadata.dimensions.height
     }
   }
 `;

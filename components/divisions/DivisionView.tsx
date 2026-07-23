@@ -33,7 +33,7 @@ export function DivisionView({
         />
         <div className="relative mx-auto w-full max-w-[1600px] px-6 pb-16 pt-40 md:px-10 md:pb-24">
           <h1
-            className="mt-4 max-w-4xl font-display text-[clamp(2.5rem,1rem+6vw,5.5rem)] font-semibold leading-[1.02] tracking-[-0.025em] text-paper"
+            className="mt-4 max-w-4xl font-display text-[clamp(2.5rem,1rem+5vw,5.5rem)] font-semibold leading-[1.03] tracking-[-0.02em] text-paper"
             style={{ textShadow: "0 2px 30px rgba(9,33,44,0.45)" }}
           >
             {division.name}

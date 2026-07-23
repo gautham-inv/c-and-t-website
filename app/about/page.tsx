@@ -4,9 +4,9 @@ import { WithUs } from "@/components/sections/WithUs";
 import { getAboutPage } from "@/sanity/lib/data";
 
 export const metadata: Metadata = {
-  title: "Who we are | C&T Consulting Engineers",
+  title: "Engineering Excellence, Delivered with Integrity.",
   description:
-    "C&T started as a single-engineer HVAC practice in 2011 and is now an MEP and BIM engineering group with offices in India, the UAE and Canada.",
+    "A professionally managed team of qualified engineers delivering complete Infrastructure, Architectural & MEP systems, from design and BIM coordination through to commissioning.",
   alternates: {
     canonical: "/about",
   },

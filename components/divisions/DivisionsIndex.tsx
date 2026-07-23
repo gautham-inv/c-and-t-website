@@ -20,7 +20,7 @@ export function DivisionsIndex({ divisions }: { divisions: Division[] }) {
           }}
         />
         <div className="relative mx-auto max-w-[1600px] px-6 pb-16 pt-36 text-center md:px-10 md:pb-24 md:pt-44">
-          <h1 className="mx-auto max-w-4xl font-display text-[clamp(2rem,1rem+3.5vw,3.5rem)] font-semibold leading-[1.06] tracking-[-0.025em]">
+          <h1 className="mx-auto max-w-4xl font-display text-[clamp(2.5rem,1rem+5vw,4.5rem)] font-semibold leading-[1.04] tracking-[-0.025em]">
             What we <span className="text-green-dark">do</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-ink-dim">

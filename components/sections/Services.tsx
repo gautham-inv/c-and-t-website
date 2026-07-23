@@ -95,16 +95,10 @@ export function Services({ services = SERVICES }: { services?: Service[] } = {})
 
         {/* ── Right: heading + service grid ── */}
         <div data-up className="flex flex-col justify-center">
-          <h2 className="font-display text-[clamp(2rem,1rem+3vw,3.4rem)] font-semibold leading-[1.06] tracking-[-0.02em]">
+          <h2 className="font-display text-[clamp(1.9rem,1rem+3vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.02em]">
             The disciplines we{" "}
             <span className="text-ink-dim">deliver</span>
           </h2>
-          <p className="mt-5 max-w-xl text-base leading-relaxed text-ink-dim">
-            The same disciplines, delivered by both teams to different scopes:
-            Buildings &amp; Infrastructure and Oil &amp; Gas.
-            <span className="hidden lg:inline"> Hover a service to preview it.</span>
-          </p>
-
           <a
             href="/divisions"
             className="group mt-7 inline-flex w-fit items-center gap-2.5 rounded-full border border-line py-2.5 pl-5 pr-2.5 text-sm font-medium text-navy transition-colors duration-300 hover:border-navy"

@@ -79,7 +79,7 @@ export function Footer({
       <div className="mx-auto max-w-[1600px] px-6 pb-10 pt-4 md:px-10 md:pb-12 md:pt-8">
         <div className="grid gap-14 lg:grid-cols-3 lg:gap-10">
           {/* Tagline */}
-          <h2 className="font-display text-[clamp(2rem,1rem+3vw,3.5rem)] font-semibold leading-[1.05] tracking-[-0.02em]">
+          <h2 className="font-display text-[clamp(1.9rem,1rem+3vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.02em]">
             Precision engineered.
             <br />
             <span className="text-beige-light">Globally delivered.</span>

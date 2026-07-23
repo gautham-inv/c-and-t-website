@@ -130,9 +130,9 @@ export function AboutView({ about }: { about: AboutPageData }) {
             ref={heroCopy}
             className="relative z-20 mx-auto max-w-4xl px-6 pt-[17vh] text-center will-change-transform"
           >
-            <h1 className="mx-auto max-w-3xl font-display text-[clamp(2rem,1rem+3.5vw,3.75rem)] font-semibold leading-[1.05] tracking-[-0.03em]">
-              <span className="text-green-dark">MEP &amp; BIM</span>{" "}
-              engineering, built since 2011.
+            <h1 className="mx-auto max-w-3xl font-display text-[clamp(2.5rem,1rem+5vw,4.5rem)] font-semibold leading-[1.04] tracking-[-0.025em]">
+              Designing with <span className="text-green-dark">Precision</span>.{" "}
+              Delivering <span className="text-green-dark">Lasting Value</span>.
             </h1>
             <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-ink-dim">
               A professionally managed team of qualified engineers delivering

@@ -14,7 +14,7 @@ export function EngineeringScope() {
     <section className="border-t border-line bg-surface">
       <div className="mx-auto max-w-[1600px] px-6 py-20 md:px-10 md:py-28">
         <div>
-          <h2 className="font-display text-[clamp(2rem,1rem+3.5vw,3.5rem)] font-semibold leading-[1.06] tracking-[-0.025em]">
+          <h2 className="font-display text-[clamp(1.9rem,1rem+3vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.02em]">
             What we <span className="text-green-dark">engineer</span>
           </h2>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-dim">

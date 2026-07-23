@@ -110,7 +110,7 @@ export function WhoWeAre() {
                     className="absolute inset-x-0 -top-[18%] h-[136%] bg-[#0a1c25] will-change-transform"
                   >
                     <img
-                      src="/bim-models/3d-view-1.jpeg"
+                      src="who-we-are-pointer.png"
                       alt="3D BIM model of a coordinated MEP plant room"
                       className="h-full w-full object-cover"
                       loading="lazy"

@@ -6,7 +6,6 @@
  * Openings below are PLACEHOLDER roles — edit titles/copy freely, or swap this
  * array for a Sanity `jobOpening` query when the CMS wiring lands site-wide.
  */
-import type { GallerySpan } from "./projects";
 
 export const CAREERS_INTRO =
   "At C&T we are united by a single vision: smart engineering that lasts. With teams across India, the UAE and Canada, our engineers deliver MEP, BIM and CFD work on some of the most demanding projects in the world. Grow with a practice that has been building since 2011.";
@@ -283,18 +282,18 @@ export const TEAM_PHOTOS: string[] = [
 ];
 
 /** Celebrations gallery — real event photos (Christmas, Onam, office
- * inauguration), rendered as a bento grid (same layout as the project
- * gallery). `span` is a curated layout choice for this exact 10-photo set;
- * Sanity-sourced photos beyond these get spans auto-assigned by index. */
-export type CelebrationPhoto = { image: string; alt: string; span: GallerySpan };
+ * inauguration), rendered as a masonry columns layout. `width`/`height` are
+ * each photo's real pixel dimensions — they size the column item at its
+ * true aspect ratio (no cropping) and let the browser reserve space before
+ * the lazy-loaded image arrives, avoiding layout jumps. */
+export type CelebrationPhoto = { image: string; alt: string; width: number; height: number };
 
 export const CELEBRATION_PHOTOS: CelebrationPhoto[] = [
-  { image: "/celebrations/onam-2024-1.jpg", alt: "Onam 2024 celebration, team photo", span: "lg" },
-  { image: "/celebrations/christmas-2025-1.jpg", alt: "Christmas 2025 celebration", span: "tall" },
-  { image: "/celebrations/office-inauguration-1.jpg", alt: "Office inauguration ribbon cutting", span: "tall" },
-  { image: "/celebrations/christmas-2025-2.jpg", alt: "Christmas 2025 celebration", span: "wide" },
-  { image: "/celebrations/office-inauguration-2.jpg", alt: "New office space, inauguration day", span: "sm" },
-  { image: "/celebrations/office-inauguration-3.jpg", alt: "Office inauguration celebration", span: "sm" },
-  { image: "/celebrations/christmas-2025-3.jpg", alt: "Christmas 2025 celebration, team", span: "wide" },
-  { image: "/celebrations/office-inauguration-4.jpg", alt: "Office inauguration celebration", span: "sm" },
+  { image: "/celebrations/christmas-2025-3.jpg", alt: "Christmas 2025 celebration, team", width: 1500, height: 843 },
+  { image: "/celebrations/onam-2024-1.jpg", alt: "Onam 2024 celebration, team photo", width: 1125, height: 1500 },
+  { image: "/celebrations/christmas-2025-2.jpg", alt: "Christmas 2025 celebration", width: 1125, height: 1500 },
+  { image: "/celebrations/office-inauguration-1.jpg", alt: "Office inauguration ribbon cutting", width: 1500, height: 1125 },
+  { image: "/celebrations/office-inauguration-2.jpg", alt: "New office space, inauguration day", width: 1125, height: 1500 },
+  { image: "/celebrations/christmas-2025-1.jpg", alt: "Christmas 2025 celebration", width: 1500, height: 1125 },
+  { image: "/celebrations/office-inauguration-4.jpg", alt: "Office inauguration celebration", width: 1124, height: 1500 },
 ];

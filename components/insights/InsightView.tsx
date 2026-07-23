@@ -16,7 +16,7 @@ export function InsightView({ insight }: { insight: Insight }) {
             backgroundSize: "56px 56px",
           }}
         />
-        <div className="relative mx-auto max-w-[900px] px-6 pb-6 pt-36 md:px-10 md:pt-44">
+        <div className="relative mx-auto max-w-[1100px] px-6 pb-6 pt-26 md:px-10 md:pt-30">
           <a
             href="/insights"
             className="group inline-flex items-center gap-2 font-mono text-[0.68rem] uppercase tracking-[0.16em] text-ink-dim transition-colors duration-200 hover:text-green-dark"
@@ -50,7 +50,7 @@ export function InsightView({ insight }: { insight: Insight }) {
 
       {/* ── Hero image ── */}
       <section className="bg-mist">
-        <div className="mx-auto max-w-[900px] px-6 md:px-10">
+        <div className="mx-auto max-w-[1100px] px-6 md:px-10">
           <div className="relative aspect-[16/9] overflow-hidden rounded-2xl bg-stone">
             <img
               src={insight.image}
@@ -63,7 +63,7 @@ export function InsightView({ insight }: { insight: Insight }) {
 
       {/* ── Body ── */}
       <section className="bg-mist">
-        <div className="mx-auto max-w-[900px] px-6 pb-24 pt-10 md:px-10 md:pb-32">
+        <div className="mx-auto max-w-[1100px] px-6 pb-24 pt-10 md:px-10 md:pb-32">
           {insight.body && insight.body.length > 0 ? (
             <div className="space-y-5">
               <RichBlocks blocks={insight.body} />

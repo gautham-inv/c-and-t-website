@@ -7,7 +7,7 @@ export function ToolsStrip({ tools = TOOLS }: { tools?: Tool[] }) {
   return (
     <section className="border-t border-line bg-mist">
       <div className="mx-auto max-w-[1600px] px-6 py-20 md:px-10 md:py-28">
-        <h2 className="font-display text-[clamp(2rem,1rem+3.5vw,3.5rem)] font-semibold leading-[1.06] tracking-[-0.025em]">
+        <h2 className="font-display text-[clamp(1.9rem,1rem+3vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.02em]">
           Software &amp; tools we <span className="text-green-dark">design in</span>
         </h2>
         <p className="mt-3 max-w-2xl text-sm leading-relaxed text-ink-dim md:text-base">

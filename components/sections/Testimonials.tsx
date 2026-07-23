@@ -55,7 +55,7 @@ export function Testimonials() {
       <div className="mx-auto max-w-[1600px] px-6 py-10 md:px-10 md:py-36">
         <h2
           data-up
-          className="mb-8 font-display text-[clamp(2rem,1rem+3vw,3.6rem)] font-semibold leading-[1.08] tracking-[-0.02em] md:mb-28"
+          className="mb-8 font-display text-[clamp(1.9rem,1rem+3vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.02em] md:mb-28"
         >
           What our clients say
         </h2>

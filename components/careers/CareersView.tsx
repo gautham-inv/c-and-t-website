@@ -55,7 +55,7 @@ export function CareersView({
       {/* ── 1. Hero — full-bleed image + overlaid intro card ── */}
       <section className="relative h-screen overflow-hidden bg-navy">
         <img
-          src="/careers1.avif"
+          src="/careers-hero.png"
           alt="The C&T team at work"
           className="absolute inset-0 h-full w-full object-cover"
         />
@@ -80,7 +80,7 @@ export function CareersView({
               it, so the copy sits directly on the photo (navy wash already
               gives it enough contrast). */}
           <div className="relative max-w-xl lg:rounded-3xl lg:bg-paper/95 lg:p-12 lg:shadow-[0_40px_120px_-45px_rgba(9,33,44,0.6)] lg:ring-1 lg:ring-navy/10 lg:backdrop-blur-sm">
-            <h1 className="font-display text-[clamp(2.25rem,1rem+4vw,4rem)] font-semibold leading-[1.03] tracking-[-0.03em] text-paper lg:text-ink">
+            <h1 className="font-display text-[clamp(2.5rem,1rem+5vw,4.5rem)] font-semibold leading-[1.04] tracking-[-0.025em] text-paper lg:text-ink">
               A new standard of{" "}
               <span className="text-beige-light lg:text-green-dark">
                 engineering
@@ -102,7 +102,7 @@ export function CareersView({
                 />
               </button>
               <button
-                onClick={() => scrollToId("why")}
+                onClick={() => scrollToId("life-at-ct")}
                 className="group inline-flex items-center gap-2 rounded-full border border-paper/40 px-6 py-3 text-sm font-medium tracking-wide text-paper transition-colors duration-300 hover:border-paper hover:bg-paper hover:text-navy lg:border-navy/20 lg:text-navy lg:hover:border-navy lg:hover:bg-navy lg:hover:text-paper"
               >
                 Life at C&amp;T
@@ -187,6 +187,7 @@ export function CareersView({
 
       {/* ── 4. Life at C&T — celebrations gallery (bento + lightbox) ── */}
       <BentoGallery
+        id="life-at-ct"
         heading={
           <>
             Life at <span className="text-green-dark">C&amp;T</span>

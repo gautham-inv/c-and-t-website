@@ -58,7 +58,7 @@ export function Difference() {
         {/* Section heading */}
         <h2
           ref={heading}
-          className="mb-8 max-w-4xl font-display text-[clamp(2rem,1rem+3vw,3.6rem)] font-semibold leading-[1.08] tracking-[-0.02em] md:mb-10"
+          className="mb-8 max-w-4xl font-display text-[clamp(1.9rem,1rem+3vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.02em] md:mb-10"
         >
           Proof in the work:{" "}
           <span className="text-green-dark">featured case studies</span>

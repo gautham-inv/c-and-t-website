@@ -3,23 +3,23 @@
 import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
-import type { GallerySpan } from "@/lib/projects";
 
-export type BentoItem = { image: string; alt?: string; span: GallerySpan };
+export type BentoItem = { image: string; alt?: string; width?: number; height?: number };
 
-// Bento spans → grid placement. Row height is fixed via auto-rows so tall/lg
-// tiles occupy two rows cleanly.
-const SPAN: Record<GallerySpan, string> = {
-  sm: "col-span-1 row-span-1",
-  wide: "col-span-2 row-span-1",
-  tall: "col-span-1 row-span-2",
-  lg: "col-span-2 row-span-2",
-};
-
-/** Shared bento grid + click-to-open lightbox, used by the project gallery
- * and any other photo set that wants the same look (e.g. the careers
- * celebrations gallery). */
-export function BentoGallery({ heading, items }: { heading: ReactNode; items: BentoItem[] }) {
+/** Shared masonry gallery + click-to-open lightbox (e.g. the careers
+ * celebrations gallery). A CSS multi-column layout is used instead of a
+ * fixed-span grid: every photo keeps its own aspect ratio (no cropping) and
+ * items just stack into the shortest column, so there's no span-sequence
+ * that can leave an unfillable gap the way a spanned grid can. */
+export function BentoGallery({
+  heading,
+  items,
+  id,
+}: {
+  heading: ReactNode;
+  items: BentoItem[];
+  id?: string;
+}) {
   const [openAt, setOpenAt] = useState<number | null>(null);
 
   useEffect(() => {
@@ -41,29 +41,31 @@ export function BentoGallery({ heading, items }: { heading: ReactNode; items: Be
   if (items.length === 0) return null;
 
   return (
-    <section className="bg-mist">
+    <section id={id} className={id ? "scroll-mt-24 bg-mist" : "bg-mist"}>
       <div className="mx-auto max-w-[1600px] px-6 py-16 md:px-10 md:py-24">
         <h2 className="font-display text-[clamp(1.9rem,1rem+3vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.02em] text-ink">
           {heading}
         </h2>
 
-        <div className="mt-12 grid auto-rows-[clamp(8rem,13vw,11rem)] grid-cols-2 gap-6 md:mt-14 md:grid-cols-4 md:gap-8">
+        <div className="mt-12 columns-2 gap-6 md:mt-14 md:columns-4 md:gap-8">
           {items.map((item, i) => (
             <figure
               key={`${item.image}-${i}`}
-              className={`group relative overflow-hidden rounded-2xl bg-stone ${SPAN[item.span]}`}
+              className="group relative mb-6 block break-inside-avoid overflow-hidden rounded-2xl bg-stone md:mb-8"
             >
               <button
                 type="button"
                 onClick={() => setOpenAt(i)}
                 aria-label={`Open ${item.alt || "gallery image"} full-size`}
-                className="absolute inset-0 h-full w-full cursor-zoom-in"
+                className="block w-full cursor-zoom-in"
               >
                 <img
                   src={item.image}
                   alt={item.alt ?? ""}
                   loading="lazy"
-                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-[800ms] ease-out group-hover:scale-105"
+                  width={item.width}
+                  height={item.height}
+                  className="block h-auto w-full transition-transform duration-[800ms] ease-out group-hover:scale-105"
                 />
               </button>
               <span className="pointer-events-none absolute left-4 top-4 h-4 w-4 border-l border-t border-beige/40" />
