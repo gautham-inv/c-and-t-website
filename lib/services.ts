@@ -38,9 +38,9 @@ export type Service = {
 export const SERVICES: Service[] = [
   {
     slug: "mep",
-    name: "Multidisciplinary Engineering Design",
+    name: "Architectural and Engineering Design",
     image: "/mep-engineering-design.jpg",
-    blurb: "Multidiscipline mechanical, electrical and public-health design.",
+    blurb: "Architectural and engineering design.",
     featured: true,
     byDivision: {
       building: {
@@ -189,7 +189,7 @@ export const SERVICES: Service[] = [
   {
     slug: "mto",
     name: "Tendering & MTO",
-    image: "/services/tender.avif",
+    image: "/services/tender.png",
     blurb: "Model-based take-offs and tender-ready bills of quantities.",
     featured: true,
     byDivision: {
@@ -283,7 +283,7 @@ export const SERVICES: Service[] = [
   {
     slug: "pmo",
     name: "Project Monitoring (PMO)",
-    image: "/services/project-monitoring.jpg",
+    image: "/services/pmo.png",
     blurb: "Independent programme tracking across design and construction.",
     byDivision: {
       building: {
@@ -307,7 +307,7 @@ export const SERVICES: Service[] = [
   {
     slug: "pmc",
     name: "Project Management (PMC)",
-    image: "/services/project-management.jpg",
+    image: "/services/pmc.png",
     blurb: "On-site and remote project management for delivery-critical programmes.",
     byDivision: {
       building: {
@@ -332,7 +332,7 @@ export const SERVICES: Service[] = [
   {
     slug: "peer-review",
     name: "Peer Review Consultation",
-    image: "/services/peer-review.jpg",
+    image: "/services/peer-review.png",
     blurb: "Independent technical review before designs go for approval or construction.",
     byDivision: {
       building: {
@@ -380,7 +380,7 @@ export const SERVICES: Service[] = [
   {
     slug: "cost-consultancy",
     name: "Cost Consultancy",
-    image: "/services/cost-consultancy-construction.jpg",
+    image: "/services/cost.png",
     blurb: "Cost planning and control from concept through construction.",
     byDivision: {
       building: {
@@ -404,7 +404,7 @@ export const SERVICES: Service[] = [
   {
     slug: "resource-deployment",
     name: "Engineering Resource Deployment",
-    image: "/services/engineering-resource-deployment.jpg",
+    image: "/services/ERD.png",
     blurb: "Engineers, drafters and modellers deployed directly into client teams.",
     byDivision: {
       building: {

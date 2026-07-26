@@ -1,4 +1,4 @@
-import { ArrowLeft, Calendar, Clock } from "lucide-react";
+import { ArrowLeft, Calendar, Clock, PenLine } from "lucide-react";
 import type { Insight } from "@/lib/insights";
 import { RichBlocks } from "@/components/shared/RichBlocks";
 
@@ -36,6 +36,12 @@ export function InsightView({ insight }: { insight: Insight }) {
           </h1>
 
           <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm text-ink/75">
+            {insight.author && (
+              <li className="flex items-center gap-2">
+                <PenLine className="h-4 w-4 text-green-dark" strokeWidth={1.75} />
+                By {insight.author.name}
+              </li>
+            )}
             <li className="flex items-center gap-2">
               <Calendar className="h-4 w-4 text-green-dark" strokeWidth={1.75} />
               {insight.date}
@@ -74,8 +80,25 @@ export function InsightView({ insight }: { insight: Insight }) {
             </p>
           )}
 
+          {insight.author?.bio && (
+            <aside className="mt-12 rounded-2xl border border-line bg-surface p-6 md:p-8">
+              <p className="font-mono text-[0.62rem] uppercase tracking-[0.16em] text-green-dark">
+                Written by
+              </p>
+              <p className="mt-3 font-display text-lg font-semibold leading-snug text-ink">
+                {insight.author.name}
+              </p>
+              {insight.author.role && (
+                <p className="mt-1 text-sm text-ink-dim">{insight.author.role}</p>
+              )}
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-ink-dim">
+                {insight.author.bio}
+              </p>
+            </aside>
+          )}
+
           {insight.attribution && (
-            <p className="mt-12 border-t border-line pt-6 text-sm italic leading-relaxed text-ink-dim">
+            <p className="mt-8 border-t border-line pt-6 text-sm italic leading-relaxed text-ink-dim">
               {insight.attribution}
             </p>
           )}

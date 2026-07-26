@@ -128,6 +128,7 @@ create a webhook:
 | URL | `https://api.github.com/repos/<owner>/<repo>/dispatches` |
 | Dataset | `production` |
 | Trigger on | Create, Update, Delete |
+| Filter | `_type != "sanity.imageAsset" && _type != "sanity.fileAsset"` |
 | HTTP method | `POST` |
 | API version | `v2021-03-25` |
 | Payload | not required (repository_dispatch ignores the body's shape) |
@@ -136,6 +137,15 @@ create a webhook:
 | Secret | not needed — GitHub authenticates via the PAT, not a shared secret |
 
 Sanity stores the header value encrypted; the PAT never touches this repo.
+
+**Why the Filter matters:** without it, every image/file *asset* upload (not
+just document publishes) also fires this webhook — `scripts/seed.ts` re-uploads
+every `/public/*` asset it references on each run, so a full seed without this
+filter can fire the webhook (and spawn a deploy run) dozens of times just from
+asset uploads, on top of one document-transaction commit. The filter excludes
+Sanity's own asset document types so only real content publishes trigger a
+deploy. If your existing webhook predates this note, add the Filter field to
+it in the dashboard — no other field needs to change.
 
 ## Manual deploy
 

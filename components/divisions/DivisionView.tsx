@@ -2,6 +2,7 @@ import { ArrowUpRight } from "lucide-react";
 import type { Division } from "@/lib/divisions";
 import type { Service } from "@/lib/services";
 import type { PortfolioCard } from "@/sanity/lib/data";
+import { ProjectCard } from "@/components/projects/ProjectCard";
 
 /** An industry this division serves, with how many portfolio projects are
  * tagged with it. Only industries with `projectCount > 0` link anywhere —
@@ -47,26 +48,14 @@ export function DivisionView({
         </div>
       </section>
 
-      {/* ── Overview + stats ── */}
+      {/* ── Overview ── */}
       <section className="bg-mist">
-        <div className="mx-auto grid max-w-[1600px] gap-12 px-6 py-16 md:grid-cols-[1.4fr_1fr] md:gap-20 md:px-10 md:py-24">
-          <div className="space-y-5">
+        <div className="mx-auto max-w-[1600px] px-6 py-16 md:px-10 md:py-24">
+          <div className="max-w-4xl space-y-5">
             {division.overview.map((p, i) => (
               <p key={i} className="text-lg leading-relaxed text-ink-dim md:text-xl">
                 {p}
               </p>
-            ))}
-          </div>
-          <div className="flex flex-col justify-center gap-8 border-t border-line pt-10 md:border-l md:border-t-0 md:pl-16 md:pt-0">
-            {division.stats.map((s) => (
-              <div key={s.label}>
-                <p className="font-display text-[clamp(2.25rem,1.5rem+2vw,3.5rem)] font-semibold leading-none tracking-[-0.02em] text-ink">
-                  {s.value}
-                </p>
-                <p className="mt-2 font-mono text-[0.72rem] uppercase tracking-[0.14em] text-ink-dim">
-                  {s.label}
-                </p>
-              </div>
             ))}
           </div>
         </div>
@@ -161,53 +150,13 @@ export function DivisionView({
             <h2 className="font-display text-[clamp(1.9rem,1rem+3vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.02em]">
               {division.shortName} projects
             </h2>
+            {/* Same card as the /projects grid (shared ProjectCard) — details
+                sit on the card itself, and nothing links out: projects have no
+                detail pages. */}
             <div className="mt-12 grid gap-6 md:mt-14 md:grid-cols-2 lg:grid-cols-3">
-              {projects.map((p) => {
-                const slug = p.slug;
-                const inner = (
-                  <>
-                    <div className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl bg-[#0a1c25]">
-                      {p.image ? (
-                        <img
-                          src={p.image}
-                          alt={p.name}
-                          loading="lazy"
-                          className="absolute inset-0 h-full w-full object-cover transition-transform duration-[800ms] ease-out group-hover:scale-105"
-                        />
-                      ) : (
-                        // No real photo yet — branded blueprint card, not a borrowed image.
-                        <div
-                          aria-hidden
-                          className="absolute inset-0 opacity-[0.16] transition-transform duration-[800ms] ease-out group-hover:scale-105"
-                          style={{
-                            backgroundImage:
-                              "linear-gradient(to right,#729d35 1px,transparent 1px),linear-gradient(to bottom,#729d35 1px,transparent 1px)",
-                            backgroundSize: "34px 34px",
-                          }}
-                        />
-                      )}
-                      <span className="absolute left-5 top-5 h-5 w-5 border-l border-t border-beige/40" />
-                    </div>
-                    <div className="mt-4">
-                      <p className="font-display text-xl font-medium leading-snug transition-colors duration-300 group-hover:text-green-dark">
-                        {p.name}
-                      </p>
-                      <p className="mt-1.5 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-ink-dim">
-                        {p.meta}
-                      </p>
-                    </div>
-                  </>
-                );
-                return slug ? (
-                  <a key={p.name} href={`/projects/${slug}`} className="group">
-                    {inner}
-                  </a>
-                ) : (
-                  <article key={p.name} className="group">
-                    {inner}
-                  </article>
-                );
-              })}
+              {projects.map((p) => (
+                <ProjectCard key={p.name} project={p} className="aspect-[3/2]" />
+              ))}
             </div>
           </div>
         </section>

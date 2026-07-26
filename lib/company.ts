@@ -28,16 +28,20 @@ export type Value = { name: string; body: string };
 
 export const VALUES: Value[] = [
   {
-    name: "Ethics",
-    body: "Honest, principled conduct in every engagement, the standard our clients and partners rely on.",
+    name: "Integrity",
+    body: "We do what we say and say what we mean, holding the line even when no one is watching — the standard our clients and partners rely on.",
   },
   {
-    name: "Integrity",
-    body: "We do what we say and say what we mean, holding the line even when no one is watching.",
+    name: "Precision",
+    body: "We sweat the details other firms skip — coordinated models, clean documentation, engineering that holds up on site, not just on paper.",
+  },
+  {
+    name: "Collaboration",
+    body: "We work as one team with our clients and partners, whether we're leading the design or embedded as their MEP and BIM partner.",
   },
   {
     name: "Growth & Development",
-    body: "We enjoy the journey, investing in our people so they grow alongside the practice.",
+    body: "We enjoy the journey, investing in our people and embracing AI-driven transformation of our workflows so the practice keeps getting sharper.",
   },
 ];
 

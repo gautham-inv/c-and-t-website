@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { WithUs } from "@/components/sections/WithUs";
 import { DivisionView, type DivisionIndustry } from "@/components/divisions/DivisionView";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { faqSchema, breadcrumbSchema } from "@/lib/seo";
 import {
   getDivisions,
   getServices,
@@ -32,7 +34,13 @@ export async function generateMetadata({
     alternates: {
       canonical: `/divisions/${slug}`,
     },
-    openGraph: { title, description: division.tagline },
+    openGraph: {
+      type: "website",
+      title,
+      description: division.tagline,
+      url: `/divisions/${slug}`,
+    },
+    twitter: { card: "summary_large_image", title, description: division.tagline },
   };
 }
 
@@ -74,6 +82,16 @@ export default async function DivisionPage({
 
   return (
     <main>
+      <JsonLd
+        data={[
+          breadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "What we do", path: "/divisions" },
+            { name: division.name, path: `/divisions/${slug}` },
+          ]),
+          ...(division.faqs?.length ? [faqSchema(division.faqs)] : []),
+        ]}
+      />
       <DivisionView
         division={division}
         other={other}

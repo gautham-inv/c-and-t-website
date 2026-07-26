@@ -209,10 +209,24 @@ export function AboutView({ about }: { about: AboutPageData }) {
       {/* ── 3. CEO's message ── */}
       <section data-reveal className="bg-mist">
         <div className="mx-auto max-w-[1600px] px-6 py-20 md:px-10 md:py-28">
-          <div className="grid gap-10 md:grid-cols-[0.85fr_1.15fr] md:gap-16">
+          {/* Explicit grid placement rather than source order: on mobile the
+              single column runs heading → portrait → letter, so "CEO's message
+              / Greetings from C&T!" introduces the photo instead of trailing
+              it. From md up the portrait moves to its own column, spanning
+              both rows, with the heading and letter stacked beside it. */}
+          <div className="grid gap-6 md:grid-cols-[0.85fr_1.15fr] md:grid-rows-[auto_1fr] md:gap-x-16 md:gap-y-6">
+            <div data-up className="md:col-start-2 md:row-start-1">
+              <span className="font-mono text-[0.66rem] uppercase tracking-[0.2em] text-green-dark">
+                CEO&apos;s message
+              </span>
+              <p className="mt-6 font-display text-[clamp(1.3rem,0.9rem+1.3vw,1.85rem)] font-normal leading-[1.32] tracking-[-0.01em] text-ink">
+                Greetings from C&amp;T!
+              </p>
+            </div>
+
             <div
               data-up
-              className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-stone md:sticky md:top-28 md:self-start"
+              className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-stone md:col-start-1 md:row-span-2 md:row-start-1 md:sticky md:top-28 md:self-start"
             >
               <img
                 src="/leadership/jimmy.jpg"
@@ -221,14 +235,9 @@ export function AboutView({ about }: { about: AboutPageData }) {
                 className="absolute inset-0 h-full w-full object-cover"
               />
             </div>
-            <div data-up>
-              <span className="font-mono text-[0.66rem] uppercase tracking-[0.2em] text-green-dark">
-                CEO&apos;s message
-              </span>
-              <div className="mt-6 space-y-5 text-lg leading-relaxed text-ink-dim">
-                <p className="font-display text-[clamp(1.3rem,0.9rem+1.3vw,1.85rem)] font-normal leading-[1.32] tracking-[-0.01em] text-ink">
-                  Greetings from C&amp;T!
-                </p>
+
+            <div data-up className="md:col-start-2 md:row-start-2">
+              <div className="space-y-5 text-lg leading-relaxed text-ink-dim">
                 <p>
                   Our journey started at a rented office space in 2011, with a
                   single employee offering HVAC engineering services. Still in
@@ -266,15 +275,31 @@ export function AboutView({ about }: { about: AboutPageData }) {
         </div>
       </section>
 
-      {/* ── 4. Certifications band — narrow full-width strip ── */}
+      {/* ── 4. Journey — milestone timeline ── */}
+      <JourneyTimeline milestones={about.companyMilestones} />
+
+      {/* ── 5. Mission → Vision — sticky-pinned stack ── */}
+      <MissionVisionStack mission={about.mission} vision={about.vision} />
+
+      {/* ── 6. Values — full-bleed split ── */}
+      <ValuesSplit values={about.values} />
+
+      {/* ── 7. Certifications band — narrow full-width strip ── */}
       {about.isoCertifications.length > 0 && (
         <section data-reveal className="border-y border-line bg-surface">
           <div className="mx-auto max-w-[1600px] px-6 py-10 md:px-10 md:py-12">
+            {/* Mobile is a 2-up grid rather than a wrapping flex row: with an
+                odd count the leftover last logo would otherwise sit alone
+                against the left edge. `:last-child:nth-child(odd)` spans it
+                across both columns so it centres instead. From md up it's the
+                original evenly-distributed single row. */}
             <div
               data-up
-              className="mx-auto flex max-w-4xl flex-wrap items-center justify-between gap-x-8 gap-y-6"
+              className="mx-auto grid max-w-4xl grid-cols-2 items-center justify-items-center gap-x-8 gap-y-6 md:flex md:flex-wrap md:justify-between"
             >
               {about.isoCertifications.map((c) => {
+                const cellCls =
+                  "inline-flex items-center gap-3 [&:last-child:nth-child(odd)]:col-span-2 md:[&:last-child:nth-child(odd)]:col-span-1";
                 const inner = (
                   <>
                     {c.logo && (
@@ -300,12 +325,12 @@ export function AboutView({ about }: { about: AboutPageData }) {
                     href={c.document}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group inline-flex items-center gap-3"
+                    className={`group ${cellCls}`}
                   >
                     {inner}
                   </a>
                 ) : (
-                  <div key={c.name} className="inline-flex items-center gap-3">
+                  <div key={c.name} className={cellCls}>
                     {inner}
                   </div>
                 );
@@ -315,16 +340,7 @@ export function AboutView({ about }: { about: AboutPageData }) {
         </section>
       )}
 
-      {/* ── 5. Journey — full-viewport, scroll-driven timeline ── */}
-      <JourneyTimeline milestones={about.companyMilestones} />
-
-      {/* ── 5. Mission → Vision — sticky-pinned stack ── */}
-      <MissionVisionStack mission={about.mission} vision={about.vision} />
-
-      {/* ── 6. Values — full-bleed split ── */}
-      <ValuesSplit values={about.values} />
-
-      {/* ── 7. Leadership ── */}
+      {/* ── 8. Leadership ── */}
       <section data-reveal className="bg-surface">
         <div className="mx-auto max-w-[1600px] px-6 py-20 md:px-10 md:py-28">
           <Leadership leaders={about.leadership} />

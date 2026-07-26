@@ -80,9 +80,7 @@ export function Footer({
         <div className="grid gap-14 lg:grid-cols-3 lg:gap-10">
           {/* Tagline */}
           <h2 className="font-display text-[clamp(1.9rem,1rem+3vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.02em]">
-            Precision engineered.
-            <br />
-            <span className="text-beige-light">Globally delivered.</span>
+            Engineered to Endure
           </h2>
 
           {/* Nav */}

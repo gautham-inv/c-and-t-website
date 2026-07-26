@@ -186,8 +186,13 @@ export function Globe({
         aria-label="Interactive globe marking C&T offices in India, the UAE and Canada"
       />
 
-      {/* Office cards — pinned directly to each marker's projected position,
-          always visible (no hover/click needed to reveal them). */}
+      {/* Office labels — pinned directly to each marker's projected position,
+          always visible (no hover/click needed to reveal them).
+
+          Below `md` this is a name-only pill: the full role/entities card is
+          too big for a phone-width globe, and three of them stacked over each
+          other read as clutter. The detail is not lost — the same locations
+          are listed in full in the "One global group" section below. */}
       <div className="pointer-events-none absolute inset-0">
         {markers.map((m, i) => (
           <div
@@ -197,17 +202,17 @@ export function Globe({
             }}
             role="group"
             aria-label={`${m.name}, ${m.role ?? "office"}`}
-            className="absolute left-0 top-0 w-max max-w-[10.5rem] rounded-2xl border border-line bg-paper/95 px-3.5 py-2.5 text-left shadow-[0_16px_40px_-20px_rgba(15,43,35,0.55)] backdrop-blur-sm transition-opacity duration-300"
+            className="absolute left-0 top-0 w-max rounded-full border border-line bg-paper/95 px-2.5 py-1 text-left shadow-[0_16px_40px_-20px_rgba(15,43,35,0.55)] backdrop-blur-sm transition-opacity duration-300 md:max-w-[10.5rem] md:rounded-2xl md:px-3.5 md:py-2.5"
           >
-            <p className="flex items-center gap-1.5 font-mono text-[0.56rem] uppercase tracking-[0.16em] text-green-dark">
+            <p className="hidden items-center gap-1.5 font-mono text-[0.56rem] uppercase tracking-[0.16em] text-green-dark md:flex">
               <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-green" />
               {m.role ?? "Office"}
             </p>
-            <p className="mt-1 font-display text-sm font-semibold leading-tight text-ink">
+            <p className="font-display text-[0.7rem] font-semibold leading-tight text-ink md:mt-1 md:text-sm">
               {m.name}
             </p>
             {m.entities && m.entities.length > 0 && (
-              <ul className="mt-1.5 space-y-1">
+              <ul className="mt-1.5 hidden space-y-1 md:block">
                 {m.entities.map((e) => (
                   <li
                     key={e}

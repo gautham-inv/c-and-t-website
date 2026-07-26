@@ -14,6 +14,18 @@
  *     service, division, project, insight, jobOpening (collections)
  *     homePage, aboutPage, servicesPage, careersPage, siteSettings (singletons)
  *
+ *   All of the above are staged onto ONE Sanity transaction and committed
+ *   atomically at the very end of the run — not written one document at a
+ *   time. A repo webhook forwards every Sanity publish to GitHub as a
+ *   `repository_dispatch`, which fires the deploy workflow (see
+ *   .github/workflows/deploy.yml); committing 30-40+ documents individually
+ *   used to mean 30-40+ separate workflow runs per seed. Batched into one
+ *   transaction, a full seed is exactly one publish event → one deploy run.
+ *   Stale-document pruning (see pruneStaleInsights/pruneStaleJobOpenings)
+ *   stays OUTSIDE that transaction and runs after it commits: those deletes
+ *   can legitimately fail (a doc still referenced elsewhere) and are meant to
+ *   log-and-skip individually rather than roll back everything else.
+ *
  * REQUIREMENTS
  *   A Sanity write token in the SANITY_API_WRITE_TOKEN environment variable.
  *   Create one at https://sanity.io → Manage → your project → API → Tokens
@@ -29,7 +41,7 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createClient } from "@sanity/client";
-import type { SanityClient } from "@sanity/client";
+import type { SanityClient, Transaction } from "@sanity/client";
 
 import { apiVersion, dataset, projectId } from "../sanity/env";
 import { SERVICES } from "../lib/services";
@@ -85,6 +97,11 @@ const client: SanityClient = createClient({
   useCdn: false,
 });
 
+// Every seedX()/wireX() function below stages its writes onto this single
+// transaction instead of committing individually — see the file header for
+// why (one Sanity publish event → one deploy, instead of dozens).
+const tx: Transaction = client.transaction();
+
 // Project root is one level up from /scripts.
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = path.resolve(__dirname, "..");
@@ -135,6 +152,12 @@ const idJobOpening = (s: string) => `jobOpening-${s}`;
 // ---------------------------------------------------------------------------
 // Image upload (cached / deduped by /public path)
 // ---------------------------------------------------------------------------
+//
+// NOTE: asset uploads are a separate API from document mutations and can't be
+// staged onto `tx` — each one is its own immediate write (and, unless the
+// Sanity webhook has a GROQ filter excluding sanity.imageAsset/
+// sanity.fileAsset, its own webhook fire too). See docs/deploy.md for the
+// recommended webhook filter; this script can only batch document writes.
 
 const imageCache = new Map<string, string | null>();
 
@@ -297,10 +320,10 @@ async function seedServices(): Promise<void> {
     };
     if (image) doc.image = image;
     // byDivision references are wired in pass 2; create with body/subDisciplines now.
-    await client.createOrReplace(doc as never);
+    tx.createOrReplace(doc as never);
     n++;
   }
-  console.log(`  ✓ services: ${n}`);
+  console.log(`  ✓ services staged: ${n}`);
 }
 
 async function seedDivisions(): Promise<void> {
@@ -315,14 +338,13 @@ async function seedDivisions(): Promise<void> {
       slug: slug(d.slug),
       tagline: d.tagline,
       overview: d.overview,
-      stats: d.stats.map((st) => ({ _type: "stat", _key: key("st"), value: st.value, label: st.label })),
       faqs: d.faqs.map((f) => ({ _type: "faq", _key: key("faq"), question: f.q, answer: f.a })),
     };
     if (image) doc.image = image;
-    await client.createOrReplace(doc as never);
+    tx.createOrReplace(doc as never);
     n++;
   }
-  console.log(`  ✓ divisions: ${n}`);
+  console.log(`  ✓ divisions staged: ${n}`);
 }
 
 /**
@@ -442,10 +464,10 @@ async function seedProjects(): Promise<Map<string, string>> {
       }
     }
 
-    await client.createOrReplace(doc as never);
+    tx.createOrReplace(doc as never);
     n++;
   }
-  console.log(`  ✓ projects: ${n}`);
+  console.log(`  ✓ projects staged: ${n}`);
   return slugByName;
 }
 
@@ -471,25 +493,35 @@ async function seedInsights(): Promise<Map<string, string>> {
       readTime: ins.read,
       excerpt: ins.excerpt,
     };
-    const date = parseInsightDate(ins.date);
+    const date = ins.datePublished || parseInsightDate(ins.date);
     if (date) doc.date = date;
     if (image) doc.image = image;
     if (ins.body?.length) doc.body = blocksToPortableText(ins.body);
+    if (ins.author) {
+      // Plain inline object (insight.ts's `author` field is an anonymous
+      // `type: "object"`, not a registered named type) — no `_type` needed.
+      doc.author = {
+        name: ins.author.name,
+        ...(ins.author.role ? { role: ins.author.role } : {}),
+        ...(ins.author.bio ? { bio: ins.author.bio } : {}),
+      };
+    }
     if (ins.attribution) doc.attribution = ins.attribution;
-    await client.createOrReplace(doc as never);
+    tx.createOrReplace(doc as never);
     n++;
   }
-  console.log(`  ✓ insights: ${n}`);
+  console.log(`  ✓ insights staged: ${n}`);
   return idByTitle;
 }
 
 /** Prune insight documents left over from an entry that was deleted outright
  * (not just renamed — renames keep the same `id` and are handled by
- * createOrReplace in seedInsights). Run this AFTER seedHomePage: homePage's
- * featuredInsights refs are rewritten there from the current INSIGHTS list,
- * so anything actually stale is no longer referenced by the time we get here.
- * A doc can still fail to delete if something outside this schema (e.g.
- * legacy content) references it — log and skip rather than fail the seed. */
+ * createOrReplace in seedInsights). Runs AFTER the main transaction commits,
+ * so the fetch below sees homePage's already-updated featuredInsights refs —
+ * anything actually stale is no longer referenced by the time we get here.
+ * Kept as individual, immediate deletes (not part of `tx`): a doc can still
+ * fail to delete if something outside this schema references it, and this
+ * should log-and-skip that one document, not roll back everything else. */
 async function pruneStaleInsights(): Promise<void> {
   const keep = new Set(INSIGHTS.map((ins, i) => idInsight(ins.id || String(i))));
   const existing = await client.fetch<string[]>(`*[_type == "insight"]._id`);
@@ -527,22 +559,87 @@ async function seedJobOpenings(): Promise<void> {
       requirements: o.requirements,
     };
     if (o.niceToHave && o.niceToHave.length) doc.niceToHave = o.niceToHave;
-    await client.createOrReplace(doc as never);
+    tx.createOrReplace(doc as never);
     n++;
   }
+  console.log(`  ✓ jobOpenings staged: ${n}`);
+}
 
-  // Prune: OPENINGS is the single source of truth for the *current* roles, so
-  // remove any jobOpening documents left over from earlier seeds (different
-  // slugs / withdrawn roles) — after this the dataset holds exactly these.
+/** Mirrors pruneStaleInsights (see its comment) — OPENINGS is the single
+ * source of truth for *current* roles, so anything left over from an earlier
+ * seed (renamed/withdrawn slugs) gets removed. Runs after the main
+ * transaction commits, as individual deletes so one failure can't roll back
+ * the rest. */
+async function pruneStaleJobOpenings(): Promise<void> {
   const keep = new Set(OPENINGS.map((o) => idJobOpening(o.slug)));
   const existing = await client.fetch<string[]>(`*[_type == "jobOpening"]._id`);
   const stale = (existing ?? []).filter((id) => !keep.has(id));
+  let removed = 0;
   for (const id of stale) {
-    await client.delete(id);
-    console.log(`  – removed stale jobOpening: ${id}`);
+    try {
+      await client.delete(id);
+      console.log(`  – removed stale jobOpening: ${id}`);
+      removed++;
+    } catch (err) {
+      console.warn(
+        `  ! could not remove stale jobOpening ${id} (likely still referenced elsewhere): ${(err as Error).message}`,
+      );
+    }
+  }
+  if (stale.length) console.log(`  ✓ jobOpening cleanup: removed ${removed}/${stale.length} stale`);
+}
+
+/** Report (and optionally delete) project documents in Sanity that lib/projects.ts
+ * no longer defines — e.g. entries dropped for having no real photo.
+ *
+ * DRY-RUN BY DEFAULT, unlike the insight/jobOpening prunes above. Those two
+ * collections are authored only here, so lib is unambiguously their source of
+ * truth. Projects are NOT: the dataset contains docs edited or added directly
+ * in Studio that have no lib counterpart (names diverge — e.g. Studio's "MOPA
+ * Airport, Goa"), and deleting those would silently destroy hand-curated
+ * content. So this only lists what it *would* remove; set
+ * SEED_PRUNE_PROJECTS=1 to actually delete after reviewing that list.
+ *
+ * Takes the slug map seedProjects built, so "current" is exactly what this run
+ * just wrote. Runs after the main transaction commits; deletes are individual
+ * so one failure (a doc still referenced elsewhere) can't roll back the rest. */
+async function pruneStaleProjects(slugByName: Map<string, string>): Promise<void> {
+  const apply = process.env.SEED_PRUNE_PROJECTS === "1";
+  const keep = new Set([...slugByName.values()].map((s) => idProject(s)));
+  const existing = await client.fetch<{ _id: string; name?: string }[]>(
+    `*[_type == "project"]{_id, name}`,
+  );
+  const stale = (existing ?? []).filter((d) => !keep.has(d._id));
+  if (!stale.length) {
+    console.log("  ✓ projects: nothing stale");
+    return;
   }
 
-  console.log(`  ✓ jobOpenings: ${n} (removed ${stale.length} stale)`);
+  if (!apply) {
+    console.log(
+      `  ! ${stale.length} project doc(s) in Sanity are not defined in lib/projects.ts:`,
+    );
+    for (const d of stale) console.log(`      · ${d.name ?? "(untitled)"}  [${d._id}]`);
+    console.log(
+      "    Not deleted — some may be Studio-authored. Review the list, then re-run with:\n" +
+        "      SEED_PRUNE_PROJECTS=1 npm run seed",
+    );
+    return;
+  }
+
+  let removed = 0;
+  for (const d of stale) {
+    try {
+      await client.delete(d._id);
+      console.log(`  – removed stale project: ${d.name ?? d._id}`);
+      removed++;
+    } catch (err) {
+      console.warn(
+        `  ! could not remove stale project ${d._id} (likely still referenced elsewhere): ${(err as Error).message}`,
+      );
+    }
+  }
+  console.log(`  ✓ project cleanup: removed ${removed}/${stale.length} stale`);
 }
 
 // ---------------------------------------------------------------------------
@@ -564,7 +661,7 @@ async function wireServiceReferences(): Promise<void> {
         };
       },
     );
-    await client.patch(idService(s.slug)).set({ byDivision }).commit();
+    tx.patch(idService(s.slug), (p) => p.set({ byDivision }));
   }
   console.log(`  ✓ wired service.byDivision`);
 }
@@ -577,7 +674,7 @@ async function wireDivisionReferences(): Promise<void> {
       _key: key("svc"),
       _ref: idService(slugId),
     }));
-    await client.patch(idDivision(d.slug)).set({ services, hasIndustries: d.hasIndustries }).commit();
+    tx.patch(idDivision(d.slug), (p) => p.set({ services, hasIndustries: d.hasIndustries }));
   }
   console.log(`  ✓ wired division.services + division.hasIndustries`);
 }
@@ -633,8 +730,8 @@ async function seedHomePage(
     featuredInsights,
   };
 
-  await client.createOrReplace(doc as never);
-  console.log(`  ✓ homePage`);
+  tx.createOrReplace(doc as never);
+  console.log(`  ✓ homePage staged`);
 }
 
 async function seedAboutPage(): Promise<void> {
@@ -699,8 +796,8 @@ async function seedAboutPage(): Promise<void> {
     isoCertifications,
   };
 
-  await client.createOrReplace(doc as never);
-  console.log(`  ✓ aboutPage`);
+  tx.createOrReplace(doc as never);
+  console.log(`  ✓ aboutPage staged`);
 }
 
 async function seedCareersPage(): Promise<void> {
@@ -734,8 +831,8 @@ async function seedCareersPage(): Promise<void> {
     teamPhotos,
     celebrationPhotos,
   };
-  await client.createOrReplace(doc as never);
-  console.log(`  ✓ careersPage`);
+  tx.createOrReplace(doc as never);
+  console.log(`  ✓ careersPage staged`);
 }
 
 async function seedServicesPage(): Promise<void> {
@@ -753,8 +850,8 @@ async function seedServicesPage(): Promise<void> {
     _type: "servicesPage",
     tools,
   };
-  await client.createOrReplace(doc as never);
-  console.log(`  ✓ servicesPage`);
+  tx.createOrReplace(doc as never);
+  console.log(`  ✓ servicesPage staged`);
 }
 
 async function seedSiteSettings(): Promise<void> {
@@ -763,13 +860,13 @@ async function seedSiteSettings(): Promise<void> {
     _type: "siteSettings",
     navItems: SITE_SETTINGS.navItems.map((n) => ({ _type: "navItem", _key: key("nav"), ...n })),
     footerLinks: SITE_SETTINGS.footerLinks.map((n) => ({ _type: "navItem", _key: key("fnav"), ...n })),
-    footerTagline: "Precision engineered. Globally delivered.",
+    footerTagline: "Engineered to Endure",
     offices: SITE_SETTINGS.offices.map((o) => ({ _type: "office", _key: key("off"), ...o })),
     socials: SITE_SETTINGS.socials.map((s) => ({ _type: "socialLink", _key: key("soc"), ...s })),
     copyright: SITE_SETTINGS.copyright,
   };
-  await client.createOrReplace(doc as never);
-  console.log(`  ✓ siteSettings`);
+  tx.createOrReplace(doc as never);
+  console.log(`  ✓ siteSettings staged`);
 }
 
 // ---------------------------------------------------------------------------
@@ -797,9 +894,17 @@ async function main(): Promise<void> {
   await seedCareersPage();
   await seedSiteSettings();
 
-  // Runs after seedHomePage so its rewritten featuredInsights refs no longer
-  // point at anything stale — see pruneStaleInsights for why the ordering matters.
+  console.log("\nCommitting single transaction…");
+  const result = await tx.commit();
+  console.log(`  ✓ committed ${result.results?.length ?? 0} mutations in one transaction`);
+
+  // Stale-doc pruning runs after the commit above (see pruneStaleInsights'
+  // comment) and stays outside `tx` so one reference-integrity failure only
+  // skips that document instead of rolling back the whole seed.
+  console.log("\nPruning stale documents:");
   await pruneStaleInsights();
+  await pruneStaleJobOpenings();
+  await pruneStaleProjects(projectSlugByName);
 
   const summary = {
     services: SERVICES.length,

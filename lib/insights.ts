@@ -17,15 +17,33 @@ export type Insight = {
   title: string;
   tag: string;
   read: string;
+  /** Human display date (e.g. "Jul 2026") shown in the UI. */
   date: string;
+  /** ISO 8601 publish date (e.g. "2026-07-01") used for Article structured
+   * data. Optional — omitted when unknown; the schema drops the field. */
+  datePublished?: string;
   image: string;
   excerpt: string;
   href: string;
   /** Full article content — omitted for teaser-only entries without a
    * written-out piece yet; the detail page still renders on hero + excerpt. */
   body?: ProjectBlock[];
+  /** Named author for E-E-A-T — a credentialed person, rendered as a visible
+   * byline and emitted as Person structured data. Omitted → the piece is
+   * attributed to the organisation instead. */
+  author?: InsightAuthor;
   /** Credit line for republished/guest content, shown at the end of the article. */
   attribution?: string;
+};
+
+/** Article author — a real, credentialed person (drives visible byline + the
+ * Person node in Article structured data). Keep `bio` factual; it doubles as
+ * the E-E-A-T signal answer engines read. */
+export type InsightAuthor = {
+  name: string;
+  role?: string;
+  bio?: string;
+  photo?: string;
 };
 
 export const INSIGHTS: Insight[] = [
@@ -36,10 +54,16 @@ export const INSIGHTS: Insight[] = [
     tag: "Project Management",
     read: "3 min read",
     date: "Jul 2026",
-    image: "/services/project-management.jpg",
+    datePublished: "2026-07-01",
+    image: "/services/pmc.png",
     excerpt:
       "A well-executed project isn't just one delivered on schedule — it balances time, cost, quality, safety and client expectations throughout its lifecycle.",
     href: "/insights/what-defines-a-successful-engineering-project",
+    author: {
+      name: "Sriram V. S.",
+      role: "Technical Advisor, C&T Consulting Engineers",
+      bio: "Mechanical Engineering graduate with 35+ years in MEP across India, the Middle East and SE Asia. Techno-commercial background with strong analytical and problem-solving skills; also mentors and trains engineers on technical topics.",
+    },
     body: [
       {
         type: "p",
@@ -106,6 +130,7 @@ export const INSIGHTS: Insight[] = [
     tag: "BIM",
     read: "5 min read",
     date: "May 2026",
+    datePublished: "2026-05-01",
     image: "/bim-and-3d-modelling.jpg",
     excerpt:
       "Clash-checked, federated models resolve coordination conflicts before they reach site, keeping terminal programmes on track across thousands of MEP interfaces.",
@@ -118,6 +143,7 @@ export const INSIGHTS: Insight[] = [
     tag: "CFD",
     read: "7 min read",
     date: "Apr 2026",
+    datePublished: "2026-04-01",
     image: "/cfd-fea-analysis.webp",
     excerpt:
       "Airflow and smoke simulations tune ventilation for passenger comfort and life safety long before the first duct is installed.",
@@ -130,6 +156,7 @@ export const INSIGHTS: Insight[] = [
     tag: "Data Centres",
     read: "6 min read",
     date: "Mar 2026",
+    datePublished: "2026-03-01",
     image: "/datacenter.jpeg",
     excerpt:
       "Power density, redundancy and cooling drive every decision behind the mechanical and electrical backbone of a modern data hall.",
@@ -142,6 +169,7 @@ export const INSIGHTS: Insight[] = [
     tag: "3D Modelling",
     read: "5 min read",
     date: "Feb 2026",
+    datePublished: "2026-02-01",
     image: "/mep-engineering-design.jpg",
     excerpt:
       "High-LOD modelling on refineries and LNG plants turns the model into a construction tool, producing accurate take-offs, fewer RFIs and faster fabrication.",

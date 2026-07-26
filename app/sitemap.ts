@@ -1,5 +1,9 @@
 import type { MetadataRoute } from "next";
-import { getDivisions, getJobOpeningSlugs } from "@/sanity/lib/data";
+import {
+  getDivisions,
+  getJobOpeningSlugs,
+  getInsightSlugs,
+} from "@/sanity/lib/data";
 
 export const dynamic = "force-static";
 
@@ -22,9 +26,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   try {
-    const [divisions, jobSlugs] = await Promise.all([
+    const [divisions, jobSlugs, insightSlugs] = await Promise.all([
       getDivisions(),
       getJobOpeningSlugs(),
+      getInsightSlugs(),
     ]);
 
     // 2. Division slug pages
@@ -43,7 +48,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.6,
     }));
 
-    return [...staticRoutes, ...divisionRoutes, ...jobRoutes];
+    // 4. Insight article pages
+    const insightRoutes = (insightSlugs ?? []).map((slug) => ({
+      url: `${baseUrl}/insights/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    }));
+
+    return [...staticRoutes, ...divisionRoutes, ...jobRoutes, ...insightRoutes];
   } catch (error) {
     console.error("Error generating sitemap:", error);
     return staticRoutes;

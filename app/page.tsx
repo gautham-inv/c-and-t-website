@@ -9,6 +9,10 @@ import { Testimonials } from "@/components/sections/Testimonials";
 import { Insights } from "@/components/sections/Insights";
 import { GreenZone } from "@/components/sections/GreenZone";
 import { WithUs } from "@/components/sections/WithUs";
+import { Faq } from "@/components/sections/Faq";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { faqSchema } from "@/lib/seo";
+import { COMPANY_FAQS } from "@/lib/faqs";
 import { getDivisions, getServices, getInsights } from "@/sanity/lib/data";
 
 export default async function Home() {
@@ -20,29 +24,8 @@ export default async function Home() {
     getInsights(),
   ]);
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    "name": "C&T Consulting Engineers",
-    "image": "https://www.candtengineers.com/logo.webp",
-    "url": "https://www.candtengineers.com",
-    "telephone": "+914712555026",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Trivandrum",
-      "addressLocality": "Trivandrum",
-      "addressRegion": "Kerala",
-      "addressCountry": "IN"
-    },
-    "description": "C&T is a multidisciplinary engineering services company delivering MEP engineering design, BIM modeling, and detailed engineering worldwide."
-  };
-
   return (
     <main>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
       <Hero />
       <WhoWeAre />
       <Stats />
@@ -60,10 +43,8 @@ export default async function Home() {
 
       <Insights insights={insights} />
 
-      {/* Placeholder anchors for sections built in later phases — they keep
-          the nav links resolvable while the homepage is assembled. */}
-      <section id="philosophy" className="scroll-mt-24" />
-      <section id="faq" className="scroll-mt-24" />
+      <JsonLd data={faqSchema(COMPANY_FAQS)} />
+      <Faq />
 
       <WithUs />
     </main>

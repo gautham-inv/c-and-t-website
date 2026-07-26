@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { WithUs } from "@/components/sections/WithUs";
 import { JobDescription } from "@/components/careers/JobDescription";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { jobPostingSchema, breadcrumbSchema } from "@/lib/seo";
 import { getJobOpening, getJobOpeningSlugs } from "@/sanity/lib/data";
 
 // Static export: every role route must be known at build time.
@@ -38,39 +40,20 @@ export default async function OpeningPage({
   const opening = await getJobOpening(slug);
   if (!opening) notFound();
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "JobPosting",
-    "title": opening.title,
-    "description": `${opening.about}\n\nResponsibilities:\n${(opening.responsibilities ?? []).map((r) => `* ${r}`).join("\n")}\n\nRequirements:\n${(opening.requirements ?? []).map((r) => `* ${r}`).join("\n")}`,
-    "datePosted": "2026-07-16",
-    "validThrough": "2027-07-16",
-    "employmentType":
-      opening.type === "Full-time"
-        ? "FULL_TIME"
-        : opening.type === "Contract"
-          ? "CONTRACTOR"
-          : "INTERN",
-    "hiringOrganization": {
-      "@type": "Organization",
-      "name": "C&T Consulting Engineers",
-      "sameAs": "https://www.candtengineers.com"
-    },
-    "jobLocation": {
-      "@type": "Place",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": opening.location,
-        "addressCountry": "IN"
-      }
-    }
-  };
-
   return (
     <main>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      <JsonLd
+        data={[
+          jobPostingSchema(opening, {
+            datePosted: "2026-07-16",
+            validThrough: "2027-07-16",
+          }),
+          breadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "Careers", path: "/careers" },
+            { name: opening.title, path: `/careers/${slug}` },
+          ]),
+        ]}
       />
       <JobDescription opening={opening} />
       <WithUs rounded={false} />

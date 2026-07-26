@@ -1,0 +1,27 @@
+# C&T Consulting Engineers
+
+> C&T Consulting Engineers is a multidisciplinary engineering practice founded in 2011, delivering MEP (mechanical, electrical, plumbing) design, BIM modelling and CFD analysis for buildings, airports, data centres, industrial facilities and oil & gas projects worldwide. Headquartered in Trivandrum, Kerala, India, with offices in the UAE and Canada, and project delivery across India, the Middle East, Qatar, Saudi Arabia, Canada and Europe.
+
+C&T operates through two divisions with dedicated teams:
+- **Buildings & Infrastructure** — architectural, structural and MEP engineering design, BIM coordination (up to LOD 400) and drafting for buildings, airports, data centres and infrastructure.
+- **Oil & Gas** — detailed engineering and high-LOD (up to LOD 500) 3D modelling for refineries, LNG plants and offshore platforms.
+
+Core services: MEP engineering design, BIM & 3D modelling, clash detection & coordination, CFD & FEA analysis, hydraulic calculations, ETAP power-system studies, tendering & MTO, cOBie asset management, peer review consultation, and engineering resource deployment. Work is backed by an ISO 9001:2015 certified quality system.
+
+## Key pages
+- [Home](https://www.candtengineers.com/): Overview of the practice and what it delivers.
+- [Who we are](https://www.candtengineers.com/about): Company story, leadership, global offices and ISO certifications.
+- [What we do](https://www.candtengineers.com/divisions): The two divisions, the full engineering scope, and the software the firm designs in.
+- [Buildings & Infrastructure](https://www.candtengineers.com/divisions/building): Services, scope, FAQs and projects for the buildings division.
+- [Oil & Gas](https://www.candtengineers.com/divisions/oil-and-gas): Services, scope, FAQs and projects for the energy division.
+- [Projects](https://www.candtengineers.com/projects): Selected work across airports, data centres, refineries and offshore platforms.
+- [Careers](https://www.candtengineers.com/careers): Open engineering, BIM and drafting roles.
+
+## Insights
+- [Insights](https://www.candtengineers.com/insights): Articles from C&T's engineers on BIM, CFD, MEP and project delivery.
+
+## Contact
+- Email: mail@candtengineers.com
+- Phone: +91 974-728-2551
+- Head office: Trivandrum, Kerala, India
+- Other offices: Dubai, UAE · Mississauga, ON, Canada

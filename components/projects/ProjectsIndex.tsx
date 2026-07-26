@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { X } from "lucide-react";
 import type { PortfolioCard } from "@/sanity/lib/data";
+import { ProjectCard } from "@/components/projects/ProjectCard";
 import { getIndustry } from "@/lib/industries";
 
 // Bento spans on a 3-col grid: a wide (2-col) tile rotates position row to row
@@ -82,62 +83,12 @@ export function ProjectsIndex({ items }: { items: PortfolioCard[] }) {
                 // col-span-2 is sm+ only — unscoped it would force an implicit
                 // extra column on the 1-col mobile grid, making "wide" cards
                 // overflow wider than the rest instead of matching their size.
-                const cls = `group relative block overflow-hidden rounded-2xl bg-stone col-span-1 ${
-                  wide ? "sm:col-span-2" : ""
-                }`;
-                // Photo cards hide their metadata and reveal it on hover/focus
-                // (leadership-style wipe) — no detail page to link to. Cards
-                // without a photo keep the branded blueprint look with the
-                // label always visible, since there's no image to reveal from.
                 return (
-                  <article
+                  <ProjectCard
                     key={p.name}
-                    className={cls}
-                    tabIndex={p.image ? 0 : undefined}
-                    aria-label={p.image ? `${p.name} — ${p.meta}` : undefined}
-                  >
-                    {p.image ? (
-                      <>
-                        <img
-                          src={p.image}
-                          alt={p.name}
-                          loading="lazy"
-                          className="absolute inset-0 h-full w-full object-cover"
-                        />
-                        <span className="absolute left-4 top-4 h-4 w-4 border-l border-t border-beige/50" />
-                        {/* Hover/focus wipe — metadata rises over the photo. */}
-                        <div className="absolute inset-x-0 bottom-0 translate-y-full bg-gradient-to-t from-ink via-ink/92 to-ink/0 px-5 pb-5 pt-16 transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] motion-reduce:translate-y-0 motion-reduce:transition-none group-hover:translate-y-0 group-focus-visible:translate-y-0">
-                          <p className="font-display text-lg font-medium leading-tight text-paper md:text-xl">
-                            {p.name}
-                          </p>
-                          <p className="mt-1.5 font-mono text-[0.6rem] uppercase tracking-[0.14em] text-paper/60">
-                            {p.meta}
-                          </p>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div
-                          aria-hidden
-                          className="absolute inset-0 opacity-[0.16]"
-                          style={{
-                            backgroundImage:
-                              "linear-gradient(to right,#729d35 1px,transparent 1px),linear-gradient(to bottom,#729d35 1px,transparent 1px)",
-                            backgroundSize: "34px 34px",
-                          }}
-                        />
-                        <span className="absolute left-4 top-4 h-4 w-4 border-l border-t border-beige/50" />
-                        <div className="absolute inset-x-5 bottom-5 text-ink">
-                          <p className="font-display text-lg font-medium leading-tight md:text-xl">
-                            {p.name}
-                          </p>
-                          <p className="mt-1.5 font-mono text-[0.6rem] uppercase tracking-[0.14em] text-ink-dim">
-                            {p.meta}
-                          </p>
-                        </div>
-                      </>
-                    )}
-                  </article>
+                    project={p}
+                    className={`col-span-1 ${wide ? "sm:col-span-2" : ""}`}
+                  />
                 );
               })}
             </div>

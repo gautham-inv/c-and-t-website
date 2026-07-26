@@ -33,7 +33,6 @@ export const division = defineType({
       type: "array",
       of: [{ type: "text", rows: 3 }],
     }),
-    defineField({ name: "stats", type: "array", of: [{ type: "stat" }] }),
     defineField({
       name: "services",
       title: "Services offered",

@@ -9,7 +9,6 @@
  */
 
 export type DivisionSlug = "building" | "oil-and-gas";
-export type DivisionStat = { value: string; label: string };
 export type DivisionFAQ = { q: string; a: string };
 
 export type Division = {
@@ -21,7 +20,6 @@ export type Division = {
   tagline: string;
   image: string;
   overview: string[];
-  stats: DivisionStat[];
   /** Services offered in this division (slugs into lib/services.ts), in order. */
   serviceSlugs: string[];
   /** Whether this division shows the industries-served chip cloud (see
@@ -41,11 +39,6 @@ export const DIVISIONS: Division[] = [
     overview: [
       "Our Buildings & Infrastructure team designs the mechanical, electrical and public-health systems for hyperscale data centres, international airport terminals, towers, malls and industrial campuses, keeping complex, systems-dense facilities running.",
       "A dedicated team delivers fully coordinated MEP designs and federated BIM models across data centres, airports and industrial facilities. Clashes are resolved in the model before they reach site, so construction stays on programme.",
-    ],
-    stats: [
-      { value: "163,000 m²", label: "South India airport terminal" },
-      { value: "2.4 MW", label: "Calinova data centre" },
-      { value: "LOD 300–400", label: "BIM coordination" },
     ],
     serviceSlugs: [
       "mep",
@@ -89,11 +82,6 @@ export const DIVISIONS: Division[] = [
     overview: [
       "Energy projects demand engineering that holds up under scrutiny. Process-adjacent buildings, electrical and instrumentation, piping and fire & gas systems are designed to international code and modelled to fabrication detail.",
       "Our Oil & Gas team supports operators and EPC contractors across refineries, LNG plants and offshore platforms, delivering detailed engineering and high-LOD 3D models for some of the sector's most demanding clients.",
-    ],
-    stats: [
-      { value: "LOD 500", label: "Yamal LNG 3D modelling" },
-      { value: "2 GW", label: "Balwin 4 offshore platform" },
-      { value: "9+", label: "energy-sector clients" },
     ],
     serviceSlugs: [
       "mep",

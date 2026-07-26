@@ -31,7 +31,6 @@ export const allDivisionsQuery = groq`
     tagline,
     "image": coalesce(image.asset->url, image),
     overview,
-    stats,
     "serviceSlugs": services[]->slug.current,
     hasIndustries,
     "faqs": faqs[]{ "q": question, "a": answer }
@@ -92,6 +91,7 @@ export const insightBySlugQuery = groq`
     "image": coalesce(image.asset->url, image),
     excerpt,
     body,
+    author,
     attribution
   }
 `;

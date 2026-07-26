@@ -174,7 +174,7 @@ export function CareersView({
               className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-stone"
             >
               <img
-                src="/careers2.jpeg"
+                src="/careers.png"
                 alt="C&T engineering team on site"
                 loading="lazy"
                 className="absolute inset-0 h-full w-full object-cover"

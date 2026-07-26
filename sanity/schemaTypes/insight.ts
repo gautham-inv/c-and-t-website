@@ -33,6 +33,18 @@ export const insight = defineType({
       description: "Fill in when article detail pages ship.",
     }),
     defineField({
+      name: "author",
+      title: "Author (optional)",
+      type: "object",
+      description:
+        "Named, credentialed author — shown as a byline + bio and emitted as Person structured data (E-E-A-T). Leave blank to credit the organisation.",
+      fields: [
+        { name: "name", type: "string", title: "Name" },
+        { name: "role", type: "string", title: "Role / title" },
+        { name: "bio", type: "text", rows: 3, title: "Short bio" },
+      ],
+    }),
+    defineField({
       name: "attribution",
       title: "Attribution (optional)",
       type: "text",

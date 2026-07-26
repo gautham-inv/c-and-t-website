@@ -168,11 +168,12 @@ export function getInsights(): Promise<Insight[]> {
       const rows = await client.fetch<
         (Omit<Insight, "href"> & { slug?: string })[]
       >(insightsQuery);
-      return (rows ?? []).map((a) => ({
+      return (rows ?? []).map((a): Insight => ({
         title: a.title,
         tag: a.tag,
         read: a.read,
         date: formatInsightDate(a.date),
+        datePublished: a.date,
         image: a.image,
         excerpt: a.excerpt,
         slug: a.slug ?? "",
@@ -226,6 +227,7 @@ export function getInsight(slug: string): Promise<Insight | undefined> {
           return {
             ...r,
             date: formatInsightDate(r.date),
+            datePublished: r.date,
             href: `/insights/${r.slug}`,
             body: r.body?.length ? portableTextToBlocks(r.body) : undefined,
           };
@@ -295,7 +297,6 @@ export function getDivisions(): Promise<Division[]> {
       return (rows ?? []).map((d) => ({
         ...d,
         overview: d.overview ?? [],
-        stats: d.stats ?? [],
         serviceSlugs: d.serviceSlugs ?? [],
         faqs: d.faqs ?? [],
         hasIndustries: !!d.hasIndustries,
