@@ -16,7 +16,7 @@ export type Reason = { title: string; body: string };
 export const REASONS: Reason[] = [
   {
     title: "Exceptional career growth",
-    body: "A fast track across MEP design, BIM and commissioning. We invest in the people who grow alongside the practice.",
+    body: "A fast track across architectural and MEP design, BIM and commissioning. We invest in the people who grow alongside the practice.",
   },
   {
     title: "Inspiring leadership",

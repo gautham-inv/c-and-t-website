@@ -26,7 +26,7 @@ const satoshi = localFont({
 
 const TITLE = "C&T Consulting Engineers | MEP, BIM & CFD | Smart Engineering";
 const DESCRIPTION =
-  "Engineered to Endure. C&T delivers MEP design, BIM modelling and CFD analysis for buildings, airports, industrial and oil & gas projects worldwide since 2013.";
+  "Engineered to Endure. C&T delivers architectural and MEP design, BIM modelling and CFD analysis for buildings, airports, industrial and oil & gas projects worldwide since 2013.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.candtengineers.com"),

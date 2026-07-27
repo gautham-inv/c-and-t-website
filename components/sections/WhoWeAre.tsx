@@ -73,8 +73,10 @@ export function WhoWeAre() {
               <div className="space-y-5 font-display text-[clamp(1.35rem,0.9rem+1.5vw,2.05rem)] font-normal leading-[1.3] tracking-[-0.01em]">
                 <p>
                   C&amp;T Consulting Engineers combines{" "}
-                  <span className="text-beige-light">MEP design</span>, BIM
-                  modelling and CFD analysis under one roof, delivering
+                  <span className="text-beige-light">
+                    architectural and MEP design
+                  </span>
+                  , BIM modelling and CFD analysis under one roof, delivering
                   engineering that performs worldwide, since 2013.
                 </p>
                 <p className="text-paper/70">

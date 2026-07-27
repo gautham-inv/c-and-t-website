@@ -719,7 +719,7 @@ async function seedHomePage(
     _type: "homePage",
     heroHeadline: "Smart Engineering",
     heroSubhead:
-      "MEP design, BIM coordination and detailed engineering for the buildings, infrastructure and energy projects the world depends on.",
+      "Architectural and MEP design, BIM coordination and detailed engineering for the buildings, infrastructure and energy projects the world depends on.",
     stats: [
       { _type: "stat", _key: key("st"), value: "2011", label: "Engineering since" },
       { _type: "stat", _key: key("st"), value: "3", label: "Continents" },

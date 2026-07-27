@@ -59,7 +59,7 @@ export function organizationSchema() {
     logo: { "@type": "ImageObject", url: LOGO_URL, width: 462, height: 200 },
     foundingDate: "2011",
     description:
-      "C&T Consulting Engineers is a multidisciplinary engineering practice delivering MEP design, BIM modelling and CFD analysis for buildings, airports, data centres, industrial and oil & gas projects worldwide.",
+      "C&T Consulting Engineers is a multidisciplinary engineering practice delivering architectural and MEP design, BIM modelling and CFD analysis for buildings, airports, data centres, industrial and oil & gas projects worldwide.",
     sameAs: SITE_SETTINGS.socials.map((s) => s.href),
     address: addresses,
     contactPoint: [

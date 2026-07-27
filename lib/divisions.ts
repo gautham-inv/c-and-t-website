@@ -38,7 +38,7 @@ export const DIVISIONS: Division[] = [
     image: "/building-division.jpg",
     overview: [
       "Our Buildings & Infrastructure team designs the mechanical, electrical and public-health systems for hyperscale data centres, international airport terminals, towers, malls and industrial campuses, keeping complex, systems-dense facilities running.",
-      "A dedicated team delivers fully coordinated MEP designs and federated BIM models across data centres, airports and industrial facilities. Clashes are resolved in the model before they reach site, so construction stays on programme.",
+      "A dedicated team delivers fully coordinated architectural and MEP designs and federated BIM models across data centres, airports and industrial facilities. Clashes are resolved in the model before they reach site, so construction stays on programme.",
     ],
     serviceSlugs: [
       "mep",
