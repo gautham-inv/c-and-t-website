@@ -138,7 +138,7 @@ export const LEADERSHIP: Leader[] = [
   {
     name: "Jimmy Bentex",
     role: "Founder & CEO",
-    photo: "/leadership/jimmy.jpg",
+    photo: "/leadership/jimmy.jpeg",
     bio: "B Tech Mechanical Engineering (CET), M Tech (KU). IGBC Lead Associate & ISHRAE member. 25 years across Bilt Middle East, Voltas (TATA), Bluestar & Chalmers Engineering, Dubai.",
   },
   { name: "Vidyanand", role: "CFO", photo: "/leadership/vidyanand.jpeg" },
@@ -160,8 +160,23 @@ export const LEADERSHIP: Leader[] = [
     photo: "/leadership/sherjin.jpg",
     bio: "Mechanical Engineer with 20+ years in MEPF: engineering design, project management, construction supervision and operations across airport, hospitality, residential, industrial and commercial sectors.",
   },
-  { name: "Saibu", role: "Operations Manager, Oil & Gas" },
-  { name: "Rajeev Kumar", role: "Operations Manager, Middle East" },
+  {
+    name: "Saibu",
+    role: "Operations Manager, Oil & Gas",
+    photo: "/leadership/saibu.png",
+    bio: "With more than 24 years of industry experience, he provides strategic leadership backed by extensive expertise in the Oil & Gas and Shipbuilding sectors. His proven ability to lead multidisciplinary teams, deliver complex engineering solutions, and build lasting client relationships has been instrumental in driving the company's reputation for quality, innovation, and operational excellence.",
+  },
+  {
+    name: "Nidhin R",
+    role: "Operations - Oil & Gas",
+    photo: "/leadership/nidhin.png",
+    bio: "A Mechanical Engineer with over 11 years of experience in HVAC Design, MEP Engineering, and EPC Contracting across the Middle East. Experienced in delivering innovative, energy-efficient, and code-compliant HVAC solutions for commercial, industrial, and oil & gas projects. A dedicated engineering professional with strong technical, analytical, and project coordination skills.",
+  },
+  {
+    name: "Rajeev Kumar",
+    role: "Operations Manager, Middle East",
+    photo: "/leadership/rajeev-kumar.png",
+  },
 ];
 
 /**

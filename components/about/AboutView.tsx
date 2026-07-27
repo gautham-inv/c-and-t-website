@@ -229,7 +229,7 @@ export function AboutView({ about }: { about: AboutPageData }) {
               className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-stone md:col-start-1 md:row-span-2 md:row-start-1 md:sticky md:top-28 md:self-start"
             >
               <img
-                src="/leadership/jimmy.jpg"
+                src="/leadership/jimmy.jpeg"
                 alt="Jimmy Bentex, Founder & CEO"
                 loading="lazy"
                 className="absolute inset-0 h-full w-full object-cover"

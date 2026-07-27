@@ -276,12 +276,12 @@ export function DivisionHero({
 
         <div
           ref={copyRef}
-          className="relative mx-auto w-full max-w-[1600px] px-6 pb-44 text-center will-change-transform md:px-10 md:pb-52"
+          className="relative mx-auto w-full max-w-[1600px] px-6 pb-52 text-center will-change-transform md:px-10 md:pb-60"
         >
           {children ?? (
             <>
               <h1
-                className={`mx-auto max-w-4xl font-display text-[clamp(2.5rem,1rem+5vw,5.5rem)] font-semibold leading-[1.03] tracking-[-0.02em] ${
+                className={`mx-auto flex min-h-[2lh] max-w-4xl flex-col justify-end font-display text-[clamp(2.5rem,1rem+5vw,5.5rem)] font-semibold leading-[1.03] tracking-[-0.02em] ${
                   dark ? "text-ink" : "text-paper"
                 }`}
                 style={{
