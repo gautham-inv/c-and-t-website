@@ -38,6 +38,29 @@
   /* Fluid display scale */
   --text-hero: clamp(2.75rem, 1rem + 5.2vw, 5.75rem);
   --text-display: clamp(2.25rem, 1.4rem + 3.6vw, 4rem);
+
+  /* Scroll cue — the wheel dot drifting inside the mouse outline on the
+   * division hero (components/divisions/DivisionHero.tsx). CSS rather than
+   * GSAP so it runs without waiting on hydration and needs no ref wiring. */
+  --animate-scroll-cue: scroll-cue 1.7s ease-in-out infinite;
+
+  @keyframes scroll-cue {
+    0% {
+      transform: translateY(0);
+      opacity: 0;
+    }
+    25% {
+      opacity: 1;
+    }
+    75% {
+      transform: translateY(9px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(9px);
+      opacity: 0;
+    }
+  }
 }
 
 :root {
