@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -86,7 +87,7 @@ export function WhoWeAre() {
                 </p>
               </div>
 
-              <a
+              <Link
                 href="/about"
                 className="group mt-8 inline-flex items-center gap-3 font-display text-lg text-paper"
               >
@@ -96,7 +97,7 @@ export function WhoWeAre() {
                 <span className="text-green transition-transform duration-300 group-hover:translate-x-1">
                   →
                 </span>
-              </a>
+              </Link>
             </div>
 
             {/* Images — large portrait + overlapping square, layered parallax */}

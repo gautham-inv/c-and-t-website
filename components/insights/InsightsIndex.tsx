@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import type { Insight } from "@/lib/insights";
 
@@ -33,7 +34,7 @@ export function InsightsIndex({ items }: { items: Insight[] }) {
         <div className="mx-auto max-w-[1600px] px-6 py-14 md:px-10 md:py-20">
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-12">
             {items.map((a) => (
-              <a key={a.title} href={a.href} className="group flex flex-col">
+              <Link key={a.title} href={a.href} className="group flex flex-col">
                 <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-[#0a1c25]">
                   <img
                     src={a.image}
@@ -61,7 +62,7 @@ export function InsightsIndex({ items }: { items: Insight[] }) {
                     />
                   </span>
                 </div>
-              </a>
+              </Link>
             ))}
           </div>
         </div>

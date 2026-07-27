@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRef, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { useGSAP } from "@gsap/react";
@@ -99,7 +100,7 @@ export function Services({ services = SERVICES }: { services?: Service[] } = {})
             The disciplines we{" "}
             <span className="text-ink-dim">deliver</span>
           </h2>
-          <a
+          <Link
             href="/divisions"
             className="group mt-7 inline-flex w-fit items-center gap-2.5 rounded-full border border-line py-2.5 pl-5 pr-2.5 text-sm font-medium text-navy transition-colors duration-300 hover:border-navy"
           >
@@ -110,7 +111,7 @@ export function Services({ services = SERVICES }: { services?: Service[] } = {})
                 strokeWidth={2}
               />
             </span>
-          </a>
+          </Link>
 
           {/* Grid of services — hovering swaps the image on the left. Each
               service is delivered by BOTH divisions, so every card points
@@ -140,7 +141,7 @@ export function Services({ services = SERVICES }: { services?: Service[] } = {})
                         View in
                       </span>
                       {serviceDivisions(s).map((d) => (
-                        <a
+                        <Link
                           key={d}
                           href={`/divisions/${d}#${s.slug}`}
                           onFocus={() => setActive(i)}
@@ -151,7 +152,7 @@ export function Services({ services = SERVICES }: { services?: Service[] } = {})
                             className="h-3 w-3 transition-transform duration-300 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5"
                             strokeWidth={2}
                           />
-                        </a>
+                        </Link>
                       ))}
                     </div>
                   </div>

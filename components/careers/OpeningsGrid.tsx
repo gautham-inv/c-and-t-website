@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ArrowUpRight, MapPin, Briefcase } from "lucide-react";
 import type { JobOpeningCard } from "@/sanity/lib/data";
 import { CAREERS_CONTACT } from "@/lib/careers";
@@ -35,7 +36,7 @@ export function OpeningsGrid({ openings }: { openings: JobOpeningCard[] }) {
 
         <div className="mt-12 grid gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
           {openings.map((o) => (
-            <a
+            <Link
               key={o.slug}
               href={`/careers/${o.slug}`}
               className="group flex flex-col rounded-2xl border border-line bg-surface p-7 transition-all duration-300 hover:-translate-y-1 hover:border-green/50 hover:shadow-[0_24px_60px_-32px_rgba(9,33,44,0.4)] md:p-8"
@@ -74,7 +75,7 @@ export function OpeningsGrid({ openings }: { openings: JobOpeningCard[] }) {
                   strokeWidth={1.75}
                 />
               </span>
-            </a>
+            </Link>
           ))}
         </div>
       </div>

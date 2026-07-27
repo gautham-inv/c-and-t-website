@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { useGSAP } from "@gsap/react";
@@ -45,7 +46,7 @@ export function Insights({ insights = INSIGHTS }: { insights?: Insight[] } = {})
               Recent <span className="text-green-dark">thinking</span>
             </h2>
           </div>
-          <a
+          <Link
             data-up
             href="/insights"
             className="group inline-flex items-center gap-2.5 rounded-full border border-navy/20 px-5 py-2.5 font-mono text-[0.68rem] uppercase tracking-[0.16em] text-navy transition-colors duration-300 hover:border-navy hover:bg-navy hover:text-paper"
@@ -55,7 +56,7 @@ export function Insights({ insights = INSIGHTS }: { insights?: Insight[] } = {})
               className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
               strokeWidth={1.75}
             />
-          </a>
+          </Link>
         </div>
 
         <div
@@ -64,7 +65,7 @@ export function Insights({ insights = INSIGHTS }: { insights?: Insight[] } = {})
         >
           {/* Card 1 — title beside a tall portrait image. */}
           {featured[0] && (
-            <a
+            <Link
               href={featured[0].href}
               className="group grid items-stretch gap-6 sm:grid-cols-[1fr_1.05fr] sm:gap-8"
             >
@@ -92,12 +93,12 @@ export function Insights({ insights = INSIGHTS }: { insights?: Insight[] } = {})
                 />
                 <span className="absolute left-5 top-5 h-5 w-5 border-l border-t border-beige/40" />
               </div>
-            </a>
+            </Link>
           )}
 
           {/* Card 2 — image above title; together they match Card 1's height. */}
           {featured[1] && (
-            <a href={featured[1].href} className="group flex h-full flex-col gap-6">
+            <Link href={featured[1].href} className="group flex h-full flex-col gap-6">
               <div className="relative min-h-[12rem] flex-1 overflow-hidden rounded-2xl bg-[#0a1c25]">
                 <img
                   src={featured[1].image}
@@ -115,7 +116,7 @@ export function Insights({ insights = INSIGHTS }: { insights?: Insight[] } = {})
                   {featured[1].title}
                 </h3>
               </div>
-            </a>
+            </Link>
           )}
         </div>
       </div>

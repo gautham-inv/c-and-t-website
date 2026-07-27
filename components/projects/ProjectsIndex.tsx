@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { X } from "lucide-react";
@@ -51,7 +52,7 @@ export function ProjectsIndex({ items }: { items: PortfolioCard[] }) {
 
           {industry && (
             <div className="mt-7 flex justify-center">
-              <a
+              <Link
                 href="/projects"
                 className="group inline-flex items-center gap-2.5 rounded-full border border-line bg-surface py-2 pl-5 pr-2.5 text-sm font-medium text-navy transition-colors duration-300 hover:border-navy"
               >
@@ -59,7 +60,7 @@ export function ProjectsIndex({ items }: { items: PortfolioCard[] }) {
                 <span className="flex h-6 w-6 items-center justify-center rounded-full bg-navy/10 text-navy transition-colors duration-300 group-hover:bg-navy group-hover:text-paper">
                   <X className="h-3.5 w-3.5" strokeWidth={2} />
                 </span>
-              </a>
+              </Link>
             </div>
           )}
         </div>
@@ -71,9 +72,9 @@ export function ProjectsIndex({ items }: { items: PortfolioCard[] }) {
           {filtered.length === 0 ? (
             <p className="text-center text-base text-ink-dim">
               No projects tagged for this industry yet — check back soon, or{" "}
-              <a href="/projects" className="text-green-dark underline underline-offset-4">
+              <Link href="/projects" className="text-green-dark underline underline-offset-4">
                 see all projects
-              </a>
+              </Link>
               .
             </p>
           ) : (

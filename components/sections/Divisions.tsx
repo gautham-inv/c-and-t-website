@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { useGSAP } from "@gsap/react";
@@ -44,7 +45,7 @@ export function Divisions({ divisions = DIVISIONS }: { divisions?: Division[] } 
         <div className="mt-12 grid gap-6 md:mt-14 md:grid-cols-2 md:gap-8">
           {divisions.map((d) => {
             return (
-              <a
+              <Link
                 key={d.slug}
                 data-up
                 href={`/divisions/${d.slug}`}
@@ -82,7 +83,7 @@ export function Divisions({ divisions = DIVISIONS }: { divisions?: Division[] } 
                     />
                   </span>
                 </div>
-              </a>
+              </Link>
             );
           })}
         </div>

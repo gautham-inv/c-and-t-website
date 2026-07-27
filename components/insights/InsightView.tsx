@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ArrowLeft, Calendar, Clock, PenLine } from "lucide-react";
 import type { Insight } from "@/lib/insights";
 import { RichBlocks } from "@/components/shared/RichBlocks";
@@ -17,7 +18,7 @@ export function InsightView({ insight }: { insight: Insight }) {
           }}
         />
         <div className="relative mx-auto max-w-[1100px] px-6 pb-6 pt-26 md:px-10 md:pt-30">
-          <a
+          <Link
             href="/insights"
             className="group inline-flex items-center gap-2 font-mono text-[0.68rem] uppercase tracking-[0.16em] text-ink-dim transition-colors duration-200 hover:text-green-dark"
           >
@@ -26,7 +27,7 @@ export function InsightView({ insight }: { insight: Insight }) {
               strokeWidth={1.75}
             />
             All insights
-          </a>
+          </Link>
 
           <p className="mt-8 font-mono text-[0.66rem] uppercase tracking-[0.18em] text-green-dark">
             {insight.tag}

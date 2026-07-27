@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -7,22 +8,27 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
+// `href` points at the /projects index, not a per-project route: projects no
+// longer have detail pages (there is no app/projects/[slug]), so the old
+// /projects/<slug> links were 404s. Left as plain 404s they were merely dead
+// on click; as next/link they would also be prefetched, firing failing
+// requests from the homepage on every visit.
 const CASE_STUDIES = [
   {
     image: "/projects/calinova-case-study.jpg",
     caption: "Calinova Data Centre, MEP & BIM · 2.4 MW | Calicut",
     title: "A 2.4 MW data centre, coordinated clash-free",
     body: "A hyperscale-ready facility with no tolerance for downtime. We delivered full MEP design plus a LOD 400 BIM model, with CFD-validated cooling, and the coordination paid off: a clash-free model and a faster, rework-free install.",
-    cta: "View project",
-    href: "/projects/calinova-data-centre",
+    cta: "View projects",
+    href: "/projects",
   },
   {
     image: "/projects/airport-terminal-case-study.jpg",
     caption: "Major Airport, South India · MEP Design & BIM",
     title: "A new terminal, engineered for millions",
     body: "Systems built for millions of passengers a year. Every MEP discipline was modelled to LOD 400, with CFD across the concourse balancing comfort against energy use, delivered coordinated and on programme.",
-    cta: "View project",
-    href: "/projects/south-india-airport-terminal",
+    cta: "View projects",
+    href: "/projects",
   },
 ];
 
@@ -85,7 +91,7 @@ export function Difference() {
                   }}
                 />
                 <span className="absolute left-5 top-5 h-5 w-5 border-l border-t border-beige/60" />
-                <a
+                <Link
                   href={p.href}
                   className="group absolute bottom-4 right-4 inline-flex items-center gap-2.5 rounded-full bg-paper py-2 pl-4 pr-2 text-xs font-medium text-navy transition-colors duration-300 hover:bg-beige-light"
                 >
@@ -93,7 +99,7 @@ export function Difference() {
                   <span className="flex h-6 w-6 items-center justify-center rounded-full bg-navy text-paper transition-transform duration-300 group-hover:translate-x-0.5">
                     →
                   </span>
-                </a>
+                </Link>
               </figure>
 
               {/* Title + body */}

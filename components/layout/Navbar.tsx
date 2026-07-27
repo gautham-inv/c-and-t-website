@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { X, ArrowUpRight } from "lucide-react";
 import gsap from "gsap";
@@ -7,13 +8,14 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { getLenis } from "@/lib/lenis";
 import { openEnquiry } from "@/lib/enquiry";
 import { socialIcon } from "@/lib/social";
+import { NavItemLink } from "@/components/layout/NavItemLink";
 import { SITE_SETTINGS, type NavLink, type SocialRef } from "@/lib/site";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const LEGAL = [
-  { label: "Privacy Policy", href: "#" },
-  { label: "Terms of Service", href: "#" },
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Terms of Service", href: "/terms" },
 ];
 
 /** Primary nav — inline on desktop, overlay on mobile. `nav`/`socials` come
@@ -117,7 +119,7 @@ export function Navbar({
             className={`relative flex items-center justify-between gap-4 px-5 py-3 md:px-7 ${pill}`}
           >
             {/* Logo — home */}
-            <a
+            <Link
               href="/"
               aria-label="C&T Consulting Engineers, home"
               className="shrink-0"
@@ -130,12 +132,12 @@ export function Navbar({
                 className="h-9 w-auto md:h-10"
                 draggable={false}
               />
-            </a>
+            </Link>
 
             {/* Desktop nav — all options listed directly */}
             <nav className="hidden items-center gap-7 lg:flex lg:gap-9">
               {nav.map((n) => (
-                <a
+                <NavItemLink
                   key={n.label}
                   href={n.href}
                   onClick={(e) => onNav(e, n.href)}
@@ -143,7 +145,7 @@ export function Navbar({
                 >
                   {n.label}
                   <span className="absolute -bottom-1 left-0 h-px w-0 bg-green transition-all duration-300 group-hover:w-full" />
-                </a>
+                </NavItemLink>
               ))}
             </nav>
 
@@ -227,7 +229,7 @@ export function Navbar({
               <ul className="flex w-full flex-col items-start gap-2">
                 {nav.map((n, i) => (
                   <li key={n.label} className="overflow-hidden py-0.5">
-                    <a
+                    <NavItemLink
                       href={n.href}
                       onClick={(e) => onNav(e, n.href)}
                       data-open={open}
@@ -235,7 +237,7 @@ export function Navbar({
                       className="block translate-y-full pb-[0.12em] font-display text-[clamp(2.25rem,1rem+8vw,4rem)] font-semibold leading-[1.15] tracking-[-0.02em] text-paper transition-[transform,color] duration-[600ms] ease-[cubic-bezier(0.76,0,0.24,1)] hover:text-green data-[open=true]:translate-y-0"
                     >
                       {n.label}
-                    </a>
+                    </NavItemLink>
                   </li>
                 ))}
                 <li className="overflow-hidden py-0.5">
@@ -282,9 +284,13 @@ export function Navbar({
                   {LEGAL.map((l, i) => (
                     <span key={l.label} className="flex items-center gap-x-5">
                       {i > 0 && <span className="text-paper/25">·</span>}
-                      <a href={l.href} className="transition-colors hover:text-paper">
+                      <Link
+                        href={l.href}
+                        onClick={() => setOpen(false)}
+                        className="transition-colors hover:text-paper"
+                      >
                         {l.label}
-                      </a>
+                      </Link>
                     </span>
                   ))}
                 </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRef } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useGSAP } from "@gsap/react";
@@ -144,7 +145,7 @@ export function Projects() {
                 below to see how each one was engineered.
               </p>
               <div className="mt-5 flex items-center justify-between gap-4">
-                <a
+                <Link
                   href="/projects"
                   className="group inline-flex items-center gap-2 font-mono text-[0.68rem] uppercase tracking-[0.16em] text-green-dark transition-colors duration-300 hover:text-green"
                 >
@@ -152,7 +153,7 @@ export function Projects() {
                   <span className="transition-transform duration-300 group-hover:translate-x-0.5">
                     →
                   </span>
-                </a>
+                </Link>
                 {/* Prev/next — mobile only (desktop scrolls the pinned track). */}
                 <div className="flex shrink-0 gap-3 md:hidden">
                   <button

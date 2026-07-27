@@ -7,6 +7,41 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
+/** A frame sequence mid-flight or fully decoded. `ready` is the number of
+ * frames decoded *contiguously* from 0 — the sequence is scrubbable up to
+ * `ready - 1` and unknown beyond it. Frames past the watermark may well be
+ * decoded (the loader runs a pool, so they land out of order) but can't be
+ * relied on, hence a single watermark rather than a per-frame check. */
+type FrameSet = { images: HTMLImageElement[]; ready: number };
+
+/** Module-level (not component-level) so it survives an unmount/remount —
+ * i.e. navigating away from a division page and back within the same soft
+ * (client-side) navigation session resumes from the frames already decoded
+ * instead of redoing the work. A revisit after a completed load skips the
+ * gate entirely; a revisit that interrupted the load part-way picks up at the
+ * watermark. This only helps within one session; it can't survive a hard page
+ * reload, which is what converting internal links to next/link (see Navbar,
+ * Footer, DivisionView's cross-link, etc.) is for — this cache is the other
+ * half of that fix. */
+const frameCache = new Map<string, FrameSet>();
+
+/**
+ * Frames that must be decoded before the loading gate lifts. The rest keep
+ * streaming in behind the now-visible page.
+ *
+ * The gate exists so nobody sees an unfinished hero, but that doesn't require
+ * the *whole* sequence — only enough of a head start that scrubbing has
+ * somewhere to go. 48 of ~274 frames is ~4 MB rather than ~24 MB, so the page
+ * appears roughly 5-6x sooner, and covers the first ~28vh of scrolling.
+ *
+ * Outrunning the buffer is still possible (a trackpad flick can cover 200
+ * frames' worth of track in one gesture, which no buffer survives on a slow
+ * connection) — that's what the watermark clamp in the scrub handler is for:
+ * the hero holds on the newest decoded frame and catches up, instead of
+ * snapping back to a stale one.
+ */
+const GATE_FRAMES = 48;
+
 /**
  * Division hero — a WebP frame sequence scrubbed by scroll position.
  *
@@ -21,11 +56,12 @@ gsap.registerPlugin(ScrollTrigger);
  * sync with the smooth-scrolled position.
  *
  * Loading: the first frame renders immediately as a plain <img> poster so the
- * hero is never blank, and the remaining frames stream in behind it with a
- * capped number of parallel requests. Scrubbing only switches on once every
- * frame is decoded — a partly-loaded sequence would jump back to a stale frame
- * whenever the user outran the downloads. The sequence is large (see the
- * script's header), so nothing here blocks page interaction while it fills.
+ * hero is never blank, and the rest stream in behind it with a capped number of
+ * parallel requests, in order. Scrubbing switches on after GATE_FRAMES and is
+ * clamped to the contiguous-decoded watermark, so a partly-loaded sequence
+ * holds on its newest frame rather than jumping back to a stale one; the
+ * loader nudges it forward as the watermark advances, since scroll events
+ * alone wouldn't redraw a hero the user has already stopped scrolling past.
  *
  * The copy sits centred over the stage — true centre (both axes) below `lg`,
  * where there's no room to spare; bottom-aligned with room reserved for the
@@ -40,14 +76,12 @@ gsap.registerPlugin(ScrollTrigger);
  * users skip the frame preload entirely and are marked ready immediately —
  * they get the static poster and never see the loading gate below.
  *
- * Loading gate: the whole page (not just the hero) is hidden behind a
- * fixed, full-viewport overlay until every frame has decoded — the request
- * this is built for is "these pages load only once the animation is ready",
- * so a page half-visible behind a partial hero would defeat the point. Scroll
- * is locked for the same reason. This is a genuine trade-off: the gate adds
- * a hard wait (see scripts/extract_hero_frames.py for payload size) before
- * anything on the page is visible or indexable-looking to a visitor, in
- * exchange for never showing an unfinished hero.
+ * Loading gate: the whole page (not just the hero) is hidden behind a fixed,
+ * full-viewport overlay until the hero can animate — the request this is built
+ * for is "these pages load only once the animation is ready", so a page
+ * half-visible behind a partial hero would defeat the point. Scroll is locked
+ * for the same reason. The wait is bounded by GATE_FRAMES rather than the whole
+ * sequence, which is what keeps that guarantee affordable.
  */
 export function DivisionHero({
   dir,
@@ -74,6 +108,14 @@ export function DivisionHero({
   const cueRef = useRef<HTMLDivElement>(null);
   const framesRef = useRef<HTMLImageElement[]>([]);
   const drawnRef = useRef(-1);
+  /** Highest frame index safe to draw — see FrameSet.ready. A ref, not state,
+   * so the loader can advance it ~274 times without re-rendering; the scrub
+   * handler reads it at draw time. */
+  const readyUpToRef = useRef(-1);
+  /** Set by the scrub effect: redraw at the current scroll position. Called by
+   * the loader so a hero that outran its buffer catches up even when the user
+   * has stopped scrolling (no scroll events = no onUpdate = no redraw). */
+  const catchUpRef = useRef<(() => void) | null>(null);
   const [ready, setReady] = useState(false);
   const [progress, setProgress] = useState(0);
 
@@ -105,8 +147,32 @@ export function DivisionHero({
       return;
     }
 
+    // Adopt whatever this session already decoded for this sequence (a revisit
+    // to the page, possibly one that was interrupted part-way) and carry on
+    // from its watermark. A `const` binding, so the narrowing survives into the
+    // worker closures below.
+    const existing = frameCache.get(dir);
+    const frames: FrameSet =
+      existing && existing.images.length === count
+        ? existing
+        : { images: new Array(count), ready: 0 };
+    frameCache.set(dir, frames);
+
+    const { images } = frames;
+    framesRef.current = images;
+    readyUpToRef.current = frames.ready - 1;
+
+    const gate = Math.min(count, GATE_FRAMES);
+    let lifted = frames.ready >= gate;
+    if (lifted) {
+      setProgress(1);
+      setReady(true);
+    } else {
+      setProgress(frames.ready / gate);
+    }
+    if (frames.ready >= count) return; // fully decoded earlier — nothing to do
+
     let cancelled = false;
-    const images: HTMLImageElement[] = new Array(count);
 
     const load = (i: number) =>
       new Promise<void>((resolve) => {
@@ -121,27 +187,46 @@ export function DivisionHero({
         img.src = src(i);
       });
 
+    // Walk the watermark forward over any newly-contiguous run. Frames land out
+    // of order within the pool, so one arrival can advance it by several.
+    const advance = () => {
+      while (frames.ready < count && images[frames.ready]) frames.ready++;
+      readyUpToRef.current = frames.ready - 1;
+    };
+
     // Cap parallelism: firing every request at once buys nothing over HTTP/2
     // and starves the rest of the page's assets (fonts, below-fold images).
     const CONCURRENCY = 10;
-    let next = 0;
-    let done = 0;
+    // Hand out indices in order — scroll only ever moves forward through the
+    // sequence, so in-order is also priority order.
+    let next = frames.ready;
 
     const worker = async (): Promise<void> => {
-      while (!cancelled && next < count) {
+      while (!cancelled) {
         const i = next++;
-        await load(i);
-        done++;
-        if (!cancelled && done % 5 === 0) setProgress(done / count);
+        if (i >= count) return;
+        if (!images[i]) await load(i);
+        if (cancelled) return;
+
+        const before = frames.ready;
+        advance();
+        if (frames.ready === before) continue; // filled a hole ahead, not the edge
+
+        if (!lifted && frames.ready >= gate) {
+          lifted = true;
+          setProgress(1);
+          setReady(true);
+        } else if (lifted) {
+          // More of the sequence is now scrubbable; pull the hero forward if it
+          // was waiting on it.
+          catchUpRef.current?.();
+        } else {
+          setProgress(frames.ready / gate);
+        }
       }
     };
 
-    Promise.all(Array.from({ length: CONCURRENCY }, worker)).then(() => {
-      if (cancelled) return;
-      framesRef.current = images;
-      setProgress(1);
-      setReady(true);
-    });
+    void Promise.all(Array.from({ length: CONCURRENCY }, worker));
 
     return () => {
       cancelled = true;
@@ -235,20 +320,28 @@ export function DivisionHero({
         drawnRef.current = index;
       };
 
-      draw(0);
+      // Draw the frame the scroll position asks for, or the newest one decoded
+      // if the sequence hasn't got that far yet. Clamping forward-only is what
+      // makes a partial sequence usable: the hero stalls on its latest frame
+      // instead of snapping back to a stale earlier one.
+      const render = () => {
+        const want = Math.round(st.progress * (count - 1));
+        const i = Math.max(
+          0,
+          Math.min(want, count - 1, readyUpToRef.current),
+        );
+        if (i !== drawnRef.current) draw(i);
+      };
 
       const st = ScrollTrigger.create({
         trigger: el,
         start: "top top",
         end: "bottom bottom",
-        onUpdate: (self) => {
-          const i = Math.min(
-            count - 1,
-            Math.max(0, Math.round(self.progress * (count - 1))),
-          );
-          if (i !== drawnRef.current) draw(i);
-        },
+        onUpdate: render,
       });
+
+      render();
+      catchUpRef.current = render;
 
       const onResize = () => {
         // Force a re-fit: clientWidth changed, so the cached canvas backing
@@ -259,6 +352,7 @@ export function DivisionHero({
       window.addEventListener("resize", onResize);
 
       return () => {
+        catchUpRef.current = null;
         st.kill();
         window.removeEventListener("resize", onResize);
       };

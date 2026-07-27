@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback } from "react";
 import {
   WITHUS_OVERLAP_VH,
@@ -7,6 +8,7 @@ import {
 } from "@/components/sections/WithUs";
 import { getLenis } from "@/lib/lenis";
 import { socialIcon } from "@/lib/social";
+import { NavItemLink } from "@/components/layout/NavItemLink";
 import { SITE_SETTINGS, type NavLink, type Office, type SocialRef } from "@/lib/site";
 
 const LEGAL = [
@@ -86,14 +88,14 @@ export function Footer({
           {/* Nav */}
           <nav className="flex flex-col items-start gap-1">
             {links.map((n) => (
-              <a
+              <NavItemLink
                 key={n.label}
                 href={n.href}
                 onClick={(e) => onNav(e, n.href)}
                 className="font-display text-2xl font-normal lowercase text-paper/85 transition-colors duration-200 hover:text-green md:text-3xl"
               >
                 {n.label}
-              </a>
+              </NavItemLink>
             ))}
           </nav>
 
@@ -151,9 +153,9 @@ export function Footer({
               {LEGAL.map((l, i) => (
                 <span key={l.label} className="flex items-center gap-x-3">
                   {i > 0 && <span className="text-paper/25">·</span>}
-                  <a href={l.href} className="text-paper/55 transition-colors hover:text-paper">
+                  <Link href={l.href} className="text-paper/55 transition-colors hover:text-paper">
                     {l.label}
-                  </a>
+                  </Link>
                 </span>
               ))}
               <span className="text-paper/25">·</span>

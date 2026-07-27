@@ -1,0 +1,19 @@
+# Cloudflare Pages response headers.
+#
+# The dev server (and Cloudflare Pages' own default for files under
+# public/) serves everything with `Cache-Control: public, max-age=0` —
+# every request, even a byte-identical repeat, pays a full round-trip
+# revalidation. That's the dominant cost of re-visiting a division page:
+# components/divisions/DivisionHero.tsx preloads 194-274 individual frame
+# files, so "max-age=0" means 194-274 revalidation requests every single
+# time, on top of the JS-side decode work.
+#
+# One day, not `immutable`: the frame filenames are stable (0001.webp,
+# 0002.webp, …) even when the source video is replaced and the sequence is
+# re-extracted (scripts/extract_hero_frames.py writes the same names) — an
+# `immutable`/max-age=1y cache would keep serving stale frames from an old
+# video for a year after a swap. A day bounds that staleness while still
+# killing the "revalidate every single navigation" cost for same-day
+# repeat visits, which is the case this is actually fixing.
+/division-frames/*
+  Cache-Control: public, max-age=86400

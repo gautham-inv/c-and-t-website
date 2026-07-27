@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import type { Division } from "@/lib/divisions";
 import type { Service } from "@/lib/services";
@@ -219,7 +220,7 @@ export function DivisionView({
       {other && (
         <section className="bg-mist">
           <div className="mx-auto max-w-[1600px] px-6 pb-20 md:px-10 md:pb-28">
-            <a
+            <Link
               href={`/divisions/${other.slug}`}
               className="group flex flex-wrap items-center justify-between gap-6 rounded-2xl border border-line px-8 py-8 transition-colors duration-300 hover:border-ink md:px-12"
             >
@@ -238,7 +239,7 @@ export function DivisionView({
                   strokeWidth={1.75}
                 />
               </span>
-            </a>
+            </Link>
           </div>
         </section>
       )}

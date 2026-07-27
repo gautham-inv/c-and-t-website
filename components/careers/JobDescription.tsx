@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { ArrowLeft, ArrowUpRight, MapPin, Briefcase, Clock, Check } from "lucide-react";
 import { openApply } from "@/lib/apply";
 import type { Opening } from "@/lib/careers";
@@ -25,7 +26,7 @@ export function JobDescription({ opening }: { opening: Opening }) {
           }}
         />
         <div className="relative mx-auto max-w-[900px] px-6 pb-6 pt-36 md:px-10 md:pt-44">
-          <a
+          <Link
             href="/careers"
             className="group inline-flex items-center gap-2 font-mono text-[0.68rem] uppercase tracking-[0.16em] text-ink-dim transition-colors duration-200 hover:text-green-dark"
           >
@@ -34,7 +35,7 @@ export function JobDescription({ opening }: { opening: Opening }) {
               strokeWidth={1.75}
             />
             All openings
-          </a>
+          </Link>
 
           <p className="mt-8 font-mono text-[0.66rem] uppercase tracking-[0.18em] text-green-dark">
             {opening.team}
