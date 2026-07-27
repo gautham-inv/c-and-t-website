@@ -18,11 +18,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/careers",
     "/insights",
     "/projects",
+    "/privacy",
+    "/terms",
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,
-    priority: route === "" ? 1.0 : 0.8,
+    // Legal pages carry no ranking value — deprioritised rather than omitted,
+    // since they're still real, indexable pages worth Google knowing about.
+    priority: route === "" ? 1.0 : route === "/privacy" || route === "/terms" ? 0.3 : 0.8,
   }));
 
   try {

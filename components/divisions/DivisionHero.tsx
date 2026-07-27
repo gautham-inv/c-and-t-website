@@ -27,15 +27,27 @@ gsap.registerPlugin(ScrollTrigger);
  * whenever the user outran the downloads. The sequence is large (see the
  * script's header), so nothing here blocks page interaction while it fills.
  *
- * The copy sits centred over the stage and slides up out of the way as soon as
- * scrolling starts, handing the screen to the footage. `tone` picks the text
- * colour per division because the sequences differ: the buildings clip opens
- * on a white frame (measured luminance 255) and the oil clip on a dark blue
- * one (~104), so a single colour can't serve both.
+ * The copy sits centred over the stage — true centre (both axes) below `lg`,
+ * where there's no room to spare; bottom-aligned with room reserved for the
+ * scroll cue from `lg` up. It slides up out of the way as soon as scrolling
+ * starts, handing the screen to the footage. `tone` picks the text colour per
+ * division because the sequences differ: the buildings clip opens on a white
+ * frame (measured luminance 255) and the oil clip on a dark blue one (~104),
+ * so a single colour can't serve both.
  *
  * `motion-reduce` collapses the scroll track to a single screen via CSS (no
- * layout shift, since it never depends on JS), and the preload is skipped for
- * reduced-motion and Save-Data users, who keep the static poster.
+ * layout shift, since it never depends on JS). Reduced-motion and Save-Data
+ * users skip the frame preload entirely and are marked ready immediately —
+ * they get the static poster and never see the loading gate below.
+ *
+ * Loading gate: the whole page (not just the hero) is hidden behind a
+ * fixed, full-viewport overlay until every frame has decoded — the request
+ * this is built for is "these pages load only once the animation is ready",
+ * so a page half-visible behind a partial hero would defeat the point. Scroll
+ * is locked for the same reason. This is a genuine trade-off: the gate adds
+ * a hard wait (see scripts/extract_hero_frames.py for payload size) before
+ * anything on the page is visible or indexable-looking to a visitor, in
+ * exchange for never showing an unfinished hero.
  */
 export function DivisionHero({
   dir,
@@ -83,7 +95,15 @@ export function DivisionHero({
     const conn = (
       navigator as Navigator & { connection?: { saveData?: boolean } }
     ).connection;
-    if (mq.matches || conn?.saveData) return;
+    if (mq.matches || conn?.saveData) {
+      // These users never get the animated sequence — they keep the static
+      // poster. Mark ready immediately rather than leaving it false forever:
+      // `ready` now also lifts the full-page loading gate below, and that
+      // gate must never hang open for someone who was never going to trigger
+      // the preload that would otherwise flip it.
+      setReady(true);
+      return;
+    }
 
     let cancelled = false;
     const images: HTMLImageElement[] = new Array(count);
@@ -127,6 +147,19 @@ export function DivisionHero({
       cancelled = true;
     };
   }, [dir, count]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // ── Loading-gate scroll lock ──────────────────────────────────────────────
+  // Blocks scrolling past the gate while it's up. Runs on `document.body`
+  // rather than the track itself since the gate covers the whole page, not
+  // just this section.
+  useEffect(() => {
+    if (ready) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [ready]);
 
   // ── Copy slide-away + scroll cue ─────────────────────────────────────────
   // Independent of the frame preload: the copy must react to scroll from the
@@ -234,12 +267,35 @@ export function DivisionHero({
   );
 
   return (
-    <section
-      ref={track}
-      className="relative h-[260vh] motion-reduce:h-screen"
-      aria-label={`${name} — scroll-driven hero`}
-    >
-      <div className="sticky top-0 flex h-screen items-end overflow-hidden">
+    <>
+      {/* Loading gate — fixed to the viewport (not this section), so it
+          covers the whole page regardless of where DivisionHero sits in the
+          tree. Fades out once every frame has decoded; see the file header
+          for why the whole page waits on this rather than just the hero. */}
+      <div
+        aria-hidden={ready}
+        className={`fixed inset-0 z-[100] flex flex-col items-center justify-center gap-5 bg-navy transition-opacity duration-500 ${
+          ready ? "pointer-events-none opacity-0" : "opacity-100"
+        }`}
+      >
+        <img src="/logo.webp" alt="" width={462} height={200} className="h-9 w-auto object-contain" />
+        <div className="h-0.5 w-40 overflow-hidden rounded-full bg-paper/15">
+          <div
+            className="h-full bg-green transition-[width] duration-200 ease-out"
+            style={{ width: `${Math.round(progress * 100)}%` }}
+          />
+        </div>
+        <p className="font-mono text-[0.62rem] uppercase tracking-[0.2em] text-paper/50">
+          Loading {Math.round(progress * 100)}%
+        </p>
+      </div>
+
+      <section
+        ref={track}
+        className="relative h-[260vh] motion-reduce:h-screen"
+        aria-label={`${name} — scroll-driven hero`}
+      >
+      <div className="sticky top-0 flex h-screen items-center overflow-hidden lg:items-end">
         {/* Poster: the first frame, shown until the sequence is decoded. */}
         <img
           src={src(0)}
@@ -257,31 +313,14 @@ export function DivisionHero({
           }`}
         />
 
-        {/* Loading progress — a hairline that retracts once decoded. */}
-        {!ready && progress > 0 && (
-          <div
-            aria-hidden
-            className={`absolute inset-x-0 top-0 h-0.5 ${
-              dark ? "bg-ink/10" : "bg-paper/15"
-            }`}
-          >
-            <div
-              className={`h-full transition-[width] duration-200 ease-out ${
-                dark ? "bg-ink/50" : "bg-paper/70"
-              }`}
-              style={{ width: `${Math.round(progress * 100)}%` }}
-            />
-          </div>
-        )}
-
         <div
           ref={copyRef}
-          className="relative mx-auto w-full max-w-[1600px] px-6 pb-52 text-center will-change-transform md:px-10 md:pb-60"
+          className="relative mx-auto w-full max-w-[1600px] px-6 text-center will-change-transform md:px-10 lg:pb-52 xl:pb-60"
         >
           {children ?? (
             <>
               <h1
-                className={`mx-auto flex min-h-[2lh] max-w-4xl flex-col justify-end font-display text-[clamp(2.5rem,1rem+5vw,5.5rem)] font-semibold leading-[1.03] tracking-[-0.02em] ${
+                className={`mx-auto max-w-4xl font-display text-[clamp(2.5rem,1rem+5vw,5.5rem)] font-semibold leading-[1.03] tracking-[-0.02em] lg:flex lg:min-h-[2lh] lg:flex-col lg:justify-end ${
                   dark ? "text-ink" : "text-paper"
                 }`}
                 style={{
@@ -324,6 +363,7 @@ export function DivisionHero({
           </span>
         </div>
       </div>
-    </section>
+      </section>
+    </>
   );
 }

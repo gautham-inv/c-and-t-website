@@ -10,8 +10,8 @@ import { socialIcon } from "@/lib/social";
 import { SITE_SETTINGS, type NavLink, type Office, type SocialRef } from "@/lib/site";
 
 const LEGAL = [
-  { label: "Privacy Policy", href: "#" },
-  { label: "Terms of Service", href: "#" },
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Terms of Service", href: "/terms" },
 ];
 
 /** Footer chrome. `links`/`offices`/`socials`/`copyright` come from Sanity via
