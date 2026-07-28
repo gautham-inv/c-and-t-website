@@ -21,22 +21,27 @@ export const homePage = defineType({
     }),
     defineField({
       name: "caseStudies",
-      title: 'Difference / case studies',
+      title: "Difference / case studies",
       type: "array",
       of: [{ type: "caseStudy" }],
     }),
-    defineField({ name: "testimonials", type: "array", of: [{ type: "testimonial" }] }),
+    defineField({
+      name: "testimonials",
+      type: "array",
+      of: [{ type: "testimonial" }],
+    }),
     defineField({
       name: "featuredProjects",
       type: "array",
       of: [{ type: "reference", to: [{ type: "project" }] }],
       description: "Projects shown in the homepage carousel.",
     }),
-    defineField({
-      name: "featuredInsights",
-      type: "array",
-      of: [{ type: "reference", to: [{ type: "insight" }] }],
-    }),
+    // No `featuredInsights` here by design. It used to hold a reference to
+    // every insight, which had two costs and no benefit: nothing ever read the
+    // field (the homepage teaser reads the insight list directly and picks the
+    // newest two), and a referenced document can't be deleted — so retiring an
+    // article failed until the reference was cleared. The homepage now derives
+    // its pair, so there is nothing to curate and nothing pinning the docs.
   ],
   preview: { prepare: () => ({ title: "Home page" }) },
 });

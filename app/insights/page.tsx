@@ -3,6 +3,7 @@ import { WithUs } from "@/components/sections/WithUs";
 import { InsightsIndex } from "@/components/insights/InsightsIndex";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { sectionBreadcrumb } from "@/lib/seo";
+import { latestInsights } from "@/lib/insights";
 import { getInsights } from "@/sanity/lib/data";
 
 const TITLE = "Insights | C&T Consulting Engineers";
@@ -15,12 +16,23 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/insights",
   },
-  openGraph: { type: "website", title: TITLE, description: DESCRIPTION, url: "/insights" },
-  twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION },
+  openGraph: {
+    type: "website",
+    title: TITLE,
+    description: DESCRIPTION,
+    url: "/insights",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
 };
 
 export default async function InsightsPage() {
-  const items = await getInsights();
+  // Same ordering as the homepage teaser, so the two it features are always
+  // the two at the top of this list rather than a different pair.
+  const items = latestInsights(await getInsights());
   return (
     <main>
       <JsonLd data={sectionBreadcrumb("Insights", "/insights")} />

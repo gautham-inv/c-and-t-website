@@ -59,7 +59,13 @@ import {
   LEADERSHIP,
   ISO_CERTIFICATIONS,
 } from "../lib/company";
-import { CAREERS_INTRO, REASONS, OPENINGS, TEAM_PHOTOS, CELEBRATION_PHOTOS } from "../lib/careers";
+import {
+  CAREERS_INTRO,
+  REASONS,
+  OPENINGS,
+  TEAM_PHOTOS,
+  CELEBRATION_PHOTOS,
+} from "../lib/careers";
 import { TOOLS } from "../lib/tools";
 import { SITE_SETTINGS } from "../lib/site";
 
@@ -199,7 +205,9 @@ async function uploadImage(
       ? { _type: "image", asset: ref(asset._id), alt }
       : { _type: "image", asset: ref(asset._id) };
   } catch (err) {
-    console.warn(`  ! failed to upload ${publicPath}: ${(err as Error).message}`);
+    console.warn(
+      `  ! failed to upload ${publicPath}: ${(err as Error).message}`,
+    );
     imageCache.set(publicPath, null);
     return undefined;
   }
@@ -234,7 +242,9 @@ async function uploadFile(
     fileCache.set(publicPath, asset._id);
     return { _type: "file", asset: ref(asset._id) };
   } catch (err) {
-    console.warn(`  ! failed to upload ${publicPath}: ${(err as Error).message}`);
+    console.warn(
+      `  ! failed to upload ${publicPath}: ${(err as Error).message}`,
+    );
     fileCache.set(publicPath, null);
     return undefined;
   }
@@ -277,7 +287,9 @@ function blocksToPortableText(blocks: ProjectBlock[]): Block[] {
   for (const block of blocks) {
     if (block.type === "p") out.push(textBlock(block.text, "normal"));
     else if (block.type === "heading") out.push(textBlock(block.text, "h3"));
-    else for (const item of block.items) out.push(textBlock(item, "normal", "bullet"));
+    else
+      for (const item of block.items)
+        out.push(textBlock(item, "normal", "bullet"));
   }
   return out;
 }
@@ -287,12 +299,25 @@ function blocksToPortableText(blocks: ProjectBlock[]): Block[] {
 // ---------------------------------------------------------------------------
 
 const MONTHS: Record<string, number> = {
-  jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5,
-  jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11,
+  jan: 0,
+  feb: 1,
+  mar: 2,
+  apr: 3,
+  may: 4,
+  jun: 5,
+  jul: 6,
+  aug: 7,
+  sep: 8,
+  oct: 9,
+  nov: 10,
+  dec: 11,
 };
 
 function parseInsightDate(input: string): string | undefined {
-  const m = input.trim().toLowerCase().match(/^([a-z]{3})[a-z]*\s+(\d{4})$/);
+  const m = input
+    .trim()
+    .toLowerCase()
+    .match(/^([a-z]{3})[a-z]*\s+(\d{4})$/);
   if (!m) return undefined;
   const month = MONTHS[m[1]];
   const year = Number(m[2]);
@@ -338,7 +363,12 @@ async function seedDivisions(): Promise<void> {
       slug: slug(d.slug),
       tagline: d.tagline,
       overview: d.overview,
-      faqs: d.faqs.map((f) => ({ _type: "faq", _key: key("faq"), question: f.q, answer: f.a })),
+      faqs: d.faqs.map((f) => ({
+        _type: "faq",
+        _key: key("faq"),
+        question: f.q,
+        answer: f.a,
+      })),
     };
     if (image) doc.image = image;
     tx.createOrReplace(doc as never);
@@ -471,9 +501,8 @@ async function seedProjects(): Promise<Map<string, string>> {
   return slugByName;
 }
 
-/** Returns a map: insight title -> insight _id (used for homePage insight refs). */
-async function seedInsights(): Promise<Map<string, string>> {
-  const idByTitle = new Map<string, string>();
+/** Returns the number of insight documents staged. */
+async function seedInsights(): Promise<number> {
   let n = 0;
   for (let i = 0; i < INSIGHTS.length; i++) {
     const ins = INSIGHTS[i];
@@ -481,7 +510,6 @@ async function seedInsights(): Promise<Map<string, string>> {
     // (renamed for a nicer URL, edited copy, etc.) without ever orphaning the
     // underlying Sanity document or creating a duplicate.
     const id = idInsight(ins.id || String(i));
-    idByTitle.set(ins.title, id);
 
     const image = await uploadImage(ins.image, ins.title);
     const doc: Record<string, unknown> = {
@@ -511,19 +539,25 @@ async function seedInsights(): Promise<Map<string, string>> {
     n++;
   }
   console.log(`  ✓ insights staged: ${n}`);
-  return idByTitle;
+  return n;
 }
 
 /** Prune insight documents left over from an entry that was deleted outright
  * (not just renamed — renames keep the same `id` and are handled by
- * createOrReplace in seedInsights). Runs AFTER the main transaction commits,
- * so the fetch below sees homePage's already-updated featuredInsights refs —
- * anything actually stale is no longer referenced by the time we get here.
- * Kept as individual, immediate deletes (not part of `tx`): a doc can still
- * fail to delete if something outside this schema references it, and this
- * should log-and-skip that one document, not roll back everything else. */
+ * createOrReplace in seedInsights). Runs AFTER the main transaction commits, so
+ * the rewritten singletons are already in place and nothing this deletes is
+ * still spoken for.
+ *
+ * Nothing in the schema references an insight any more (homePage used to, via
+ * featuredInsights, which is exactly why retiring an article used to fail here),
+ * so these deletes should now go through. Still kept as individual, immediate
+ * deletes rather than part of `tx`: a document can be referenced by something
+ * outside this schema — a draft, or a field added in Studio — and that should
+ * log-and-skip the one document, not roll back the whole seed. */
 async function pruneStaleInsights(): Promise<void> {
-  const keep = new Set(INSIGHTS.map((ins, i) => idInsight(ins.id || String(i))));
+  const keep = new Set(
+    INSIGHTS.map((ins, i) => idInsight(ins.id || String(i))),
+  );
   const existing = await client.fetch<string[]>(`*[_type == "insight"]._id`);
   const stale = (existing ?? []).filter((id) => !keep.has(id));
   let removed = 0;
@@ -538,7 +572,10 @@ async function pruneStaleInsights(): Promise<void> {
       );
     }
   }
-  if (stale.length) console.log(`  ✓ insight cleanup: removed ${removed}/${stale.length} stale`);
+  if (stale.length)
+    console.log(
+      `  ✓ insight cleanup: removed ${removed}/${stale.length} stale`,
+    );
 }
 
 async function seedJobOpenings(): Promise<void> {
@@ -586,7 +623,10 @@ async function pruneStaleJobOpenings(): Promise<void> {
       );
     }
   }
-  if (stale.length) console.log(`  ✓ jobOpening cleanup: removed ${removed}/${stale.length} stale`);
+  if (stale.length)
+    console.log(
+      `  ✓ jobOpening cleanup: removed ${removed}/${stale.length} stale`,
+    );
 }
 
 /** Report (and optionally delete) project documents in Sanity that lib/projects.ts
@@ -603,7 +643,9 @@ async function pruneStaleJobOpenings(): Promise<void> {
  * Takes the slug map seedProjects built, so "current" is exactly what this run
  * just wrote. Runs after the main transaction commits; deletes are individual
  * so one failure (a doc still referenced elsewhere) can't roll back the rest. */
-async function pruneStaleProjects(slugByName: Map<string, string>): Promise<void> {
+async function pruneStaleProjects(
+  slugByName: Map<string, string>,
+): Promise<void> {
   const apply = process.env.SEED_PRUNE_PROJECTS === "1";
   const keep = new Set([...slugByName.values()].map((s) => idProject(s)));
   const existing = await client.fetch<{ _id: string; name?: string }[]>(
@@ -619,7 +661,8 @@ async function pruneStaleProjects(slugByName: Map<string, string>): Promise<void
     console.log(
       `  ! ${stale.length} project doc(s) in Sanity are not defined in lib/projects.ts:`,
     );
-    for (const d of stale) console.log(`      · ${d.name ?? "(untitled)"}  [${d._id}]`);
+    for (const d of stale)
+      console.log(`      · ${d.name ?? "(untitled)"}  [${d._id}]`);
     console.log(
       "    Not deleted — some may be Studio-authored. Review the list, then re-run with:\n" +
         "      SEED_PRUNE_PROJECTS=1 npm run seed",
@@ -649,18 +692,18 @@ async function pruneStaleProjects(slugByName: Map<string, string>): Promise<void
 async function wireServiceReferences(): Promise<void> {
   // service.byDivision[].division -> division reference (divisionScope object).
   for (const s of SERVICES) {
-    const byDivision = (Object.keys(s.byDivision) as Array<keyof typeof s.byDivision>).map(
-      (divSlug) => {
-        const scope = s.byDivision[divSlug]!;
-        return {
-          _type: "divisionScope",
-          _key: key("ds"),
-          division: ref(idDivision(divSlug)),
-          subDisciplines: scope.subDisciplines,
-          body: scope.body,
-        };
-      },
-    );
+    const byDivision = (
+      Object.keys(s.byDivision) as Array<keyof typeof s.byDivision>
+    ).map((divSlug) => {
+      const scope = s.byDivision[divSlug]!;
+      return {
+        _type: "divisionScope",
+        _key: key("ds"),
+        division: ref(idDivision(divSlug)),
+        subDisciplines: scope.subDisciplines,
+        body: scope.body,
+      };
+    });
     tx.patch(idService(s.slug), (p) => p.set({ byDivision }));
   }
   console.log(`  ✓ wired service.byDivision`);
@@ -674,7 +717,9 @@ async function wireDivisionReferences(): Promise<void> {
       _key: key("svc"),
       _ref: idService(slugId),
     }));
-    tx.patch(idDivision(d.slug), (p) => p.set({ services, hasIndustries: d.hasIndustries }));
+    tx.patch(idDivision(d.slug), (p) =>
+      p.set({ services, hasIndustries: d.hasIndustries }),
+    );
   }
   console.log(`  ✓ wired division.services + division.hasIndustries`);
 }
@@ -685,7 +730,6 @@ async function wireDivisionReferences(): Promise<void> {
 
 async function seedHomePage(
   projectSlugByName: Map<string, string>,
-  insightIdByTitle: Map<string, string>,
 ): Promise<void> {
   // Featured projects: first four portfolio entries that have detail pages.
   const featuredNames = PROJECTS.slice(0, 6).map((p) => p.name);
@@ -694,10 +738,10 @@ async function seedHomePage(
     .filter((s): s is string => Boolean(s))
     .map((s) => ({ _type: "reference", _key: key("fp"), _ref: idProject(s) }));
 
-  const featuredInsights = INSIGHTS
-    .map((ins) => insightIdByTitle.get(ins.title))
-    .filter((id): id is string => Boolean(id))
-    .map((id) => ({ _type: "reference", _key: key("fi"), _ref: id }));
+  // Deliberately no featuredInsights: the homepage picks the newest two from the
+  // insight list itself. Referencing them from here pinned every article in
+  // place — Sanity won't delete a referenced document, so pruneStaleInsights
+  // below could never retire one.
 
   // Case studies: first three detail projects with their hero image + a ref.
   const caseStudies = [];
@@ -721,13 +765,22 @@ async function seedHomePage(
     heroSubhead:
       "Architectural and MEP design, BIM coordination and detailed engineering for the buildings, infrastructure and energy projects the world depends on.",
     stats: [
-      { _type: "stat", _key: key("st"), value: "2011", label: "Engineering since" },
+      {
+        _type: "stat",
+        _key: key("st"),
+        value: "2011",
+        label: "Engineering since",
+      },
       { _type: "stat", _key: key("st"), value: "3", label: "Continents" },
-      { _type: "stat", _key: key("st"), value: "LOD 500", label: "BIM detail delivered" },
+      {
+        _type: "stat",
+        _key: key("st"),
+        value: "LOD 500",
+        label: "BIM detail delivered",
+      },
     ],
     caseStudies,
     featuredProjects,
-    featuredInsights,
   };
 
   tx.createOrReplace(doc as never);
@@ -738,7 +791,12 @@ async function seedAboutPage(): Promise<void> {
   const leadership = [];
   for (const l of LEADERSHIP) {
     const photo = await uploadImage(l.photo, l.name);
-    const item: Record<string, unknown> = { _type: "leader", _key: key("ldr"), name: l.name, role: l.role };
+    const item: Record<string, unknown> = {
+      _type: "leader",
+      _key: key("ldr"),
+      name: l.name,
+      role: l.role,
+    };
     if (photo) item.photo = photo;
     if (l.bio) item.bio = l.bio;
     leadership.push(item);
@@ -747,8 +805,14 @@ async function seedAboutPage(): Promise<void> {
   const isoCertifications = [];
   for (const cert of ISO_CERTIFICATIONS) {
     const logo = await uploadImage(cert.logo, cert.name);
-    const document = cert.documentPath ? await uploadFile(cert.documentPath) : undefined;
-    const item: Record<string, unknown> = { _type: "isoCert", _key: key("iso"), name: cert.name };
+    const document = cert.documentPath
+      ? await uploadFile(cert.documentPath)
+      : undefined;
+    const item: Record<string, unknown> = {
+      _type: "isoCert",
+      _key: key("iso"),
+      name: cert.name,
+    };
     if (logo) item.logo = logo;
     if (document) item.document = document;
     isoCertifications.push(item);
@@ -759,7 +823,12 @@ async function seedAboutPage(): Promise<void> {
     _type: "aboutPage",
     vision: VISION,
     mission: MISSION,
-    values: VALUES.map((v) => ({ _type: "value", _key: key("val"), name: v.name, body: v.body })),
+    values: VALUES.map((v) => ({
+      _type: "value",
+      _key: key("val"),
+      name: v.name,
+      body: v.body,
+    })),
     companyMilestones: COMPANY_MILESTONES.map((m) => {
       const item: Record<string, unknown> = {
         _type: "milestone",
@@ -788,7 +857,11 @@ async function seedAboutPage(): Promise<void> {
       entities: l.entities,
     })),
     capabilities: CAPABILITIES.map((c) => {
-      const item: Record<string, unknown> = { _type: "capability", _key: key("cap"), label: c.label };
+      const item: Record<string, unknown> = {
+        _type: "capability",
+        _key: key("cap"),
+        label: c.label,
+      };
       if (c.href) item.href = c.href;
       return item;
     }),
@@ -839,7 +912,11 @@ async function seedServicesPage(): Promise<void> {
   const tools = [];
   for (const t of TOOLS) {
     const logo = await uploadImage(t.logo, t.name);
-    const item: Record<string, unknown> = { _type: "tool", _key: key("tool"), name: t.name };
+    const item: Record<string, unknown> = {
+      _type: "tool",
+      _key: key("tool"),
+      name: t.name,
+    };
     if (logo) item.logo = logo;
     if (t.href) item.url = t.href;
     tools.push(item);
@@ -858,11 +935,27 @@ async function seedSiteSettings(): Promise<void> {
   const doc: Record<string, unknown> = {
     _id: "siteSettings",
     _type: "siteSettings",
-    navItems: SITE_SETTINGS.navItems.map((n) => ({ _type: "navItem", _key: key("nav"), ...n })),
-    footerLinks: SITE_SETTINGS.footerLinks.map((n) => ({ _type: "navItem", _key: key("fnav"), ...n })),
+    navItems: SITE_SETTINGS.navItems.map((n) => ({
+      _type: "navItem",
+      _key: key("nav"),
+      ...n,
+    })),
+    footerLinks: SITE_SETTINGS.footerLinks.map((n) => ({
+      _type: "navItem",
+      _key: key("fnav"),
+      ...n,
+    })),
     footerTagline: "Engineered to Endure",
-    offices: SITE_SETTINGS.offices.map((o) => ({ _type: "office", _key: key("off"), ...o })),
-    socials: SITE_SETTINGS.socials.map((s) => ({ _type: "socialLink", _key: key("soc"), ...s })),
+    offices: SITE_SETTINGS.offices.map((o) => ({
+      _type: "office",
+      _key: key("off"),
+      ...o,
+    })),
+    socials: SITE_SETTINGS.socials.map((s) => ({
+      _type: "socialLink",
+      _key: key("soc"),
+      ...s,
+    })),
     copyright: SITE_SETTINGS.copyright,
   };
   tx.createOrReplace(doc as never);
@@ -874,13 +967,15 @@ async function seedSiteSettings(): Promise<void> {
 // ---------------------------------------------------------------------------
 
 async function main(): Promise<void> {
-  console.log(`\nSeeding Sanity dataset "${dataset}" (project ${projectId})…\n`);
+  console.log(
+    `\nSeeding Sanity dataset "${dataset}" (project ${projectId})…\n`,
+  );
 
   console.log("Pass 1 — base documents:");
   await seedServices();
   await seedDivisions();
   const projectSlugByName = await seedProjects();
-  const insightIdByTitle = await seedInsights();
+  const insightCount = await seedInsights();
   await seedJobOpenings();
 
   console.log("\nPass 2 — wiring references:");
@@ -888,7 +983,7 @@ async function main(): Promise<void> {
   await wireDivisionReferences();
 
   console.log("\nSingletons:");
-  await seedHomePage(projectSlugByName, insightIdByTitle);
+  await seedHomePage(projectSlugByName);
   await seedAboutPage();
   await seedServicesPage();
   await seedCareersPage();
@@ -896,7 +991,9 @@ async function main(): Promise<void> {
 
   console.log("\nCommitting single transaction…");
   const result = await tx.commit();
-  console.log(`  ✓ committed ${result.results?.length ?? 0} mutations in one transaction`);
+  console.log(
+    `  ✓ committed ${result.results?.length ?? 0} mutations in one transaction`,
+  );
 
   // Stale-doc pruning runs after the commit above (see pruneStaleInsights'
   // comment) and stays outside `tx` so one reference-integrity failure only
@@ -910,7 +1007,7 @@ async function main(): Promise<void> {
     services: SERVICES.length,
     divisions: DIVISIONS.length,
     projects: projectSlugByName.size,
-    insights: insightIdByTitle.size,
+    insights: insightCount,
     jobOpenings: OPENINGS.length,
     singletons: 5,
     imagesUploaded: [...imageCache.values()].filter(Boolean).length,

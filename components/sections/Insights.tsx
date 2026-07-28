@@ -6,7 +6,7 @@ import { ArrowUpRight } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { INSIGHTS, type Insight } from "@/lib/insights";
+import { INSIGHTS, latestInsights, type Insight } from "@/lib/insights";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,14 +15,17 @@ gsap.registerPlugin(ScrollTrigger);
  * full on /insights. Editorial two-card layout (shared with the sector pages):
  * a tall lead article beside a shorter second one, heights balanced.
  */
-export function Insights({ insights = INSIGHTS }: { insights?: Insight[] } = {}) {
+export function Insights({
+  insights = INSIGHTS,
+}: { insights?: Insight[] } = {}) {
   const root = useRef<HTMLElement>(null);
-  const featured = insights.slice(0, 2);
+  // The two newest, chosen by date rather than by position in whatever array
+  // was passed in — publishing an article is all it should take to appear here.
+  const featured = latestInsights(insights, 2);
 
   useGSAP(
     () => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches)
-        return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       gsap.from("[data-up]", {
         y: 50,
         duration: 0.9,
@@ -116,7 +119,10 @@ export function Insights({ insights = INSIGHTS }: { insights?: Insight[] } = {})
               line. From xl it goes back to flex-1 so it can balance against
               Card 1's taller 30rem portrait. */}
           {featured[1] && (
-            <Link href={featured[1].href} className="group flex h-full flex-col gap-6">
+            <Link
+              href={featured[1].href}
+              className="group flex h-full flex-col gap-6"
+            >
               <div className="relative h-[min(52vw,15rem)] overflow-hidden rounded-2xl bg-[#0a1c25] xl:h-auto xl:min-h-[12rem] xl:flex-1">
                 <img
                   src={featured[1].image}

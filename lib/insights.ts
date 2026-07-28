@@ -372,56 +372,28 @@ export const INSIGHTS: Insight[] = [
     attribution:
       "Content courtesy – with the permission of V.S. Sriram, from his course published in PDH Online (PDH Course P158 – Introduction to Project Management).",
   },
-  {
-    id: "how-federated-bim-keeps-airport-programmes-on-schedule",
-    slug: "federated-bim-airport-programmes",
-    title: "How federated BIM keeps airport programmes on schedule",
-    tag: "BIM",
-    read: "5 min read",
-    date: "May 2026",
-    datePublished: "2026-05-01",
-    image: "/bim-and-3d-modelling.jpg",
-    excerpt:
-      "Clash-checked, federated models resolve coordination conflicts before they reach site, keeping terminal programmes on track across thousands of MEP interfaces.",
-    href: "/insights/federated-bim-airport-programmes",
-  },
-  {
-    id: "cfd-in-terminal-ventilation-balancing-comfort-and-safety",
-    slug: "cfd-terminal-ventilation-comfort-safety",
-    title: "CFD in terminal ventilation: balancing comfort and safety",
-    tag: "CFD",
-    read: "7 min read",
-    date: "Apr 2026",
-    datePublished: "2026-04-01",
-    image: "/cfd-fea-analysis.webp",
-    excerpt:
-      "Airflow and smoke simulations tune ventilation for passenger comfort and life safety long before the first duct is installed.",
-    href: "/insights/cfd-terminal-ventilation-comfort-safety",
-  },
-  {
-    id: "engineering-mep-for-hyperscale-data-centres",
-    slug: "mep-hyperscale-data-centres",
-    title: "Engineering MEP for hyperscale data centres",
-    tag: "Data Centres",
-    read: "6 min read",
-    date: "Mar 2026",
-    datePublished: "2026-03-01",
-    image: "/datacenter.jpeg",
-    excerpt:
-      "Power density, redundancy and cooling drive every decision behind the mechanical and electrical backbone of a modern data hall.",
-    href: "/insights/mep-hyperscale-data-centres",
-  },
-  {
-    id: "from-lod-300-to-lod-500-what-fabrication-ready-really-means",
-    slug: "lod-300-to-lod-500-fabrication-ready",
-    title: "From LOD 300 to LOD 500: what fabrication-ready really means",
-    tag: "3D Modelling",
-    read: "5 min read",
-    date: "Feb 2026",
-    datePublished: "2026-02-01",
-    image: "/mep-engineering-design.jpg",
-    excerpt:
-      "High-LOD modelling on refineries and LNG plants turns the model into a construction tool, producing accurate take-offs, fewer RFIs and faster fabrication.",
-    href: "/insights/lod-300-to-lod-500-fabrication-ready",
-  },
 ];
+
+/**
+ * Newest first, by publish date.
+ *
+ * Ordering is derived rather than assumed, because two sources feed these and
+ * only one of them is sorted: the Sanity query orders by date, but this local
+ * array is hand-maintained and a new entry pasted in the wrong place would
+ * silently become the homepage's lead article. Sorting at the point of use
+ * means "the latest two" is true of whatever arrives.
+ *
+ * `datePublished` is the ISO field (Sanity sets it from the document date), so
+ * it's what gets compared; the display `date` ("Jul 2026") is not reliably
+ * parseable. Anything undated sorts last rather than first — an entry with no
+ * date is not evidence that it's the newest.
+ */
+export function latestInsights(insights: Insight[], count?: number): Insight[] {
+  const stamp = (i: Insight) => {
+    const t = Date.parse(i.datePublished ?? "");
+    return Number.isNaN(t) ? -Infinity : t;
+  };
+  // Copy first: this runs on props, and sort mutates in place.
+  const sorted = insights.slice().sort((a, b) => stamp(b) - stamp(a));
+  return count === undefined ? sorted : sorted.slice(0, count);
+}

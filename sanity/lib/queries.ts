@@ -108,8 +108,7 @@ export const homePageQuery = groq`
     stats,
     caseStudies,
     testimonials,
-    "featuredProjects": featuredProjects[]->{ name, meta, image, "slug": slug.current },
-    "featuredInsights": featuredInsights[]->{ title, tag, "read": readTime, image, excerpt }
+    "featuredProjects": featuredProjects[]->{ name, meta, image, "slug": slug.current }
   }
 `;
 
