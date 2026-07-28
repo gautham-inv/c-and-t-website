@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -22,7 +22,9 @@ const DIV_SHORT: Record<DivisionSlug, string> = {
 // list (including the consulting/management services) lives on /services and
 // on each division page, where an exhaustive list is expected.
 
-export function Services({ services = SERVICES }: { services?: Service[] } = {}) {
+export function Services({
+  services = SERVICES,
+}: { services?: Service[] } = {}) {
   // Flagship set for the accordion. Guard against a dataset where nothing is
   // flagged featured (fall back to the lib flags, then to the first few) so
   // the accordion always has at least one entry to render.
@@ -35,11 +37,41 @@ export function Services({ services = SERVICES }: { services?: Service[] } = {})
         : services.slice(0, 6);
   const root = useRef<HTMLElement>(null);
   const [active, setActive] = useState(0);
+  // Autoplay runs only while the section is on screen and the pointer is
+  // elsewhere. Off-screen it would be invisible work on every page view, and
+  // under the pointer it would yank the preview away from whatever the visitor
+  // is actually reading.
+  const [inView, setInView] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const count = FEATURED.length;
+
+  useEffect(() => {
+    const el = root.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([entry]) =>
+      setInView(entry.isIntersecting),
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!inView || hovered || count < 2) return;
+    // Auto-advancing content is motion: reduced-motion means it holds still and
+    // hover remains the only way it changes.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const id = window.setInterval(() => {
+      // A background tab still fires this (throttled); no point re-rendering
+      // for something nobody is looking at.
+      if (document.hidden) return;
+      setActive((a) => (a + 1) % count);
+    }, 5000);
+    return () => window.clearInterval(id);
+  }, [inView, hovered, count]);
 
   useGSAP(
     () => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches)
-        return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       gsap.from("[data-up]", {
         y: 48,
         duration: 0.9,
@@ -52,7 +84,11 @@ export function Services({ services = SERVICES }: { services?: Service[] } = {})
   );
 
   return (
-    <section ref={root} id="services" className="scroll-mt-24 bg-paper text-navy">
+    <section
+      ref={root}
+      id="services"
+      className="scroll-mt-24 bg-paper text-navy"
+    >
       <div className="mx-auto grid max-w-[1600px] items-stretch gap-8 px-6 py-16 md:px-10 md:py-20 lg:grid-cols-2 lg:gap-12">
         {/* ── Left: image card — fast crossfade as you move across the grid.
             Hidden below lg: it's a hover-preview surface, which has no place on
@@ -67,7 +103,7 @@ export function Services({ services = SERVICES }: { services?: Service[] } = {})
               src={s.image}
               alt={s.name}
               aria-hidden={i !== active}
-              className="absolute inset-0 h-full w-full object-cover transition-opacity duration-200 ease-out"
+              className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ease-out"
               style={{ opacity: i === active ? 1 : 0 }}
             />
           ))}
@@ -97,8 +133,7 @@ export function Services({ services = SERVICES }: { services?: Service[] } = {})
         {/* ── Right: heading + service grid ── */}
         <div data-up className="flex flex-col justify-center">
           <h2 className="font-display text-[clamp(1.9rem,1rem+3vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.02em]">
-            The disciplines we{" "}
-            <span className="text-ink-dim">deliver</span>
+            The disciplines we <span className="text-ink-dim">deliver</span>
           </h2>
           <Link
             href="/divisions"
@@ -113,18 +148,37 @@ export function Services({ services = SERVICES }: { services?: Service[] } = {})
             </span>
           </Link>
 
-          {/* Grid of services — hovering swaps the image on the left. Each
-              service is delivered by BOTH divisions, so every card points
-              separately into its Buildings and Oil & Gas scope. */}
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 md:gap-8">
+          {/* Grid of services — the highlighted one is whatever the slideshow
+              is showing on the left; hovering a card takes it over. Each service
+              is delivered by BOTH divisions, so every card points separately
+              into its Buildings and Oil & Gas scope.
+
+              The highlight is deliberately a flat one: a tint, a rule and a
+              coloured index number. No cursor change, no lift, no shadow, no
+              scale — those all promise a click, and the card doesn't have one.
+              The only clickable things in here are the "View in" pills. */}
+          <div
+            className="mt-8 grid gap-6 sm:grid-cols-2 md:gap-8"
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+          >
             {FEATURED.map((s, i) => {
+              const current = i === active;
               return (
                 <div
                   key={s.slug}
                   onMouseEnter={() => setActive(i)}
-                  className="relative flex min-h-[9.5rem] flex-col justify-between overflow-hidden rounded-2xl bg-stone p-5"
+                  className={`relative flex min-h-[9.5rem] flex-col justify-between overflow-hidden rounded-2xl p-5 transition-colors duration-500 ${
+                    current
+                      ? "bg-beige-light ring-1 ring-green-dark/25"
+                      : "bg-stone ring-1 ring-transparent"
+                  }`}
                 >
-                  <span className="font-mono text-sm tracking-[0.1em] text-ink-dim">
+                  <span
+                    className={`font-mono text-sm tracking-[0.1em] transition-colors duration-500 ${
+                      current ? "text-green-dark" : "text-ink-dim"
+                    }`}
+                  >
                     {String(i + 1).padStart(2, "0")}
                   </span>
 

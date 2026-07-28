@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useCallback } from "react";
+import { ArrowUpRight } from "lucide-react";
 import {
   WITHUS_OVERLAP_VH,
   WITHUS_OVERLAP_VH_MOBILE,
@@ -9,12 +10,22 @@ import {
 import { getLenis } from "@/lib/lenis";
 import { socialIcon } from "@/lib/social";
 import { NavItemLink } from "@/components/layout/NavItemLink";
-import { SITE_SETTINGS, type NavLink, type Office, type SocialRef } from "@/lib/site";
+import {
+  SITE_SETTINGS,
+  type NavLink,
+  type Office,
+  type SocialRef,
+} from "@/lib/site";
 
 const LEGAL = [
   { label: "Privacy Policy", href: "/privacy" },
   { label: "Terms of Service", href: "/terms" },
 ];
+
+/** Who built the site. Sits under the footer logo, not in the legal line.
+ * Hardcoded alongside LEGAL rather than pulled from Sanity: it's chrome that
+ * belongs to the build, not editorial content the client would revise. */
+const TECH_PARTNER = { label: "Innovin Labs", href: "https://innovinlabs.com" };
 
 /** Footer chrome. `links`/`offices`/`socials`/`copyright` come from Sanity via
  * the root layout; they default to SITE_SETTINGS so the footer renders
@@ -129,14 +140,33 @@ export function Footer({
             the other (md+) instead of three items spread across the full
             width, which read as disconnected islands on wide screens. */}
         <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-          <img
-            src="/logo.webp"
-            alt="C&T Consulting Engineers"
-            width={462}
-            height={200}
-            className="h-10 w-auto shrink-0 self-start object-contain md:self-auto"
-            draggable={false}
-          />
+          {/* Logo + the build credit beneath it. Kept out of the legal/copyright
+              cluster on the right: that line is contractual boilerplate, and a
+              partner credit sitting inside it reads as more of the same fine
+              print. Under the logo it's a signature, which is what it is. */}
+          <div className="flex flex-col items-start gap-3">
+            <img
+              src="/logo.webp"
+              alt="C&T Consulting Engineers"
+              width={462}
+              height={200}
+              className="h-10 w-auto shrink-0 object-contain"
+              draggable={false}
+            />
+            <p className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[0.68rem] uppercase tracking-[0.14em] text-paper/45">
+              Technology Partner
+              <span className="text-paper/25">·</span>
+              <a
+                href={TECH_PARTNER.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-paper/70 transition-colors duration-300 hover:text-green"
+              >
+                {TECH_PARTNER.label}
+                <ArrowUpRight className="h-3 w-3" strokeWidth={2} />
+              </a>
+            </p>
+          </div>
 
           <div className="flex flex-col gap-8 sm:flex-row sm:items-center sm:gap-8 md:gap-10">
             <div className="flex items-center gap-3">
@@ -159,7 +189,10 @@ export function Footer({
               {LEGAL.map((l, i) => (
                 <span key={l.label} className="flex items-center gap-x-3">
                   {i > 0 && <span className="text-paper/25">·</span>}
-                  <Link href={l.href} className="text-paper/55 transition-colors hover:text-paper">
+                  <Link
+                    href={l.href}
+                    className="text-paper/55 transition-colors hover:text-paper"
+                  >
                     {l.label}
                   </Link>
                 </span>

@@ -97,14 +97,11 @@ export function AboutView({ about }: { about: AboutPageData }) {
       // Mobile (any motion setting) or reduced motion at any width: no scroll
       // scrubbing. Show the globe at full size, the copy, and the India · UAE ·
       // Canada line statically so the hero reads immediately with no empty gap.
-      mm.add(
-        "(max-width: 767px), (prefers-reduced-motion: reduce)",
-        () => {
-          gsap.set(globeWrap.current, { scale: 1, yPercent: 0 });
-          gsap.set(heroCopy.current, { opacity: 1, yPercent: 0 });
-          gsap.set(heroTag.current, { opacity: 1, y: 0 });
-        },
-      );
+      mm.add("(max-width: 767px), (prefers-reduced-motion: reduce)", () => {
+        gsap.set(globeWrap.current, { scale: 1, yPercent: 0 });
+        gsap.set(heroCopy.current, { opacity: 1, yPercent: 0 });
+        gsap.set(heroTag.current, { opacity: 1, y: 0 });
+      });
 
       return () => mm.revert();
     },
@@ -114,8 +111,15 @@ export function AboutView({ about }: { about: AboutPageData }) {
   return (
     <div ref={root} className="bg-mist text-ink">
       {/* ── 1. Globe hero — scroll-grow ── */}
-      <section ref={hero} className="relative h-screen bg-mist md:h-[200vh]">
-        <div className="sticky top-0 flex h-screen items-start justify-center overflow-hidden">
+      {/* Below md this is one screen laid out as a column: copy, then the globe
+          in whatever height is left, then the countries line. It used to be the
+          desktop composition at phone size — copy in flow, globe absolutely
+          parked at 48% — and since the copy is five lines of paragraph on a
+          narrow screen it ran straight through the globe and its pinned labels.
+          The absolute placement (and the scroll-scrubbed growth that depends on
+          it) is md-and-up only, where there's room for it. */}
+      <section ref={hero} className="relative h-svh bg-mist md:h-[200vh]">
+        <div className="sticky top-0 flex h-svh flex-col items-center overflow-hidden md:block">
           {/* Blueprint grid — matches the other index/hero pages */}
           <div
             aria-hidden
@@ -128,7 +132,7 @@ export function AboutView({ about }: { about: AboutPageData }) {
           />
           <div
             ref={heroCopy}
-            className="relative z-20 mx-auto max-w-4xl px-6 pt-[17vh] text-center will-change-transform"
+            className="relative z-20 mx-auto w-full max-w-4xl shrink-0 px-6 pt-[13vh] text-center will-change-transform md:pt-[17vh]"
           >
             <h1 className="mx-auto max-w-3xl font-display text-[clamp(2.5rem,1rem+5vw,4.5rem)] font-semibold leading-[1.04] tracking-[-0.025em]">
               Designing with <span className="text-green-dark">Precision</span>.{" "}
@@ -141,16 +145,21 @@ export function AboutView({ about }: { about: AboutPageData }) {
             </p>
           </div>
 
+          {/* Mobile: height comes from the leftover column space (flex-1) and
+              the width follows from aspect-square via self-center, capped by
+              max-h so it can never grow wider than the screen. The globe MUST
+              stay square — cobe projects its marker labels off the canvas's own
+              width, so a stretched canvas puts every label in the wrong place. */}
           <div
             ref={globeWrap}
-            className="absolute left-1/2 top-[48%] z-10 aspect-square w-[72vw] -translate-x-1/2 will-change-transform md:top-[28%] md:w-[min(94vw,780px)]"
+            className="relative z-10 mt-1 aspect-square max-h-[76vw] min-h-0 flex-1 self-center will-change-transform md:absolute md:left-1/2 md:top-[28%] md:mt-0 md:max-h-none md:w-[min(94vw,780px)] md:flex-none md:-translate-x-1/2"
           >
             <Globe className="h-full w-full" markers={about.locations} />
           </div>
 
           <div
             ref={heroTag}
-            className="absolute bottom-[7vh] left-1/2 z-20 -translate-x-1/2 opacity-0"
+            className="relative z-20 shrink-0 pb-[5vh] opacity-0 md:absolute md:bottom-[7vh] md:left-1/2 md:pb-0 md:-translate-x-1/2"
           >
             <p className="flex items-center gap-4 font-mono text-[0.74rem] uppercase tracking-[0.2em] text-ink">
               <span>India</span>

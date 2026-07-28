@@ -320,20 +320,29 @@ export function DivisionHero({
         drawnRef.current = index;
       };
 
+      // Declared before render because render reads it, assigned after because
+      // it's render that it's built with. ScrollTrigger can call onUpdate
+      // synchronously from inside create() — it does whenever the trigger is
+      // built while the page is already scrolled into its range, i.e. a revisit
+      // or a restored scroll position — and that call used to land on `st`
+      // before its initialiser had run, throwing "Cannot access 'st' before
+      // initialization" and taking the rest of this setup (the catch-up hook and
+      // the resize listener) with it, so the hero stopped scrubbing entirely.
+      // Null until assigned, which reads as progress 0 — the poster frame, which
+      // is what's on screen at that instant anyway.
+      let st: ScrollTrigger | null = null;
+
       // Draw the frame the scroll position asks for, or the newest one decoded
       // if the sequence hasn't got that far yet. Clamping forward-only is what
       // makes a partial sequence usable: the hero stalls on its latest frame
       // instead of snapping back to a stale earlier one.
       const render = () => {
-        const want = Math.round(st.progress * (count - 1));
-        const i = Math.max(
-          0,
-          Math.min(want, count - 1, readyUpToRef.current),
-        );
+        const want = Math.round((st?.progress ?? 0) * (count - 1));
+        const i = Math.max(0, Math.min(want, count - 1, readyUpToRef.current));
         if (i !== drawnRef.current) draw(i);
       };
 
-      const st = ScrollTrigger.create({
+      st = ScrollTrigger.create({
         trigger: el,
         start: "top top",
         end: "bottom bottom",
@@ -353,7 +362,7 @@ export function DivisionHero({
 
       return () => {
         catchUpRef.current = null;
-        st.kill();
+        st?.kill();
         window.removeEventListener("resize", onResize);
       };
     },
@@ -372,7 +381,13 @@ export function DivisionHero({
           ready ? "pointer-events-none opacity-0" : "opacity-100"
         }`}
       >
-        <img src="/logo.webp" alt="" width={462} height={200} className="h-9 w-auto object-contain" />
+        <img
+          src="/logo.webp"
+          alt=""
+          width={462}
+          height={200}
+          className="h-9 w-auto object-contain"
+        />
         <div className="h-0.5 w-40 overflow-hidden rounded-full bg-paper/15">
           <div
             className="h-full bg-green transition-[width] duration-200 ease-out"
@@ -386,77 +401,82 @@ export function DivisionHero({
 
       <section
         ref={track}
-        className="relative h-[260vh] motion-reduce:h-screen"
+        className="relative h-[260vh] motion-reduce:h-svh"
         aria-label={`${name} — scroll-driven hero`}
       >
-      <div className="sticky top-0 flex h-screen items-center overflow-hidden lg:items-end">
-        {/* Poster: the first frame, shown until the sequence is decoded. */}
-        <img
-          src={src(0)}
-          alt={name}
-          fetchPriority="high"
-          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
-            ready ? "opacity-0" : "opacity-100"
-          }`}
-        />
-        <canvas
-          ref={canvasRef}
-          aria-hidden
-          className={`absolute inset-0 h-full w-full transition-opacity duration-500 ${
-            ready ? "opacity-100" : "opacity-0"
-          }`}
-        />
+        {/* svh, not vh: on a phone 100vh is the height with the browser toolbars
+          retracted, so the stage runs *under* them and anything parked at its
+          foot — the scroll cue — sits below the visible area until you scroll.
+          svh is the smallest (toolbars showing) viewport, so the cue is on
+          screen from the first paint. */}
+        <div className="sticky top-0 flex h-svh items-center overflow-hidden lg:items-end">
+          {/* Poster: the first frame, shown until the sequence is decoded. */}
+          <img
+            src={src(0)}
+            alt={name}
+            fetchPriority="high"
+            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
+              ready ? "opacity-0" : "opacity-100"
+            }`}
+          />
+          <canvas
+            ref={canvasRef}
+            aria-hidden
+            className={`absolute inset-0 h-full w-full transition-opacity duration-500 ${
+              ready ? "opacity-100" : "opacity-0"
+            }`}
+          />
 
-        <div
-          ref={copyRef}
-          className="relative mx-auto w-full max-w-[1600px] px-6 text-center will-change-transform md:px-10 lg:pb-52 xl:pb-60"
-        >
-          {children ?? (
-            <>
-              <h1
-                className={`mx-auto max-w-4xl font-display text-[clamp(2.5rem,1rem+5vw,5.5rem)] font-semibold leading-[1.03] tracking-[-0.02em] lg:flex lg:min-h-[2lh] lg:flex-col lg:justify-end ${
-                  dark ? "text-ink" : "text-paper"
-                }`}
-                style={{
-                  textShadow: dark
-                    ? "0 1px 24px rgba(247,245,242,0.75)"
-                    : "0 2px 30px rgba(9,33,44,0.45)",
-                }}
-              >
-                {head}
-                {tail && <span className="text-green-dark">{tail}</span>}
-              </h1>
-              <p
-                className={`mx-auto mt-6 max-w-2xl text-lg leading-relaxed md:text-xl ${
-                  dark ? "text-ink/75" : "text-paper"
-                }`}
-                style={{
-                  textShadow: dark
-                    ? "0 1px 18px rgba(247,245,242,0.8)"
-                    : "0 1px 18px rgba(9,33,44,0.55)",
-                }}
-              >
-                {tagline}
-              </p>
-            </>
-          )}
-        </div>
+          <div
+            ref={copyRef}
+            className="relative mx-auto w-full max-w-[1600px] px-6 text-center will-change-transform md:px-10 lg:pb-52 xl:pb-60"
+          >
+            {children ?? (
+              <>
+                <h1
+                  className={`mx-auto max-w-4xl font-display text-[clamp(2.5rem,1rem+5vw,5.5rem)] font-semibold leading-[1.03] tracking-[-0.02em] lg:flex lg:min-h-[2lh] lg:flex-col lg:justify-end ${
+                    dark ? "text-ink" : "text-paper"
+                  }`}
+                  style={{
+                    textShadow: dark
+                      ? "0 1px 24px rgba(247,245,242,0.75)"
+                      : "0 2px 30px rgba(9,33,44,0.45)",
+                  }}
+                >
+                  {head}
+                  {tail && <span className="text-green-dark">{tail}</span>}
+                </h1>
+                <p
+                  className={`mx-auto mt-6 max-w-2xl text-lg leading-relaxed md:text-xl ${
+                    dark ? "text-ink/75" : "text-paper"
+                  }`}
+                  style={{
+                    textShadow: dark
+                      ? "0 1px 18px rgba(247,245,242,0.8)"
+                      : "0 1px 18px rgba(9,33,44,0.55)",
+                  }}
+                >
+                  {tagline}
+                </p>
+              </>
+            )}
+          </div>
 
-        {/* Scroll cue — mouse outline with a drifting wheel dot, parked at the
+          {/* Scroll cue — mouse outline with a drifting wheel dot, parked at the
             foot of the stage rather than under the copy, so it reads as a
             viewport affordance instead of part of the heading block. */}
-        <div
-          ref={cueRef}
-          aria-hidden
-          className={`absolute bottom-8 left-1/2 -translate-x-1/2 md:bottom-10 ${
-            dark ? "text-ink/60" : "text-paper/80"
-          }`}
-        >
-          <span className="flex h-10 w-6 items-start justify-center rounded-full border-2 border-current pt-2">
-            <span className="block h-1.5 w-1 rounded-full bg-current animate-scroll-cue motion-reduce:animate-none" />
-          </span>
+          <div
+            ref={cueRef}
+            aria-hidden
+            className={`absolute bottom-8 left-1/2 -translate-x-1/2 md:bottom-10 ${
+              dark ? "text-ink/60" : "text-paper/80"
+            }`}
+          >
+            <span className="flex h-10 w-6 items-start justify-center rounded-full border-2 border-current pt-2">
+              <span className="block h-1.5 w-1 rounded-full bg-current animate-scroll-cue motion-reduce:animate-none" />
+            </span>
+          </div>
         </div>
-      </div>
       </section>
     </>
   );

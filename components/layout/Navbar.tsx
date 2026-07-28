@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { X, ArrowUpRight } from "lucide-react";
 import gsap from "gsap";
@@ -31,6 +32,22 @@ export function Navbar({
 } = {}) {
   const [open, setOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
+  const pathname = usePathname();
+
+  // Which nav item corresponds to the page being viewed. Nested routes count as
+  // their parent's page — /divisions/building is still "What we do", and
+  // /insights/some-article is still "Insights" — otherwise the highlight
+  // vanishes the moment you go one level deeper, which is where you most need
+  // to know where you are. Section links (/#faq) are never "current": they
+  // aren't pages, and on the homepage every one of them would qualify.
+  const isCurrent = useCallback(
+    (href: string) => {
+      if (!href.startsWith("/") || href.includes("#")) return false;
+      if (href === "/") return pathname === "/";
+      return pathname === href || pathname.startsWith(`${href}/`);
+    },
+    [pathname],
+  );
 
   // Hide on scroll-down, reveal on scroll-up (always shown near the top).
   useEffect(() => {
@@ -136,17 +153,32 @@ export function Navbar({
 
             {/* Desktop nav — all options listed directly */}
             <nav className="hidden items-center gap-7 lg:flex lg:gap-9">
-              {nav.map((n) => (
-                <NavItemLink
-                  key={n.label}
-                  href={n.href}
-                  onClick={(e) => onNav(e, n.href)}
-                  className="group relative whitespace-nowrap text-sm font-medium text-navy/80 transition-colors duration-200 hover:text-navy"
-                >
-                  {n.label}
-                  <span className="absolute -bottom-1 left-0 h-px w-0 bg-green transition-all duration-300 group-hover:w-full" />
-                </NavItemLink>
-              ))}
+              {nav.map((n) => {
+                const current = isCurrent(n.href);
+                return (
+                  <NavItemLink
+                    key={n.label}
+                    href={n.href}
+                    onClick={(e) => onNav(e, n.href)}
+                    // aria-current is the actual signal here; the colour and the
+                    // rule are just how it's drawn. The active rule reuses the
+                    // hover underline at full width, so the two never fight.
+                    aria-current={current ? "page" : undefined}
+                    className={`group relative whitespace-nowrap text-sm transition-colors duration-200 ${
+                      current
+                        ? "font-semibold text-navy"
+                        : "font-medium text-navy/80 hover:text-navy"
+                    }`}
+                  >
+                    {n.label}
+                    <span
+                      className={`absolute -bottom-1 left-0 h-px bg-green transition-all duration-300 ${
+                        current ? "w-full" : "w-0 group-hover:w-full"
+                      }`}
+                    />
+                  </NavItemLink>
+                );
+              })}
             </nav>
 
             {/* Right — Contact (desktop) + hamburger (mobile) */}
@@ -227,30 +259,60 @@ export function Navbar({
 
             <div className="flex flex-1 items-center">
               <ul className="flex w-full flex-col items-start gap-2">
-                {nav.map((n, i) => (
-                  <li key={n.label} className="overflow-hidden py-0.5">
-                    <NavItemLink
-                      href={n.href}
-                      onClick={(e) => onNav(e, n.href)}
-                      data-open={open}
-                      style={{ transitionDelay: open ? `${300 + i * 55}ms` : "0ms" }}
-                      className="block translate-y-full pb-[0.12em] font-display text-[clamp(2.25rem,1rem+8vw,4rem)] font-semibold leading-[1.15] tracking-[-0.02em] text-paper transition-[transform,color] duration-[600ms] ease-[cubic-bezier(0.76,0,0.24,1)] hover:text-green data-[open=true]:translate-y-0"
-                    >
-                      {n.label}
-                    </NavItemLink>
-                  </li>
-                ))}
+                {nav.map((n, i) => {
+                  const current = isCurrent(n.href);
+                  return (
+                    <li key={n.label} className="overflow-hidden py-0.5">
+                      <NavItemLink
+                        href={n.href}
+                        onClick={(e) => onNav(e, n.href)}
+                        data-open={open}
+                        aria-current={current ? "page" : undefined}
+                        style={{
+                          transitionDelay: open ? `${300 + i * 55}ms` : "0ms",
+                        }}
+                        className={`flex translate-y-full items-center gap-3 pb-[0.12em] font-display text-[clamp(2.25rem,1rem+8vw,4rem)] font-semibold leading-[1.15] tracking-[-0.02em] transition-[transform,color] duration-[600ms] ease-[cubic-bezier(0.76,0,0.24,1)] data-[open=true]:translate-y-0 ${
+                          current ? "text-green" : "text-paper hover:text-green"
+                        }`}
+                      >
+                        {n.label}
+                        {/* A dot as well as the colour: colour alone is the one
+                            cue a colour-blind visitor can't read, and at this
+                            size an underline would crowd the next item. */}
+                        {current && (
+                          <span
+                            aria-hidden
+                            className="h-2 w-2 shrink-0 rounded-full bg-green"
+                          />
+                        )}
+                      </NavItemLink>
+                    </li>
+                  );
+                })}
                 <li className="overflow-hidden py-0.5">
+                  {/* Contact used to be permanently green, which now reads as
+                      "this is the page you're on" — green is the current-page
+                      cue. It's an action, not a page (it opens the enquiry
+                      form), so it takes the same paper as the others and earns
+                      its emphasis from the arrow instead. */}
                   <button
                     onClick={() => {
                       setOpen(false);
                       openEnquiry();
                     }}
                     data-open={open}
-                    style={{ transitionDelay: open ? `${300 + nav.length * 55}ms` : "0ms" }}
-                    className="block translate-y-full pb-[0.12em] font-display text-[clamp(2.25rem,1rem+8vw,4rem)] font-semibold leading-[1.15] tracking-[-0.02em] text-green transition-[transform,color] duration-[600ms] ease-[cubic-bezier(0.76,0,0.24,1)] data-[open=true]:translate-y-0"
+                    style={{
+                      transitionDelay: open
+                        ? `${300 + nav.length * 55}ms`
+                        : "0ms",
+                    }}
+                    className="group flex translate-y-full items-center gap-3 pb-[0.12em] font-display text-[clamp(2.25rem,1rem+8vw,4rem)] font-semibold leading-[1.15] tracking-[-0.02em] text-paper transition-[transform,color] duration-[600ms] ease-[cubic-bezier(0.76,0,0.24,1)] hover:text-green data-[open=true]:translate-y-0"
                   >
                     Contact
+                    <ArrowUpRight
+                      className="h-[0.7em] w-[0.7em] shrink-0 text-green transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                      strokeWidth={2}
+                    />
                   </button>
                 </li>
               </ul>
@@ -274,7 +336,9 @@ export function Navbar({
                         aria-label={label}
                         className="flex h-9 w-9 items-center justify-center rounded-full border border-paper/25 text-paper/70 transition-colors duration-300 hover:border-green hover:text-green"
                       >
-                        {Icon && <Icon className="h-4 w-4" strokeWidth={1.75} />}
+                        {Icon && (
+                          <Icon className="h-4 w-4" strokeWidth={1.75} />
+                        )}
                       </a>
                     );
                   })}
