@@ -176,6 +176,7 @@ export const LEADERSHIP: Leader[] = [
     name: "Rajeev Kumar",
     role: "Operations Manager, Middle East",
     photo: "/leadership/rajeev-kumar.png",
+    bio: "Mechanical Engineering graduate with over 15 years of MEPF industry experience across India, the UAE and Oman. Leads the company's overall operations, driving business growth, profitability and strategic direction while overseeing sales, operations, finance and human resources — spearheading business development, maintaining key client relationships and ensuring operational excellence across all projects and service contracts.",
   },
 ];
 

@@ -49,16 +49,22 @@ export function Footer({
       className="relative z-10 mt-[calc(var(--overlap-m)*-1)] bg-navy text-paper md:mt-[calc(var(--overlap)*-1)]"
       style={
         {
-          "--overlap": `${WITHUS_OVERLAP_VH}vh`,
-          "--overlap-m": `${WITHUS_OVERLAP_VH_MOBILE}vh`,
+          // WithUs measures its card on mount and publishes the exact height as
+          // --withus-overlap; the vh values are only the first-paint / no-JS
+          // fallback. Matching the card exactly is what lets its wipe clear the
+          // whole card — the band is precisely as tall as what's peeled away.
+          "--overlap": `var(--withus-overlap, ${WITHUS_OVERLAP_VH}vh)`,
+          "--overlap-m": `var(--withus-overlap, ${WITHUS_OVERLAP_VH_MOBILE}vh)`,
         } as React.CSSProperties
       }
     >
       {/* Static blueprint band — anchored to the footer top and revealed by the
-          WithUs wipe peeling upward. Shorter on phones (mobile overlap) so it
-          stays aligned with the smaller CTA image. */}
+          WithUs wipe peeling upward. Its height is the whole WithUs card, so
+          the blueprint sits at the bottom (aligned to og.png) and the plain
+          green above it is what ends up behind the CTA heading and button. */}
       <div
         aria-hidden
+        data-footer-band
         className="relative h-[var(--overlap-m)] w-full overflow-hidden md:h-[var(--overlap)]"
       >
         {/* Same width / centering / bottom-anchor as og.png in WithUs, plus a

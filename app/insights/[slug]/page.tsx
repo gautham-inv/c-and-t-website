@@ -6,6 +6,10 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { articleSchema, breadcrumbSchema, OG_IMAGE } from "@/lib/seo";
 import { getInsight, getInsightSlugs } from "@/sanity/lib/data";
 
+// Unknown slugs 404 instead of erroring under `output: "export"` — see the
+// note in app/divisions/[slug]/page.tsx.
+export const dynamicParams = false;
+
 // Static export: every article route must be known at build time.
 export async function generateStaticParams() {
   const slugs = await getInsightSlugs();

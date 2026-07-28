@@ -6,6 +6,10 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { jobPostingSchema, breadcrumbSchema } from "@/lib/seo";
 import { getJobOpening, getJobOpeningSlugs } from "@/sanity/lib/data";
 
+// Unknown slugs 404 instead of erroring under `output: "export"` — see the
+// note in app/divisions/[slug]/page.tsx.
+export const dynamicParams = false;
+
 // Static export: every role route must be known at build time.
 export async function generateStaticParams() {
   const slugs = await getJobOpeningSlugs();

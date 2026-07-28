@@ -7,7 +7,7 @@ import { getCareersPage, getJobOpenings } from "@/sanity/lib/data";
 
 const TITLE = "Careers | C&T Consulting Engineers";
 const DESCRIPTION =
-  "MEP, BIM and CFD job openings at C&T Consulting Engineers, with teams in India, the UAE and Canada.";
+  "Architectural design, MEP, BIM and CFD job openings at C&T Consulting Engineers, with teams in India, the UAE and Canada.";
 
 export const metadata: Metadata = {
   title: TITLE,

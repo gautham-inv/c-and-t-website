@@ -30,24 +30,33 @@ export function WhoWeAre() {
         scrollTrigger: { trigger: content.current, start: "top 78%" },
       });
 
-      // Scroll-scrubbed layered parallax on the images.
-      // Each container translates upward (positive parallax); the inner image
-      // translates the opposite, smaller amount so it drifts behind as the
-      // container races ahead. The smaller/foreground square moves faster than
-      // the larger/background portrait, reinforcing depth.
-      const st = {
-        trigger: root.current,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: true,
-      };
-      // The foreground square travels ~2x the distance of the background
-      // portrait (square is ~half the height, so it needs ~4x the percentage
-      // to cover double the pixels) — exaggerated depth layering.
-      gsap.to(portrait.current, { yPercent: -18, ease: "none", scrollTrigger: st });
-      gsap.to(square.current, { yPercent: -135, ease: "none", scrollTrigger: st });
-      gsap.to(portraitInner.current, { yPercent: 12, ease: "none", scrollTrigger: st });
-      gsap.to(squareInner.current, { yPercent: 16, ease: "none", scrollTrigger: st });
+      // Scroll-scrubbed layered parallax on the images. lg-only, matching the
+      // `hidden lg:block` on the image column: below lg the images would stack
+      // underneath the text instead of sitting beside it, which read as two
+      // stray pictures dumped at the foot of the section — so they're dropped
+      // there and there's nothing left to parallax.
+      const mm = gsap.matchMedia();
+      mm.add("(min-width: 1024px)", () => {
+        // Each container translates upward (positive parallax); the inner image
+        // translates the opposite, smaller amount so it drifts behind as the
+        // container races ahead. The smaller/foreground square moves faster
+        // than the larger/background portrait, reinforcing depth.
+        const st = {
+          trigger: root.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        };
+        // The foreground square travels ~2x the distance of the background
+        // portrait (square is ~half the height, so it needs ~4x the percentage
+        // to cover double the pixels) — exaggerated depth layering.
+        gsap.to(portrait.current, { yPercent: -18, ease: "none", scrollTrigger: st });
+        gsap.to(square.current, { yPercent: -135, ease: "none", scrollTrigger: st });
+        gsap.to(portraitInner.current, { yPercent: 12, ease: "none", scrollTrigger: st });
+        gsap.to(squareInner.current, { yPercent: 16, ease: "none", scrollTrigger: st });
+      });
+
+      return () => mm.revert();
     },
     { scope: root },
   );
@@ -100,8 +109,14 @@ export function WhoWeAre() {
               </Link>
             </div>
 
-            {/* Images — large portrait + overlapping square, layered parallax */}
-            <div className="col-span-12 lg:col-span-6 lg:col-start-7">
+            {/* Images — large portrait + overlapping square, layered parallax.
+                lg-only: the grid puts them beside the text from lg up, and
+                below that they'd fall to the bottom of the section under the
+                copy, where the staggered composition doesn't read. Kept in the
+                DOM (rather than conditionally rendered) so the parallax refs
+                stay stable — display:none also keeps the lazy images from
+                being fetched on phones. */}
+            <div className="col-span-12 hidden lg:col-span-6 lg:col-start-7 lg:block">
               <div className="relative ml-auto w-full max-w-[36rem] pb-10 pl-10">
                 {/* Portrait (primary, background — slower) */}
                 <div

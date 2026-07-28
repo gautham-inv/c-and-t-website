@@ -12,6 +12,18 @@ import {
 import { INDUSTRIES } from "@/lib/industries";
 import type { Service } from "@/lib/services";
 
+// A slug outside generateStaticParams is a 404, not an error.
+//
+// Note this does NOT silence the dev-only "missing param … in
+// generateStaticParams()" error page: with `output: "export"`, next dev throws
+// on any unlisted param before the route renders, unconditionally
+// (next/dist/server/dev/next-dev-server.js — no dynamicParams check around it),
+// so /divisions/anything shows that error in dev no matter what this says. The
+// exported build has no such route to hit: the static host serves out/404.html
+// with a 404 status. Kept because it states the intended behaviour and is what
+// governs it the moment this stops being a static export.
+export const dynamicParams = false;
+
 // Static export: every division route must be known at build time.
 export async function generateStaticParams() {
   const divisions = await getDivisions();

@@ -385,7 +385,7 @@ const CAREERS_PAGE_FALLBACK: CareersPageData = {
   reasons: REASONS,
   whyTitle: "More than engineers",
   whyBody: [
-    "At C&T we are pioneers, problem-solvers and future-makers. Working with us means the freedom to take on ambitious briefs, be bold, and push the limits of what MEP and BIM engineering can deliver.",
+    "At C&T we are pioneers, problem-solvers and future-makers. Working with us means the freedom to take on ambitious briefs, be bold, and push the limits of what architectural, MEP and BIM engineering can deliver.",
     "When you join us, you join a team working toward one goal — to build a better, more sustainable tomorrow, one asset at a time.",
   ],
   teamPhotos: TEAM_PHOTOS,

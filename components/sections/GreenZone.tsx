@@ -77,11 +77,24 @@ export function GreenZone({ children }: { children: React.ReactNode }) {
         className="pointer-events-none absolute inset-0 -z-10"
         style={{ backgroundColor: PAPER }}
       />
-      {/* Leading gap — hosts the off-white → green transition. */}
-      <div className="h-[24vh]" />
+      {/* Leading gap — hosts the off-white → green transition.
+          Much shorter below lg: 24vh of empty colour stacks on top of Clients'
+          own top padding, which on a phone reads as a large blank green band
+          before any content. The entry transition doesn't depend on this
+          height (it's driven off the root, top bottom → top 70%), so shrinking
+          it costs nothing.
+          Both values are px-capped with min(): vh alone scales with viewport
+          HEIGHT, so a tall portrait tablet (iPad Pro, 1024×1366 — wide enough
+          to be `lg`) turned 24vh into 328px of empty colour. The cap keeps the
+          gap proportionate to the content rather than to the screen. */}
+      <div className="h-[min(8vh,3.5rem)] lg:h-[min(24vh,9rem)]" />
       {children}
-      {/* Trailing gap — hosts the green → off-white transition. */}
-      <div ref={tailGap} className="h-[24vh]" />
+      {/* Trailing gap — hosts the green → off-white transition. Unlike the
+          leading gap this one IS the transition's scroll distance (it's the
+          trigger), so it can't go to zero — ~10rem keeps the fade readable
+          while cutting the dead space below Testimonials. Same px cap as
+          above, for the same tall-viewport reason. */}
+      <div ref={tailGap} className="h-[min(12vh,5rem)] lg:h-[min(24vh,10rem)]" />
     </div>
   );
 }

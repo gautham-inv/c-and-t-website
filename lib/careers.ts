@@ -8,7 +8,7 @@
  */
 
 export const CAREERS_INTRO =
-  "At C&T we are united by a single vision: smart engineering that lasts. With teams across India, the UAE and Canada, our engineers deliver MEP, BIM and CFD work on some of the most demanding projects in the world. Grow with a practice that has been building since 2011.";
+  "At C&T we are united by a single vision: smart engineering that lasts. With teams across India, the UAE and Canada, our architects and engineers deliver architectural and MEP design, BIM and CFD work on some of the most demanding projects in the world. Grow with a practice that has been building since 2011.";
 
 /** The "why join us" reasons grid — numbered 01–06, editorial style. */
 export type Reason = { title: string; body: string };

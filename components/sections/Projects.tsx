@@ -6,6 +6,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { getLenis } from "@/lib/lenis";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -48,73 +49,160 @@ const PALETTE = [
 export function Projects() {
   const root = useRef<HTMLElement>(null);
   const track = useRef<HTMLDivElement>(null);
+  // In-flow spacer below the pinned screen. Its height IS the pin: CSS sticky
+  // holds the rail for exactly as long as the section has room left. Set from
+  // JS (md+ only) and collapsed to 0 once the rail is done — see release().
+  const runway = useRef<HTMLDivElement>(null);
+  // The pin's ScrollTrigger, so the arrows know which axis to drive.
+  const rail = useRef<ScrollTrigger | null>(null);
 
-  // Mobile only: step the native horizontal scroller by one card width.
+  // Step the rail by exactly one card.
   const scrollByCard = (dir: 1 | -1) => {
     const el = track.current;
     if (!el) return;
-    const card = el.querySelector<HTMLElement>("[data-card]");
-    const amount = card ? card.offsetWidth + 24 : el.clientWidth * 0.8;
+    const cards = el.querySelectorAll<HTMLElement>("[data-card]");
+    // Card width + gap, straight off the DOM, so it survives the responsive
+    // size classes without repeating any of those numbers here.
+    const amount =
+      cards.length > 1
+        ? cards[1].getBoundingClientRect().left -
+          cards[0].getBoundingClientRect().left
+        : el.clientWidth * 0.8;
+    // While the section is pinned, scrollLeft is a pure function of scroll
+    // progress at 1:1, and the next frame overwrites anything set here — so a
+    // step has to be a *vertical* scroll of the same distance.
+    if (rail.current?.isActive) {
+      const y = window.scrollY + dir * amount;
+      const lenis = getLenis();
+      if (lenis) lenis.scrollTo(y, { duration: 0.8 });
+      else window.scrollTo({ top: y, behavior: "smooth" });
+      return;
+    }
     el.scrollBy({ left: dir * amount, behavior: "smooth" });
   };
 
   useGSAP(
     () => {
-      // The pinned horizontal-scroll is desktop/tablet only. On phones the
-      // section is a plain vertical stack of equal cards — no pin, no
-      // scroll-driven translate — so this whole block never runs there.
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      gsap.from("[data-up]", {
+        y: 50,
+        duration: 0.9,
+        ease: "power3.out",
+        stagger: 0.1,
+        scrollTrigger: { trigger: root.current, start: "top 78%" },
+      });
+
       const mm = gsap.matchMedia();
-      mm.add(
-        "(min-width: 768px) and (prefers-reduced-motion: no-preference)",
-        () => {
-          // Heading reveal fires before the pin engages (translate only).
-          gsap.from("[data-up]", {
-            y: 50,
-            duration: 0.9,
-            ease: "power3.out",
-            stagger: 0.1,
-            scrollTrigger: { trigger: root.current, start: "top 78%" },
-          });
 
-          const trackEl = track.current;
-          if (!trackEl) return;
+      // ── Forward-only pin ────────────────────────────────────────────────
+      // Pin + horizontal scrub on the way down; nothing at all on the way back
+      // up. A pin can't be made one-directional by animating differently in
+      // reverse: the dead scroll distance IS the pin, and CSS sticky holds in
+      // both directions for the section's whole spare height. So the runway is
+      // taken away the moment the rail finishes, and the scroll position is
+      // rewound by the same amount in the same frame — the two cancel exactly
+      // (the sticky offset is at its maximum right then, so the pinned screen
+      // sits in the identical place before and after), which is why nothing
+      // jumps. What's left behind is a one-screen section that scrolls like any
+      // other. It re-arms once it's fully below the fold, where growing it back
+      // can't shift anything the viewer can see.
+      mm.add("(min-width: 768px)", () => {
+        const trackEl = track.current;
+        const runwayEl = runway.current;
+        const rootEl = root.current;
+        if (!trackEl || !runwayEl || !rootEl) return;
 
-          // Distance the track must travel so its right edge meets the viewport
-          // edge — proportional to the number/width of cards.
-          const distance = () =>
-            Math.max(0, trackEl.scrollWidth - window.innerWidth);
+        // Exactly the horizontal distance the rail has left to travel, so the
+        // wheel moves the cards 1:1 and the pin is never longer than the rail.
+        const overflow = () =>
+          Math.max(0, trackEl.scrollWidth - trackEl.clientWidth);
+        const sync = (progress: number) => {
+          trackEl.scrollLeft = overflow() * progress;
+        };
+        let armed = false;
 
-          // Set the wrapper height so CSS sticky has room to scroll.
-          const updateHeight = () => {
-            if (root.current && trackEl) {
-              root.current.style.height = `${window.innerHeight + distance()}px`;
-            }
-          };
+        // Declared before the two functions that use it, assigned after them,
+        // because they're what its own onLeave calls. ScrollTrigger can fire a
+        // callback synchronously from inside create() — a trigger built already
+        // past its end does exactly that — and release() is safe under that
+        // because `armed` is still false then, so it returns before reading st.
+        let st: ScrollTrigger;
 
-          updateHeight();
-          ScrollTrigger.addEventListener("refreshInit", updateHeight);
+        // Both paths change the document height, so both have to refresh — and
+        // ScrollTrigger.refresh() signs off by restoring the scroll position it
+        // had cached, which is not always where we actually are (that cache is
+        // only rewritten on the GSAP ticker, so a scroll it never saw leaves it
+        // stale — measured: it restored a position 1200px off). Neither path can
+        // afford to be wrong about this, so each states the scroll it wants
+        // after the refresh instead of trusting the restore.
+        const settle = (y: number) => {
+          if (Math.abs(window.scrollY - y) < 1) return;
+          const lenis = getLenis();
+          if (lenis) lenis.scrollTo(y, { immediate: true, force: true });
+          else window.scrollTo(0, y);
+        };
 
-          // Drive the cards left as the user scrolls through the sticky container.
-          gsap.to(trackEl, {
-            x: () => -distance(),
-            ease: "none",
-            scrollTrigger: {
-              trigger: root.current,
-              start: "top top",
-              end: "bottom bottom",
-              scrub: 0.6,
-              invalidateOnRefresh: true,
-            },
-          });
+        const arm = () => {
+          if (armed) return;
+          armed = true;
+          const y = window.scrollY;
+          runwayEl.style.height = `${overflow()}px`;
+          st.enable(false, false); // one refresh below, not two
+          ScrollTrigger.refresh();
+          settle(y); // the runway is all below the fold: nothing should move
+        };
 
-          return () => {
-            ScrollTrigger.removeEventListener("refreshInit", updateHeight);
-            // Drop the inline height when leaving the desktop breakpoint so the
-            // mobile stack lays out at its natural height.
-            if (root.current) root.current.style.height = "";
-          };
-        },
-      );
+        const release = () => {
+          if (!armed) return;
+          armed = false;
+          const d = runwayEl.offsetHeight;
+          const y = window.scrollY;
+          trackEl.scrollLeft = overflow(); // hold the end of the rail
+          runwayEl.style.height = "0px";
+          st.disable(false);
+          ScrollTrigger.refresh();
+          // Same magnitude as the runway just removed, opposite direction — the
+          // two cancel and the pinned screen doesn't move a pixel.
+          settle(y - d);
+        };
+
+        st = ScrollTrigger.create({
+          trigger: rootEl,
+          start: "top top",
+          end: () => `+=${overflow()}`,
+          invalidateOnRefresh: true,
+          // A resize changes how much the rail has left to travel, and the pin's
+          // length is the runway's height — so re-state it before ScrollTrigger
+          // measures, or the scrub and the pin disagree about where the end is.
+          // Only while armed: after a release the runway must stay collapsed.
+          onRefreshInit: () => {
+            if (armed) runwayEl.style.height = `${overflow()}px`;
+          },
+          onUpdate: (self) => sync(self.progress),
+          // Covers a load that lands mid-section, where onUpdate hasn't run.
+          onRefresh: (self) => sync(self.progress),
+          onLeave: release,
+        });
+        rail.current = st;
+
+        ScrollTrigger.create({
+          trigger: rootEl,
+          start: "top bottom",
+          onLeaveBack: arm,
+        });
+
+        arm();
+        // A load that lands *below* the section (hash link, scroll restore)
+        // never crosses the end, so onLeave never fires and an armed runway
+        // would be left sitting above the viewer — the reverse trap again.
+        if (st.progress >= 1) release();
+
+        return () => {
+          runwayEl.style.height = "";
+          rail.current = null;
+        };
+      });
 
       return () => mm.revert();
     },
@@ -127,9 +215,12 @@ export function Projects() {
       id="projects"
       className="relative scroll-mt-24 bg-paper text-navy"
     >
-      <div className="flex w-full flex-col md:sticky md:top-0 md:h-screen md:overflow-hidden">
+      {/* The pinned screen. One viewport tall from md up and vertically centred,
+          so the heading and the rail hold still together while the runway below
+          is consumed. */}
+      <div className="flex w-full flex-col md:sticky md:top-0 md:h-screen md:justify-center md:overflow-hidden">
         {/* Heading + intro */}
-        <div className="mx-auto w-full max-w-[1600px] shrink-0 px-6 pt-20 md:px-10 md:pt-24">
+        <div className="mx-auto w-full max-w-[1600px] shrink-0 px-6 pt-20 md:px-10 md:pt-0">
           <div className="grid gap-6 md:grid-cols-2 md:items-end md:gap-16">
             <h2
               data-up
@@ -154,8 +245,9 @@ export function Projects() {
                     →
                   </span>
                 </Link>
-                {/* Prev/next — mobile only (desktop scrolls the pinned track). */}
-                <div className="flex shrink-0 gap-3 md:hidden">
+                {/* Prev/next — the only way through the rail below md, and a
+                    keyboard/click route through the pin above it. */}
+                <div className="flex shrink-0 gap-3">
                   <button
                     type="button"
                     onClick={() => scrollByCard(-1)}
@@ -178,13 +270,18 @@ export function Projects() {
           </div>
         </div>
 
-        {/* Pinned horizontal track (md+) — centred in the remaining space so the
-            tall cards never spill below the viewport. On mobile it's a native
-            horizontal snap-scroller driven by the prev/next arrows above. */}
-        <div className="flex min-h-0 flex-1 pb-8 pt-8 md:items-center md:overflow-hidden md:pt-0">
+        {/* One horizontal scroller at every width. Below md it's a native snap
+            rail (swipe / arrows); from md up the pin drives its scrollLeft, so
+            snapping is off there — mandatory snap would fight every frame of
+            the scrub. Cards keep their varied md+ sizes, centred on the cross
+            axis so the tall ones don't drag the short ones' baselines around. */}
+        <div className="flex pb-16 pt-8 md:pb-0 md:pt-10">
           <div
             ref={track}
-            className="flex snap-x snap-mandatory gap-6 overflow-x-auto px-6 will-change-transform [-ms-overflow-style:none] [scrollbar-width:none] md:snap-none md:items-center md:gap-8 md:overflow-x-visible md:px-10 [&::-webkit-scrollbar]:hidden"
+            // scroll-pl matches the px inset: without it snap-start aligns the
+            // first card to the scroll container's edge, eating the padding and
+            // leaving the card flush against the viewport.
+            className="flex snap-x snap-mandatory items-center gap-6 overflow-x-auto scroll-pl-6 px-6 [-ms-overflow-style:none] [scrollbar-width:none] md:snap-none md:gap-8 md:scroll-pl-10 md:px-10 [&::-webkit-scrollbar]:hidden"
           >
             {PROJECTS.map((p, i) => {
               const c = PALETTE[i % PALETTE.length];
@@ -224,6 +321,10 @@ export function Projects() {
           </div>
         </div>
       </div>
+
+      {/* Pin runway — height set by JS to the rail's remaining travel, then
+          taken back to 0 on the way out (md+ only; below md there's no pin). */}
+      <div ref={runway} aria-hidden className="hidden md:block" />
     </section>
   );
 }
