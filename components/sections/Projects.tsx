@@ -11,13 +11,48 @@ import { getLenis } from "@/lib/lenis";
 gsap.registerPlugin(ScrollTrigger);
 
 const PROJECTS = [
-  { name: "Major Airport, South India", meta: "MEP Design & BIM · South India", image: "/projects/airport-terminal-case-study.jpg", size: "wide" },
-  { name: "Calinova 2.4 MW Data Centre", meta: "MEP & BIM · 2.4 MW · Calicut", image: "/projects/calinova-case-study.jpg", size: "tall" },
-  { name: "Vega Tower, Dubai", meta: "MEP Design & BIM · LOD 400", image: "/projects/images.jpeg", size: "standard" },
-  { name: "EXPO 2020 Campus, Dubai", meta: "BIM Modelling · CINQ / Voltas", image: "/projects/expocampus.jpg", size: "wide" },
-  { name: "Duqm Refinery, Oman", meta: "Detailed Engineering · LOD 500", image: "/projects/duqm-refinery.jpeg", size: "tall" },
-  { name: "Yamal LNG, Russia", meta: "Detailed Engineering & 3D · Technip", image: "/projects/yamal.webp", size: "wide" },
-  { name: "Compression 4-NFPS", meta: "Offshore · Qatar Energy", image: "/projects/Compression-4-NFPS.jpeg", size: "standard" },
+  {
+    name: "Major Airport, South India",
+    meta: "MEP Design & BIM · South India",
+    image: "/projects/airport-terminal-case-study.jpg",
+    size: "wide",
+  },
+  {
+    name: "Calinova 2.4 MW Data Centre",
+    meta: "MEP & BIM · 2.4 MW · Calicut",
+    image: "/projects/calinova-case-study.jpg",
+    size: "tall",
+  },
+  {
+    name: "Vega Tower, Dubai",
+    meta: "MEP Design & BIM · LOD 400",
+    image: "/projects/images.jpeg",
+    size: "standard",
+  },
+  {
+    name: "EXPO 2020 Campus, Dubai",
+    meta: "BIM Modelling · CINQ / Voltas",
+    image: "/projects/expocampus.jpg",
+    size: "wide",
+  },
+  {
+    name: "Duqm Refinery, Oman",
+    meta: "Detailed Engineering · LOD 500",
+    image: "/projects/duqm-refinery.jpeg",
+    size: "tall",
+  },
+  {
+    name: "Yamal LNG, Russia",
+    meta: "Detailed Engineering & 3D · Technip",
+    image: "/projects/yamal.webp",
+    size: "wide",
+  },
+  {
+    name: "Compression 4-NFPS",
+    meta: "Offshore · Qatar Energy",
+    image: "/projects/Compression-4-NFPS.jpeg",
+    size: "standard",
+  },
 ];
 
 // Sizes only apply from md up (the pinned horizontal track). On mobile every
@@ -48,7 +83,12 @@ const PALETTE = [
 
 export function Projects() {
   const root = useRef<HTMLElement>(null);
+  // The scroll container (native rail below md) and the row inside it. From md
+  // up the pin moves the ROW with a transform and leaves scrollLeft at 0:
+  // translating a layer is compositor-only, where scrolling a container
+  // repaints its contents — seven image cards — on every frame.
   const track = useRef<HTMLDivElement>(null);
+  const row = useRef<HTMLDivElement>(null);
   // In-flow spacer below the pinned screen. Its height IS the pin: CSS sticky
   // holds the rail for exactly as long as the section has room left. Set from
   // JS (md+ only) and collapsed to 0 once the rail is done — see release().
@@ -68,7 +108,7 @@ export function Projects() {
         ? cards[1].getBoundingClientRect().left -
           cards[0].getBoundingClientRect().left
         : el.clientWidth * 0.8;
-    // While the section is pinned, scrollLeft is a pure function of scroll
+    // While the section is pinned, the row's x is a pure function of scroll
     // progress at 1:1, and the next frame overwrites anything set here — so a
     // step has to be a *vertical* scroll of the same distance.
     if (rail.current?.isActive) {
@@ -109,17 +149,30 @@ export function Projects() {
       // can't shift anything the viewer can see.
       mm.add("(min-width: 768px)", () => {
         const trackEl = track.current;
+        const rowEl = row.current;
         const runwayEl = runway.current;
         const rootEl = root.current;
-        if (!trackEl || !runwayEl || !rootEl) return;
+        if (!trackEl || !rowEl || !runwayEl || !rootEl) return;
 
         // Exactly the horizontal distance the rail has left to travel, so the
         // wheel moves the cards 1:1 and the pin is never longer than the rail.
-        const overflow = () =>
-          Math.max(0, trackEl.scrollWidth - trackEl.clientWidth);
-        const sync = (progress: number) => {
-          trackEl.scrollLeft = overflow() * progress;
+        // Measured once per refresh and cached: reading scrollWidth on every
+        // frame forces a synchronous layout, and this number only changes when
+        // the viewport does. The row is width:max-content, so its own box is
+        // the content width — no scroll metrics needed.
+        let dist = 0;
+        const measure = () => {
+          dist = Math.max(
+            0,
+            Math.round(rowEl.getBoundingClientRect().width) -
+              trackEl.clientWidth,
+          );
+          return dist;
         };
+        // quickSetter skips GSAP's per-call property parsing; x is a transform,
+        // so each step is a compositor move rather than a repaint.
+        const setX = gsap.quickSetter(rowEl, "x", "px") as (v: number) => void;
+        const sync = (progress: number) => setX(-dist * progress);
         let armed = false;
 
         // Declared before the two functions that use it, assigned after them,
@@ -147,7 +200,7 @@ export function Projects() {
           if (armed) return;
           armed = true;
           const y = window.scrollY;
-          runwayEl.style.height = `${overflow()}px`;
+          runwayEl.style.height = `${measure()}px`;
           st.enable(false, false); // one refresh below, not two
           ScrollTrigger.refresh();
           settle(y); // the runway is all below the fold: nothing should move
@@ -158,7 +211,7 @@ export function Projects() {
           armed = false;
           const d = runwayEl.offsetHeight;
           const y = window.scrollY;
-          trackEl.scrollLeft = overflow(); // hold the end of the rail
+          setX(-measure()); // hold the end of the rail
           runwayEl.style.height = "0px";
           st.disable(false);
           ScrollTrigger.refresh();
@@ -170,14 +223,14 @@ export function Projects() {
         st = ScrollTrigger.create({
           trigger: rootEl,
           start: "top top",
-          end: () => `+=${overflow()}`,
+          end: () => `+=${measure()}`,
           invalidateOnRefresh: true,
           // A resize changes how much the rail has left to travel, and the pin's
           // length is the runway's height — so re-state it before ScrollTrigger
           // measures, or the scrub and the pin disagree about where the end is.
           // Only while armed: after a release the runway must stay collapsed.
           onRefreshInit: () => {
-            if (armed) runwayEl.style.height = `${overflow()}px`;
+            if (armed) runwayEl.style.height = `${measure()}px`;
           },
           onUpdate: (self) => sync(self.progress),
           // Covers a load that lands mid-section, where onUpdate hasn't run.
@@ -200,6 +253,9 @@ export function Projects() {
 
         return () => {
           runwayEl.style.height = "";
+          // Drop the transform outright: below md the rail is a native scroller
+          // again, and a leftover translate would offset it with no way back.
+          gsap.set(rowEl, { clearProps: "transform" });
           rail.current = null;
         };
       });
@@ -231,9 +287,9 @@ export function Projects() {
             </h2>
             <div data-up className="max-w-xl">
               <p className="text-base leading-relaxed text-ink-dim md:text-lg">
-                Data centres, airports, refineries and offshore platforms:
-                these projects have to perform for decades. Browse the work
-                below to see how each one was engineered.
+                Data centres, airports, refineries and offshore platforms: these
+                projects have to perform for decades. Browse the work below to
+                see how each one was engineered.
               </p>
               <div className="mt-5 flex items-center justify-between gap-4">
                 <Link
@@ -278,46 +334,56 @@ export function Projects() {
         <div className="flex pb-16 pt-8 md:pb-0 md:pt-10">
           <div
             ref={track}
-            // scroll-pl matches the px inset: without it snap-start aligns the
-            // first card to the scroll container's edge, eating the padding and
-            // leaving the card flush against the viewport.
-            className="flex snap-x snap-mandatory items-center gap-6 overflow-x-auto scroll-pl-6 px-6 [-ms-overflow-style:none] [scrollbar-width:none] md:snap-none md:gap-8 md:scroll-pl-10 md:px-10 [&::-webkit-scrollbar]:hidden"
+            // scroll-pl matches the row's px inset: without it snap-start aligns
+            // the first card to the scroll container's edge, eating the padding
+            // and leaving the card flush against the viewport.
+            className="w-full snap-x snap-mandatory overflow-x-auto scroll-pl-6 [-ms-overflow-style:none] [scrollbar-width:none] md:snap-none md:scroll-pl-10 [&::-webkit-scrollbar]:hidden"
           >
-            {PROJECTS.map((p, i) => {
-              const c = PALETTE[i % PALETTE.length];
-              const sizeConfig = SIZES[p.size as keyof typeof SIZES] || SIZES.standard;
-              const cardClass = `relative flex h-[26rem] w-[82vw] shrink-0 snap-start flex-col overflow-hidden rounded-[1.75rem] p-8 md:p-10 ${c.bg} ${c.text} ${sizeConfig.card}`;
-              // Cards are a showcase, not links — projects no longer have
-              // detail pages, and "All projects" above already covers that.
-              return (
-                <div key={p.name} data-card className={cardClass}>
-                  <h3 className="max-w-[74%] font-display text-[clamp(1.6rem,1rem+1.5vw,2.6rem)] font-medium leading-[1.08] tracking-[-0.01em]">
-                    {p.name}
-                  </h3>
-                  {/* Bottom row: meta and image are siblings, so text can never
+            {/* w-max so the row's own box is the content width — that's what the
+              pin measures, and it means no scroll metrics are read per frame.
+              The padding lives here rather than on the scroller so that width
+              includes it. */}
+            <div
+              ref={row}
+              className="flex w-max items-center gap-6 px-6 md:gap-8 md:px-10 md:will-change-transform"
+            >
+              {PROJECTS.map((p, i) => {
+                const c = PALETTE[i % PALETTE.length];
+                const sizeConfig =
+                  SIZES[p.size as keyof typeof SIZES] || SIZES.standard;
+                const cardClass = `relative flex h-[26rem] w-[82vw] shrink-0 snap-start flex-col overflow-hidden rounded-[1.75rem] p-8 md:p-10 ${c.bg} ${c.text} ${sizeConfig.card}`;
+                // Cards are a showcase, not links — projects no longer have
+                // detail pages, and "All projects" above already covers that.
+                return (
+                  <div key={p.name} data-card className={cardClass}>
+                    <h3 className="max-w-[74%] font-display text-[clamp(1.6rem,1rem+1.5vw,2.6rem)] font-medium leading-[1.08] tracking-[-0.01em]">
+                      {p.name}
+                    </h3>
+                    {/* Bottom row: meta and image are siblings, so text can never
                       sit under the image regardless of card size. */}
-                  <div className="mt-auto flex items-end justify-between gap-4 pt-6">
-                    <p
-                      className={`font-mono text-[0.7rem] uppercase leading-relaxed tracking-[0.14em] ${c.sub}`}
-                    >
-                      {p.meta}
-                    </p>
-                    <div
-                      className={`${sizeConfig.img} shrink-0 overflow-hidden rounded-2xl`}
-                    >
-                      <div className="aspect-[4/3]">
-                        <img
-                          src={p.image}
-                          alt={p.name}
-                          className="h-full w-full object-cover"
-                          loading="lazy"
-                        />
+                    <div className="mt-auto flex items-end justify-between gap-4 pt-6">
+                      <p
+                        className={`font-mono text-[0.7rem] uppercase leading-relaxed tracking-[0.14em] ${c.sub}`}
+                      >
+                        {p.meta}
+                      </p>
+                      <div
+                        className={`${sizeConfig.img} shrink-0 overflow-hidden rounded-2xl`}
+                      >
+                        <div className="aspect-[4/3]">
+                          <img
+                            src={p.image}
+                            alt={p.name}
+                            className="h-full w-full object-cover"
+                            loading="lazy"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>

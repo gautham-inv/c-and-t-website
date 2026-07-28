@@ -32,6 +32,12 @@ export function WithUs({ rounded = true }: { rounded?: boolean }) {
   // peels away. Kept separate from the card so the heading and button can sit
   // ON TOP of the wipe rather than be clipped with it.
   const surface = useRef<HTMLDivElement>(null);
+  // Square paper fill directly under the rounded surface. The rounded corners
+  // cut four wedges out of the card's box, and what sits behind the card is the
+  // footer's green band — so those wedges read as dark green notches at the
+  // corners. This layer fills them with paper. It carries the same clip as the
+  // surface so it isn't hiding the band during the wipe, only outside it.
+  const backdrop = useRef<HTMLDivElement>(null);
   const cta = useRef<HTMLDivElement>(null);
 
   // Publish the card's exact height as --withus-overlap so the footer pulls
@@ -145,29 +151,48 @@ export function WithUs({ rounded = true }: { rounded?: boolean }) {
         // geometry, not a bug — the two can only both be on screen if the card
         // is shorter than the viewport, i.e. if the render shrinks.
         //
-        // The flip itself still has to happen exactly with the line —
-        // the heading and button stay put while the ground under them changes
-        // from paper to green, so they have to switch independently and at their
-        // own moment. Cheap: two rects.
+        // The flip itself still has to happen exactly with the line — the
+        // heading and button stay put while the ground under them changes from
+        // paper to green, so they switch independently, each at its own moment.
         // Midpoint rather than either edge because both extremes are worse: flip
         // at the top edge and the text's lower half is navy over green (the same
         // colour), flip at the bottom and its upper half is paper over paper.
         // Halfway splits that unreadable moment in two, and the switch itself is
         // short (duration-150) so it stays glued to the moving line.
-        const syncCta = (progress: number) => {
-          if (!cta.current) return;
+        //
+        // Everything measurable is measured per refresh, not per frame, in
+        // coordinates relative to the card's top — those don't move when the
+        // page scrolls, so the per-frame work is arithmetic and nothing else.
+        // The line sits H·(1−progress) below the card's top by definition.
+        let items: { el: HTMLElement; mid: number }[] = [];
+        let cardH = 0;
+        const remeasure = () => {
           const rect = cardEl.getBoundingClientRect();
-          const line = rect.bottom - rect.height * progress;
-          for (const el of cta.current.querySelectorAll<HTMLElement>(
-            "[data-wipe]",
-          )) {
+          cardH = rect.height;
+          items = [
+            ...(cta.current?.querySelectorAll<HTMLElement>("[data-wipe]") ??
+              []),
+          ].map((el) => {
             const r = el.getBoundingClientRect();
-            el.dataset.green = String(line <= r.top + r.height / 2);
-          }
+            return { el, mid: r.top - rect.top + r.height / 2 };
+          });
         };
 
+        const syncCta = (progress: number) => {
+          const line = cardH * (1 - progress);
+          for (const { el, mid } of items) {
+            const green = line <= mid ? "true" : "false";
+            // Only on a change: writing the same attribute every frame
+            // invalidates style for these two elements every frame for nothing.
+            if (el.dataset.green !== green) el.dataset.green = green;
+          }
+        };
+        remeasure();
+
         gsap.fromTo(
-          surfaceEl,
+          // The corner-filling layer peels in lockstep with the surface — same
+          // box, same height, so one tween value serves both.
+          backdrop.current ? [surfaceEl, backdrop.current] : surfaceEl,
           { clipPath: "inset(0px 0px 0px 0px)" },
           {
             clipPath: () => `inset(0px 0px ${peel()}px 0px)`,
@@ -198,8 +223,12 @@ export function WithUs({ rounded = true }: { rounded?: boolean }) {
               onUpdate: (self) => syncCta(self.progress),
               // Also on refresh, so a load that lands mid-wipe (a /#contact
               // deep link, or a short page where the section is already in view)
-              // starts with the right colours instead of navy-on-green.
-              onRefresh: (self) => syncCta(self.progress),
+              // starts with the right colours instead of navy-on-green. This is
+              // also where the cached offsets above get rebuilt.
+              onRefresh: (self) => {
+                remeasure();
+                syncCta(self.progress);
+              },
             },
           },
         );
@@ -232,10 +261,19 @@ export function WithUs({ rounded = true }: { rounded?: boolean }) {
       )}
       <div
         ref={card}
-        className={`relative text-navy md:will-change-transform ${
-          rounded ? "md:mx-[5vw]" : ""
-        }`}
+        className={`relative text-navy ${rounded ? "md:mx-[5vw]" : ""}`}
       >
+        {/* Square paper under the rounded surface, filling the corner wedges the
+            radius cuts out of the card's box (see the ref above). Only needed
+            where there IS a radius. */}
+        {rounded && (
+          <div
+            ref={backdrop}
+            aria-hidden
+            className="pointer-events-none absolute inset-0 hidden bg-paper md:block"
+          />
+        )}
+
         {/* ── The wiped surface: paper fill, blueprint mesh, structure photo ──
             Absolutely positioned so the CTA above it isn't clipped with it. The
             card's height comes from the content + the spacer further down. */}
