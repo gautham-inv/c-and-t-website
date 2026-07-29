@@ -5,7 +5,6 @@ import { Divisions } from "@/components/sections/Divisions";
 import { Services } from "@/components/sections/Services";
 import { Projects } from "@/components/sections/Projects";
 import { Clients } from "@/components/sections/Clients";
-import { Testimonials } from "@/components/sections/Testimonials";
 import { Insights } from "@/components/sections/Insights";
 import { GreenZone } from "@/components/sections/GreenZone";
 import { WithUs } from "@/components/sections/WithUs";
@@ -35,10 +34,12 @@ export default async function Home() {
       <Services services={services} />
       <Projects />
 
-      {/* Off-white → green scrubbed colour zone for the social-proof block. */}
+      {/* Off-white → green scrubbed colour zone for the social-proof block.
+          Testimonials is hidden for now (no quotes ready to publish yet) —
+          the component is untouched at components/sections/Testimonials.tsx,
+          re-add `<Testimonials />` below Clients to bring it back. */}
       <GreenZone>
         <Clients />
-        <Testimonials />
       </GreenZone>
 
       <Insights insights={insights} />

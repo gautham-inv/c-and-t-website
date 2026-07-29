@@ -14,10 +14,12 @@ const PAPER = "#f4f1e8";
 const GREEN = "#4f6f24";
 
 /**
- * Wraps the Clients + Testimonials block. A background layer scrubs from the
- * off-white paper (matching the Projects section above) to deep green across
- * the leading gap, then holds green to the end — WithUs carries the same green
- * onward. The colour is interpolated by scroll (rewinds on reverse), no fades.
+ * Wraps the homepage's social-proof block (currently just Clients —
+ * Testimonials is temporarily unmounted, see app/page.tsx). A background layer
+ * scrubs from the off-white paper (matching the Projects section above) to
+ * deep green across the leading gap, then holds green to the end — WithUs
+ * carries the same green onward. The colour is interpolated by scroll (rewinds
+ * on reverse), no fades.
  */
 export function GreenZone({ children }: { children: React.ReactNode }) {
   const root = useRef<HTMLDivElement>(null);
@@ -92,8 +94,8 @@ export function GreenZone({ children }: { children: React.ReactNode }) {
       {/* Trailing gap — hosts the green → off-white transition. Unlike the
           leading gap this one IS the transition's scroll distance (it's the
           trigger), so it can't go to zero — ~10rem keeps the fade readable
-          while cutting the dead space below Testimonials. Same px cap as
-          above, for the same tall-viewport reason. */}
+          while cutting the dead space below the content above. Same px cap
+          as above, for the same tall-viewport reason. */}
       <div ref={tailGap} className="h-[min(12vh,5rem)] lg:h-[min(24vh,10rem)]" />
     </div>
   );
