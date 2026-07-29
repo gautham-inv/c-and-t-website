@@ -20,7 +20,7 @@ const SECTIONS: LegalSection[] = [
   {
     heading: "1. Who this policy covers",
     paragraphs: [
-      "This policy applies to www.candtengineers.com, operated by C&T Consulting Engineers Pvt Ltd (\"C&T\", \"we\", \"us\"), headquartered in Trivandrum, Kerala, India, with offices in the UAE and Canada. It explains what information the site collects, how we use it, and the choices you have.",
+      "This policy applies to www.candtengineers.com, operated by C&T Consulting Engineers Pvt Ltd (\"C&T\", \"we\", \"us\"), headquartered in Thiruvananthapuram, Keralam, India, with offices in the UAE and Canada. It explains what information the site collects, how we use it, and the choices you have.",
       "This site does not have user accounts, logins, or e-commerce — there is nothing to purchase and nothing to sign into. The only personal information we collect is what you choose to give us through the enquiry form, the careers application form, or by emailing or calling us directly.",
     ],
   },

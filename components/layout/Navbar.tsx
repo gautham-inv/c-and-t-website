@@ -146,7 +146,7 @@ export function Navbar({
                 alt="C&T Consulting Engineers"
                 width={462}
                 height={200}
-                className="h-9 w-auto md:h-10"
+                className="h-10 w-auto md:h-12"
                 draggable={false}
               />
             </Link>

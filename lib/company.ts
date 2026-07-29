@@ -151,7 +151,7 @@ export const LEADERSHIP: Leader[] = [
     name: "Laxman Babu Challa",
     role: "Director",
     photo: "/leadership/laxman-babu.jpg",
-    bio: "Mechanical Engineering graduate (JNTU Hyderabad) with 35 years across HVAC, MEP and steel fabrication. Senior leadership at Voltas, Airmech (Bahrain), Weathermaker (Dubai) and L&T, most recently VP Engineering (Group) at Yashoda Hospitals. Founding secretary, ISHRAE Cochin Chapter.",
+    bio: "Mechanical Engineering graduate with 35+ years across HVAC and MEP in India and the Middle East. Senior leadership roles at Voltas, Airmech WLL (Bahrain) and L&T, most recently VP Engineering at Yashoda Hospitals, Hyderabad. Founding secretary, ISHRAE Cochin Chapter; former treasurer, ASHRAE Bahrain Chapter; current member, FOCUS.",
   },
   {
     name: "Sriram V. S.",
@@ -221,8 +221,8 @@ export const ENGINEERING_SCOPE: ScopeGroup[] = [
       "BOQ / MIR preparation",
       "Specification documents",
       "MTO",
-      "Tender documents",
-      "Estimates",
+      "Tender documentation",
+      "Cost Estimates",
     ],
   },
   {

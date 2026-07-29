@@ -10,11 +10,11 @@ export type Faq = { q: string; a: string };
 export const COMPANY_FAQS: Faq[] = [
   {
     q: "What does C&T Consulting Engineers do?",
-    a: "C&T Consulting Engineers is a multidisciplinary engineering consultancy delivering MEP (mechanical, electrical, plumbing) design, BIM modelling and CFD analysis. Founded in 2011 and headquartered in Trivandrum, India, it serves building, airport, data centre, industrial and oil & gas projects worldwide through two dedicated divisions: Buildings & Infrastructure and Oil & Gas.",
+    a: "C&T Consulting Engineers is a multidisciplinary engineering consultancy delivering MEP (mechanical, electrical, plumbing) design, BIM modelling and CFD analysis. Founded in 2011 and headquartered in Thiruvananthapuram, India, it serves building, airport, data centre, industrial and oil & gas projects worldwide through two dedicated divisions: Buildings & Infrastructure and Oil & Gas.",
   },
   {
     q: "Where is C&T based and where does it operate?",
-    a: "C&T is headquartered in Trivandrum, Kerala, India, with regional offices in the UAE and Canada. From these bases it delivers engineering across India, the Middle East, Qatar, Saudi Arabia, Canada and Europe, backed by an ISO 9001:2015 certified quality system and a team of around 100 engineers.",
+    a: "C&T is headquartered in Thiruvananthapuram, Keralam, India, with regional offices in the UAE and Canada. From these bases it delivers engineering across India, the Middle East, Qatar, Saudi Arabia, Canada and Europe, backed by an ISO 9001:2015 certified quality system and a team of around 100 engineers.",
   },
   {
     q: "What engineering services does C&T provide?",

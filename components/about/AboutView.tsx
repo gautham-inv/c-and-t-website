@@ -248,11 +248,12 @@ export function AboutView({ about }: { about: AboutPageData }) {
             <div data-up className="md:col-start-2 md:row-start-2">
               <div className="space-y-5 text-lg leading-relaxed text-ink-dim">
                 <p>
-                  Our journey started at a rented office space in 2011, with a
-                  single employee offering HVAC engineering services. Still in
-                  its growth and consolidation phase, the company now has close
-                  to 100 employees across our offices in Thiruvananthapuram,
-                  Kerala, India — including two owned office buildings — and the
+                  Our journey started from a rented office space in 2011, with
+                  a single employee offering HVAC engineering services. Still
+                  in its growth and consolidation phase, the company now has
+                  close to 100 employees across our offices in
+                  Thiruvananthapuram, Keralam, India — including two owned
+                  office buildings — and the
                   UAE, and offers engineering services for the complete MEP
                   domain, not only in the commercial segment but also in
                   specialised areas like Oil &amp; Gas, Marine, Renewable Energy

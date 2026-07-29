@@ -37,7 +37,7 @@ export const SITE_SETTINGS: SiteSettings = {
     { label: "careers", href: "/careers" },
   ],
   offices: [
-    { place: "India (HQ)", detail: "Trivandrum, Kerala" },
+    { place: "India (HQ)", detail: "Thiruvananthapuram, Keralam" },
     { place: "UAE", detail: "Deira, Dubai" },
     { place: "Canada", detail: "Mississauga, ON" },
   ],

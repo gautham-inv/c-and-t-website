@@ -197,7 +197,7 @@ export const SERVICES: Service[] = [
         subDisciplines: [
           "Model-based MTO",
           "Bill of quantities",
-          "Tender documents",
+          "Tender documentation",
           "Technical specifications",
           "Cost estimates",
         ],
@@ -207,7 +207,7 @@ export const SERVICES: Service[] = [
         subDisciplines: [
           "Fabrication MTO",
           "Bill of quantities",
-          "Tender documents",
+          "Tender documentation",
           "Cost estimates",
         ],
         body: "Fabrication-grade material take-offs, BOQ and tender documentation from high-LOD models, ready for procurement and construction planning.",

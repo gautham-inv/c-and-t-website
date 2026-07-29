@@ -66,7 +66,7 @@ export const OPENINGS: Opening[] = [
     slug: "electrical-lv-bim-modeler",
     title: "Electrical & LV BIM Modeler",
     team: "BIM",
-    location: "Trivandrum, India",
+    location: "Thiruvananthapuram, India",
     type: "Full-time",
     experience: "5+ years",
     summary:
@@ -91,7 +91,7 @@ export const OPENINGS: Opening[] = [
     slug: "hvac-bim-modeler",
     title: "Mechanical (HVAC) BIM Modeler",
     team: "BIM",
-    location: "Trivandrum, India",
+    location: "Thiruvananthapuram, India",
     type: "Full-time",
     experience: "5+ years",
     summary:
@@ -116,7 +116,7 @@ export const OPENINGS: Opening[] = [
     slug: "phe-firefighting-bim-modeler",
     title: "Mechanical (PHE & Firefighting) BIM Modeler",
     team: "BIM",
-    location: "Trivandrum, India",
+    location: "Thiruvananthapuram, India",
     type: "Full-time",
     experience: "5+ years",
     summary:
@@ -141,7 +141,7 @@ export const OPENINGS: Opening[] = [
     slug: "bim-coordinator",
     title: "BIM Coordinator",
     team: "BIM",
-    location: "Trivandrum, India",
+    location: "Thiruvananthapuram, India",
     type: "Full-time",
     experience: "5+ years",
     summary:
@@ -166,7 +166,7 @@ export const OPENINGS: Opening[] = [
     slug: "electrical-cad-draftsman",
     title: "Electrical CAD Draftsman",
     team: "Buildings & Infrastructure",
-    location: "Trivandrum, India",
+    location: "Thiruvananthapuram, India",
     type: "Full-time",
     experience: "3+ years",
     summary:
@@ -190,7 +190,7 @@ export const OPENINGS: Opening[] = [
     slug: "hvac-cad-draftsman",
     title: "HVAC CAD Draftsman",
     team: "Buildings & Infrastructure",
-    location: "Trivandrum, India",
+    location: "Thiruvananthapuram, India",
     type: "Full-time",
     experience: "3+ years",
     summary:
@@ -215,7 +215,7 @@ export const OPENINGS: Opening[] = [
     slug: "plumbing-firefighting-draftsman",
     title: "Plumbing and Firefighting Draftsman",
     team: "Buildings & Infrastructure",
-    location: "Trivandrum, India",
+    location: "Thiruvananthapuram, India",
     type: "Full-time",
     experience: "3+ years",
     summary:
@@ -239,7 +239,7 @@ export const OPENINGS: Opening[] = [
     slug: "electrical-lv-design-engineer",
     title: "Electrical & LV Design Engineer",
     team: "Buildings & Infrastructure",
-    location: "Trivandrum, India",
+    location: "Thiruvananthapuram, India",
     type: "Full-time",
     experience: "3+ years",
     summary:
