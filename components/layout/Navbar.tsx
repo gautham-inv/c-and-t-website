@@ -160,9 +160,9 @@ export function Navbar({
                     key={n.label}
                     href={n.href}
                     onClick={(e) => onNav(e, n.href)}
-                    // aria-current is the actual signal here; the colour and the
-                    // rule are just how it's drawn. The active rule reuses the
-                    // hover underline at full width, so the two never fight.
+                    // aria-current plus weight/colour is the current-page cue;
+                    // the hover underline is reserved for hover so it doesn't
+                    // sit permanently under whichever item is active.
                     aria-current={current ? "page" : undefined}
                     className={`group relative whitespace-nowrap text-sm transition-colors duration-200 ${
                       current
@@ -171,11 +171,9 @@ export function Navbar({
                     }`}
                   >
                     {n.label}
-                    <span
-                      className={`absolute -bottom-1 left-0 h-px bg-green transition-all duration-300 ${
-                        current ? "w-full" : "w-0 group-hover:w-full"
-                      }`}
-                    />
+                    {!current && (
+                      <span className="absolute -bottom-1 left-0 h-px w-0 bg-green transition-all duration-300 group-hover:w-full" />
+                    )}
                   </NavItemLink>
                 );
               })}
@@ -271,20 +269,11 @@ export function Navbar({
                         style={{
                           transitionDelay: open ? `${300 + i * 55}ms` : "0ms",
                         }}
-                        className={`flex translate-y-full items-center gap-3 pb-[0.12em] font-display text-[clamp(2.25rem,1rem+8vw,4rem)] font-semibold leading-[1.15] tracking-[-0.02em] transition-[transform,color] duration-[600ms] ease-[cubic-bezier(0.76,0,0.24,1)] data-[open=true]:translate-y-0 ${
+                        className={`flex translate-y-full items-center pb-[0.12em] font-display text-[clamp(2.25rem,1rem+8vw,4rem)] font-semibold leading-[1.15] tracking-[-0.02em] transition-[transform,color] duration-[600ms] ease-[cubic-bezier(0.76,0,0.24,1)] data-[open=true]:translate-y-0 ${
                           current ? "text-green" : "text-paper hover:text-green"
                         }`}
                       >
                         {n.label}
-                        {/* A dot as well as the colour: colour alone is the one
-                            cue a colour-blind visitor can't read, and at this
-                            size an underline would crowd the next item. */}
-                        {current && (
-                          <span
-                            aria-hidden
-                            className="h-2 w-2 shrink-0 rounded-full bg-green"
-                          />
-                        )}
                       </NavItemLink>
                     </li>
                   );

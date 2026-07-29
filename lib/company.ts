@@ -141,7 +141,12 @@ export const LEADERSHIP: Leader[] = [
     photo: "/leadership/jimmy.jpeg",
     bio: "B Tech Mechanical Engineering (CET), M Tech (KU). IGBC Lead Associate & ISHRAE member. 25 years across Bilt Middle East, Voltas (TATA), Bluestar & Chalmers Engineering, Dubai.",
   },
-  { name: "Vidyanand", role: "CFO", photo: "/leadership/vidyanand.jpeg" },
+  {
+    name: "Vidyanand Krishnan",
+    role: "CFO",
+    photo: "/leadership/vidyanand.jpeg",
+    bio: "MBA (IIM Ahmedabad) and B.Tech Mechanical Engineering (CET). 24 years of global leadership across the US, UK, Canada and India, spanning corporate strategy, finance and operations, with CXO roles in Fortune 500 companies and unicorn startups.",
+  },
   {
     name: "Laxman Babu Challa",
     role: "Director",
@@ -155,7 +160,7 @@ export const LEADERSHIP: Leader[] = [
     bio: "Mechanical Engineering graduate with 35+ years in MEP across India, the Middle East and SE Asia. Techno-commercial background with strong analytical and problem-solving skills. Also mentors and trains engineers on technical topics.",
   },
   {
-    name: "Sherjin",
+    name: "Sherjin Raj",
     role: "Operations Manager, Buildings & Infrastructure",
     photo: "/leadership/sherjin.jpg",
     bio: "Mechanical Engineer with 20+ years in MEPF: engineering design, project management, construction supervision and operations across airport, hospitality, residential, industrial and commercial sectors.",
