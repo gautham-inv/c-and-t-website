@@ -21,7 +21,7 @@ export async function onRequestPost(context) {
 
   if (!env.RESEND_API_KEY || !env.HR_TO_EMAIL) {
     console.error("[apply] missing RESEND_API_KEY or HR_TO_EMAIL");
-    return json({ error: "Form isn't set up yet." }, 500);
+    return json({ error: "Form isn't set up yet. " }, 500);
   }
 
   let form;
