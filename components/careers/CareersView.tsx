@@ -59,10 +59,14 @@ export function CareersView({
           alt="The C&T team at work"
           className="absolute inset-0 h-full w-full object-cover"
         />
-        {/* Legibility wash — lifts the card off the photo */}
+        {/* Legibility wash — lifts the card off the photo. Below lg there's no
+            paper card (see the comment further down): the heading and intro
+            sit directly on the photo, so this wash is their only contrast —
+            darkened across the board, and the far corner no longer fades all
+            the way to bare photo. */}
         <div
           aria-hidden
-          className="absolute inset-0 bg-gradient-to-br from-navy/70 via-navy/25 to-transparent"
+          className="absolute inset-0 bg-gradient-to-br from-navy/90 via-navy/60 to-navy/25"
         />
         {/* Blueprint grid — matches the other hero pages */}
         <div

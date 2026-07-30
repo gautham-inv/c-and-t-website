@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { setLenis } from "@/lib/lenis";
+import { getLenis, setLenis } from "@/lib/lenis";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,6 +16,8 @@ gsap.registerPlugin(ScrollTrigger);
  * prefers-reduced-motion by bailing out entirely.
  */
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+
   useEffect(() => {
     if (
       typeof window !== "undefined" &&
@@ -76,6 +79,19 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
       setLenis(null);
     };
   }, []);
+
+  // Next's client-side navigation resets the browser's native scrollTop, but
+  // this component is mounted once in the root layout and stays mounted across
+  // route changes — so Lenis keeps whatever scroll position it had on the
+  // PREVIOUS page (its own animated value, tracked independently of the DOM)
+  // and reasserts it on the very next tick, dragging the new page down to
+  // match. A job card clicked from deep in the openings grid landed on the new
+  // page scrolled to roughly that same depth — the footer, on a short page.
+  // `force` covers the edge case of navigating while Lenis is `.stop()`'d (the
+  // mobile nav overlay does this) so the reset isn't silently skipped.
+  useEffect(() => {
+    getLenis()?.scrollTo(0, { immediate: true, force: true });
+  }, [pathname]);
 
   return <>{children}</>;
 }
