@@ -109,7 +109,7 @@ export function Footer({
                 key={n.label}
                 href={n.href}
                 onClick={(e) => onNav(e, n.href)}
-                className="font-display text-2xl font-normal lowercase text-paper/85 transition-colors duration-200 hover:text-green md:text-3xl"
+                className="font-display text-2xl font-normal text-paper/85 transition-colors duration-200 hover:text-green md:text-3xl"
               >
                 {n.label}
               </NavItemLink>

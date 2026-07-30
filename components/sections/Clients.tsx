@@ -30,9 +30,11 @@ const CLIENTS: Client[] = [
   { name: "Dry Docks World", logo: "/clients/drydocksworld.webp", h: 44, url: "https://www.drydocks.gov.ae" },
   { name: "Aries", logo: "/clients/ariesglobal.webp", h: 44, url: "https://www.ariesmar.com" },
   { name: "Marinor", logo: "/clients/marinor.webp", h: 38, url: "https://www.marinor.co.in" },
+  { name: "Zero One", logo: "/clients/zerone.png", h: 32, url: "https://www.zeroone.ie" },
+  { name: "Calinova", logo: "/clients/calinova.png", h: 36, url: "https://www.calinova.ai" },
 ];
 
-// Distribute round-robin into three columns (6 / 5 / 5).
+// Distribute round-robin into three columns (6 / 6 / 6).
 const COLUMNS: Client[][] = [[], [], []];
 CLIENTS.forEach((c, i) => COLUMNS[i % 3].push(c));
 

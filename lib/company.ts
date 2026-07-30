@@ -148,7 +148,7 @@ export const LEADERSHIP: Leader[] = [
     bio: "MBA (IIM Ahmedabad) and B.Tech Mechanical Engineering (CET). 24 years of global leadership across the US, UK, Canada and India, spanning corporate strategy, finance and operations, with CXO roles in Fortune 500 companies and unicorn startups.",
   },
   {
-    name: "Laxman Babu Challa",
+    name: "Ch. Laxman Babu",
     role: "Director",
     photo: "/leadership/laxman-babu.jpg",
     bio: "Mechanical Engineering graduate with 35+ years across HVAC and MEP in India and the Middle East. Senior leadership roles at Voltas, Airmech WLL (Bahrain) and L&T, most recently VP Engineering at Yashoda Hospitals, Hyderabad. Founding secretary, ISHRAE Cochin Chapter; former treasurer, ASHRAE Bahrain Chapter; current member, FOCUS.",
