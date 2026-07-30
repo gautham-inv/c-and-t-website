@@ -98,6 +98,14 @@ export function WhoWeAre() {
 
               <Link
                 href="/about"
+                // Visible copy reads "About C&T" here, on purpose — inline CTA
+                // prose, not a nav item. But it's the third distinct label
+                // pointing at /about (alongside the primary nav's "Who we are"
+                // and the footer's "About"), and axe's identical-links check
+                // flags exactly that: same destination, different accessible
+                // name. aria-label aligns the ACCESSIBLE name with the primary
+                // nav without touching this CTA's own wording.
+                aria-label="Who we are"
                 className="group mt-8 inline-flex items-center gap-3 font-display text-lg text-paper"
               >
                 <span className="border-b border-green pb-1 transition-colors duration-300 group-hover:border-beige">

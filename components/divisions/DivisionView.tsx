@@ -200,18 +200,22 @@ export function DivisionView({
             <h2 className="font-display text-[clamp(1.9rem,1rem+3vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.02em]">
               Frequently <span className="text-green-dark">asked</span>
             </h2>
-            <dl className="divide-y divide-line border-t border-line">
+            {/* Plain div, not <dl>: this is a Q&A list, not term/definition
+                pairs, and <h3> gives screen-reader users heading navigation
+                between questions that a <dt> never did. See Faq.tsx for the
+                same fix on the homepage FAQ, where axe also flagged this. */}
+            <div className="divide-y divide-line border-t border-line">
               {division.faqs.map((f) => (
                 <div key={f.q} className="py-6">
-                  <dt className="font-display text-lg font-medium leading-snug md:text-xl">
+                  <h3 className="font-display text-lg font-medium leading-snug md:text-xl">
                     {f.q}
-                  </dt>
-                  <dd className="mt-3 max-w-2xl text-base leading-relaxed text-ink-dim">
+                  </h3>
+                  <p className="mt-3 max-w-2xl text-base leading-relaxed text-ink-dim">
                     {f.a}
-                  </dd>
+                  </p>
                 </div>
               ))}
-            </dl>
+            </div>
           </div>
         </div>
       </section>

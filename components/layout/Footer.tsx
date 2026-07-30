@@ -22,6 +22,18 @@ const LEGAL = [
   { label: "Terms of Service", href: "/terms" },
 ];
 
+// Footer's "About" and the primary nav's "Who we are" point at the same
+// /about page under different visible text — correct for two different
+// contexts (this list is quick links, not the main nav), but axe's
+// identical-links-same-purpose check flags exactly that mismatch: same
+// destination, different accessible name, which reads as two different links
+// to someone using a screen reader's link list. An aria-label aligns the
+// ACCESSIBLE name with the primary nav's without touching the footer's own
+// visible wording.
+const FOOTER_ARIA_LABEL: Record<string, string> = {
+  "/about": "Who we are",
+};
+
 /** Who built the site. Sits under the footer logo, not in the legal line.
  * Hardcoded alongside LEGAL rather than pulled from Sanity: it's chrome that
  * belongs to the build, not editorial content the client would revise. */
@@ -109,6 +121,7 @@ export function Footer({
                 key={n.label}
                 href={n.href}
                 onClick={(e) => onNav(e, n.href)}
+                aria-label={FOOTER_ARIA_LABEL[n.href]}
                 className="font-display text-2xl font-normal text-paper/85 transition-colors duration-200 hover:text-green md:text-3xl"
               >
                 {n.label}

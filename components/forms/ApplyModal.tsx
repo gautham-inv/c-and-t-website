@@ -200,11 +200,11 @@ export function ApplyModal() {
 
                   {/* Name */}
                   <div>
-                    <label htmlFor="name" className={LABEL}>
+                    <label htmlFor="apply-name" className={LABEL}>
                       Full name <span className="text-green-dark">*</span>
                     </label>
                     <input
-                      id="name"
+                      id="apply-name"
                       name="name"
                       type="text"
                       autoComplete="name"
@@ -219,11 +219,11 @@ export function ApplyModal() {
                   {/* Email + Phone */}
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div>
-                      <label htmlFor="email" className={LABEL}>
+                      <label htmlFor="apply-email" className={LABEL}>
                         Email <span className="text-green-dark">*</span>
                       </label>
                       <input
-                        id="email"
+                        id="apply-email"
                         name="email"
                         type="email"
                         autoComplete="email"
@@ -237,11 +237,11 @@ export function ApplyModal() {
                       )}
                     </div>
                     <div>
-                      <label htmlFor="phone" className={LABEL}>
+                      <label htmlFor="apply-phone" className={LABEL}>
                         Phone <span className="text-green-dark">*</span>
                       </label>
                       <input
-                        id="phone"
+                        id="apply-phone"
                         name="phone"
                         type="tel"
                         autoComplete="tel"
@@ -258,14 +258,14 @@ export function ApplyModal() {
 
                   {/* LinkedIn / portfolio */}
                   <div>
-                    <label htmlFor="linkedin" className={LABEL}>
+                    <label htmlFor="apply-linkedin" className={LABEL}>
                       LinkedIn or portfolio{" "}
                       <span className="font-sans normal-case tracking-normal text-ink-dim/70">
                         (optional)
                       </span>
                     </label>
                     <input
-                      id="linkedin"
+                      id="apply-linkedin"
                       name="linkedin"
                       type="url"
                       className={FIELD}
@@ -275,14 +275,14 @@ export function ApplyModal() {
 
                   {/* Cover note */}
                   <div>
-                    <label htmlFor="message" className={LABEL}>
+                    <label htmlFor="apply-message" className={LABEL}>
                       Cover note{" "}
                       <span className="font-sans normal-case tracking-normal text-ink-dim/70">
                         (optional)
                       </span>
                     </label>
                     <textarea
-                      id="message"
+                      id="apply-message"
                       name="message"
                       rows={4}
                       className={`${FIELD} resize-y`}
@@ -297,7 +297,7 @@ export function ApplyModal() {
                     </span>
                     <input
                       ref={fileRef}
-                      id="resume"
+                      id="apply-resume"
                       name="resume"
                       type="file"
                       accept={ACCEPT}

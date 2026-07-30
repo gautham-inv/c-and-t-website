@@ -22,7 +22,15 @@ export function Faq() {
             </p>
           </div>
 
-          <dl className="border-t border-line">
+          {/* A plain div, not <dl>: <dl> may only directly contain dt/dd
+              pairs (optionally single-div-wrapped) or script/template — a
+              <details> element doesn't qualify, so wrapping this accordion in
+              dl/dt/dd was invalid markup axe correctly flagged on two counts.
+              This is an accordion of questions, not a glossary of terms, so
+              dl/dt/dd was never the right model anyway. <h3> for the question
+              also gives screen-reader users heading-based navigation between
+              FAQ entries, which a <dt> never offered. */}
+          <div className="border-t border-line">
             {COMPANY_FAQS.map((f) => (
               <details
                 key={f.q}
@@ -30,9 +38,9 @@ export function Faq() {
                 className="group border-b border-line py-5"
               >
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-6 [&::-webkit-details-marker]:hidden">
-                  <dt className="font-display text-lg font-medium leading-snug md:text-xl">
+                  <h3 className="font-display text-lg font-medium leading-snug md:text-xl">
                     {f.q}
-                  </dt>
+                  </h3>
                   <span
                     aria-hidden
                     className="mt-1 shrink-0 text-2xl font-light leading-none text-green-dark transition-transform duration-300 group-open:rotate-45"
@@ -40,12 +48,12 @@ export function Faq() {
                     +
                   </span>
                 </summary>
-                <dd className="mt-3 max-w-2xl text-base leading-relaxed text-ink-dim">
+                <p className="mt-3 max-w-2xl text-base leading-relaxed text-ink-dim">
                   {f.a}
-                </dd>
+                </p>
               </details>
             ))}
-          </dl>
+          </div>
         </div>
       </div>
     </section>

@@ -222,11 +222,11 @@ export function EnquiryModal() {
               >
                 {/* Company */}
                 <div>
-                  <label htmlFor="company" className={LABEL}>
+                  <label htmlFor="enquiry-company" className={LABEL}>
                     Your company name <span className="text-green-dark">*</span>
                   </label>
                   <input
-                    id="company"
+                    id="enquiry-company"
                     name="company"
                     type="text"
                     autoComplete="organization"
@@ -241,11 +241,11 @@ export function EnquiryModal() {
                 {/* Email + Phone */}
                 <div className="grid gap-5 sm:grid-cols-2">
                   <div>
-                    <label htmlFor="email" className={LABEL}>
+                    <label htmlFor="enquiry-email" className={LABEL}>
                       Contact email <span className="text-green-dark">*</span>
                     </label>
                     <input
-                      id="email"
+                      id="enquiry-email"
                       name="email"
                       type="email"
                       autoComplete="email"
@@ -257,11 +257,11 @@ export function EnquiryModal() {
                     )}
                   </div>
                   <div>
-                    <label htmlFor="phone" className={LABEL}>
+                    <label htmlFor="enquiry-phone" className={LABEL}>
                       Contact phone <span className="text-green-dark">*</span>
                     </label>
                     <input
-                      id="phone"
+                      id="enquiry-phone"
                       name="phone"
                       type="tel"
                       autoComplete="tel"
@@ -355,12 +355,12 @@ export function EnquiryModal() {
 
                 {/* Message */}
                 <div>
-                  <label htmlFor="message" className={LABEL}>
+                  <label htmlFor="enquiry-message" className={LABEL}>
                     Tell us about your project{" "}
                     <span className="text-green-dark">*</span>
                   </label>
                   <textarea
-                    id="message"
+                    id="enquiry-message"
                     name="message"
                     rows={4}
                     className={`${FIELD} resize-y`}
@@ -381,7 +381,7 @@ export function EnquiryModal() {
                   </span>
                   <input
                     ref={fileRef}
-                    id="file"
+                    id="enquiry-file"
                     name="file"
                     type="file"
                     accept={ACCEPT}
