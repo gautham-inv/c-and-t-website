@@ -307,8 +307,11 @@ export function WithUs({ rounded = true }: { rounded?: boolean }) {
             className="pointer-events-none absolute inset-x-0 bottom-0 flex select-none justify-center"
           >
             <img
-              src="/og.png"
+              src="/og.webp"
               alt=""
+              width={1376}
+              height={768}
+              loading="lazy"
               draggable={false}
               className="w-[128vw] max-w-none sm:w-[98vw] md:w-[78vw]"
             />

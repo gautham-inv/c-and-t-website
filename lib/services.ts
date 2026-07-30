@@ -189,7 +189,7 @@ export const SERVICES: Service[] = [
   {
     slug: "mto",
     name: "Tendering & MTO",
-    image: "/services/tender.png",
+    image: "/services/tender.webp",
     blurb: "Model-based take-offs and tender-ready bills of quantities.",
     featured: true,
     byDivision: {

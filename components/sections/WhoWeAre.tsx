@@ -128,8 +128,10 @@ export function WhoWeAre() {
                     className="absolute inset-x-0 -top-[18%] h-[136%] bg-[#0a1c25] will-change-transform"
                   >
                     <img
-                      src="who-we-are-pointer.png"
+                      src="/who-we-are-pointer.webp"
                       alt="3D BIM model of a coordinated MEP plant room"
+                      width={765}
+                      height={1084}
                       className="h-full w-full object-cover"
                       loading="lazy"
                     />
@@ -146,8 +148,10 @@ export function WhoWeAre() {
                     className="absolute inset-x-0 -top-[28%] h-[156%] bg-[#0d1f16] will-change-transform"
                   >
                     <img
-                      src="mep-shop-drawing-services.webp"
+                      src="/mep-shop-drawing-services.webp"
                       alt="2D CAD ducting layout drawing"
+                      width={1000}
+                      height={1000}
                       className="h-full w-full object-cover"
                       loading="lazy"
                     />
