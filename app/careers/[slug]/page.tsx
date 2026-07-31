@@ -24,7 +24,11 @@ export async function generateMetadata({
   const { slug } = await params;
   const opening = await getJobOpening(slug);
   if (!opening) return {};
-  const title = `${opening.title} | Careers | C&T Consulting Engineers`;
+  // No "Careers |" segment: breadcrumbSchema below already carries that
+  // hierarchy as structured data, so the raw <title> can spend its character
+  // budget on the role name instead — matches the shorter pattern
+  // app/divisions/[slug]/page.tsx already uses for the same reason.
+  const title = `${opening.title} | C&T Consulting Engineers`;
   return {
     title,
     description: opening.summary,

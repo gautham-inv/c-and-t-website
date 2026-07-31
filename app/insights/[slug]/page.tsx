@@ -24,7 +24,11 @@ export async function generateMetadata({
   const { slug } = await params;
   const insight = await getInsight(slug);
   if (!insight) return {};
-  const title = `${insight.title} | Insights | C&T Consulting Engineers`;
+  // No "Insights |" segment: breadcrumbSchema below already carries that
+  // hierarchy as structured data, so the raw <title> can spend its character
+  // budget on the article name instead — matches the shorter pattern
+  // app/divisions/[slug]/page.tsx already uses for the same reason.
+  const title = `${insight.title} | C&T Consulting Engineers`;
   const image = insight.image || OG_IMAGE;
   return {
     title,
