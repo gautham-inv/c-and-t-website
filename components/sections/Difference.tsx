@@ -23,7 +23,7 @@ const CASE_STUDIES = [
     href: "/projects",
   },
   {
-    image: "/projects/airport-terminal-case-study.jpg",
+    image: "/projects/south-india-airport.jpg",
     caption: "Major Airport, South India · MEP Design & BIM",
     title: "A new terminal, engineered for millions",
     body: "Systems built for millions of passengers a year. Every MEP discipline was modelled to LOD 400, with CFD across the concourse balancing comfort against energy use, delivered coordinated and on programme.",

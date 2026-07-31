@@ -25,8 +25,12 @@ const STEPS = [
   "Secure connection",
 ] as const;
 
-const STEP_MS = 620; // per checklist item
-const SETTLE_MS = 520; // beat between the last tick and the reveal
+// Total run = STEP_MS × STEPS.length + SETTLE_MS = 8s exactly. Paced for a
+// room: long enough that the reveal lands as an event rather than a page
+// transition, and slow enough that each line is actually readable off a
+// projector before the next one ticks.
+const STEP_MS = 1800; // per checklist item
+const SETTLE_MS = 800; // beat between the last tick and the reveal
 
 type Phase = "idle" | "launching" | "live";
 
@@ -114,9 +118,18 @@ export function LaunchSequence() {
                 aria-valuenow={Math.round(progress * 100)}
                 aria-label="Launch progress"
               >
+                {/* Fill travels for exactly one step interval, linearly, so
+                    it arrives at each quarter just as the next item ticks —
+                    continuous motion rather than a jump-then-wait every 1.8s.
+                    Duration is derived from STEP_MS so the two can't drift
+                    apart. (motion-reduce still wins: transition-none kills the
+                    property outright, which no inline duration can revive.) */}
                 <div
-                  className="h-full rounded-full bg-green transition-[width] duration-500 ease-out motion-reduce:transition-none"
-                  style={{ width: `${progress * 100}%` }}
+                  className="h-full rounded-full bg-green transition-[width] ease-linear motion-reduce:transition-none"
+                  style={{
+                    width: `${progress * 100}%`,
+                    transitionDuration: `${STEP_MS}ms`,
+                  }}
                 />
               </div>
 

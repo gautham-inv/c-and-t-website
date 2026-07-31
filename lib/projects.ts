@@ -93,7 +93,7 @@ export const PROJECTS: Project[] = [
     slug: "south-india-airport-terminal",
     name: "Major Airport, South India",
     tagline: "MEP Design & BIM · 163,000 m²",
-    heroImage: "/projects/airport-terminal-case-study.jpg",
+    heroImage: "/projects/south-india-airport.jpg",
     description: [
       {
         type: "p",
@@ -123,7 +123,7 @@ export const PROJECTS: Project[] = [
     ],
     personnel: [],
     gallery: [
-      { image: "/projects/airport-terminal-case-study.jpg", span: "lg", alt: "Airport terminal, south India" },
+      { image: "/projects/south-india-airport.jpg", span: "lg", alt: "Airport terminal, south India" },
       { image: "/bim-models/airport-substation-1.jpg", span: "tall", alt: "Terminal substation BIM model" },
       { image: "/bim-models/airport-pump-room.jpg", span: "sm", alt: "Pump room BIM model" },
       { image: "/bim-models/airport-substation-2.jpg", span: "sm", alt: "Substation services model" },
@@ -746,7 +746,7 @@ export const PORTFOLIO: PortfolioItem[] = [
   { name: "Electra Tower", meta: "High-rise Tower", image: "/projects/electra-tower.jpg", division: "building", industries: ["high-rise-buildings"] },
 
   { name: "EXPO 2020 Campus, Dubai", meta: "BIM · Plant Rooms LOD 400 · 300,000 m² · 2019", image: "/projects/expocampus.jpg", division: "building", industries: ["commercial-mercantile"] },
-  { name: "Major Airport, South India", meta: "MEP Design & BIM · 163,000 m² · South India", image: "/projects/airport-terminal-case-study.jpg", division: "building", industries: ["aviation-airports"] },
+  { name: "Major Airport, South India", meta: "MEP Design & BIM · 163,000 m² · South India", image: "/projects/south-india-airport.jpg", division: "building", industries: ["aviation-airports"] },
   { name: "Calinova 2.4 MW Data Centre", meta: "MEP Design & BIM · Calicut", image: "/projects/calinova-case-study.jpg", division: "building", industries: ["data-centres"] },
   { name: "Yamal LNG, Russia", meta: "Detailed Engineering · 3D · TECHNIP", image: "/projects/yamal.webp", division: "oil-and-gas" },
   { name: "International Airport, South India", meta: "MEP Design · BIM LOD 300 · AECOM", image: "/projects/bial-bangalore.jpg", division: "building", industries: ["aviation-airports"] },

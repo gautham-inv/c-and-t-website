@@ -147,11 +147,7 @@ export function Clients() {
             ISO&nbsp;9001:2015 certified quality system.
           </p>
 
-          <div data-up className="mt-6 md:mt-8">
-            <span className="inline-flex h-12 items-center rounded-md border border-paper/30 px-4 font-mono text-xs uppercase tracking-[0.16em] text-paper">
-              ISO 9001:2015
-            </span>
-          </div>
+          
 
           <a
             data-up

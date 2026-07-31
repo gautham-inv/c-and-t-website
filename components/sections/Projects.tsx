@@ -14,7 +14,7 @@ const PROJECTS = [
   {
     name: "Major Airport, South India",
     meta: "MEP Design & BIM · South India",
-    image: "/projects/airport-terminal-case-study.jpg",
+    image: "/projects/south-india-airport.jpg",
     size: "wide",
   },
   {
