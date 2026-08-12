@@ -370,6 +370,14 @@ async function seedDivisions(): Promise<void> {
         answer: f.a,
       })),
     };
+    // Optional capability blocks — only written when the division actually
+    // carries them, so an absent field stays absent in Sanity rather than
+    // being overwritten with an empty array on every reseed.
+    if (d.capabilities?.length) doc.capabilities = d.capabilities;
+    if (d.deliverables?.length) doc.deliverables = d.deliverables;
+    if (d.tools?.length) doc.tools = d.tools;
+    if (d.standards?.length) doc.standards = d.standards;
+    if (d.industriesServed?.length) doc.industriesServed = d.industriesServed;
     if (image) doc.image = image;
     tx.createOrReplace(doc as never);
     n++;

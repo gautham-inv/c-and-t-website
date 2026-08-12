@@ -300,6 +300,14 @@ export function getDivisions(): Promise<Division[]> {
         serviceSlugs: d.serviceSlugs ?? [],
         faqs: d.faqs ?? [],
         hasIndustries: !!d.hasIndustries,
+        // The capability blocks are genuinely optional, so `null` from GROQ
+        // becomes `undefined` rather than `[]` — the type says "absent", and
+        // DivisionCapabilities hides each block on absence either way.
+        capabilities: d.capabilities ?? undefined,
+        deliverables: d.deliverables ?? undefined,
+        tools: d.tools ?? undefined,
+        standards: d.standards ?? undefined,
+        industriesServed: d.industriesServed ?? undefined,
       }));
     },
     DIVISIONS,

@@ -49,6 +49,49 @@ export const division = defineType({
         "On for Buildings & Infrastructure; off for Oil & Gas, which isn't broken into sectors.",
     }),
     defineField({ name: "faqs", type: "array", of: [{ type: "faq" }] }),
+
+    // ── Division-scoped capability statement ──
+    // All optional. Populated for Oil & Gas; Buildings & Infrastructure is
+    // covered by the shared A–O scope on the /divisions index instead. Leaving
+    // these empty hides the whole section on that division's page.
+    defineField({
+      name: "capabilities",
+      title: "Engineering capabilities",
+      type: "array",
+      of: [{ type: "string" }],
+      description:
+        "Disciplines this division covers, one per line. Shown as a two-column list.",
+    }),
+    defineField({
+      name: "deliverables",
+      title: "What the client receives",
+      type: "array",
+      of: [{ type: "string" }],
+      description: "Deliverables handed over at project close.",
+    }),
+    defineField({
+      name: "tools",
+      title: "Software & platforms",
+      type: "array",
+      of: [{ type: "string" }],
+      description:
+        "Plain names, shown as chips. Not the logo strip on /divisions — that's a separate, global list in Site settings.",
+    }),
+    defineField({
+      name: "standards",
+      title: "Codes & standards",
+      type: "array",
+      of: [{ type: "string" }],
+      description: "e.g. ADNOC, Aramco, API, DNV, NFPA, ASME, ISO.",
+    }),
+    defineField({
+      name: "industriesServed",
+      title: "Industries served",
+      type: "array",
+      of: [{ type: "string" }],
+      description:
+        "Plain descriptive labels. Different from the industries chip cloud above, which links to filtered project lists.",
+    }),
   ],
   preview: { select: { title: "name", subtitle: "tagline", media: "image" } },
 });

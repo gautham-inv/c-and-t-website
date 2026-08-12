@@ -5,6 +5,7 @@ import type { Service } from "@/lib/services";
 import type { PortfolioCard } from "@/sanity/lib/data";
 import { ProjectCard } from "@/components/projects/ProjectCard";
 import { DivisionHero } from "@/components/divisions/DivisionHero";
+import { DivisionCapabilities } from "@/components/divisions/DivisionCapabilities";
 
 /** An industry this division serves, with how many portfolio projects are
  * tagged with it. Only industries with `projectCount > 0` link anywhere —
@@ -173,6 +174,11 @@ export function DivisionView({
           );
         })}
       </section>
+
+      {/* ── Capabilities, deliverables, software, standards, sectors ──
+          Renders only for a division that carries the data (Oil & Gas today);
+          returns null otherwise, so Buildings & Infrastructure is unaffected. */}
+      <DivisionCapabilities division={division} />
 
       {/* ── Projects ── */}
       {projects.length > 0 && (

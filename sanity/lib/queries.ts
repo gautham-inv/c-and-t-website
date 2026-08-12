@@ -33,7 +33,12 @@ export const allDivisionsQuery = groq`
     overview,
     "serviceSlugs": services[]->slug.current,
     hasIndustries,
-    "faqs": faqs[]{ "q": question, "a": answer }
+    "faqs": faqs[]{ "q": question, "a": answer },
+    capabilities,
+    deliverables,
+    tools,
+    standards,
+    industriesServed
   }
 `;
 

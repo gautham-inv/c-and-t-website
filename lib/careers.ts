@@ -260,6 +260,46 @@ export const OPENINGS: Opening[] = [
     ],
     niceToHave: ["Middle East project experience (preferred)."],
   },
+  {
+    slug: "ei-engineer-marine-offshore",
+    title: "E&I Engineer (Marine & Offshore)",
+    team: "Oil & Gas",
+    location: "Thiruvananthapuram, India",
+    type: "Full-time",
+    experience: "4+ years",
+    summary:
+      "Lead electrical & instrumentation design for offshore platforms, vessels and modular buildings, from concept and FEED through detailed engineering.",
+    about:
+      "An E&I Engineer with a minimum of 4 years' experience in electrical and instrumentation design for the oil & gas and marine industries. The role covers concept and FEED design through to detailed engineering for substations, electrical rooms, control rooms, living quarters and modular buildings, as well as offshore platforms, vessels, rigs, oil tankers, bulk carriers and passenger vessels. It combines hands-on design and calculation work with leading a drafting and design team, reviewing third-party designs, and coordinating with clients, subcontractors and other disciplines to class rules and client specifications.",
+    responsibilities: [
+      "Prepare concept and FEED design, design basis, specifications, datasheets, scope of work and detailed E&I design for substations, electrical rooms, control rooms, living quarters and modular buildings in the oil & gas and marine industries.",
+      "Identify and design basic and detailed engineering of electrical and instrumentation systems for offshore platforms, vessels, rigs, oil tankers, bulk carriers, passenger vessels and small vessels.",
+      "Review and verify third-party HVAC E&I designs.",
+      "Design HVAC control systems, F&G systems, lighting and small power distribution, and power distribution systems.",
+      "Analyse engineering specifications issued by the client.",
+      "Manage the E&I design team and review basic and detailed engineering documents, drawings and 3D models against client specification and class rules.",
+      "Coordinate with other disciplines, the client and subcontractors to optimise design and keep execution running smoothly.",
+      "Review client specifications and carry out value engineering, raising TQs to reduce project complexity and cost.",
+      "Attend client meetings, present project progress and develop strategies for further progress where needed.",
+      "Perform procurement engineering: material requisitions, technical bid evaluations, material approval requests and BOQs.",
+      "Perform lux, cable sizing, load, short-circuit, voltage drop, MCT sizing and cable tray sizing calculations.",
+      "Prepare equipment, cable and instrument datasheets — MCCs, DBs, PLC-based control panels, junction boxes, field instruments, power and control cables, instrument cables.",
+      "Lead the drafting team to produce single line diagrams, D&IDs, P&IDs, cable block diagrams, cable schedules, relay protection schemes, DB schedules, IO schedules and cause & effect matrices.",
+      "Handle material selection and vendor document review.",
+      "Attend technical meetings and site inspections.",
+      "Participate in design and 3D model reviews, contributing input on design efficiency, constructability and overall project performance.",
+    ],
+    requirements: [
+      "Minimum 4 years' E&I design experience in marine and offshore projects.",
+      "Proficiency in MS Office, Navisworks and Dialux.",
+      "Working knowledge of E&I calculations — lux, cable sizing, load, short-circuit, voltage drop and cable tray sizing.",
+      "Experience designing to client specifications and marine class rules.",
+    ],
+    niceToHave: [
+      "Knowledge of SPI (Hexagon Smart Instrumentation).",
+      "Knowledge of ETAP.",
+    ],
+  },
 ];
 
 /** Direct contact for candidates who'd rather email/call than use the apply

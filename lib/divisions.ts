@@ -26,6 +26,27 @@ export type Division = {
    * lib/industries.ts). Building only; Oil & Gas isn't broken into sectors. */
   hasIndustries: boolean;
   faqs: DivisionFAQ[];
+  /** ── Division-scoped capability statement (all optional) ──
+   * Only Oil & Gas carries these today. Buildings & Infrastructure is covered
+   * by the shared A–O scope on /divisions (lib/company.ts ENGINEERING_SCOPE),
+   * which is written as what BOTH divisions deliver; this is the discipline
+   * list specific to energy work, which that shared list doesn't reach.
+   * Every block below renders only when present, so leaving them off a
+   * division changes nothing about its page. */
+  capabilities?: string[];
+  /** What the client actually receives at handover. */
+  deliverables?: string[];
+  /** Software/platforms, as plain names — deliberately NOT the logo-bearing
+   * global TOOLS list (lib/tools.ts): several of these have no logo asset in
+   * /public/tools, and a logo strip with holes in it looks broken. */
+  tools?: string[];
+  /** Codes and client standards the work is delivered to. */
+  standards?: string[];
+  /** Descriptive sector labels. Distinct from `hasIndustries` above: those
+   * chips come from the INDUSTRIES taxonomy and link to filtered /projects
+   * views, so they only exist where projects are tagged. These are plain
+   * text — a statement of where the division works, nothing clickable. */
+  industriesServed?: string[];
 };
 
 export const DIVISIONS: Division[] = [
@@ -112,6 +133,77 @@ export const DIVISIONS: Division[] = [
         q: "Do you work on offshore as well as onshore facilities?",
         a: "Both. Recent offshore work includes living-quarters piping for Compression 4-NFPS and HVAC/E&I for the Balwin 4 platform, alongside onshore LNG and refinery projects.",
       },
+    ],
+    capabilities: [
+      "Piping Engineering — stress analysis, pipe support design, material specification",
+      "Structural Engineering — onshore, offshore & marine",
+      "Electrical Engineering",
+      "Instrumentation & Control Engineering",
+      "Telecommunications & ELV Systems",
+      "HVAC Engineering",
+      "Fire Protection & Loss Prevention Engineering",
+      "Fire & Gas Detection Systems Engineering",
+      "Safety & Risk Engineering",
+      "Pipeline Engineering",
+      "Marine Engineering",
+      "3D Modelling & Digital Engineering",
+      "Drafting & CAD Services",
+      "Front-End Engineering Design (FEED)",
+      "Detailed Engineering Design",
+      "Detailed Project Reports (DPR)",
+      "Asset Integrity & Life Extension Studies",
+      "Construction Engineering Support",
+      "Commissioning & Start-up Support",
+      "Project Management Office (PMO) Services",
+      "Project Management Consultancy (PMC)",
+      "Drawing & Documentation Services",
+      "Independent Engineering & Peer Review",
+      "Value Engineering",
+      "Cost Consultancy & Commercial Services",
+    ],
+    deliverables: [
+      "Engineering design documents",
+      "Drawings & documentation",
+      "Reports",
+      "ROI assessment",
+      "CFD analysis",
+      "Calculations",
+      "3D models",
+    ],
+    tools: [
+      "Autodesk Revit (AEC Collection)",
+      "Autodesk Construction Cloud (ACC)",
+      "Autodesk AutoCAD & ZWCAD",
+      "AVEVA E3D",
+      "Tekla",
+      "STAAD.Pro",
+      "ETABS",
+      "Dialux",
+      "Hexagon Smart Instrumentation",
+      "SmartPlant 3D (SP3D)",
+      "ETAP",
+      "Hourly Analysis Program (HAP)",
+      "PlanSwift",
+      "Microsoft Office",
+    ],
+    standards: [
+      "ADNOC",
+      "Aramco",
+      "PDO",
+      "API",
+      "DNV",
+      "SOLAS",
+      "Qatar Energy",
+      "NFPA",
+      "ASME",
+      "ISO",
+    ],
+    industriesServed: [
+      "Oil & Gas (onshore & offshore)",
+      "Industrial buildings",
+      "Plants",
+      "Refineries",
+      "Modular buildings",
     ],
   },
 ];
