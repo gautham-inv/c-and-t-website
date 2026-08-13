@@ -12,12 +12,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 const PROJECTS = [
   {
-    name: "Major Airport, South India",
-    meta: "MEP Design & BIM · South India",
-    image: "/projects/south-india-airport.jpg",
-    size: "wide",
-  },
-  {
     name: "Calinova 2.4 MW Data Centre",
     meta: "MEP & BIM · 2.4 MW · Calicut",
     image: "/projects/calinova-case-study.jpg",
