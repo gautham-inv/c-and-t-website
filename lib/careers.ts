@@ -300,6 +300,45 @@ export const OPENINGS: Opening[] = [
       "Knowledge of ETAP.",
     ],
   },
+  {
+    slug: "hvac-engineer-oil-and-gas",
+    title: "HVAC Engineer (Oil & Gas)",
+    team: "Oil & Gas",
+    location: "Thiruvananthapuram, India",
+    type: "Full-time",
+    experience: "4+ years",
+    summary:
+      "Design HVAC systems for Oil & Gas, industrial and modular building projects — load calculations, equipment selection and full technical documentation.",
+    about:
+      "An HVAC Engineer with 4-5 years' experience designing heating, ventilation and air conditioning systems for Oil & Gas, industrial, commercial and modular building projects. The role spans heat load calculations, ventilation and pressurization design, equipment sizing and selection, and the full documentation set — layouts, specifications, schedules, MTOs and BOQs — through to vendor document review and commissioning support. Preference is given to candidates with Oil & Gas or EPC project experience.",
+    responsibilities: [
+      "Design HVAC systems for Oil & Gas, industrial, commercial and modular building projects.",
+      "Perform heat load calculations using HAP or equivalent software.",
+      "Design ventilation, air conditioning, pressurization, smoke extraction and exhaust systems.",
+      "Size and select HVAC equipment including AHUs, FAHUs, FCUs, chillers, pumps, fans and package units.",
+      "Prepare HVAC layouts, ducting, chilled water piping and refrigerant piping drawings.",
+      "Perform duct sizing, pressure loss calculations, pump head calculations and airflow balancing.",
+      "Prepare technical specifications, equipment schedules, MTOs, BOQs and technical reports.",
+      "Review vendor documents, technical submittals and equipment datasheets.",
+      "Coordinate with mechanical, electrical, plumbing, structural, architectural and process disciplines.",
+      "Ensure designs comply with project specifications, client requirements and international standards.",
+      "Support site engineering, commissioning and technical queries as required.",
+    ],
+    requirements: [
+      "Bachelor's degree in Mechanical Engineering.",
+      "4-5 years of HVAC engineering experience.",
+      "HVAC load calculations in HAP or equivalent, plus duct design and pressure loss calculations.",
+      "Chilled water, ventilation and pressurization system design; equipment selection and sizing.",
+      "Preparation of technical specifications and MTOs.",
+      "Proficiency in AutoCAD (mandatory) and Microsoft Office.",
+      "Good understanding of HVAC design principles, applicable codes and international engineering practice.",
+      "Strong analytical, problem-solving, communication and coordination skills, with the ability to run multiple projects to deadline both independently and within multidisciplinary teams.",
+    ],
+    niceToHave: [
+      "Oil & Gas or EPC project experience (preferred).",
+      "Revit MEP.",
+    ],
+  },
 ];
 
 /** Direct contact for candidates who'd rather email/call than use the apply

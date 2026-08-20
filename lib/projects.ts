@@ -90,48 +90,6 @@ export const PROJECTS: Project[] = [
     ],
   },
   {
-    slug: "south-india-airport-terminal",
-    name: "Major Airport, South India",
-    tagline: "MEP Design & BIM · 163,000 m²",
-    heroImage: "/projects/south-india-airport.jpg",
-    description: [
-      {
-        type: "p",
-        text: "C&T provided MEP design and BIM services for a major airport terminal in south India, a 163,000 m² passenger terminal, covering the mechanical, electrical and public-health systems that keep a large transit building running.",
-      },
-      {
-        type: "p",
-        text: "The team delivered both design and coordinated BIM models, resolving services across the terminal's public concourses and back-of-house plant so the disciplines could be built out cleanly on site.",
-      },
-      { type: "heading", text: "Scope" },
-      {
-        type: "list",
-        items: [
-          "MEP design across the terminal",
-          "Coordinated BIM modelling",
-          "Multidiscipline MEP coordination",
-          "Clash detection and resolution",
-        ],
-      },
-    ],
-    info: [
-      { label: "Type", value: "Airport, Passenger Terminal" },
-      { label: "Area", value: "163,000 m²" },
-      { label: "Services", value: "MEP Design & BIM" },
-      { label: "Location", value: "South India" },
-      { label: "Division", value: "Buildings & Infrastructure" },
-    ],
-    personnel: [],
-    gallery: [
-      { image: "/projects/south-india-airport.jpg", span: "lg", alt: "Airport terminal, south India" },
-      { image: "/bim-models/airport-substation-1.jpg", span: "tall", alt: "Terminal substation BIM model" },
-      { image: "/bim-models/airport-pump-room.jpg", span: "sm", alt: "Pump room BIM model" },
-      { image: "/bim-models/airport-substation-2.jpg", span: "sm", alt: "Substation services model" },
-      { image: "/bim-models/airport-services-overview.jpg", span: "wide", alt: "Coordinated MEP services model" },
-      { image: "/airport.webp", span: "sm", alt: "Airport terminal" },
-    ],
-  },
-  {
     slug: "calinova-data-centre",
     name: "Calinova 2.4 MW Data Centre",
     tagline: "MEP Design & BIM · Calicut",
@@ -210,48 +168,6 @@ export const PROJECTS: Project[] = [
       { image: "/services/detailed-engineering.jpg", span: "sm", alt: "Detailed engineering" },
       { image: "/bim-and-3d-modelling.jpg", span: "sm", alt: "3D model" },
       { image: "/oil-and-gas-walkthrough.jpg", span: "wide", alt: "Process plant walkthrough" },
-      { image: "/clash-detection-and-coordination.jpg", span: "sm", alt: "Clash coordination" },
-    ],
-  },
-  {
-    slug: "bial-bangalore",
-    name: "International Airport, South India",
-    tagline: "MEP Design · BIM LOD 300 · AECOM",
-    heroImage: "/projects/bial-bangalore.jpg",
-    description: [
-      {
-        type: "p",
-        text: "C&T provided MEP design and BIM services for a major international airport in South India, working for AECOM on the mechanical, electrical and public-health systems of the airport development.",
-      },
-      {
-        type: "p",
-        text: "The team modelled the services to LOD 300, producing coordinated models that let the disciplines be resolved and reviewed before construction started.",
-      },
-      { type: "heading", text: "Scope" },
-      {
-        type: "list",
-        items: [
-          "MEP design",
-          "LOD 300 BIM modelling",
-          "Multidiscipline MEP coordination",
-          "Clash detection and resolution",
-        ],
-      },
-    ],
-    info: [
-      { label: "Client", value: "AECOM" },
-      { label: "Type", value: "Airport" },
-      { label: "Services", value: "MEP Design · BIM LOD 300" },
-      { label: "Location", value: "South India" },
-      { label: "Division", value: "Buildings & Infrastructure" },
-    ],
-    personnel: [],
-    gallery: [
-      { image: "/projects/bial-bangalore.jpg", span: "lg", alt: "Airport terminal" },
-      { image: "/airport.jpg", span: "tall", alt: "Airport terminal" },
-      { image: "/mep-engineering-design.jpg", span: "sm", alt: "MEP design" },
-      { image: "/bim-and-3d-modelling.jpg", span: "sm", alt: "LOD 300 BIM model" },
-      { image: "/engineering.jpg", span: "wide", alt: "Terminal services" },
       { image: "/clash-detection-and-coordination.jpg", span: "sm", alt: "Clash coordination" },
     ],
   },
@@ -746,10 +662,8 @@ export const PORTFOLIO: PortfolioItem[] = [
   { name: "Electra Tower", meta: "High-rise Tower", image: "/projects/electra-tower.jpg", division: "building", industries: ["high-rise-buildings"] },
 
   { name: "EXPO 2020 Campus, Dubai", meta: "BIM · Plant Rooms LOD 400 · 300,000 m² · 2019", image: "/projects/expocampus.jpg", division: "building", industries: ["commercial-mercantile"] },
-  { name: "Major Airport, South India", meta: "MEP Design & BIM · 163,000 m² · South India", image: "/projects/south-india-airport.jpg", division: "building", industries: ["aviation-airports"] },
   { name: "Calinova 2.4 MW Data Centre", meta: "MEP Design & BIM · Calicut", image: "/projects/calinova-case-study.jpg", division: "building", industries: ["data-centres"] },
   { name: "Yamal LNG, Russia", meta: "Detailed Engineering · 3D · TECHNIP", image: "/projects/yamal.webp", division: "oil-and-gas" },
-  { name: "International Airport, South India", meta: "MEP Design · BIM LOD 300 · AECOM", image: "/projects/bial-bangalore.jpg", division: "building", industries: ["aviation-airports"] },
   { name: "Duqm Refinery, Oman", meta: "Detailed Engineering · LOD 500 · PETROFAC", image: "/projects/duqm-refinery.jpeg", division: "oil-and-gas" },
   { name: "Balwin 4 (2 GW)", meta: "HVAC & E&I Design · Offshore Platform · Dry Dock World", image: "/bim-models/whp13n-navis-model.png", division: "oil-and-gas" },
   { name: "Emaar District Cooling Plant, Dubai", meta: "BIM LOD 500 · Voltas · 2020", image: "/projects/District-Cooling-Plant-emaar.jpg", division: "building", industries: ["chiller-plants"] },
@@ -766,11 +680,10 @@ export const PORTFOLIO: PortfolioItem[] = [
   { name: "Poovar Island Resort", meta: "Island Resort", image: "/projects/poovar-island.jpg", division: "building", industries: ["hospitality"] },
   { name: "Jatayu Nature Park", meta: "Adventure Park, Ropeway & Cave Resort", image: "/projects/Jatayu.jpg", division: "building" },
 
-  // From the project register table (Sl no. 1–23, "Building Projects"). Row 1
-  // (Trivandrum airport T2) is the existing "Major Airport, South India" entry
-  // above — NDA, name withheld. Rows 3, 13, 16, 17 (Kempegowda/Bangalore,
-  // NEOM NER & WICR, CBD Qatar, Emaar DCP) match existing entries and are
-  // skipped rather than duplicated. Card-only, no photos yet.
+  // From the project register table (Sl no. 1–23, "Building Projects"). Rows
+  // 3, 13, 16, 17 (Kempegowda/Bangalore, NEOM NER & WICR, CBD Qatar, Emaar
+  // DCP) match existing entries and are skipped rather than duplicated.
+  // Card-only, no photos yet.
   { name: "Hospitals, Schools & Offices, Kerala", meta: "BIM · Govt of Kerala · 2024", image: "/projects/kerala-hospital.avif", division: "building", industries: ["hospitals", "offices"] },
   { name: "Man Industries, KSA", meta: "MEP Design & BIM · Man Industry, KSA · 2024", image: "/projects/man-industry.webp", division: "building", industries: ["industrial"] },
   { name: "Oman Botanical Garden", meta: "As-Built BIM · Bhawans Engineering · 2024", image: "/projects/oman-botanic.webp", division: "building", industries: ["infrastructure-town-planning"] },

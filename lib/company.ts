@@ -91,7 +91,6 @@ export const PROJECT_AWARDS: Award[] = [
   { year: "2016", name: "Mall of Muscat", meta: "Oman" },
   { year: "2017", name: "AHAD Tower", meta: "46 storeys · Dubai" },
   { year: "2021", name: "Duqm Refinery", meta: "Oman" },
-  { year: "2025", name: "Major Airport, South India", meta: "South India" },
 ];
 
 /** Global group footprint — drives both the locations rail and the globe markers. */
